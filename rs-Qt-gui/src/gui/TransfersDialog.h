@@ -1,0 +1,83 @@
+/****************************************************************
+ *  RetroShare is distributed under the following license:
+ *
+ *  Copyright (C) 2006, crypton
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ *  Boston, MA  02110-1301, USA.
+ ****************************************************************/
+
+#ifndef _TRANSFERSDIALOG_H
+#define _TRANSFERSDIALOG_H
+
+#include <QFileDialog>
+
+//#include <config/rsharesettings.h>
+
+#include "mainpage.h"
+#include "ui_TransfersDialog.h"
+
+
+
+class TransfersDialog : public MainPage
+{
+  Q_OBJECT
+
+public:
+  /** Default Constructor */
+  TransfersDialog(QWidget *parent = 0);
+  /** Default Destructor */
+
+
+
+
+
+  void insertTransfers();
+
+private slots:
+  void showDownInfoWindow();
+  
+  /** Create the context popup menu and it's submenus */
+  void downtreeWidgetCostumPopupMenu( QPoint point );
+  
+  void cancel();
+  /** removes finished Downloads**/
+  void clearcompleted();
+
+private:
+QTreeWidgetItem* getCurrentPeer();
+
+
+  /** Create the actions on the tray menu or menubar */
+  void createActions();
+
+  /** Define the popup menus for the Context menu */
+  QMenu* contextMnu;
+  /** Defines the actions for the context menu */
+  QAction* showdowninfoAct;
+  QAction* cancelAct;
+  QAction* clearcompletedAct;
+
+  QTreeWidget *downtreeWidget;
+
+  /** Adds a new action to the toolbar. */
+  void addAction(QAction *action, const char *slot = 0);
+
+  /** Qt Designer generated object */
+  Ui::TransfersDialog ui;
+};
+
+#endif
+

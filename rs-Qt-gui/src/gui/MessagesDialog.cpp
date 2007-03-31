@@ -1,0 +1,553 @@
+/****************************************************************
+ *  RetroShare is distributed under the following license:
+ *
+ *  Copyright (C) 2006, crypton
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License
+ *  as published by the Free Software Foundation; either version 2
+ *  of the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+ *  Boston, MA  02110-1301, USA.
+ ****************************************************************/
+
+
+#include "rshare.h"
+#include "MessagesDialog.h"
+#include "msgs/ChanMsgDialog.h"
+
+#include "rsiface/rsiface.h"
+#include <sstream>
+
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QCursor>
+#include <QPoint>
+#include <QMouseEvent>
+#include <QPixmap>
+
+/* Images for context menu icons */
+#define IMAGE_MESSAGE        ":/images/folder-draft.png"
+#define IMAGE_MESSAGEREPLY   ":/images/mail_reply.png"
+#define IMAGE_MESSAGEREMOVE  ":/images/mail_delete.png"
+#define IMAGE_DOWNLOAD       ":/images/start.png"
+#define IMAGE_DOWNLOADALL    ":/images/startall.png"
+
+
+/** Constructor */
+MessagesDialog::MessagesDialog(QWidget *parent)
+: MainPage(parent)
+{
+  /* Invoke the Qt Designer generated object setup routine */
+  ui.setupUi(this);
+
+  connect( ui.msgWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( messageslistWidgetCostumPopupMenu( QPoint ) ) );
+  connect( ui.msgList, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( msgfilelistWidgetCostumPopupMenu( QPoint ) ) );
+  connect( ui.msgWidget, SIGNAL( itemClicked ( QTreeWidgetItem *, int) ), this, SLOT( updateMessages ( QTreeWidgetItem *, int) ) );
+
+  mCurrCertId = "";
+  mCurrMsgId  = "";
+
+
+  /* Hide platform specific features */
+#ifdef Q_WS_WIN
+
+#endif
+}
+
+void MessagesDialog::messageslistWidgetCostumPopupMenu( QPoint point )
+{
+
+      QMenu contextMnu( this );
+      QMouseEvent *mevent = new QMouseEvent( QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier );
+
+      newmsgAct = new QAction(QIcon(IMAGE_MESSAGE), tr( "New Message" ), this );
+      connect( newmsgAct , SIGNAL( triggered() ), this, SLOT( newmessage() ) );
+      
+      replytomsgAct = new QAction(QIcon(IMAGE_MESSAGEREPLY), tr( "Reply to Message" ), this );
+      connect( replytomsgAct , SIGNAL( triggered() ), this, SLOT( replytomessage() ) );
+      
+      removemsgAct = new QAction(QIcon(IMAGE_MESSAGEREMOVE), tr( "Remove Message" ), this );
+      connect( removemsgAct , SIGNAL( triggered() ), this, SLOT( removemessage() ) );
+
+
+      contextMnu.clear();
+      contextMnu.addAction( newmsgAct);
+      contextMnu.addAction( replytomsgAct);
+      contextMnu.addAction( removemsgAct);
+      contextMnu.exec( mevent->globalPos() );
+}
+
+
+void MessagesDialog::msgfilelistWidgetCostumPopupMenu( QPoint point )
+{
+
+      QMenu contextMnu( this );
+      QMouseEvent *mevent = new QMouseEvent( QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier );
+
+//      getRecAct = new QAction(QIcon(IMAGE_DOWNLOAD), tr( "Download" ), this );
+//      connect( getRecAct , SIGNAL( triggered() ), this, SLOT( getcurrentrecommended() ) );
+      
+      getAllRecAct = new QAction(QIcon(IMAGE_DOWNLOADALL), tr( "Download All" ), this );
+      connect( getAllRecAct , SIGNAL( triggered() ), this, SLOT( getallrecommended() ) );
+
+
+      contextMnu.clear();
+//      contextMnu.addAction( getRecAct);
+      contextMnu.addAction( getAllRecAct);
+      contextMnu.exec( mevent->globalPos() );
+}
+
+void MessagesDialog::newmessage()
+{
+    static ChanMsgDialog *createMsgDialog = new ChanMsgDialog(true);
+
+    /* fill it in */
+    std::cerr << "MessagesDialog::newmessage()" << std::endl;
+    createMsgDialog->newMsg();
+    createMsgDialog->show();
+}
+
+void MessagesDialog::replytomessage()
+{
+	/* put msg on msgBoard, and switch to it. */
+
+
+}
+
+
+void MessagesDialog::removemessage()
+{
+	/* more work */
+
+}
+
+
+/* download the recommendations... */
+void MessagesDialog::getcurrentrecommended()
+{
+   
+
+}
+
+void MessagesDialog::getallrecommended()
+{
+	/* get Message */
+	rsiface->lockData();   /* Lock Interface */
+
+	const MessageInfo *mi = 
+		rsiface->getMessage(mCurrCertId, mCurrMsgId);
+	if (!mi)
+	{
+		rsiface->unlockData();   /* Unlock Interface */
+		return;
+	}
+
+        const std::list<FileInfo> &recList = mi->files;
+	std::list<FileInfo>::const_iterator it;
+
+	std::list<std::string> paths;
+	std::list<int>         sizes;
+
+	for(it = recList.begin(); it != recList.end(); it++)
+	{
+		paths.push_back(it->path);
+		sizes.push_back(it->size);
+	}
+
+	rsiface->lockData(); /* Lock Interface */
+
+	/* now do requests */
+	std::list<std::string>::const_iterator pit;
+	std::list<int>::const_iterator sit;
+
+	for(pit = paths.begin(), sit = sizes.begin(); 
+		pit != paths.end(); pit++, sit++)
+	{
+        	rsicontrol -> FileRequest(mCurrCertId, *pit, "", *sit);
+	}
+}
+
+
+void MessagesDialog::insertMessages()
+{
+	rsiface->lockData(); /* Lock Interface */
+
+	std::list<MessageInfo>::const_iterator it;
+	const std::list<MessageInfo> &msgs = rsiface->getMessages();
+
+	/* get a link to the table */
+        QTreeWidget *msgWidget = ui.msgWidget;
+
+	/* remove old items ??? */
+
+        QList<QTreeWidgetItem *> items;
+	for(it = msgs.begin(); it != msgs.end(); it++)
+	{
+		/* make a widget per friend */
+           	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
+
+		/* So Text should be:
+		 * (1) Msg / Broadcast
+		 * (1b) Person / Channel Name
+		 * (2) Rank
+		 * (3) Date
+		 * (4) Title
+		 * (5) Msg
+		 * (6) File Count
+		 * (7) File Total
+		 */
+
+		// TimeStamp..... (for sorting)
+		{
+			std::ostringstream out;
+			out << "@" << it -> ts;
+			item -> setText(0, QString::fromStdString(out.str()));
+		}
+
+		//  From ....
+		{
+			std::ostringstream out;
+			out << it -> srcname;
+			item -> setText(1, QString::fromStdString(out.str()));
+		}
+
+		item -> setText(2, QString::fromStdString(it->title));
+
+		// Date....
+		{
+		        char buf[1024];
+		        time_t timeval = it -> ts;
+			std::ostringstream out;
+			//ctime_r(&(timeval), buf);
+
+			for(int i = 0; i < 1024; i++)
+			{
+				if (buf[i] == '\n')
+				{
+					buf[i] = '\0';
+					break;
+				}
+			}
+
+			out << ctime(&(timeval));
+			item -> setText(3, QString::fromStdString(out.str()));
+		}
+
+		// No of Files.
+		{
+			std::ostringstream out;
+			out << it -> count;
+			item -> setText(4, QString::fromStdString(out.str()));
+		}
+
+		// Size.
+		// Msg.
+		// Rank
+		{
+			std::ostringstream out;
+			out << it -> size;
+			item -> setText(5, QString::fromStdString(out.str()));
+		}
+
+		item -> setText(6, QString::fromStdString(it->msg));
+
+		{
+			std::ostringstream out;
+			out << "5"; // RANK 
+			item -> setText(7, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << it -> id;
+			item -> setText(8, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << it -> msgId;
+			item -> setText(9, QString::fromStdString(out.str()));
+		}
+
+
+		/* add to the list */
+		items.append(item);
+	}
+
+#if (0)
+	std::map<RsChanId, ChannelInfo>::const_iterator it2;
+	const std::map<RsChanId, ChannelInfo> &chans = rsiface->getChannels();
+
+	for(it2 = chans.begin(); it2 != chans.end(); it2++)
+	{
+	  for(it = it2 -> second.msglist.begin(); it != it2 -> second.msglist.end(); it++)
+	  {
+		/* make a widget per friend */
+           	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
+
+		/* So Text should be:
+		 * as above. */
+
+		{
+			std::ostringstream out;
+			out << "@" << it -> ts;
+			item -> setText(0, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << it2 -> second.rank; // "5"; // RANK 
+			item -> setText(1, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << "Broadcast on " << it2 -> second.chanName;
+			item -> setText(2, QString::fromStdString(out.str()));
+		}
+
+		item -> setText(3, QString::fromStdString(it->title));
+		item -> setText(4, QString::fromStdString(it->msg));
+
+		{
+			std::ostringstream out;
+			out << it -> size;
+			item -> setText(5, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << it -> count;
+			item -> setText(6, QString::fromStdString(out.str()));
+		}
+
+		item -> setText(7, "CHAN");
+		{
+			std::ostringstream out;
+			out << it2 -> first;
+			item -> setText(8, QString::fromStdString(out.str()));
+		}
+		{
+			std::ostringstream out;
+			out << it -> msgId;
+			item -> setText(9, QString::fromStdString(out.str()));
+		}
+
+
+
+		/* add to the list */
+		items.append(item);
+	  }
+	}
+
+	const std::map<RsChanId, ChannelInfo> &ourChans = rsiface->getOurChannels();
+
+	for(it2 = ourChans.begin(); it2 != ourChans.end(); it2++)
+	{
+	  for(it = it2 -> second.msglist.begin(); it != it2 -> second.msglist.end(); it++)
+	  {
+		/* make a widget per friend */
+           	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
+
+		/* So Text should be:
+		 * as above. */
+
+		{
+			std::ostringstream out;
+			out << "@" << it -> ts;
+			item -> setText(0, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << it2 -> second.rank; // "5"; // RANK 
+			item -> setText(1, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << "Broadcast on " << it2 -> second.chanName;
+			item -> setText(2, QString::fromStdString(out.str()));
+		}
+
+		item -> setText(3, QString::fromStdString(it->title));
+		item -> setText(4, QString::fromStdString(it->msg));
+
+		{
+			std::ostringstream out;
+			out << it -> size;
+			item -> setText(5, QString::fromStdString(out.str()));
+		}
+
+		{
+			std::ostringstream out;
+			out << it -> count;
+			item -> setText(6, QString::fromStdString(out.str()));
+		}
+
+		item -> setText(7, "CHAN");
+		{
+			std::ostringstream out;
+			out << it2 -> first;
+			item -> setText(8, QString::fromStdString(out.str()));
+		}
+		{
+			std::ostringstream out;
+			out << it -> msgId;
+			item -> setText(9, QString::fromStdString(out.str()));
+		}
+
+
+
+		/* add to the list */
+		items.append(item);
+	  }
+	}
+#endif
+
+	/* add the items in! */
+	msgWidget->clear();
+	msgWidget->insertTopLevelItems(0, items);
+
+	rsiface->unlockData(); /* UnLock Interface */
+}
+
+void MessagesDialog::updateMessages( QTreeWidgetItem * item, int column )
+{
+	std::cerr << "MessagesDialog::insertMsgTxtAndFiles()" << std::endl;
+	insertMsgTxtAndFiles();
+}
+
+
+void MessagesDialog::insertMsgTxtAndFiles()
+{
+	/* Locate the current Message */
+	QTreeWidget *msglist = ui.msgWidget;
+
+	std::cerr << "MessagesDialog::insertMsgTxtAndFiles()" << std::endl;
+
+
+	/* get its Ids */
+	bool isMsg;
+	std::string cid;
+	std::string chid;
+	std::string mid;
+
+	QTreeWidgetItem *qtwi = msglist -> currentItem();
+	if (!qtwi)
+	{
+		/* blank it */
+		ui.msgText->setText("");
+		ui.msgList->clear();
+		return;
+	}
+	else
+	{
+		/* ALWAYS A MSG NOW qtwi -> text(7).toStdString() == "MSG") */
+		if (1) 
+		{
+			cid = qtwi -> text(8).toStdString();
+			mid = qtwi -> text(9).toStdString();
+			isMsg = true;
+		}
+		else
+		{
+			chid = qtwi -> text(8).toStdString();
+			mid = qtwi -> text(9).toStdString();
+			isMsg = false;
+		}
+	}
+	std::cerr << "IsMsg " << ( (isMsg) ? "True" : "False" ) << std::endl;
+	std::cerr << "chId: " << chid << std::endl;
+	std::cerr << "cId: " << cid << std::endl;
+	std::cerr << "mId: " << mid << std::endl;
+
+	/* Save the Data.... for later */
+
+	mCurrCertId = cid;
+	mCurrMsgId  = mid;
+
+	/* get Message */
+	rsiface->lockData();   /* Lock Interface */
+
+	const MessageInfo *mi = NULL;
+	if (isMsg)
+	{
+		mi = rsiface->getMessage(cid, mid);
+	}
+	else
+	{
+		mi = rsiface->getChannelMsg(chid, mid);
+	}
+	if (!mi)
+	{
+		rsiface->unlockData();   /* Unlock Interface */
+		return;
+	}
+
+        const std::list<FileInfo> &recList = mi->files;
+	std::list<FileInfo>::const_iterator it;
+
+	/* get a link to the table */
+	QTreeWidget *tree = ui.msgList;
+
+	/* get the MessageInfo */
+
+        tree->clear(); 
+        tree->setColumnCount(5); 
+
+        QList<QTreeWidgetItem *> items;
+	for(it = recList.begin(); it != recList.end(); it++)
+	{
+		/* make a widget per person */
+           	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
+		/* (0) Filename */
+		item -> setText(0, QString::fromStdString(it->fname));
+			
+		/* (1) Size */
+		{
+			std::ostringstream out;
+			out << it->size;
+			item -> setText(1, QString::fromStdString(out.str()));
+		}
+		/* (2) Rank */
+		{
+			std::ostringstream out;
+			out << it->rank;
+			item -> setText(2, QString::fromStdString(out.str()));
+		}
+			
+		item -> setText(3, QString::fromStdString(it->path));
+			
+		/* add to the list */
+		items.append(item);
+	}
+
+	/* add the items in! */
+	tree->insertTopLevelItems(0, items);
+
+
+	/* add the Msg */
+	std::string msgtext = "Title:  " + mi -> title;
+	msgtext +=            "\nHdr:   " + mi -> header;
+	msgtext += "\n-----------------\n" + mi -> msg;
+
+	ui.msgText->setText(QString::fromStdString(msgtext));
+
+	//ui.msgText->setText(QString::fromStdString(mi -> msg));
+
+	rsiface->lockData(); /* Lock Interface */
+
+}
+
+
+

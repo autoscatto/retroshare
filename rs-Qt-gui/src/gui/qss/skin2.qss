@@ -1,0 +1,9 @@
+
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(:/images/background.png);
+
+}
+
+

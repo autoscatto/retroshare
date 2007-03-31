@@ -1,0 +1,7 @@
+<RCC>
+  <qresource prefix="/lang">
+    <file alias="de">rshare_de.qm</file>
+    <file alias="en">rshare_en.qm</file>
+  </qresource>
+</RCC>
+

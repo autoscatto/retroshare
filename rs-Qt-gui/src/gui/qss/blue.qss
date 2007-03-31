@@ -1,0 +1,15 @@
+.QWidget {
+   background-color: #c4dafa;
+}
+
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(:/images/blue.png);
+
+}
+
+
+
+
+

@@ -1,0 +1,15 @@
+
+# point at 
+RSLIBS  = -L/home/rmf24/prog/retroShare-v0.3.0/src/lib -lretroshare
+SSLLIBS = -L/home/rmf24/prog/src/openssl/work/openssl-0.9.7g -lssl -lcrypto
+LIBS          = $(SUBLIBS)  $(RSLIBS) $(SSLLIBS)  -L/usr/lib -lQtXml -lQtGui -lQtNetwork -lQtCore -lpthread
+
+# for MinGw
+RSLIBS  = -L"c:\home\rmfern\prog\MinGw\libs" -lretroshare
+SSLLIBS = -L"c:\home\rmfern\prog\MinGw\libs" -lssl -lcrypto
+WINLIBS = -lws2_32 -luuid -lole32 -liphlpapi
+PTHLIB = -lpthreadGCE2
+EXTRALIBS = $(RSLIBS) $(SSLLIBS)  $(WINLIBS) $(PTHLIB)
+
+LIBS        =   $(EXTRALIBS) -L"c:\Qt\4.2.2\lib" -lmingw32 -lqtmaind temp\obj\retroshare_win_res.o -lQtXmld -lQtGuid -lQtNetworkd -lgdi32 -lcomdlg32 -loleaut32 -limm32 -lwinmm -lwinspool -lmsimg32 -lQtCored -lkernel32 -luser32 -lshell32 -luuid -lole32 -ladvapi32 -lws2_32
+Q

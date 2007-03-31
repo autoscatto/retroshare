@@ -1,0 +1,11 @@
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(:/images/silver.png);
+
+}
+
+
+
+
+
