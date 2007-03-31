@@ -1,0 +1,182 @@
+
+#OS = Linux
+OS = Win
+#
+#
+###########################################################################
+###########################################################################
+# Please Define these Variables before Compiling. (Examples below:)
+# Linux (RS_DIR & SSL_DIR)
+# Cygwin (RS_DIR & SSL_DIR & FLTK_DIR & PTHREADS_DIR)
+# MinGW  (RS_DIR & SSL_DIR & FLTK_DIR & PTHREADS_DIR)
+
+#### Linux/Cygwin Parameters.
+#RS_DIR=/home/xxx/prog/retroShare-v0.2.1/src
+#SSL_DIR=/home/xxx/prog/src/openssl-0.9.7g-xpgp-0.1c
+#KADC_DIR=/home/xxx/prog/src/KadC
+#
+#
+#### Cygwin Only....
+#FLTK_DIR=/MinGWlibs/FLTK-1.1.6
+#PTHREADS_DIR=/MinGWlibs/pthreads/Pre-built.2
+#
+#### MinGW (Completely Different Set!)
+#
+#RS_DIR=c:\home\xxx\prog\MinGW\rs-v0.3.0-pr1\src
+#SSL_DIR=c:\home\xxx\prog\MinGW
+#FLTK_DIR=c:\home\xxx\prog\MinGW\FLTK-1.1.6
+#PTHREADS_DIR=c:\home\xxx\prog\MinGW\pthreads\pthreads.2
+#
+#
+###########################################################################
+# My Versions: LINUX
+#RS_DIR=/home/rmf24/prog/cvs_control/devel/3pSharing/src
+#SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
+#KADC_DIR=/home/rmf24/prog/src/KadC
+
+#Cygwin....
+RS_DIR=/cygdrive/c/home/rmfern/prog/MinGW/rs-v0.3.0-pr6/src
+SSL_DIR=/home/rmfern/prog/src/openssl-0.9.7g
+FLTK_DIR=/MinGWlibs/FLTK-1.1.6
+PTHREADS_DIR=/cygdrive/c/home/rmfern/prog/MinGW/pthreads/pthreads.2
+KADC_DIR=/cygdrive/c/home/rmfern/prog/MinGW/KadC
+ZLIB_DIR=/cygdrive/c/home/rmfern/prog/MinGW/zlib-1.2.3
+
+#RS_DIR=c:\home\rmfern\prog\MinGW\rs-v0.3.0-pr1\src
+#SSL_DIR=c:\home\rmfern\prog\MinGW
+#FLTK_DIR=c:\home\rmfern\prog\MinGW\FLTK-1.1.6
+#PTHREADS_DIR=c:\home\rmfern\prog\MinGW\pthreads\pthreads.2
+###########################################################################
+###########################################################################
+
+ifndef SSL_DIR
+dummy:
+	echo "you must define SSL_DIR before you can compile"
+
+endif
+
+ifndef KADC_DIR
+dummy:
+	echo "you must define KADC_DIR before you can compile"
+
+endif
+
+ifneq ($(OS),Linux)
+  ifndef FLTK_DIR
+dummy:
+	echo "you must define FLTK_DIR before you can compile"
+
+  endif
+  ifndef PTHREADS_DIR
+dummy:
+	echo "you must define PTHREADS_DIR before you can compile"
+
+  endif
+endif
+
+############ ENFORCE DIRECTORY NAMING ########################
+
+CC = g++
+
+
+# flags for components....
+PQI_USE_XPGP = 1
+PQI_USE_PROXY = 1
+PQI_USE_CHANNELS = 1
+USE_FILELOOK = 1
+
+# Unix
+INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
+# MinGw
+#INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)\include
+CFLAGS = -Wall -g $(INCLUDE) 
+
+RANLIB = ranlib
+LIBRS = ../lib/libretroshare.a
+RSCFLAGS = -Wall -g $(INCLUDE) 
+
+ifdef PQI_USE_XPGP
+	CFLAGS += -DPQI_USE_XPGP
+endif
+
+ifdef PQI_USE_PROXY
+	CFLAGS += -DPQI_USE_PROXY
+endif
+
+ifdef PQI_USE_CHANNELS
+	CFLAGS += -DPQI_USE_CHANNELS
+endif
+
+ifdef USE_FILELOOK
+	CFLAGS += -DUSE_FILELOOK
+endif
+
+
+#########################################################################
+# OS specific Includes/Libs.
+# Cygwin
+WININC = -mno-cygwin -mwindows -fno-exceptions -fomit-frame-pointer -DWINDOWS_SYS  
+# MinGW
+#WININC =  -mthreads -DWINDOWS_SYS  
+
+# for static pthread libs....
+WININC += -DPTW32_STATIC_LIB
+
+WINLIB = -lws2_32 -luuid -lole32 -liphlpapi
+
+XLIB = 	-lXft -lpthread -lXext -lX11 -lfontconfig -lfreetype -lz \
+	-lXrender -lexpat -L/usr/X11R6/lib -lXau -lXinerama -lXdmcp -lXext
+
+
+ifeq ($(OS),Linux)
+
+
+	RM = /bin/rm
+
+	LIBDIR = $(RS_DIR)/lib
+	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lfltk 
+	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread -lKadC
+
+	LIBS   += $(XLIB) -ldl
+	RSLIBS += $(XLIB) -ldl
+
+else  # windows.
+
+	# MinGW (Cygwin -> same as Linux...
+	#LIBDIR = $(RS_DIR)\lib
+	#LIBS =  -L$(LIBDIR) -lpqi -ltou -L$(SSL_DIR)\libs -lssl -lcrypto -lfltk 
+	#RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR)\libs -lssl -lcrypto 
+
+	# MinGW
+	#CFLAGS += -I$(FLTK_DIR)\include -I$(PTHREADS_DIR) $(WININC) 
+	#LIBS   += -L$(FLTK_DIR)\lib  -L$(PTHREADS_DIR) -lpthreadGC2 $(WINLIB) 
+
+	#RSCFLAGS += $(WININC)
+	#RSLIBS += -L$(FLTK_DIR)\lib  -L$(PTHREADS_DIR) -lpthreadGC2 $(WINLIB) 
+
+	#RM = del
+
+        # Cygwin
+        CFLAGS += -I$(FLTK_DIR)/include -I$(PTHREADS_DIR) $(WININC)
+        CFLAGS += -I$(ZLIB_DIR)
+        RSLIBS += -L$(FLTK_DIR)/lib  -L$(PTHREADS_DIR)/lib $(WINLIB)
+
+        LIBDIR = $(RS_DIR)/lib
+        LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lfltk
+        LIBS +=  -L$(KADC_DIR) -lKadC 
+        LIBS += -L$(ZLIB_DIR) -lz
+
+        RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
+        RSLIBS +=  -L$(KADC_DIR) -lKadC 
+        RSLIBS += -L$(ZLIB_DIR) -lz
+
+
+        RSCFLAGS += $(WININC)
+        RSLIBS += -L$(FLTK_DIR)\lib  -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
+
+        RM = /bin/rm
+
+endif
+
+
+

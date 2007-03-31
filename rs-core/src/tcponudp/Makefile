@@ -1,0 +1,74 @@
+
+#OS = Linux
+OS = Win
+
+CC = g++
+
+CFLAGS = -Wall -O2 -static 
+LIBS =  
+
+EXECS = udp_server test_tou pair_tou reset_tou internal_tou largefile_tou libtou.a librs
+
+# OS specific (mingwin flags)
+ifeq ($(OS),Linux)
+  EXECS += libtou.so 
+else
+  CFLAGS += -mno-cygwin -mwindows -fno-exceptions \
+		-fomit-frame-pointer -DWINDOWS_SYS 
+# need ws2_32, instead of wsock32 for IP_TTL to work.
+  LIBS   += -lws2_32 -luuid -lole32 -liphlpapi
+endif
+
+OBJ = tcpstream.o tcppacket.o  udplayer.o tou_net.o tou.o 
+
+all : $(OBJ) $(EXECS)
+
+.cc.o:
+	$(CC) $(CFLAGS) -c $<
+
+udp_server: $(OBJ) udp_server.o
+	$(CC) $(CFLAGS) -o udp_server $(OBJ) udp_server.o $(LIBS)
+
+clean:
+	-/bin/rm $(OBJ) $(BIOOBJ) test_tou.o pair_tou.o udp_server.o reset_tou.o internal_tou.o largefile_tou.o
+
+clobber: clean
+	-/bin/rm udp_server test_tou pair_tou reset_tou internal_tou largefile_tou libtou.so ../lib/libtou.a
+
+test_tou : $(OBJ) test_tou.o
+	$(CC) $(CFLAGS) -o test_tou $(OBJ) test_tou.o $(LIBS)
+
+pair_tou : $(OBJ) pair_tou.o
+	$(CC) $(CFLAGS) -o pair_tou $(OBJ) pair_tou.o $(LIBS)
+
+reset_tou : $(OBJ) reset_tou.o
+	$(CC) $(CFLAGS) -o reset_tou $(OBJ) reset_tou.o $(LIBS)
+
+internal_tou : $(OBJ) internal_tou.o
+	$(CC) $(CFLAGS) -o internal_tou $(OBJ) internal_tou.o $(LIBS)
+
+largefile_tou : $(OBJ) largefile_tou.o
+	$(CC) $(CFLAGS) -o largefile_tou $(OBJ) largefile_tou.o $(LIBS)
+
+
+
+# For BIO Compilation.... SSL Interface.
+#
+
+
+BIOOBJ = bss_tou.o 
+BIOCC  = gcc
+BIOCFLAGS =  -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DOPENSSL_NO_KRB5 -DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -m486 -Wall -DSHA1_ASM -DMD5_ASM -DRMD160_ASM  
+
+
+libtou.a: $(BIOOBJ) $(OBJ)
+	ar rc ../lib/libtou.a $(BIOOBJ) $(OBJ)
+
+libtou.so: $(BIOOBJ) $(OBJ)
+	$(CC) -o libtou.so -shared $(BIOOBJ) $(OBJ)
+
+librs: $(BIOOBJ) $(OBJ)	
+	ar r ../lib/libretroshare.a $(BIOOBJ) $(OBJ)
+	
+.c.o:
+	$(BIOCC) $(BIOCFLAGS) -c $<
