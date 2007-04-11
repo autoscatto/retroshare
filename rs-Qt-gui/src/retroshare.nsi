@@ -9,7 +9,7 @@
 Name "${APPNAMEANDVERSION}"
 InstallDir "$PROGRAMFILES\RetroShare"
 InstallDirRegKey HKLM "Software\${APPNAME}" ""
-OutFile "RetroShare_${VERSION}_v0.3.0_setup.exe"
+OutFile "RetroShare_${VERSION}_setup.exe"
 BrandingText "${APPNAMEANDVERSION}"
 ; Use compression
 SetCompressor LZMA
