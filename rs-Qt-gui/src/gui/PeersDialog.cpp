@@ -156,6 +156,36 @@ void  PeersDialog::insertPeers()
 		/* ()  AuthCode */	
                 item -> setText(10, QString::fromStdString(it->second.authCode));
 
+		/* change background */
+		int i;
+                if (it->second.statusString == "Online")
+		{
+			/* bright green */
+			for(i = 0; i < 11; i++)
+			{
+			  item -> setBackground(i,QBrush(Qt::green));
+			}
+		}
+		else
+		{
+                	if (it->second.lastConnect != "Never")
+			{
+				for(i = 0; i < 11; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::lightGray));
+				}
+			}
+			else
+			{
+				for(i = 0; i < 11; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::gray));
+				}
+			}
+		}
+			
+
+
 		/* add to the list */
 		items.append(item);
 	}

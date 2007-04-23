@@ -402,7 +402,7 @@ void ChannelsDialog::insertMsgTxtAndFiles()
 	/* add the Msg */
 	ui.msgText->setText(QString::fromStdString(mi -> msg));
 
-	rsiface->lockData(); /* Lock Interface */
+	rsiface->unlockData(); /* Unlock Interface */
 
 }
 

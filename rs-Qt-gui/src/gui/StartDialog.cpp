@@ -72,6 +72,8 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
 	ui.loadName->setText("<No Existing User>");
 	ui.loadButton -> setEnabled(false);
 	ui.genName->setFocus(Qt::OtherFocusReason);
+	ui.autoBox -> setChecked(false);
+	ui.autoBox -> setEnabled(false);
   }
 
   ui.genFriend -> setText("<None Selected>");
@@ -162,6 +164,11 @@ void StartDialog::loadCertificates()
 	/* Final stage of loading */
 	if (LoadCertificates(rsConfig))
 	{
+		/* if Auto is requested.... */
+		if (Qt::Checked == ui.autoBox -> checkState())
+		{
+			RsStoreAutoLogin(rsConfig);
+		}
 		close();
 	}
 	else

@@ -29,7 +29,7 @@ GConfig::GConfig()
   : QSettings(QSettings::IniFormat, QSettings::UserScope, GDOMAIN, GPRODUCT)
 {
 #if !defined(Q_WS_WIN)
-    setPath(QSettings::IniFormat, QSettings::UserScope, "$HOME/.RetroShare");
+    setPath(QSettings::IniFormat, QSettings::UserScope, "$HOME/.Rshare");
 #endif
 }
 

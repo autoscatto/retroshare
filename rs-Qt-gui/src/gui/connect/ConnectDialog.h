@@ -28,7 +28,6 @@
 #include "ui_ConnectDialog.h"
 
 
-
 class ConnectDialog : public QMainWindow
 {
   Q_OBJECT
@@ -38,16 +37,11 @@ public:
   ConnectDialog(QWidget *parent = 0, Qt::WFlags flags = 0);
   /** Default destructor */
 
-
-void setInfo(std::string name, 
-		std::string trust, 
-		std::string org,
-		std::string loc,
-		std::string country,
-		std::string signers);
+bool loadPeer(std::string id);
 
 public slots:
   /** Overloaded QWidget.show */
+  void checkAuthCode( const QString &txt );
   void show();
 
 protected:
@@ -56,13 +50,23 @@ protected:
 private slots:
 
 	void closeinfodlg();
+        void authAttempt();
 
   
 private:
 
-  /** Loads the saved connectidialog settings */
-//  void loadSettings();
- 
+
+void setInfo(std::string name, 
+		std::string trust, 
+		std::string org,
+		std::string loc,
+		std::string country,
+		std::string signers);
+
+void setAuthCode(std::string id, std::string code);
+
+  std::string authCode;
+  std::string authId;
 
   /** A VidaliaSettings object that handles getting/saving settings */
   RshareSettings* _settings;
@@ -72,4 +76,5 @@ private:
 };
 
 #endif
+
 

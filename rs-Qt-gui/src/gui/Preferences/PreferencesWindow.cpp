@@ -1,5 +1,5 @@
 /****************************************************************
- *  RetroShare is distributed under the following license:
+ *  RShare is distributed under the following license:
  *
  *  Copyright (C) 2006, crypton
  *
@@ -24,6 +24,9 @@
 #include <QMessageBox>
 #include <rshare.h>
 #include "PreferencesWindow.h"
+
+#include "rsiface/rsiface.h"
+
 
 #define FONT        QFont(tr("Arial"), 8)
 
@@ -160,6 +163,10 @@ PreferencesWindow::saveChanges()
       return;
     }
   }
+
+  /* call to RsIface save function.... */
+  rsicontrol -> ConfigSave();
+
   QMainWindow::close();
 }
 

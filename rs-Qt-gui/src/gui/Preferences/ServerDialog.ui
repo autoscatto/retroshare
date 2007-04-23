@@ -655,7 +655,7 @@ p, li { white-space: pre-wrap; }
           <number>65535</number>
          </property>
          <property name="minimum" >
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="value" >
           <number>7812</number>
@@ -715,7 +715,7 @@ p, li { white-space: pre-wrap; }
           <number>65535</number>
          </property>
          <property name="minimum" >
-          <number>1</number>
+          <number>0</number>
          </property>
          <property name="value" >
           <number>7812</number>

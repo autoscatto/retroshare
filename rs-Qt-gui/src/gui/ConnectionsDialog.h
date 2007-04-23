@@ -30,6 +30,9 @@
 #include "mainpage.h"
 #include "ui_ConnectionsDialog.h"
 
+#include "connect/ConnectDialog.h"
+
+
 class ConnectionsDialog : public MainPage 
 {
   Q_OBJECT
@@ -40,9 +43,11 @@ public:
   /** Default Destructor */
 
   void  insertConnect();
+  void  showpeerdetails(std::string id);
 
-
-
+public slots:
+  std::string loadneighbour();
+  /* void loadneighbour(); */
 
 private slots:
 
@@ -55,7 +60,6 @@ private slots:
   /** Called when user clicks "Load Cert" to choose location of a Cert file */
   void loadcert();
 
-  void loadneighbour();
   void authneighbour();
   void addneighbour();
 
@@ -70,6 +74,9 @@ QTreeWidgetItem *getCurrentNeighbour();
   QAction* peerdetailsAct;
   QAction* authAct;
   QAction* loadcertAct;
+
+  /* connection dialog */
+  ConnectDialog *connectdialog;
 
   QTreeWidget *connecttreeWidget;
 

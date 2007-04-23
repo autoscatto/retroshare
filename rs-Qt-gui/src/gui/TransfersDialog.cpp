@@ -1,5 +1,5 @@
 /****************************************************************
- *  RetroShare is distributed under the following license:
+ *  RShare is distributed under the following license:
  *
  *  Copyright (C) 2006, crypton
  *
@@ -148,6 +148,43 @@ void TransfersDialog::insertTransfers()
 			out << it -> id;
 			item -> setText(7, QString::fromStdString(out.str()));
 		}
+
+		/* change background */
+		int i;
+		switch(it->downloadStatus)
+		{
+			/* XXX HAND CODED! */
+			case 0: /* FAILED */
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::red));
+				}
+				break;
+			case 1: /* OKAY */
+				if (it->tfRate > 0)
+				{
+				  for(i = 0; i < 10; i++)
+				  {
+				  item -> setBackground(i,QBrush(Qt::cyan));
+				  }
+				}
+				else
+				{
+				  for(i = 0; i < 10; i++)
+				  {
+				  item -> setBackground(i,QBrush(Qt::lightGray));
+				  }
+				}
+				break;
+			case 2: /* COMPLETE */
+			default:
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::green));
+				}
+		}
+			
+
 
 		/* add to the list */
 		items.append(item);

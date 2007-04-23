@@ -68,7 +68,7 @@
 #define DEFAULT_BWGRAPH_FILTER          (BWGRAPH_SEND|BWGRAPH_REC)
 #define DEFAULT_BWGRAPH_ALWAYS_ON_TOP   false
 
-/** The location of RetroShare's settings and configuration file. */
+/** The location of Rshare's settings and configuration file. */
 #define SETTINGS_FILE   (Rshare::dataDirectory() + "/RetroShare.conf")
 
 
@@ -78,7 +78,7 @@ RshareSettings::RshareSettings()
 {  
 }
 
-/** Resets all of RetroShare's settings. */
+/** Resets all of Rshare's settings. */
 void
 RshareSettings::reset()
 {

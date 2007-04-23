@@ -1,5 +1,5 @@
 /****************************************************************
- *  Retroshare is distributed under the following license:
+ *  RShare is distributed under the following license:
  *
  *  Copyright (C) 2006, crypton
  *

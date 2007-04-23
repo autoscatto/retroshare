@@ -60,8 +60,12 @@ HEADERS += rshare.h \
            gui/chat/PopupChatDialog.h \
            gui/connect/ConnectDialog.h \
            gui/connect/ConfCertDialog.h \
+           gui/connect/InviteDialog.h \
+           gui/connect/AddFriendDialog.h \
            gui/msgs/ChanMsgDialog.h \
 	     gui/msgs/ChanCreateDialog.h \
+           gui/msgs/QtChatToaster.h \
+	     gui/msgs/QtToaster.h \
            gui/filehash/FileHashDialog.h \
            gui/images/retroshare_win.rc.h \
            gui/moreinfo/moreinfo.h \ 
@@ -97,8 +101,11 @@ FORMS += gui/ChatDialog.ui \
          gui/chat/PopupChatDialog.ui \
          gui/connect/ConnectDialog.ui \
          gui/connect/ConfCertDialog.ui \
-	   gui/msgs/ChanMsgDialog.ui \
-	   gui/msgs/ChanCreateDialog.ui \
+         gui/connect/InviteDialog.ui \
+         gui/connect/AddFriendDialog.ui \
+	 gui/msgs/ChanMsgDialog.ui \
+	 gui/msgs/ChanCreateDialog.ui \
+         gui/msgs/ChatToaster.ui \
          gui/filehash/FileHashDialog.ui \
          gui/moreinfo/moreinfo.ui \ 
          gui/Preferences/CryptographyDialog.ui \
@@ -141,8 +148,12 @@ SOURCES += main.cpp \
            gui/chat/PopupChatDialog.cpp \
            gui/connect/ConnectDialog.cpp \
            gui/connect/ConfCertDialog.cpp \
-	     gui/msgs/ChanMsgDialog.cpp \
-	     gui/msgs/ChanCreateDialog.cpp \
+           gui/connect/InviteDialog.cpp \
+           gui/connect/AddFriendDialog.cpp \
+	   gui/msgs/ChanMsgDialog.cpp \
+	   gui/msgs/ChanCreateDialog.cpp \
+           gui/msgs/QtChatToaster.cpp \
+	     gui/msgs/QtToaster.cpp \
            gui/filehash/FileHashDialog.cpp \
            gui/moreinfo/moreinfo.cpp \ 
            gui/Preferences/configpagestack.cpp \

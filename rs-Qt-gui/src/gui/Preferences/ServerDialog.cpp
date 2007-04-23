@@ -1,5 +1,5 @@
 /****************************************************************
- *  RetroShare is distributed under the following license:
+ *  RShare is distributed under the following license:
  *
  *  Copyright (C) 2006, crypton
  *
@@ -57,6 +57,7 @@ ServerDialog::save(QString &errmsg)
 /* restart server */
 
 /* save all? */
+   saveAddresses();
  return true;
 }
 
@@ -94,15 +95,7 @@ void ServerDialog::saveAddresses()
 	rsicontrol->ConfigSetExtAddr(ui.extAddress->text().toStdString(), ui.extPort->value());
 	rsicontrol->ConfigSetExtName(ui.extName->text().toStdString());
 	rsicontrol->ConfigSetDataRates( ui.totalRate->value(),  ui.indivRate->value() );
-
-	if (save(str))
-	{
-		std::cerr << "ServerDialog::saveAddresses() Success!" << std::endl;
-	}
-	else
-	{
-		std::cerr << "ServerDialog::saveAddresses() Failed" << std::endl;
-	}
 	load();
+
 }
 

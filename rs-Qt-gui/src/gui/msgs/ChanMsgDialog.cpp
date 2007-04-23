@@ -35,7 +35,7 @@
 
 /** Constructor */
 ChanMsgDialog::ChanMsgDialog(bool msg, QWidget *parent, Qt::WFlags flags)
-: mIsMsg(msg), QWidget(parent, flags)
+: mIsMsg(msg), QMainWindow(parent, flags)
 {
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
@@ -47,8 +47,10 @@ ChanMsgDialog::ChanMsgDialog(bool msg, QWidget *parent, Qt::WFlags flags)
   //
  
   // connect up the buttons.
-  connect( ui.cancelButton, SIGNAL( clicked ( bool ) ), this, SLOT( cancelMessage( ) ) );
-  connect( ui.sendButton, SIGNAL( clicked ( bool ) ), this, SLOT( sendMessage( ) ) );
+  //connect( ui.cancelButton, SIGNAL( clicked ( bool ) ), this, SLOT( cancelMessage( ) ) );
+  //connect( ui.sendButton, SIGNAL( clicked ( bool ) ), this, SLOT( sendMessage( ) ) );
+  
+  connect( ui.actionSend, SIGNAL( triggered (bool)), this, SLOT( sendMessage( ) ) );
 
   /* if Msg */
   if (mIsMsg)

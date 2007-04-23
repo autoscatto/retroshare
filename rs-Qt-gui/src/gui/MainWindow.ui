@@ -1163,7 +1163,7 @@
                    <number>7</number>
                   </property>
                   <item row="1" column="0" >
-                   <widget class="QPushButton" name="pushButton_2" >
+                   <widget class="QPushButton" name="invitefriendButton" >
                     <property name="minimumSize" >
                      <size>
                       <width>90</width>
@@ -1175,12 +1175,6 @@
                       <width>90</width>
                       <height>16777215</height>
                      </size>
-                    </property>
-                    <property name="toolTip" >
-                     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Invite Friends to my network&lt;/p>&lt;/body>&lt;/html></string>
                     </property>
                     <property name="text" >
                      <string>Invite Friend</string>
@@ -1200,12 +1194,6 @@ p, li { white-space: pre-wrap; }
                       <width>90</width>
                       <height>16777215</height>
                      </size>
-                    </property>
-                    <property name="toolTip" >
-                     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Add Friends to my network&lt;/p>&lt;/body>&lt;/html></string>
                     </property>
                     <property name="text" >
                      <string>Add Friend</string>
@@ -1244,12 +1232,6 @@ p, li { white-space: pre-wrap; }
                       <width>90</width>
                       <height>16777215</height>
                      </size>
-                    </property>
-                    <property name="toolTip" >
-                     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Add files to share&lt;/p>&lt;/body>&lt;/html></string>
                     </property>
                     <property name="text" >
                      <string>Add Share</string>

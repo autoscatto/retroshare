@@ -37,6 +37,36 @@
      if (indexSet[idx].type == 1) /* TODO */
      	return 0;
 
+     /* if it is a person, check the directory count each time...
+      * as this can change under our feet
+      */
+     if (indexSet[idx].type == 2) /* Person */
+     {
+	std::string person;
+	std::string path;
+
+	std::ostringstream out;
+	out << indexSet[idx].id;
+	person = out.str();
+	path = "";
+
+	std::cerr << "Checking Root Dir for: " << person << ":" << path;
+	std::cerr << std::endl;
+
+	rsiface->lockData();   /* Lock Interface */
+
+	const DirInfo *dir = rsiface->getDirectory(person, path);
+
+	if (dir)
+	{
+		std::cerr << "Updating dir count to: " << dir->nofiles;
+		std::cerr << std::endl;
+		indexSet[idx].size = dir->nofiles;
+	}
+
+	rsiface->unlockData();   /* Unlock Interface */
+     }
+
      return indexSet[idx].size;
  }
 
@@ -244,6 +274,7 @@
 	if (!rsiface)
 		return QModelIndex();
 
+        //std::cerr << "RemoteDirModel::index() rsiface->lockData()"<<std::endl;
 	rsiface->lockData();   /* Lock Interface */
 
         if (!parent.isValid())
@@ -272,6 +303,7 @@
 		{
 			/* too big */
 			//std::cerr << "Return Invalid: Row too Big" << std::endl;
+        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 1"<<std::endl;
 			rsiface->unlockData();   /* Unlock Interface */
 			return QModelIndex();
 		}
@@ -304,6 +336,7 @@
 		if ((pIdx < 0) || (pIdx > nIndex-1))
 		{
 			std::cerr << "Return Invalid: pIdx Invalid" << std::endl;
+        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 2"<<std::endl;
 			rsiface->unlockData();   /* Unlock Interface */
 			return QModelIndex();
 		}
@@ -319,14 +352,13 @@
 		std::cerr << "Loading Dir: " << person << "/" << path;
 		std::cerr << std::endl;
 
-		//const DirInfo *dir = rsiface->getDirectory(person, path);
-		RsCertId rsid(person);
-		const DirInfo *dir = rsiface->getDirectory(rsid, path);
+		const DirInfo *dir = rsiface->getDirectory(person, path);
 
 
 		if (!dir)
 		{
 			std::cerr << "Return Invalid: pIdx Invalid" << std::endl;
+        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 3"<<std::endl;
 			rsiface->unlockData();   /* Unlock Interface */
 			return QModelIndex();
 		}
@@ -338,6 +370,7 @@
 			//error....
 			bi = NULL;
 			std::cerr << "Row > dir->nofiles. Invalid Index" << std::endl;
+        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 4"<<std::endl;
 			rsiface->unlockData();   /* Unlock Interface */
 			return QModelIndex();
 		}
@@ -348,6 +381,7 @@
 			if (fno >= dir->files.size()) /* then nofiles was wrong */
 			{
 				std::cerr << "Row > dir-> correct nofiles. Invalid Index" << std::endl;
+        			//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 5"<<std::endl;
 				rsiface->unlockData();   /* Unlock Interface */
 				return QModelIndex();
 			}
@@ -402,6 +436,7 @@
 		QModelIndex qmi = createIndex(row, column, bi->mId);
 		/* bi->mId); */
 
+        	//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 6"<<std::endl;
 		rsiface->unlockData();   /* Unlock Interface */
 		return qmi;
 
@@ -422,6 +457,7 @@
 	std::cerr << "Path:" << path << std::endl;
 	std::cerr << "indexSet[].id:" << indexSet[nIndex-1].id << std::endl;
 
+        std::cerr << "RemoteDirModel::index() rsiface->unlockData() 7"<<std::endl;
 	rsiface->unlockData();   /* Unlock Interface */
 
 	/* look up parent in internal index */

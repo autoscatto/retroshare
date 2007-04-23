@@ -1,5 +1,5 @@
 /****************************************************************
- *  RetroShare is distributed under the following license:
+ *  RShare is distributed under the following license:
  *
  *  Copyright (C) 2006, crypton
  *
@@ -93,13 +93,13 @@ void SharedFilesDialog::shareddirtreeviewCostumPopupMenu( QPoint point )
       downloadAct = new QAction(QIcon(IMAGE_DOWNLOAD), tr( "Download" ), this );
       connect( downloadAct , SIGNAL( triggered() ), this, SLOT( downloadRemoteSelected() ) );
       
-      addMsgAct = new QAction( tr( "Add to Message" ), this );
-      connect( addMsgAct , SIGNAL( triggered() ), this, SLOT( addMsgRemoteSelected() ) );
+    //  addMsgAct = new QAction( tr( "Add to Message" ), this );
+    //  connect( addMsgAct , SIGNAL( triggered() ), this, SLOT( addMsgRemoteSelected() ) );
       
 
       contextMnu.clear();
       contextMnu.addAction( downloadAct);
-      contextMnu.addAction( addMsgAct);
+   //   contextMnu.addAction( addMsgAct);
       contextMnu.exec( mevent->globalPos() );
 }
 
@@ -140,13 +140,13 @@ void SharedFilesDialog::shareddirtreeWidgetCostumPopupMenu( QPoint point )
       openfileAct = new QAction( tr( "Recommend" ), this );
       connect( openfileAct , SIGNAL( triggered() ), this, SLOT( recommendfile() ) );
       
-      openfolderAct = new QAction( tr( "Play File" ), this );
-      connect( openfolderAct , SIGNAL( triggered() ), this, SLOT( openfile() ) );
+     // openfolderAct = new QAction( tr( "Play File" ), this );
+     // connect( openfolderAct , SIGNAL( triggered() ), this, SLOT( openfile() ) );
       
 
       contextMnu2.clear();
       contextMnu2.addAction( openfileAct);
-      contextMnu2.addAction( openfolderAct);
+     // contextMnu2.addAction( openfolderAct);
       contextMnu2.exec( mevent2->globalPos() );
 }
 

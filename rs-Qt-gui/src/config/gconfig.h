@@ -24,8 +24,8 @@
 
 #include <QtCore/QtCore>
 
-#define GDOMAIN "RetroShare"
-#define GPRODUCT "RetroShare"
+#define GDOMAIN "Goatsoft"
+#define GPRODUCT "Gloster2"
 
 //Forward declaration.
 class QWidget;
@@ -34,13 +34,13 @@ class QToolBar;
 class QMainWindow;
 
 /*!	\class GConfig
-	\brief The RetroShare configuration class. It extends the basic functionalities
+	\brief The Gloster configuration class. It extends the basic functionalities
 	provided by QSettings.
 
 	All the settings are stored in an INI file in a specific directory depending on the platform :
 
-	- Windows : "\%HOME\Application data\RetroShare\config.ini".
-	- Linux : "%HOME\.RetroShare\config.ini"
+	- Windows : "\%HOME\Application data\Rshare\config.ini".
+	- Linux : "%HOME\.Rshare\config.ini"
 
 */
 

@@ -37,8 +37,8 @@
 #include <config/rsharesettings.h>
 
 
-/** Retroshare's version string */
-#define RSHARE_VERSION    "0.3"
+/** Rshare's version string */
+#define RSHARE_VERSION    "0.7"
 
 
 class Rshare : public QApplication
@@ -72,10 +72,12 @@ public:
   /** Returns Rshare's application version. */
   static QString version() { return RSHARE_VERSION; }
 
+  /** Returns Rshare's main TorControl object. */
+//  static TorControl* torControl() { return _torControl; }
   
-  /** Returns the location Retroshare uses for its data files. */
+  /** Returns the location Rshare uses for its data files. */
   static QString dataDirectory();
-  /** Returns the default location of Retroshare's data directory. */
+  /** Returns the default location of Rshare's data directory. */
   static QString defaultDataDirectory();
   /** Creates Rshare's data directory, if it doesn't already exist. */
   static bool createDataDirectory(QString *errmsg);
@@ -101,7 +103,7 @@ private:
   static QMap<QString, QString> _args; /**< List of command-line arguments.  */
   static QString _style;               /**< The current GUI style.           */
   static QString _language;            /**< The current language.            */
-  static RshareSettings _settings;    /**< Retroshare's configurable settings. */
+  static RshareSettings _settings;    /**< Rshare's configurable settings. */
 
 
 };

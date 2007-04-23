@@ -1,5 +1,5 @@
 /****************************************************************
- *  RShare is distributed under the following license:
+ *  RetroShare is distributed under the following license:
  *
  *  Copyright (C) 2006, crypton
  *
@@ -20,46 +20,36 @@
  ****************************************************************/
 
 
-#ifndef _FILEHASHDIALOG_H
-#define _FILEHASHDIALOG_H
+#ifndef _INVITEDIALOG_H
+#define _INVITEDIALOG_H
 
-#include <config/rsharesettings.h>
+#include <QMainWindow>
 
-#include "ui_FileHashDialog.h"
+#include "ui_InviteDialog.h"
 
-
-
-class FileHashDialog : public QMainWindow
+class InviteDialog : public QMainWindow
 {
   Q_OBJECT
 
 public:
   /** Default constructor */
-  FileHashDialog(QWidget *parent = 0, Qt::WFlags flags = 0);
+  InviteDialog(QWidget *parent = 0, Qt::WFlags flags = 0);
   /** Default destructor */
 
+void setInfo(std::string text);
 
 public slots:
-  /** Overloaded QWidget.show */
-  void show();
-
 protected:
-  void closeEvent (QCloseEvent * event);
-  
 private slots:
 
+	void closebutton();
+	void cancelbutton();
+	void emailbutton();
   
 private:
 
-  /** Loads the saved connectidialog settings */
-//  void loadSettings();
- 
-
-  /** A VidaliaSettings object that handles getting/saving settings */
-  RshareSettings* _settings;
-  
   /** Qt Designer generated object */
-  Ui::FileHashDialog ui;
+  Ui::InviteDialog ui;
 };
 
 #endif

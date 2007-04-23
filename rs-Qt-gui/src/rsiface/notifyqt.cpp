@@ -112,6 +112,8 @@ void NotifyQt::UpdateGUI()
 	bool uRecom = iface->hasChanged(RsIface::Recommend);
 	bool uConf  = iface->hasChanged(RsIface::Config);
 
+	iface->unlockData(); /* UnLock Interface */
+
 	if (uNeigh)
 		displayNeighbours();
 

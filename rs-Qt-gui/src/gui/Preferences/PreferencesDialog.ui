@@ -516,7 +516,7 @@
       <x>10</x>
       <y>24</y>
       <width>341</width>
-      <height>23</height>
+      <height>26</height>
      </rect>
     </property>
     <layout class="QGridLayout" >
@@ -585,7 +585,7 @@ p, li { white-space: pre-wrap; }
       <x>10</x>
       <y>44</y>
       <width>341</width>
-      <height>23</height>
+      <height>26</height>
      </rect>
     </property>
     <layout class="QGridLayout" >
@@ -721,6 +721,32 @@ p, li { white-space: pre-wrap; }
       <string>Pagefold</string>
      </property>
     </item>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="grpLogin" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>210</y>
+     <width>441</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>Login</string>
+   </property>
+   <widget class="QPushButton" name="autoButton" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Remove Auto Login</string>
+    </property>
    </widget>
   </widget>
  </widget>

@@ -27,7 +27,7 @@
 
 #include "ui_ChanMsgDialog.h"
 
-class ChanMsgDialog : public QWidget 
+class ChanMsgDialog : public QMainWindow 
 {
   Q_OBJECT
 

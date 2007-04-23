@@ -59,8 +59,8 @@ ChatDialog::ChatDialog(QWidget *parent)
   
   connect( ui.msgSendList, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( msgSendListCostumPopupMenu( QPoint ) ) );
 
-  connect(ui.msgSendList, SIGNAL(itemChanged( QTreeWidgetItem *, int ) ), 
-  this, SLOT(toggleSendItem( QTreeWidgetItem *, int ) ));
+//  connect(ui.msgSendList, SIGNAL(itemChanged( QTreeWidgetItem *, int ) ), 
+//  this, SLOT(toggleSendItem( QTreeWidgetItem *, int ) ));
 
   loadInitMsg();
 
@@ -126,6 +126,8 @@ void ChatDialog::insertChat()
 	std::list<ChatInfo> newchat = rsiface->getChatNew();
 	std::list<ChatInfo>::iterator it;
 
+        rsiface->unlockData(); /* Unlock Interface */
+
 static  std::string lastChatName("");
 static  int         lastChatTime = 0;
 
@@ -187,7 +189,6 @@ static  int         lastChatTime = 0;
 	QScrollBar *qsb =  msgWidget->verticalScrollBar();
 	qsb -> setValue(qsb->maximum());
 
-        rsiface->unlockData(); /* Unlock Interface */
 }
 
 void ChatDialog::sendMsg()
@@ -256,8 +257,11 @@ void  ChatDialog::insertSendList()
 
 		item -> setText(5, "Friend");
 
-		item -> setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		//item -> setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
+		item -> setFlags(Qt::ItemIsUserCheckable);
 
+		item -> setCheckState(0, Qt::Checked);
+		/**** NOT SELECTABLE AT THE MOMENT 
 		if (it ->second.inChat)
 		{
 			item -> setCheckState(0, Qt::Checked);
@@ -266,6 +270,7 @@ void  ChatDialog::insertSendList()
 		{
 			item -> setCheckState(0, Qt::Unchecked);
 		}
+		************/
 
 
 		/* add to the list */

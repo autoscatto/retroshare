@@ -33,7 +33,7 @@
 /* Available command-line arguments. */
 #define ARG_LANGUAGE   "lang"    /**< Argument specifying language.    */
 #define ARG_GUISTYLE   "style"   /**< Argument specfying GUI style.    */
-#define ARG_RESET      "reset"   /**< Reset Retroshare's saved settings.  */
+#define ARG_RESET      "reset"   /**< Reset Rshare's saved settings.  */
 #define ARG_DATADIR    "datadir" /**< Directory to use for data files. */
 
 
@@ -41,11 +41,11 @@
 QMap<QString, QString> Rshare::_args; /**< List of command-line arguments.  */
 QString Rshare::_style;               /**< The current GUI style.           */
 QString Rshare::_language;            /**< The current language.            */
-RshareSettings Rshare::_settings;    /**< Retroshare's configurable settings. */
+RshareSettings Rshare::_settings;    /**< Rshare's configurable settings. */
 
 
 
-/** Constructor. Parses the command-line arguments, resets Retroshare's
+/** Constructor. Parses the command-line arguments, resets Rshare's
  * configuration (if requested), and sets up the GUI style and language
  * translation. */
 Rshare::Rshare(QStringList args, int &argc, char **argv)
@@ -74,7 +74,8 @@ Rshare::Rshare(QStringList args, int &argc, char **argv)
 /** Destructor */
 Rshare::~Rshare()
 {
-
+ // delete _help;
+  //delete _torControl;
 }
 
 #if defined(Q_OS_WIN)
@@ -159,7 +160,7 @@ Rshare::validateArguments(QString &errmsg)
   if (_args.contains(ARG_HELP)) {
     return false;
   }*/
-  /* Check for a language that Retroshare recognizes. */
+  /* Check for a language that Rshare recognizes. */
   if (_args.contains(ARG_LANGUAGE) &&
       !LanguageSupport::isValidLanguageCode(_args.value(ARG_LANGUAGE))) {
     errmsg = tr("Invalid language code specified: ") + _args.value(ARG_LANGUAGE);

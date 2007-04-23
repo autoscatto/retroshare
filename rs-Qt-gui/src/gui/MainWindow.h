@@ -99,8 +99,14 @@ private slots:
 
     void updateMenu();
     void toggleVisibility();
- 
+
+
+/** Toolbar fns. */
+    void addFriend();
+    void inviteFriend();
+    void addSharedDirectory();
     void showPreferencesWindow();
+
     void showSettings();
     
     /** Called when console button is toggled */

@@ -25,10 +25,8 @@
 #include "ConnectDialog.h"
 #include "config/gconfig.h"
 
-/* Define the format used for displaying the date and time */
-#define DATETIME_FMT  "MMM dd hh:mm:ss"
-
-
+#include "rsiface/rsiface.h"
+#include <iostream>
 
 /** Default constructor */
 ConnectDialog::ConnectDialog(QWidget *parent, Qt::WFlags flags)
@@ -46,10 +44,11 @@ ConnectDialog::ConnectDialog(QWidget *parent, Qt::WFlags flags)
   // Create the status bar
   statusBar()->showMessage("Peer Informations");
 
-  setFixedSize(QSize(330, 382));
+  setFixedSize(QSize(330, 412));
   
-  connect(ui.okpushButton, SIGNAL(clicked()), this, SLOT(closeinfodlg()));
- 
+  connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(closeinfodlg()));
+  connect(ui.okButton, SIGNAL(clicked()), this, SLOT(authAttempt()));
+  connect(ui.Ledit_name, SIGNAL(textChanged ( const QString & ) ), this, SLOT(checkAuthCode( const QString & )));
  
 }
 
@@ -97,4 +96,81 @@ void ConnectDialog::setInfo(std::string name,
 	ui.signers->setText(QString::fromStdString(signers));
 }
 
-		     
+		    
+void ConnectDialog::setAuthCode(std::string id, std::string code)
+{
+	authId = id;
+	authCode = code;
+	ui.Ledit_name->setText(QString::fromStdString(code));
+	//ui.okButton ->setEnabled(true);
+}
+
+void ConnectDialog::checkAuthCode(const QString &txt)
+{
+	
+	//std::cerr << "AuthCode:" << authCode << std::endl;
+	//std::cerr << "Entered:" << ui.Ledit_name -> text().toStdString() << std::endl;
+	//std::cerr << "Entered:" << txt.toStdString() << std::endl;
+
+	if (authCode == txt.toStdString())
+	{
+		/* enable ok button */
+		ui.okButton ->setEnabled(true);
+	}
+	else
+	{
+		/* disable ok button */
+		ui.okButton ->setEnabled(false);
+	}
+}
+
+void ConnectDialog::authAttempt()
+{
+
+	/* well lets do it ! */
+	std::cerr << "Attempting AuthCode:" << authCode << std::endl;
+	rsicontrol -> NeighAuthFriend(authId, authCode);
+	rsicontrol -> NeighAddFriend(authId);
+
+	/* close it up! */
+	closeinfodlg();
+}
+
+bool ConnectDialog::loadPeer(std::string id)
+{ 
+	/* first grab the list of signers (outside lock) */
+	std::list<std::string> signers = rsicontrol->NeighGetSigners(id);
+	
+	/* grab the interface and check person */
+	rsiface->lockData(); /* Lock Interface */
+	
+	std::map<RsCertId,NeighbourInfo>::const_iterator it;
+	const std::map<RsCertId,NeighbourInfo> &neighs = 
+			rsiface->getNeighbourMap();
+	
+	it = neighs.find(id);
+	if (it == neighs.end())
+	{
+		rsiface->unlockData(); /* UnLock Interface */
+		return false;
+	}
+
+	std::list<std::string>::iterator sit;
+	std::string signersString;
+	for(sit = signers.begin(); sit != signers.end(); sit++) 
+	{
+		signersString += (*sit);
+		signersString += "\n";
+	}
+
+	/* setup the gui */
+	setInfo(it->second.name, it->second.trustString, it->second.org,
+	it->second.loc, it->second.country, signersString);
+
+	setAuthCode(id, it->second.authCode);
+	
+	rsiface->unlockData(); /* UnLock Interface */
+
+	return true;
+}
+	

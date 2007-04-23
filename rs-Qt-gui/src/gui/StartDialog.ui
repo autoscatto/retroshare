@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>330</width>
-    <height>501</height>
+    <width>328</width>
+    <height>535</height>
    </rect>
   </property>
   <property name="palette" >
@@ -515,155 +515,11 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:13pt; font-weight:600; color:#8b0000;">Welcome to RetroShare&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>311</width>
-      <height>121</height>
-     </rect>
-    </property>
-    <property name="font" >
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="title" >
-     <string> Please Login ....</string>
-    </property>
-    <widget class="QWidget" name="layoutWidget" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>281</width>
-       <height>58</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" >
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_3" >
-          <property name="text" >
-           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Name:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2" >
-         <widget class="QLineEdit" name="loadName" >
-          <property name="minimumSize" >
-           <size>
-            <width>200</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="readOnly" >
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" >
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0" >
-       <layout class="QGridLayout" >
-        <property name="margin" >
-         <number>0</number>
-        </property>
-        <property name="spacing" >
-         <number>6</number>
-        </property>
-        <item row="0" column="0" >
-         <widget class="QLabel" name="label_4" >
-          <property name="text" >
-           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Pasword&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2" >
-         <widget class="QLineEdit" name="loadPasswd" >
-          <property name="minimumSize" >
-           <size>
-            <width>200</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="echoMode" >
-           <enum>QLineEdit::Password</enum>
-          </property>
-          <property name="readOnly" >
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1" >
-         <spacer>
-          <property name="orientation" >
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <property name="sizeHint" >
-           <size>
-            <width>40</width>
-            <height>20</height>
-           </size>
-          </property>
-         </spacer>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QPushButton" name="loadButton" >
-     <property name="geometry" >
-      <rect>
-       <x>90</x>
-       <y>90</y>
-       <width>141</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Load Existing User</string>
-     </property>
-    </widget>
-   </widget>
    <widget class="QGroupBox" name="groupBox_2" >
     <property name="geometry" >
      <rect>
       <x>10</x>
-      <y>150</y>
+      <y>180</y>
       <width>311</width>
       <height>331</height>
      </rect>
@@ -850,19 +706,6 @@ p, li { white-space: pre-wrap; }
       </item>
      </layout>
     </widget>
-    <widget class="QCheckBox" name="friendBox" >
-     <property name="geometry" >
-      <rect>
-       <x>20</x>
-       <y>240</y>
-       <width>251</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>Load Trusted Certificate (Optional)</string>
-     </property>
-    </widget>
     <widget class="QWidget" name="layoutWidget_3" >
      <property name="geometry" >
       <rect>
@@ -918,10 +761,199 @@ p, li { white-space: pre-wrap; }
       <string>Generate New Certificate</string>
      </property>
     </widget>
+    <widget class="QCheckBox" name="friendBox" >
+     <property name="geometry" >
+      <rect>
+       <x>20</x>
+       <y>240</y>
+       <width>251</width>
+       <height>18</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Load Trusted Certificate (Optional)</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>30</y>
+      <width>311</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="font" >
+     <font>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="title" >
+     <string> Please Login ....</string>
+    </property>
+    <widget class="QPushButton" name="loadButton" >
+     <property name="geometry" >
+      <rect>
+       <x>90</x>
+       <y>110</y>
+       <width>141</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Load Existing User</string>
+     </property>
+    </widget>
+    <widget class="QWidget" name="layoutWidget" >
+     <property name="geometry" >
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>281</width>
+       <height>58</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>0</number>
+      </property>
+      <property name="spacing" >
+       <number>6</number>
+      </property>
+      <item row="0" column="0" >
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_3" >
+          <property name="text" >
+           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Name:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2" >
+         <widget class="QLineEdit" name="loadName" >
+          <property name="minimumSize" >
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="readOnly" >
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0" >
+       <layout class="QGridLayout" >
+        <property name="margin" >
+         <number>0</number>
+        </property>
+        <property name="spacing" >
+         <number>6</number>
+        </property>
+        <item row="0" column="0" >
+         <widget class="QLabel" name="label_4" >
+          <property name="text" >
+           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Pasword&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2" >
+         <widget class="QLineEdit" name="loadPasswd" >
+          <property name="minimumSize" >
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="echoMode" >
+           <enum>QLineEdit::Password</enum>
+          </property>
+          <property name="readOnly" >
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1" >
+         <spacer>
+          <property name="orientation" >
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" >
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QCheckBox" name="autoBox" >
+     <property name="geometry" >
+      <rect>
+       <x>60</x>
+       <y>80</y>
+       <width>171</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text" >
+      <string>Automatically Login in Future</string>
+     </property>
+     <property name="checked" >
+      <bool>true</bool>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QStatusBar" name="statusbar" />
  </widget>
+ <tabstops>
+  <tabstop>loadName</tabstop>
+  <tabstop>loadPasswd</tabstop>
+  <tabstop>loadButton</tabstop>
+  <tabstop>autoBox</tabstop>
+  <tabstop>genName</tabstop>
+  <tabstop>genOrg</tabstop>
+  <tabstop>genLoc</tabstop>
+  <tabstop>genCountry</tabstop>
+  <tabstop>genPasswd</tabstop>
+  <tabstop>genPasswd2</tabstop>
+  <tabstop>genFriend</tabstop>
+  <tabstop>selectButton</tabstop>
+  <tabstop>friendBox</tabstop>
+  <tabstop>genButton</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

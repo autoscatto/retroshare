@@ -47,6 +47,7 @@ private slots:
   void messageslistWidgetCostumPopupMenu( QPoint point ); 
   void msgfilelistWidgetCostumPopupMenu(QPoint);  
 
+void changeBox( int newrow );
 void updateMessages ( QTreeWidgetItem * item, int column );
 
   void newmessage();
@@ -54,11 +55,16 @@ void updateMessages ( QTreeWidgetItem * item, int column );
   void replytomessage();
   
   void removemessage();
+  void markMsgAsRead();
   
-void getcurrentrecommended();
-void getallrecommended();
+  void eventsButtonClicked();
+  
+  void getcurrentrecommended();
+  void getallrecommended();
 
 private:
+
+  bool getCurrentMsg(std::string &cid, std::string &mid);
 
   std::string mCurrCertId;
   std::string mCurrMsgId;
@@ -70,6 +76,7 @@ private:
   QAction* newmsgAct;
   QAction* replytomsgAct;
   QAction* removemsgAct;
+  QAction* yougetmsgAct;
 
   QAction* getRecAct;
   QAction* getAllRecAct;

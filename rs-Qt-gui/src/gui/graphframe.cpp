@@ -1,5 +1,5 @@
 /****************************************************************
- *  RetroShare Qt Gui distributed under the following license:
+ *  RShare Qt Gui distributed under the following license:
  *
  *  Copyright (C) 2006,  crypton
  *

@@ -28,6 +28,7 @@
 #include "connect/ConnectDialog.h"
 #include "authdlg/AuthorizationDialog.h"
 #include "rsiface/rsiface.h"
+#include "rsiface/rstypes.h"
 #include <sstream>
 
 
@@ -47,13 +48,15 @@ RsCertId getNeighRsCertId(QTreeWidgetItem *i);
 
 /** Constructor */
 ConnectionsDialog::ConnectionsDialog(QWidget *parent)
-: MainPage(parent)
+: MainPage(parent), connectdialog(NULL)
 {
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
 
   connect( ui.connecttreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( connecttreeWidgetCostumPopupMenu( QPoint ) ) );
 
+  /* create a single connect dialog */
+  connectdialog = new ConnectDialog();
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
@@ -67,11 +70,11 @@ void ConnectionsDialog::connecttreeWidgetCostumPopupMenu( QPoint point )
       QMenu contextMnu( this );
       QMouseEvent *mevent = new QMouseEvent( QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier );
 
-      peerdetailsAct = new QAction(QIcon(IMAGE_PEERDETAILS), tr( "Peer Details" ), this );
+      peerdetailsAct = new QAction(QIcon(IMAGE_PEERDETAILS), tr( "Peer Details / Authenticate " ), this );
       connect( peerdetailsAct , SIGNAL( triggered() ), this, SLOT( peerdetails() ) );
       
-      authAct = new QAction(QIcon(IMAGE_AUTH), tr( "Authenticate" ), this );
-      connect( authAct , SIGNAL( triggered() ), this, SLOT( showAuthDialog() ) );
+      //authAct = new QAction(QIcon(IMAGE_AUTH), tr( "Authenticate" ), this );
+      //connect( authAct , SIGNAL( triggered() ), this, SLOT( peerdetails() ) );
       
       loadcertAct = new QAction(QIcon(IMAGE_LOADCERT), tr( "Load Certificate" ), this );
       connect( loadcertAct , SIGNAL( triggered() ), this, SLOT( loadneighbour() ) );
@@ -79,16 +82,14 @@ void ConnectionsDialog::connecttreeWidgetCostumPopupMenu( QPoint point )
 
       contextMnu.clear();
       contextMnu.addAction( peerdetailsAct);
-      contextMnu.addAction( authAct);
+      //contextMnu.addAction( authAct);
       contextMnu.addAction( loadcertAct);
       contextMnu.exec( mevent->globalPos() );
 }
 
-/** Shows Peer Informations */
+/** Shows Peer Information/Auth Dialog */
 void ConnectionsDialog::peerdetails()
 {
-    static ConnectDialog *connectdialog = new ConnectDialog();
-/* fill it in */
     std::cerr << "ConnectionsDialog::peerdetails()" << std::endl;
 
     QTreeWidgetItem *wi = getCurrentNeighbour();
@@ -96,26 +97,20 @@ void ConnectionsDialog::peerdetails()
     	return;
 
     RsCertId id = getNeighRsCertId(wi);
+    std::ostringstream out;
+    out << id;
 
-    /* grab the interface and check person */
-    rsiface->lockData(); /* Lock Interface */
+    showpeerdetails(out.str());
+}
 
-    std::map<RsCertId,NeighbourInfo>::const_iterator it;
-    const std::map<RsCertId,NeighbourInfo> &neighs = 
-				rsiface->getNeighbourMap();
-
-    it = neighs.find(id);
-    if (it == neighs.end())
+/** Shows Peer Information/Auth Dialog */
+void ConnectionsDialog::showpeerdetails(std::string id)
+{
+    std::cerr << "ConnectionsDialog::showpeerdetails()" << std::endl;
+    if ((connectdialog) && (connectdialog -> loadPeer(id)))
     {
-    	return;
+    	connectdialog->show();
     }
-
-    connectdialog -> setInfo(it->second.name, it->second.trustString, it->second.org, 
-    		it->second.loc, it->second.country, "Signers");
-
-    rsiface->unlockData(); /* UnLock Interface */
-
-    connectdialog->show();
 }
 
 /** Shows Connect Dialog */
@@ -230,6 +225,53 @@ void ConnectionsDialog::insertConnect()
 		}
 		item -> setText(9, QString::fromStdString(it->second.authCode));
 
+
+		/* change background */
+		int i;
+                if (it->second.acceptString == "Accept")
+		{
+                	if (it->second.lastConnect != "Never")
+			{
+				/* bright green */
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::darkGreen));
+				}
+			}
+			else
+			{
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::darkGreen));
+				}
+			}
+		}
+		else
+		{
+                	if (it->second.trustLvl > 3)
+			{
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::cyan));
+				}
+			}
+                	else if (it->second.lastConnect != "Never")
+			{
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::yellow));
+				}
+			}
+			else
+			{
+				for(i = 0; i < 10; i++)
+				{
+				  item -> setBackground(i,QBrush(Qt::gray));
+				}
+			}
+		}
+			
+
 		/* add to the list */
 		items.append(item);
 	}
@@ -284,17 +326,19 @@ RsCertId getNeighRsCertId(QTreeWidgetItem *i)
  * All of these rely on the finding of the current Id.
  */
 
-void ConnectionsDialog::loadneighbour()
+std::string ConnectionsDialog::loadneighbour()
 {
         std::cerr << "ConnectionsDialog::loadneighbour()" << std::endl;
         QString fileName = QFileDialog::getOpenFileName(this, tr("Select Certificate"), "",
 	                                             tr("Certificates (*.pqi *.pem)"));
 
 	std::string file = fileName.toStdString();
+	std::string id;
 	if (file != "")
 	{
-        	rsicontrol->NeighLoadCertificate(file);
+        	rsicontrol->NeighLoadCertificate(file, id);
 	}
+	return id;
 }
 
 void ConnectionsDialog::addneighbour()

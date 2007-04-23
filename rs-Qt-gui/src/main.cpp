@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
 	}
 
         NotifyQt   *notify = new NotifyQt();
-        RsIface *iface = new RsIface(*notify);
+        RsIface *iface = createRsIface(*notify);
         RsControl *rsServer = createRsControl(*iface, *notify);
 
         notify->setRsIface(iface);

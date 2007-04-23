@@ -2,7 +2,7 @@
 #define RETROSHARE_GUI_INTERFACE_H
 
 /*
- * "$Id: rsiface.h,v 1.6 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: rsiface.h,v 1.7 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -58,10 +58,14 @@ bool LoadPassword(RsInit *config, std::string passwd);
 bool RsGenerateCertificate(RsInit *config, std::string name, std::string org,
                         std::string loc, std::string country, std::string passwd, std::string &errString);
 
+/* Auto Login Fns */
+bool  RsTryAutoLogin(RsInit *config);
+bool  RsStoreAutoLogin(RsInit *config);
 
 // Handle actual Login.
 int LoadCertificates(RsInit *config);
 
+RsIface   *createRsIface  (NotifyBase &notify);
 RsControl *createRsControl(RsIface &iface, NotifyBase &notify);
 
 
@@ -75,8 +79,8 @@ public:
 /****************************************/
 
 	/* Stubs for Very Important Fns -> Locking Functions */
-	void lockData() { return; }
-	void unlockData() { return; }
+virtual	void lockData() = 0;
+virtual	void unlockData() = 0;
 
 	const std::map<RsCertId,NeighbourInfo> &getNeighbourMap() 
 		{ return mNeighbourMap; }
@@ -95,8 +99,8 @@ public:
 	const std::list<PersonInfo> &getLocalDirectoryList()
 		{ return mLocalDirList; }
 
-	const PersonInfo *getPerson(RsCertId id);
-	const DirInfo *getDirectory(RsCertId, std::string path);
+	const PersonInfo *getPerson(std::string id);
+	const DirInfo *getDirectory(std::string id, std::string path);
 
 	const std::list<MessageInfo> &getMessages()
 		{ return mMessageList; }
@@ -153,8 +157,8 @@ bool	hasChanged(DataFlags set); /* resets it */
 	private:
 
 	/* Internal Fn for getting the Directory Entry */
-	PersonInfo *getPersonMod(RsCertId id);
-	DirInfo *getDirectoryMod(RsCertId, std::string path);
+	PersonInfo *getPersonMod(std::string id);
+	DirInfo *getDirectoryMod(std::string id, std::string path);
 
 void	fillLists(); /* create some dummy data to display */
 
@@ -196,9 +200,12 @@ virtual int StartupRetroShare(RsInit *config) = 0;
 
 /****************************************/
 	/* Neighbour Operations */
-virtual	int NeighLoadCertificate(std::string fname)       = 0;
+virtual	std::string NeighGetInvite() = 0;
+virtual	int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
+virtual	int NeighLoadCertificate(std::string fname, std::string &id)  = 0;
 virtual	int NeighAuthFriend(std::string id, RsAuthId code)   = 0;
 virtual	int NeighAddFriend(std::string id)                   = 0;
+virtual std::list<std::string> NeighGetSigners(std::string id) = 0;
 
 /****************************************/
 	/* Friend Operations */
@@ -249,7 +256,8 @@ virtual	int FileDelete(std::string uId, std::string fname)    = 0;
 /****************************************/
 	/* Message Items */
 virtual	int MessageSend(MessageInfo &info)                 = 0;
-virtual	int MessageDelete(MessageInfo &info)               = 0;
+virtual int MessageDelete(std::string id)                  = 0;
+virtual int MessageRead(std::string id)                    = 0;
 
 	/* Channel Items */
 virtual	int ChannelCreateNew(ChannelInfo &info)            = 0;

@@ -33,6 +33,11 @@
 #include "Settings/gsettingswin.h"
 #include "config/gconfig.h"
 
+#include "rsiface/rsiface.h"
+
+#include "gui/connect/InviteDialog.h"
+#include "gui/connect/AddFriendDialog.h"
+
 
 #define FONT        QFont(tr("Arial"), 8)
 
@@ -68,10 +73,13 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     /* Hide ToolBox frame */
 	showtoolboxFrame(true);
 	
-	connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
-	//connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addaShareDirectory() ) );
+	connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
+	connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
 
-  
+	connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addSharedDirectory() ) );
+	connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
+
+
   	QPushButton *closeButton = new QPushButton(QIcon(":/images/close_normal.png"), "", ui.tabWidget);
 	closeButton->setFixedSize(closeButton->iconSize());
 	closeButton->setMaximumSize(QSize(16, 16));
@@ -224,6 +232,66 @@ MainWindow::show(Page page)
 
 
 
+/***** TOOL BAR FUNCTIONS *****/
+
+/** Add a Friend ShortCut */
+void MainWindow::addFriend()
+{
+	/* call load Certificate */
+#if 0
+	std::string id;
+	if (connectionsDialog)
+	{
+		id = connectionsDialog->loadneighbour();
+	}
+
+	/* call make Friend */
+	if (id != "")
+	{
+		connectionsDialog->showpeerdetails(id);
+	}
+virtual int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
+#else
+
+static  AddFriendDialog *addDialog = new AddFriendDialog(connectionsDialog);
+
+	std::string invite = "";
+	addDialog->setInfo(invite);
+	addDialog->show();
+#endif
+}
+
+
+/** Add a Friend ShortCut */
+void MainWindow::inviteFriend()
+{
+static  InviteDialog *inviteDialog = new InviteDialog();
+
+	std::string invite = rsicontrol->NeighGetInvite();
+	inviteDialog->setInfo(invite);
+	inviteDialog->show();
+
+
+}
+
+/** Shows Preferences */
+void MainWindow::addSharedDirectory()
+{
+	/* Same Code as in Preferences Window (add Share) */
+
+	QString qdir = QFileDialog::getExistingDirectory(this, tr("Add Shared Directory"), "",
+	QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+						   
+	/* add it to the server */
+	std::string dir = qdir.toStdString();
+	if (dir != "")
+	{
+		rsicontrol -> ConfigAddSharedDir(dir);
+		rsicontrol -> ConfigSave();
+	}
+
+}
+
 /** Shows Preferences */
 void MainWindow::showPreferencesWindow()
 {
@@ -266,9 +334,15 @@ MainWindow::createActions()
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
+    static bool firstTime = true;
+
     if (trayIcon->isVisible()) {
-        QMessageBox::information(this, tr("RetroShare System tray"),
+        if (firstTime)
+	{
+          QMessageBox::information(this, tr("RetroShare System tray"),
                     tr("Application will continue running. Quit using context menu in the system tray"));
+	  firstTime = false;
+	}
         hide();
         e->ignore();
     }

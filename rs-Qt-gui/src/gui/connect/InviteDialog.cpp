@@ -1,5 +1,5 @@
 /****************************************************************
- *  RShare is distributed under the following license:
+ *  RetroShare is distributed under the following license:
  *
  *  Copyright (C) 2006,  crypton
  *
@@ -18,56 +18,48 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
+#include "InviteDialog.h"
 
-
-
-#include <rshare.h>
-#include "FileHashDialog.h"
-#include "config/gconfig.h"
-
-/* Define the format used for displaying the date and time */
-#define DATETIME_FMT  "MMM dd hh:mm:ss"
+#include "rsiface/rsiface.h"
 
 /** Default constructor */
-FileHashDialog::FileHashDialog(QWidget *parent, Qt::WFlags flags)
+InviteDialog::InviteDialog(QWidget *parent, Qt::WFlags flags)
   : QMainWindow(parent, flags)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
-  
-   GConfig config;
-   config.loadWidgetInformation(this);
 
-  /* Create Bandwidth Graph related QObjects */
-  _settings = new RshareSettings();
-  
-  // Create the status bar
-  statusBar()->showMessage("Please enter a valid file hash");
-
-  setFixedSize(QSize(313, 134));
+  connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(cancelbutton()));
+  connect(ui.emailButton, SIGNAL(clicked()), this, SLOT(emailbutton()));
+  connect(ui.doneButton, SIGNAL(clicked()), this, SLOT(closebutton()));
  
- 
+  //setFixedSize(QSize(434, 462));
 }
 
-
-/** 
- Overloads the default show() */
-
-void
-FileHashDialog::show()
+void InviteDialog::closebutton()
 {
-  //loadSettings();
-  if(!this->isVisible()) {
-    QMainWindow::show();
-
-  }
+	close();
 }
 
-void FileHashDialog::closeEvent (QCloseEvent * event)
+
+void InviteDialog::cancelbutton()
 {
- GConfig config;
- config.saveWidgetInformation(this);
-
- QWidget::closeEvent(event);
+	close();
 }
 
+
+void InviteDialog::emailbutton()
+{
+	/* for Win32 only */
+#if defined(Q_OS_WIN)
+	ShellExecute("mailto:", "SUBJECT=join me in retroshare");
+#endif
+}
+
+
+void InviteDialog::setInfo(std::string invite)
+{
+	ui.emailText->setText(QString::fromStdString(invite));
+}
+
+		     
