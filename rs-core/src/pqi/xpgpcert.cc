@@ -1,5 +1,5 @@
 /*
- * "$Id: xpgpcert.cc,v 1.16 2007-03-17 19:32:59 rmf24 Exp $"
+ * "$Id: xpgpcert.cc,v 1.18 2007-04-15 18:45:18 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -1075,6 +1075,82 @@ cert *sslroot::loadcertificate(const char *fname, std::string hash)
 	return c;
 }
 
+        // for sending stuff as text
+	// cert *      loadCertFromString(std::string pem);
+	// std::string saveCertAsString(cert *c);
+	//
+
+std::string   sslroot::saveCertAsString(cert *c)
+{
+	// save certificate to a string, 
+	// must use a BIO.
+	std::string certstr;
+	BIO *bp = BIO_new(BIO_s_mem());
+
+	std::cerr << "saveCertAsString:" << c -> Name() << std::endl;
+	PEM_write_bio_XPGP(bp, c -> certificate);
+
+	/* translate the bp data to a string */
+	char *data;
+	int len = BIO_get_mem_data(bp, &data);
+	for(int i = 0; i < len; i++)
+	{
+		certstr += data[i];
+	}
+
+	BIO_free(bp);
+
+	return certstr;
+}
+
+cert *sslroot::loadCertFromString(std::string pem)
+{
+	/* Put the data into a mem BIO */
+	char *certstr = strdup(pem.c_str());
+
+	BIO *bp = BIO_new_mem_buf(certstr, -1);
+
+	XPGP *pc;
+	cert *npc = NULL;
+
+	pc = PEM_read_bio_XPGP(bp, NULL, NULL, NULL);
+
+	BIO_free(bp);
+	free(certstr);
+
+	if (pc != NULL)
+	{
+		// read a certificate.
+		std::cerr << "loadCertFromString: ";
+		std::cerr << pc -> name << std::endl;
+
+		npc = makeCertificateXPGP(pc);
+		if (npc == NULL)
+		{
+			std::cerr << "Failed to Create Cert!" << std::endl;
+			return NULL;
+		}
+	}
+	else // (pc == NULL)
+	{
+		unsigned long err = ERR_get_error();
+		std::cerr << "Read Failed .... CODE(" << err << ")" << std::endl;
+		std::cerr << ERR_error_string(err, NULL) << std::endl;
+		return NULL;
+	}
+
+	// small hack - as the timestamps seem wrong.....
+	// could be a saving thing - or a bug....
+	npc -> lc_timestamp = 0;
+	npc -> lr_timestamp = 0;
+
+	// reset these. as well.
+	npc -> nc_timestamp = 0;
+	npc -> nc_timeintvl = 5;
+
+	return npc;
+}
+
 
 unsigned char convertHexToChar(unsigned char a, unsigned char b)
 {
@@ -1843,7 +1919,7 @@ void cert::Hash(std::string h)
 bool certsign::operator<(const certsign &ref) const
 {
 	//compare the signature.
-	if (0 > strncmp(data, ref.data, CERTSIGNLEN))
+	if (0 > memcmp(data, ref.data, CERTSIGNLEN))
 		return true;
 	return false;
 }
@@ -1852,7 +1928,7 @@ bool certsign::operator<(const certsign &ref) const
 bool certsign::operator==(const certsign &ref) const
 {
 	//compare the signature.
-	return (0 == strncmp(data, ref.data, CERTSIGNLEN));
+	return (0 == memcmp(data, ref.data, CERTSIGNLEN));
 }
 
 

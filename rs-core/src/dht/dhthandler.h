@@ -18,14 +18,13 @@ extern "C" {
 /* This stuff is actually C */
 
 
+#include "util/rsthreads.h"
 #include <string>
 #include <map>
 
 /* platform independent networking... */
 #include "pqi/pqinetwork.h"
 #include "pqi/pqiaddrstore.h"
-
-#include "util/rsthreads.h"
 
 class dhtentry
 {

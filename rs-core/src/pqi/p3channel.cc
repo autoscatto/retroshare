@@ -1,5 +1,5 @@
 /*
- * "$Id: p3channel.cc,v 1.7 2007-03-05 21:26:03 rmf24 Exp $"
+ * "$Id: p3channel.cc,v 1.8 2007-04-07 08:40:54 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -119,12 +119,12 @@ class channelSign
 **************************/
 bool    channelSign::operator<(const channelSign &s) const
 {
-	return (strncmp(sign, s.sign, CHAN_SIGN_SIZE) < 0);
+	return (memcmp(sign, s.sign, CHAN_SIGN_SIZE) < 0);
 }
 
 bool    channelSign::operator==(const channelSign &s) const
 {
-	return (strncmp(sign, s.sign, CHAN_SIGN_SIZE) == 0);
+	return (memcmp(sign, s.sign, CHAN_SIGN_SIZE) == 0);
 }
 
 std::ostream &channelSign::print(std::ostream &out) const
@@ -166,12 +166,12 @@ class channelKey
 
 bool    channelKey::operator<(const channelKey &s) const
 {
-	return (strncmp(sign, s.sign, CHAN_SIGN_SIZE) < 0);
+	return (memcmp(sign, s.sign, CHAN_SIGN_SIZE) < 0);
 }
 
 bool    channelKey::operator==(const channelKey &s) const
 {
-	return (strncmp(sign, s.sign, CHAN_SIGN_SIZE) == 0);
+	return (memcmp(sign, s.sign, CHAN_SIGN_SIZE) == 0);
 }
 
 
@@ -478,7 +478,7 @@ int pqichannel::processMsg(PQChanItem *in)
 		TimeStamp reb = now;
 
 #ifdef PQI_CHANNEL_GENERATE_RND
-		float secIn10min = 0; //60 * 10;
+		float secIn10min = 60 * 10;
 		int rndsec = (int) (rand() * secIn10min / RAND_MAX);
 #else
 		float secIn4hrs = 60 * 4 * 60;
@@ -735,7 +735,7 @@ int p3channel::tick()
 	}
 
 #ifdef PQI_CHANNEL_GENERATE_RND
-	if (ts_nextlp % 60 == 0)
+	if (ts_nextlp % 300 == 0)
 	{
 		generateRandomMsg();
 		printMsgs();

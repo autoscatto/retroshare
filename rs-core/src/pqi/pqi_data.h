@@ -1,5 +1,5 @@
 /*
- * "$Id: pqi_data.h,v 1.7 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: pqi_data.h,v 1.8 2007-04-07 08:40:55 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -106,6 +106,7 @@ class MsgFileItem
 	unsigned long size;
 };
 
+
 class MsgItem: public ChatItem
 {
 public:
@@ -156,6 +157,13 @@ const int PQI_SI_DATATYPE_DIR = 4;
 
 const int PQI_MI_SUBTYPE_CHAT = 1;
 const int PQI_MI_SUBTYPE_MSG = 2;
+
+
+/* not really used here, but at higher layers */
+const unsigned long PQI_MI_FLAGS_OUTGOING = 0x0001;
+const unsigned long PQI_MI_FLAGS_PENDING  = 0x0002;
+const unsigned long PQI_MI_FLAGS_DRAFT    = 0x0004;
+const unsigned long PQI_MI_FLAGS_NEW      = 0x0010;
 
 #endif // PQI_ITEM_HEADER
 

@@ -1,4 +1,5 @@
 
+RS_TOP_DIR = ..
 include ../make.opt
 
 OBJ = filedex.o filelook.o

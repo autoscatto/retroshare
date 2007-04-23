@@ -1,6 +1,6 @@
 
 /*
- * "$Id: rsiface.cc,v 1.4 2007-03-17 19:32:59 rmf24 Exp $"
+ * "$Id: rsiface.cc,v 1.6 2007-04-15 18:45:23 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -41,21 +41,23 @@ const NeighbourInfo *RsIface::getFriend(std::string id)
 	return &(it -> second);
 }
 
-const DirInfo *RsIface::getDirectory(RsCertId id, std::string path)
+const DirInfo *RsIface::getDirectory(std::string id, std::string path)
 {
 	const DirInfo *dir = getDirectoryMod(id, path);
 	return dir;
 }
 
 
-const PersonInfo *RsIface::getPerson(RsCertId id)
+const PersonInfo *RsIface::getPerson(std::string id)
 {
 	const PersonInfo *pi = getPersonMod(id);
 	return pi;
 }
 
-PersonInfo *RsIface::getPersonMod(RsCertId id)
+PersonInfo *RsIface::getPersonMod(std::string uid)
 {
+	RsCertId id(uid);
+
 	/* get the Root of the Directories */
 	std::list<PersonInfo>::iterator pit;
 
@@ -79,15 +81,17 @@ PersonInfo *RsIface::getPersonMod(RsCertId id)
 }
 
 
-DirInfo *RsIface::getDirectoryMod(RsCertId id, std::string path)
+DirInfo *RsIface::getDirectoryMod(std::string uid, std::string path)
 {
+	RsCertId id(uid);
+
 	/* get the Root of the Directories */
 	std::list<DirInfo>::iterator dit;
 
 	std::list<std::string> subdirs;
 	std::list<std::string>::iterator sit;
 
-	PersonInfo *pi = getPersonMod(id);
+	PersonInfo *pi = getPersonMod(uid);
 	if (!pi)
 	{
 		return NULL;
@@ -128,14 +132,22 @@ const MessageInfo *RsIface::getMessage(std::string cid_in, std::string mid_in)
 	RsCertId cId(cid_in);
 	RsMsgId mId(mid_in);
 
+	std::cerr << "RsIface::getMessage()" << std::endl;
+	std::cerr << "cid: " << cid_in << " -> cId " << cId << std::endl;
+	std::cerr << "mid: " << mid_in << " -> mId " << mId << std::endl;
+
 	for(it = mMessageList.begin(); it != mMessageList.end(); it++)
 	{
+	std::cerr << "VS: cid: " << it->id << std::endl;
+	std::cerr << "VS: mid: " << it->msgId << std::endl;
 		if ((it->id == cId) && (mId == it->msgId))
 		{
+		std::cerr << "MATCH!" << std::endl;
 			return &(*it);
 		}
 	}
 
+	std::cerr << "NO MATCH :(" << std::endl;
 	return NULL;
 }
 
@@ -210,4 +222,38 @@ bool    RsIface::hasChanged(DataFlags set)
 	}
 	return false;
 }
+
+/*************************** THE REAL RSIFACE (with MUTEXES) *******/
+
+#include "util/rsthreads.h"
+
+class RsIfaceReal: public RsIface
+{
+public:
+        RsIfaceReal(NotifyBase &callback)
+	:RsIface(callback)
+	{ return; }
+
+	virtual void lockData()
+	{
+//		std::cerr << "RsIfaceReal::lockData()" << std::endl;
+		return rsIfaceMutex.lock();
+	}
+
+	virtual void unlockData()
+	{
+//		std::cerr << "RsIfaceReal::unlockData()" << std::endl;
+		return rsIfaceMutex.unlock();
+	}
+
+private:
+	RsMutex rsIfaceMutex;
+};
+
+RsIface *createRsIface(NotifyBase &cb)
+{
+	return new RsIfaceReal(cb);
+}
+
+
 

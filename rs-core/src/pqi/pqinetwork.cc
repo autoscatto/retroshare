@@ -1,5 +1,5 @@
 /*
- * "$Id: pqinetwork.cc,v 1.17 2007-03-21 19:14:36 rmf24 Exp $"
+ * "$Id: pqinetwork.cc,v 1.18 2007-04-15 18:45:18 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -657,6 +657,8 @@ bool 	isSameSubnet(struct in_addr *addr1, struct in_addr *addr2)
 
 bool LookupDNSAddr(std::string name, struct sockaddr_in &addr)
 {
+
+#if 0  
 	char service[100];
 	struct addrinfo hints_st;
 	struct addrinfo *hints = &hints_st;
@@ -696,6 +698,9 @@ bool LookupDNSAddr(std::string name, struct sockaddr_in &addr)
 	}
 	
 	std::cerr << "getaddrinfo failed - no address" << std::endl;
+
+#endif
+	std::cerr << "getaddrinfo disabled" << std::endl;
 	return false;
 }
 

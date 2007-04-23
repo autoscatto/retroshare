@@ -2,7 +2,7 @@
 #define MRK_P3RS_INTERFACE_H
 
 /*
- * "$Id: p3face.h,v 1.6 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: p3face.h,v 1.8 2007-04-15 18:45:23 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -80,8 +80,17 @@ virtual void run();
 
 	private:
 	/* locking stuff */
-void    lockRsCore() { coreMutex.lock(); }
-void    unlockRsCore() { coreMutex.unlock(); }
+void    lockRsCore() 
+	{ 
+	//	std::cerr << "RsServer::lockRsCore()" << std::endl;
+		coreMutex.lock(); 
+	}
+
+void    unlockRsCore() 
+	{ 
+	//	std::cerr << "RsServer::unlockRsCore()" << std::endl;
+		coreMutex.unlock(); 
+	}
 
 	/* mutex */
 	RsMutex coreMutex;
@@ -91,7 +100,7 @@ void    unlockRsCore() { coreMutex.unlock(); }
          */
 
 cert   *intFindCert(RsCertId &id);
-RsChanId intGetCertId(cert *c);
+RsCertId intGetCertId(cert *c);
 
 /****************************************/
 	/* p3face-people Operations */
@@ -100,10 +109,12 @@ RsChanId intGetCertId(cert *c);
 
 	// All Public Fns, must use td::string instead of RsCertId.
 	// cos of windows interfacing errors...
-
-virtual int NeighLoadCertificate(std::string fname);
+virtual std::string NeighGetInvite();
+virtual int NeighLoadPEMString(std::string pem, std::string &id);
+virtual int NeighLoadCertificate(std::string fname, std::string &id);
 virtual int NeighAuthFriend(std::string id, RsAuthId code);
 virtual int NeighAddFriend(std::string id); 
+virtual std::list<std::string> NeighGetSigners(std::string id);
 
 	/* Friend Operations */
 virtual int FriendStatus(std::string id, bool accept);
@@ -213,7 +224,9 @@ unsigned int	lastFileMId; /* storage */
 	public:
 	/* Message Items */
 virtual int MessageSend(MessageInfo &info);
-virtual int MessageDelete(MessageInfo &info);
+virtual int MessageDelete(std::string id);
+virtual int MessageRead(std::string id);
+
 
 	/* Channel Items */
 virtual int ChannelCreateNew(ChannelInfo &info);

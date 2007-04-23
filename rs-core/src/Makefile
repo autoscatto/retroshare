@@ -2,6 +2,7 @@
 #
 
 all:
+	make -C tcponudp
 	make -C pqi
 	make -C	util
 	make -C	dbase
@@ -12,6 +13,7 @@ all:
 #	make -C	fltkgui
 
 clean:
+	make -C tcponudp clean
 	make -C pqi clean
 	make -C	util clean
 	make -C	dbase clean
@@ -22,6 +24,7 @@ clean:
 #	make -C	fltkgui clean
 
 clobber:
+	make -C tcponudp clobber
 	make -C pqi clobber
 	make -C	util clobber
 	make -C	dbase clobber

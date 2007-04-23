@@ -1,5 +1,5 @@
 /*
- * "$Id: xpgpcert.h,v 1.8 2007-02-18 21:46:50 rmf24 Exp $"
+ * "$Id: xpgpcert.h,v 1.9 2007-04-15 18:45:18 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -137,6 +137,10 @@ int 	loadCertificates(const char *fname);
 	// with a hash check/recalc in there for good measure.
 cert *	loadcertificate(const char* fname, std::string hash);
 int 	savecertificate(cert *c, const char* fname);
+
+	// for sending stuff as text
+cert *      loadCertFromString(std::string pem);
+std::string saveCertAsString(cert *c);
 
 // digest hashing /signing or encrypting interface.
 int	hashFile(std::string fname, unsigned char *hash, unsigned int hlen);

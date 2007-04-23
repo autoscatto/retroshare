@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-server.cc,v 1.3 2007-03-17 19:32:59 rmf24 Exp $"
+ * "$Id: p3face-server.cc,v 1.5 2007-04-15 18:45:23 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -129,7 +129,7 @@ void 	RsServer::run()
 
 /******************************** RUN SERVER *****************/
 		lockRsCore();
-		//std::cerr << "RsServer::run() Lock() -> Run()" << std::endl;
+		std::cerr << "RsServer::run() Lock() -> Run()" << std::endl;
 		int moreToTick = server -> tick();
 		unlockRsCore();
 /******************************** RUN SERVER *****************/
@@ -176,7 +176,12 @@ void 	RsServer::run()
 			lastSec = (int) ts;
 
 			/* Once a Second... */
+			std::cerr << "RsServer::run() UpdateDirectories()" << std::endl;
 			UpdateDirectories();
+
+			/* Chat needs to be quick too! */
+			std::cerr << "RsServer::run() UpdateAllChat()" << std::endl;
+			UpdateAllChat();
 
 	
 			// every ten loops (> 10 secs)
@@ -198,9 +203,6 @@ void 	RsServer::run()
 				std::cerr << "RsServer::run() UpdateAllTransfers()" << std::endl;
 				UpdateAllTransfers();
 
-				// currently Dummy Functions.
-				std::cerr << "RsServer::run() UpdateAllChat()" << std::endl;
-				UpdateAllChat();
 				std::cerr << "RsServer::run() UpdateAllMsgs()" << std::endl;
 				UpdateAllMsgs();
 				std::cerr << "RsServer::run() UpdateAllChannels()" << std::endl;

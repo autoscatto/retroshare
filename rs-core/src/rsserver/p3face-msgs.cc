@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-msgs.cc,v 1.5 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: p3face-msgs.cc,v 1.6 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -36,6 +36,34 @@ const int p3facemsgzone = 11453;
 
 #include <sys/time.h>
 #include <time.h>
+
+
+unsigned long getMsgId(RsMsgId &id)
+{
+	unsigned long mid = 0;
+	mid = (id.data[0] << 24);
+	mid |= (id.data[1] << 16);
+	mid |= (id.data[2] << 8);
+	mid |= id.data[3];
+
+	return mid;
+}
+
+void getRsMsgId(RsMsgId &rsmid, unsigned int mid)
+{
+	/* version that uses the uniqueMsgId stored in sid */
+	/* 16 Bytes XXX Must be equal! */
+	for(int i = 0; i < CHAN_SIGN_SIZE; i++) 
+		rsmid.data[i] = 0;
+
+	rsmid.data[0] = (0xff & (mid >> 24));
+	rsmid.data[1] = (0xff & (mid >> 16));
+	rsmid.data[2] = (0xff & (mid >> 8));
+	rsmid.data[3] = (0xff & (mid >> 0));
+
+	return;
+}
+
 
 /****************************************/
 /****************************************/
@@ -80,9 +108,45 @@ int RsServer::MessageSend(MessageInfo &info)
 
 /****************************************/
 /****************************************/
-int RsServer::MessageDelete(MessageInfo &info)
+int RsServer::MessageDelete(std::string id)
 {
+	lockRsCore();     /* LOCK */
+
+	RsMsgId uid(id);
+
+	unsigned long mid = getMsgId(uid);
+
+	std::cerr << "RsServer::MessageDelete()" << std::endl;
+	std::cerr << "str: " << id << std::endl;
+	std::cerr << "uid: " << uid << std::endl;
+	std::cerr << "mid: " << mid << std::endl;
+
+	server -> removeMsgId(mid);
+
+	unlockRsCore();     /* UNLOCK */
+
 	UpdateAllMsgs();
+	return 1;
+}
+
+int RsServer::MessageRead(std::string id)
+{
+	lockRsCore();     /* LOCK */
+
+	RsMsgId uid(id);
+
+	unsigned long mid = getMsgId(uid);
+
+	std::cerr << "RsServer::MessageRead()" << std::endl;
+	std::cerr << "str: " << id << std::endl;
+	std::cerr << "uid: " << uid << std::endl;
+	std::cerr << "mid: " << mid << std::endl;
+
+	server -> markMsgIdRead(mid);
+
+	unlockRsCore();     /* UNLOCK */
+
+	// (needed?) UpdateAllMsgs();
 	return 1;
 }
 
@@ -165,6 +229,7 @@ int     RsServer::UpdateAllMsgs()
 
 	/* do stuff */
 	std::list<MsgItem *> &msglist = server -> getMsgList();
+	std::list<MsgItem *> &msgOutlist = server -> getMsgOutList();
   	std::list<MsgItem *>::iterator mit;
 
 	std::list<MessageInfo> &msgs = iface.mMessageList;
@@ -172,6 +237,13 @@ int     RsServer::UpdateAllMsgs()
 	msgs.clear();
 
 	for(mit = msglist.begin(); mit != msglist.end(); mit++)
+	{
+		MessageInfo mi;
+		initRsMI(*mit, mi);
+		msgs.push_back(mi);
+	}
+
+	for(mit = msgOutlist.begin(); mit != msgOutlist.end(); mit++)
 	{
 		MessageInfo mi;
 		initRsMI(*mit, mi);
@@ -400,6 +472,25 @@ void RsServer::intCheckFileStatus(FileInfo &file)
 void RsServer::initRsMI(MsgItem *msg, MessageInfo &mi)
 {
 	mi.id = intGetCertId((cert *) msg->p);
+
+	mi.msgflags = 0;
+
+	/* translate flags, if we sent it... outgoing */
+	if ((msg->msgflags & PQI_MI_FLAGS_OUTGOING)
+	   || (msg->p == sslr->getOwnCert()))
+	{
+		mi.msgflags |= RS_MSG_OUTGOING;
+	}
+	/* if it has a pending flag, then its in the outbox */
+	if (msg->msgflags & PQI_MI_FLAGS_PENDING)
+	{
+		mi.msgflags |= RS_MSG_PENDING;
+	}
+	if (msg->msgflags & PQI_MI_FLAGS_NEW)
+	{
+		mi.msgflags |= RS_MSG_NEW;
+	}
+
 	mi.srcname = msg->p->Name();
 
 	mi.title = msg->title;
@@ -422,6 +513,7 @@ void RsServer::initRsMI(MsgItem *msg, MessageInfo &mi)
 	}
 	mi.ts = msg->sendTime;
 
+#if 0
 	/* hash the message (nasty to put here!) */
 	std::ostringstream out;
 	msg->print(out);
@@ -438,9 +530,11 @@ void RsServer::initRsMI(MsgItem *msg, MessageInfo &mi)
 	}
 
 	free(data);
+#else
+	getRsMsgId(mi.msgId, msg->sid);
+#endif
+
 }
-
-
 
 
         /* Flagging Persons / Channels / Files in or out of a set (CheckLists) */

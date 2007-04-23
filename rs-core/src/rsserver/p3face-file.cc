@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-file.cc,v 1.5 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: p3face-file.cc,v 1.6 2007-04-15 18:45:23 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -644,6 +644,13 @@ int RsServer::UpdateDirectories()
 		RsCertId uid = intGetCertId((cert *) (item -> p));
 		std::string path = item -> path;
 
+		std::string uid_str;
+		{
+			std::ostringstream out;
+			out << uid;
+			uid_str = out.str();
+		}
+
 		/* got item */
 		/* find the pending dir */
 		bool found = false;
@@ -681,7 +688,7 @@ int RsServer::UpdateDirectories()
 				persons = &(iface.mLocalDirList);
 			}
 
-			const PersonInfo *pi = iface.getPerson(uid);
+			const PersonInfo *pi = iface.getPerson(uid_str);
 			if (!pi) /* add it in! */
 			{
 				std::cerr << "RsServer::UpdateDirectories() addPerson()" << std::endl;
@@ -702,7 +709,7 @@ int RsServer::UpdateDirectories()
 				/* no need to clear the lists */
 			}
 
-			const DirInfo *dir = iface.getDirectory(uid, item->path);
+			const DirInfo *dir = iface.getDirectory(uid_str, item->path);
 			if (dir)
 			{
 				pendingDirs.push_front(PendingDirectory(uid, dir, 1));
@@ -734,7 +741,7 @@ int RsServer::UpdateDirectories()
 			pendingDirs.erase(it);
 
 			/* determine entry point in dir tree */
-			const DirInfo *dir = iface.getDirectory(uid, path);
+			const DirInfo *dir = iface.getDirectory(uid_str, path);
 			/* check if they check if they are there already 
 			 * TODO 
 			 */
@@ -764,7 +771,7 @@ int RsServer::UpdateDirectories()
 			std::cerr << std::endl;
 
 			/* Perform update (protected call - friend class) */
-			DirInfo *dirup = iface.getDirectoryMod(uid, path);
+			DirInfo *dirup = iface.getDirectoryMod(uid_str, path);
 
 			/* add the info */
 			dirup -> merge(pd.data);
@@ -905,7 +912,7 @@ int RsServer::RequestDirectories(std::string uid_str, std::string path, int dept
 	}
 
 	/* locate directory (const) */
-	const DirInfo *dir = iface.getDirectory(uid, path);
+	const DirInfo *dir = iface.getDirectory(uid_str, path);
 
 	if (!dir)
 	{

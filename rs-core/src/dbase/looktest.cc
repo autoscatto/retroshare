@@ -41,9 +41,7 @@ int main()
 	std::list<fdex *> results;
 	std::list<fdex *>::iterator it;
 
-	dirs.push_back("/mnt/disc2/extra/rmf24/mp3s/good");
-	dirs.push_back("/mnt/disc2/extra/rmf24/mp3s/marks");
-	dirs.push_back("/mnt/disc2/extra/rmf24/mp3s/incoming");
+	dirs.push_back("./here/");
 
 	fl -> start(); /* background look thread */
 

@@ -1,6 +1,6 @@
 
 /*
- * "$Id: rstypes.cc,v 1.1 2007-02-19 20:08:30 rmf24 Exp $"
+ * "$Id: rstypes.cc,v 1.2 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -66,7 +66,7 @@ RsCertId::RsCertId(std::string idstr)
 bool RsCertId::operator<(const RsCertId &ref) const
 {
         //compare the signature.
-        if (0 > strncmp(data, ref.data, RSCERTIDLEN))
+        if (0 > memcmp(data, ref.data, RSCERTIDLEN))
                 return true;
         return false;
 }
@@ -74,7 +74,7 @@ bool RsCertId::operator<(const RsCertId &ref) const
 bool RsCertId::operator==(const RsCertId &ref) const
 {
         //compare the signature.
-        return (0 == strncmp(data, ref.data, RSCERTIDLEN));
+        return (0 == memcmp(data, ref.data, RSCERTIDLEN));
 }
 
 bool RsCertId::operator!=(const RsCertId &ref) const

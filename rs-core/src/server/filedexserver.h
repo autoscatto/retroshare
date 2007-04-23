@@ -1,5 +1,5 @@
 /*
- * "$Id: filedexserver.h,v 1.16 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: filedexserver.h,v 1.17 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * Other Bits for RetroShare.
  *
@@ -124,6 +124,7 @@ int 	getChat();
 std::list<ChatItem *> getChatQueue(); 
 
 std::list<MsgItem *> &getMsgList();
+std::list<MsgItem *> &getMsgOutList();
 std::list<MsgItem *> getNewMsgs();
 std::map<SearchItem *, std::list<PQFileItem *> > &getResults();
 std::map<SearchItem *, std::list<PQFileItem *> > getNewResults();
@@ -137,6 +138,10 @@ int	removeSearchResults(int itemnum);
 	// alternative versions.
 int	removeMsgItem(MsgItem *mi);
 int	removeSearchResults(SearchItem *si);
+	// third versions.
+int     removeMsgId(unsigned long mid); /* id stored in sid */
+int     markMsgIdRead(unsigned long mid);
+
 
 // local commands.
 int     cancelSearch(SearchItem *item);

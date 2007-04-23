@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-startup.cc,v 1.6 2007-03-21 19:17:14 rmf24 Exp $"
+ * "$Id: p3face-startup.cc,v 1.7 2007-04-15 18:45:23 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -47,6 +47,8 @@
 #include "pqi/pqidebug.h"
 #include "rsserver/p3face.h"
 
+const int p3facestartupzone = 47238;
+
 // initial configuration bootstrapping...
 static const std::string configInitFile = "default_cert.txt";
 static const std::string configConfFile = "config.rs";
@@ -72,6 +74,10 @@ void    CleanupRsConfig(RsInit *config)
 {
 	delete config;
 }
+
+static std::string getHomePath();
+
+
 
 RsInit *InitRsConfig()
 {
@@ -99,9 +105,13 @@ RsInit *InitRsConfig()
 	config -> dirSeperator = '\\'; // For windows.
 #endif
 
+	/* setup the homePath (default save location) */
+
+	config -> homePath = getHomePath();
+
 	/* Setup the Debugging */
 	// setup debugging for desired zones.
-	setOutputLevel(PQL_DEBUG_BASIC); // default to Warnings.
+	setOutputLevel(PQL_WARNING); // default to Warnings.
 
 	// For Testing purposes.
 	// We can adjust everything under Linux.
@@ -121,7 +131,7 @@ RsInit *InitRsConfig()
 	//setZoneLevel(PQL_DEBUG_BASIC, 354); // pqipersongrp.
 	//setZoneLevel(PQL_DEBUG_BASIC, 6846); // pqiudpproxy
 	//setZoneLevel(PQL_DEBUG_BASIC, 3144); // pqissludp;
-	setZoneLevel(PQL_DEBUG_BASIC, 86539); // pqifiler.
+	//setZoneLevel(PQL_DEBUG_BASIC, 86539); // pqifiler.
 	//setZoneLevel(PQL_DEBUG_BASIC, 91393); // Funky_Browser.
 	//setZoneLevel(PQL_DEBUG_BASIC, 25915); // fltkserver
 	//setZoneLevel(PQL_DEBUG_BASIC, 47659); // fldxsrvr
@@ -344,9 +354,16 @@ int InitRetroShare(int argcIgnored, char **argvIgnored, RsInit *config)
 /**************** PQI_USE_XPGP ******************/
 
 	/* if existing user, and havePasswd .... we can skip the login prompt */
-	if ((existingUser) && (config -> havePasswd))
+	if (existingUser)
 	{
-		return 1;
+		if (config -> havePasswd)
+		{
+			return 1;
+		}
+		if (RsTryAutoLogin(config))
+		{
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -831,15 +848,97 @@ int	check_create_directory(std::string dir)
 }
 
 
-/* A little bonus fn, which is triggered if it is a first run....
- *
- * This adds an extra message (from ourself), which is a welcome
- * message, and a help message
-
-static const char *welcomeString = 
-"Dear User, welcome to retroshare, \n\n\t This is the latest Qt release";
-
-void addInitMsgs()
+std::string getHomePath()
 {
+	std::string home;
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS /* UNIX */
 
- */
+	home = getenv("HOME");
+
+#else /* Windows */
+
+	std::ostringstream out;
+	char *h2 = getenv("HOMEDRIVE");
+	out << "getHomePath() -> $HOMEDRIVE = ";
+	out << h2 << std::endl;
+	char *h3 = getenv("HOMEPATH");
+	out << "getHomePath() -> $HOMEPATH = ";
+	out << h3 << std::endl;
+
+	if (h2 == NULL)
+	{
+		// Might be Win95/98
+		// generate default.
+		home = "C:\\Retro";
+	}
+	else
+	{
+		home = h2;
+		home += h3;
+		home += "\\Desktop";
+	}
+
+	out << "fltkserver::getHomePath() -> " << home << std::endl;
+	std::cerr << out;
+
+	// convert to FLTK desired format.
+	home = make_path_unix(home);
+#endif
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+	return home;
+}
+
+std::string make_path_unix(std::string path)
+{
+	for(unsigned int i = 0; i < path.length(); i++)
+	{
+		if (path[i] == '\\')
+			path[i] = '/';
+	}
+	return path;
+}
+
+
+bool  RsTryAutoLogin(RsInit *config)
+{
+	std::cerr << "RsTryAutoLogin()" << std::endl;
+	/* Windows only */
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS /* UNIX */
+	return false;
+#else
+	/* try to load from file */
+	std::string entropy = config->load_cert;
+
+
+#endif
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+	return false;
+}
+
+
+
+bool  RsStoreAutoLogin(RsInit *config)
+{
+	std::cerr << "RsStoreAutoLogin()" << std::endl;
+	/* Windows only */
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS /* UNIX */
+	return false;
+#else
+	/* store password encrypted in a file */
+	std::string entropy = config->load_cert;
+
+
+
+#endif
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+	return false;
+}
+
+
+
+

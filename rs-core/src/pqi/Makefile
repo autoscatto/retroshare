@@ -1,4 +1,5 @@
 
+RS_TOP_DIR = ..
 include ../make.opt
 
 # All the executables that should be generated.

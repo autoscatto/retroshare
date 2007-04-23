@@ -1,4 +1,5 @@
 
+RS_TOP_DIR = ..
 include ../make.opt
 
 OBJ = notifytxt.o retroshare.o

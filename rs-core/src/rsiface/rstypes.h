@@ -2,7 +2,7 @@
 #define RS_TYPES_GUI_INTERFACE_H
 
 /*
- * "$Id: rstypes.h,v 1.5 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: rstypes.h,v 1.6 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -201,12 +201,27 @@ class FileTransferInfo: public FileInfo
 
 /********************** For Messages and Channels *****************/
 
+#define RS_MSG_BOXMASK   0x000f   /* Mask for determining Box */
+
+#define RS_MSG_OUTGOING  0x0001   /* !Inbox */
+#define RS_MSG_PENDING   0x0002   /* OutBox */
+#define RS_MSG_DRAFT     0x0004   /* Draft  */
+
+/* ORs of above */
+#define RS_MSG_INBOX     0x00     /* Inbox */
+#define RS_MSG_SENTBOX   0x01     /* Sentbox */
+#define RS_MSG_OUTBOX    0x03     /* Outbox */
+#define RS_MSG_DRAFTBOX  0x05     /* Draftbox */
+
+#define RS_MSG_NEW       0x0010
+
 class MessageInfo: public BaseInfo
 {
 	public:
 	MessageInfo() {}
 	RsMsgId msgId;
 
+	unsigned int msgflags;
 	std::string srcname;
 	std::string title;
 	std::string header;

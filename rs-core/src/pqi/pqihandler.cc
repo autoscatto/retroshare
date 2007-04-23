@@ -1,5 +1,5 @@
 /*
- * "$Id: pqihandler.cc,v 1.11 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: pqihandler.cc,v 1.12 2007-03-31 09:41:32 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *

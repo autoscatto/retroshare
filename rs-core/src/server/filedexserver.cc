@@ -1,5 +1,5 @@
 /*
- * "$Id: filedexserver.cc,v 1.21 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: filedexserver.cc,v 1.23 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * Other Bits for RetroShare.
  *
@@ -50,11 +50,27 @@
 
 const int fldxsrvrzone = 47659;
 
-#define MSG_PENDING  0x010
-
-
 // This Fn is now exported..... (useful for all).
 int	breakupDirlist(std::string path, std::list<std::string> &subdirs);
+
+
+/* Another little hack ..... unique message Ids
+ * will be handled in this class.....
+ * These are unique within this run of the server, 
+ * and are not stored long term....
+ *
+ * Only 3 entry points:
+ * (1) from network....
+ * (2) from local send
+ * (3) from storage...
+ */
+
+static unsigned int msgUniqueId = 1;
+unsigned int getNewUniqueMsgId()
+{
+	return msgUniqueId++;
+}
+
 
 
 filedexserver::filedexserver()
@@ -603,33 +619,32 @@ int 	filedexserver::getChat()
 		if (ci -> subtype == PQI_MI_SUBTYPE_MSG)
 		{
 			// then a message..... push_back.
-			imsg.push_back((MsgItem *) ci);
-			nmsg.push_back((MsgItem *) ci);
+			MsgItem *mi = (MsgItem *) ci;
+			if (mi -> p == sslr->getOwnCert())
+			{
+				/* from the loopback device */
+				mi -> msgflags = PQI_MI_FLAGS_OUTGOING;
+			}
+			else
+			{
+				/* from a peer */
+				mi -> msgflags = 0;
+			}
+
+			/* new as well! */
+			mi -> msgflags |= PQI_MI_FLAGS_NEW;
+			/* STORE MsgID */
+			mi -> sid = getNewUniqueMsgId();
+
+			imsg.push_back(mi);
+			//nmsg.push_back(mi);
 			msgChanged.IndicateChanged();
 		}
 		else
 		{
-			/*
-			mesg += "[";
-			if (ci -> p != NULL)
-			{
-				mesg += (ci -> p) -> Name();
-			}
-			else
-			{
-				mesg += "Unknown";
-
-			}
-			mesg += "] -> ";
-
-			mesg += ci -> msg;
-			*/
-
 			// push out the chat instead.
-			//ichat.push_back(mesh);
 			ichat.push_back(ci);
 			chatChanged.IndicateChanged();
-			//delete ci;
 		}
 	}
 
@@ -653,6 +668,12 @@ std::list<MsgItem *> &filedexserver::getMsgList()
 {
 	return imsg;
 }
+
+std::list<MsgItem *> &filedexserver::getMsgOutList()
+{
+	return msgOutgoing;
+}
+
 
 
 std::list<MsgItem *> filedexserver::getNewMsgs()
@@ -730,6 +751,60 @@ int     filedexserver::removeSearchResults(SearchItem *si)
 		searchChanged.IndicateChanged();
 		searchMajorChanged.IndicateChanged();
 		return 1;
+	}
+	return 0;
+}
+
+/* remove based on the unique mid (stored in sid) */
+int     filedexserver::removeMsgId(unsigned long mid)
+{
+	std::list<MsgItem *>::iterator it;
+	int i;
+
+	for(it = imsg.begin(); it != imsg.end(); it++)
+	{
+		if ((*it)->sid == mid)
+		{
+			MsgItem *mi = (*it);
+			imsg.erase(it);
+			delete mi;
+			msgChanged.IndicateChanged();
+			msgMajorChanged.IndicateChanged();
+			return 1;
+		}
+	}
+
+	/* try with outgoing messages otherwise */
+	for(it = msgOutgoing.begin(); it != msgOutgoing.end(); it++)
+	{
+		if ((*it)->sid == mid)
+		{
+			MsgItem *mi = (*it);
+			msgOutgoing.erase(it);
+			delete mi;
+			msgChanged.IndicateChanged();
+			msgMajorChanged.IndicateChanged();
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+int     filedexserver::markMsgIdRead(unsigned long mid)
+{
+	std::list<MsgItem *>::iterator it;
+	int i;
+
+	for(it = imsg.begin(); it != imsg.end(); it++)
+	{
+		if ((*it)->sid == mid)
+		{
+			MsgItem *mi = (*it);
+			mi -> msgflags &= ~(PQI_MI_FLAGS_NEW);
+			msgChanged.IndicateChanged();
+			return 1;
+		}
 	}
 	return 0;
 }
@@ -812,6 +887,12 @@ int     filedexserver::sendMessage(MsgItem *item)
 
 	if (item -> p)
 	{
+		/* add pending flag */
+		item->msgflags |= 
+			(PQI_MI_FLAGS_OUTGOING | 
+			 PQI_MI_FLAGS_PENDING);
+		/* STORE MsgID */
+		item -> sid = getNewUniqueMsgId();
 		msgOutgoing.push_back(item);
 	}
 	else
@@ -838,6 +919,9 @@ int     filedexserver::checkOutgoingMessages()
 			/* send msg */
 			pqioutput(PQL_ALERT, fldxsrvrzone, 
 				"filedexserver::checkOutGoingMessages() Sending out message");
+			/* remove the pending flag */
+			(*it)->msgflags &= ~PQI_MI_FLAGS_PENDING;
+
 			pqisi -> SendMsg(*it);
 			it = msgOutgoing.erase(it);
 		}
@@ -1003,7 +1087,7 @@ int     filedexserver::save_config()
 	for(mit = msgOutgoing.begin(); mit != msgOutgoing.end(); mit++)
 	{
 		MsgItem *mi = (*mit)->clone();
-		mi -> msgflags = MSG_PENDING;
+		mi -> msgflags |= PQI_MI_FLAGS_PENDING;
 		if (pa_out -> SendItem(mi))
 		{
 			written = true;
@@ -1112,7 +1196,9 @@ int     filedexserver::load_config()
 					/* switch depending on the PENDING 
 					 * flags
 					 */
-					if (mitem -> msgflags & MSG_PENDING)
+					/* STORE MsgID */
+					mitem->sid = getNewUniqueMsgId();
+					if (mitem -> msgflags & PQI_MI_FLAGS_PENDING)
 					{
 						std::cerr << "MSG_PENDING";
 						std::cerr << std::endl;

@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-people.cc,v 1.6 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: p3face-people.cc,v 1.8 2007-04-15 18:45:23 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -57,10 +57,12 @@ int RsServer::FriendTrustSignature(std::string id, bool trust);
  *
 
 // Not much here.
-int  	RsServer::NeighLoadCertificate(std::string fname);
+std::string RsServer::NeighGetInvite();
+int     RsServer::NeighLoadPEMString(std::string pem, std::string &id);
+int 	RsServer::NeighLoadCertificate(std::string fname, std::string &id);
 int     RsServer::NeighAuthFriend(std::string id, RsAuthId code);
 int 	RsServer::NeighAddFriend(std::string id);
-
+std::list<std::string> 	RsServer::NeighGetSigners(std::string id);
  * This file implements the Above fns from the set of RsCore
  * functions. Above are the public entry points.
  *
@@ -736,8 +738,93 @@ void RsServer::intNotifyChangeCert(RsCertId &id)
 /****************************************/
 	/* Neighbour Operations */
 
+std::string RsServer::NeighGetInvite()
+{
+	lockRsCore(); /* LOCK */
 
-int  RsServer::NeighLoadCertificate(std::string fname)
+	cert *own = sslr -> getOwnCert();
+	std::string name = own -> Name();
+	std::string certstr = sslr -> saveCertAsString(own);
+
+	unlockRsCore(); /* UNLOCK */
+
+	std::ostringstream out;
+	out << "You have been invited to join the retroshare";
+	out << " community by: " << name;
+	out << std::endl;
+	out << std::endl;
+	out << "Retroshare is a Friend-2-Friend network that enables you to";
+	out << " communicate securely and";
+	out << std::endl;
+	out << "privately with your friends. ";
+	out << "You can use it for chat, messages, ";
+	out << "channels, and file-sharing. ";
+	out << std::endl;
+	out << std::endl;
+	out << "Download it from: ";
+	out << "http://retroshare.sf.net";
+	out << std::endl;
+	out << std::endl;
+	out << "Thanks, ";
+	out << "  " << name << ", DrBob and the RetroShare Team!";
+	out << std::endl;
+	out << std::endl;
+	out << certstr;
+	out << std::endl;
+
+	return out.str();
+}
+
+/* same as the one below (almost) */
+int     RsServer::NeighLoadPEMString(std::string pem, std::string &id)
+{
+	lockRsCore(); /* LOCK */
+
+	int ret = 1;
+
+	std::ostringstream out;
+        cert *nc;
+
+	nc = sslr -> loadCertFromString(pem);
+	if (nc == NULL)
+	{
+		out << "Stringe Import (" << pem;
+		out << ") Failed!" << std::endl;
+		pqioutput(PQL_DEBUG_BASIC, fltksrvrzone, out.str());
+		ret = 0;
+	}
+	else  if (0 > sslr -> addCollectedCertificate(nc))
+	{
+		out << "Imported Certificate....but no";
+		out << " need for addition - As it exists!";
+		out << std::endl;
+		pqioutput(PQL_DEBUG_BASIC, fltksrvrzone, out.str());
+		//ret = 0; want this case to set id (as is valid!)
+	}
+
+	/* ensure it gets to p3disc */
+	if (ad)
+	{
+		ad -> distillData();
+	}
+
+	unlockRsCore(); /* UNLOCK */
+
+	if (ret)
+	{
+		UpdateAllNetwork();
+
+	 	/* set the id.  */
+		RsCertId rid = intGetCertId(nc);
+		std::ostringstream out;
+		out << rid;
+		id = out.str();
+	}
+	return ret;
+}
+
+
+int  RsServer::NeighLoadCertificate(std::string fname, std::string &id)
 {
 	lockRsCore(); /* LOCK */
 
@@ -762,7 +849,7 @@ int  RsServer::NeighLoadCertificate(std::string fname)
 		out << " need for addition - As it exists!";
 		out << std::endl;
 		pqioutput(PQL_DEBUG_BASIC, fltksrvrzone, out.str());
-		ret = 0;
+		//ret = 0; want this case to set id (as is valid!)
 	}
 
 	/* ensure it gets to p3disc */
@@ -775,9 +862,14 @@ int  RsServer::NeighLoadCertificate(std::string fname)
 
 	if (ret)
 	{
-		return UpdateAllNetwork();
-	}
+		UpdateAllNetwork();
 
+	 	/* set the id.  */
+		RsCertId rid = intGetCertId(nc);
+		std::ostringstream out;
+		out << rid;
+		id = out.str();
+	}
 	return ret;
 }
 
@@ -893,6 +985,31 @@ int 	RsServer::NeighAddFriend(std::string uid)
 	return (ret);
 }
 
+std::list<std::string> 	RsServer::NeighGetSigners(std::string uid)
+{
+	lockRsCore(); /* LOCK */
+	RsCertId id(uid);
+	std::list<std::string> signers;
+
+	int ret = 1;
+
+	cert *c = intFindCert(id);
+	if ((c == NULL) || (c->certificate == NULL))
+	{
+		ret = 0;
+
+	}
+
+	/* if valid, get signers */
+	if (ret)
+	{
+		signers = getXPGPsigners(c->certificate);
+
+	}
+	unlockRsCore(); /* UNLOCK */
+
+	return signers;
+}
 
 int  RsServer::UpdateAllNetwork()
 {

@@ -1,6 +1,6 @@
 
 /*
- * "$Id: retroshare.cc,v 1.2 2007-03-01 01:09:38 rmf24 Exp $"
+ * "$Id: retroshare.cc,v 1.3 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 
 	//NotifyBase *notify = new NotifyBase();
 	NotifyTxt *notify = new NotifyTxt();
-	RsIface *iface = new RsIface(*notify);
+	RsIface *iface = createRsIface(*notify);
         RsControl *rsServer = createRsControl(*iface, *notify);
 
 	notify->setRsIface(iface);

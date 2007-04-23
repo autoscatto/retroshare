@@ -1,5 +1,5 @@
 /*
- * "$Id: pqinetwork.h,v 1.14 2007-03-21 19:14:36 rmf24 Exp $"
+ * "$Id: pqinetwork.h,v 1.15 2007-04-15 18:45:18 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -44,11 +44,11 @@
 #else
 
 /* This defines the platform to be WinXP or later...
- * and is needed for getaddrinfo....
+ * and is needed for getaddrinfo.... (not used anymore)
  *
+#define _WIN32_WINNT 0x0501
  */
 
-#define _WIN32_WINNT 0x0501
 
 
 #include <winsock2.h>

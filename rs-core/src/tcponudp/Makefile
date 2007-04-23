@@ -1,23 +1,19 @@
 
-#OS = Linux
-OS = Win
+RS_TOP_DIR=..
 
-CC = g++
-
-CFLAGS = -Wall -O2 -static 
-LIBS =  
+include $(RS_TOP_DIR)/make.opt
 
 EXECS = udp_server test_tou pair_tou reset_tou internal_tou largefile_tou libtou.a librs
 
 # OS specific (mingwin flags)
-ifeq ($(OS),Linux)
-  EXECS += libtou.so 
-else
-  CFLAGS += -mno-cygwin -mwindows -fno-exceptions \
-		-fomit-frame-pointer -DWINDOWS_SYS 
-# need ws2_32, instead of wsock32 for IP_TTL to work.
-  LIBS   += -lws2_32 -luuid -lole32 -liphlpapi
-endif
+#ifeq ($(OS),Linux)
+#  EXECS += libtou.so 
+#else
+#  CFLAGS += -mno-cygwin -mwindows -fno-exceptions \
+#		-fomit-frame-pointer -DWINDOWS_SYS 
+## need ws2_32, instead of wsock32 for IP_TTL to work.
+#  LIBS   += -lws2_32 -luuid -lole32 -liphlpapi
+#endif
 
 OBJ = tcpstream.o tcppacket.o  udplayer.o tou_net.o tou.o 
 
@@ -58,7 +54,7 @@ largefile_tou : $(OBJ) largefile_tou.o
 
 BIOOBJ = bss_tou.o 
 BIOCC  = gcc
-BIOCFLAGS =  -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DOPENSSL_NO_KRB5 -DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -m486 -Wall -DSHA1_ASM -DMD5_ASM -DRMD160_ASM  
+BIOCFLAGS =  -I $(SSL_DIR)/include -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DOPENSSL_NO_KRB5 -DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -m486 -Wall -DSHA1_ASM -DMD5_ASM -DRMD160_ASM  
 
 
 libtou.a: $(BIOOBJ) $(OBJ)

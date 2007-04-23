@@ -1,5 +1,5 @@
 /*
- * "$Id: pqi_base.h,v 1.16 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: pqi_base.h,v 1.17 2007-04-07 08:40:54 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -49,7 +49,7 @@ struct chan_id
 	int route[10];
 };
 
-typedef int SearchId;
+typedef unsigned long SearchId;  /* unsigned 32 bits */
 typedef struct chan_id ChanId;
 
 /* basic worker fns on cids */
@@ -240,10 +240,10 @@ void	cidpush(int id);
 class PQItem_MatchSid
 //: public unary_function <PQItem *, bool>
 {
-	int sid;
+	unsigned long sid;
 
 	public:
-	explicit PQItem_MatchSid(const int s) : sid(s) {}
+	explicit PQItem_MatchSid(const unsigned long s) : sid(s) {}
 
 	bool operator()(const PQItem *pqi) const 
 	{
