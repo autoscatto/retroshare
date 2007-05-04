@@ -73,8 +73,6 @@ HEADERS += rshare.h \
            gui/connect/AddFriendDialog.h \
            gui/msgs/ChanMsgDialog.h \
 	     gui/msgs/ChanCreateDialog.h \
-           gui/msgs/QtChatToaster.h \
-	     gui/msgs/QtToaster.h \
            gui/filehash/FileHashDialog.h \
            gui/images/retroshare_win.rc.h \
            gui/moreinfo/moreinfo.h \ 
@@ -85,7 +83,13 @@ HEADERS += rshare.h \
            gui/Preferences/LogDialog.h \
            gui/Preferences/PreferencesDialog.h \
            gui/Preferences/PreferencesWindow.h \
-           gui/Preferences/ServerDialog.h \
+           gui/Preferences/ServerDialog.h \     
+           gui/toaster/MessageToaster.h \
+           gui/toaster/ChatToaster.h \
+           gui/toaster/CallToaster.h \
+	     gui/toaster/QtToaster.h \
+           gui/toaster/IQtToaster.h \
+           gui/toaster/RetroStyleLabelProxy.h \
            gui/common/vmessagebox.h \
            gui/MessagesDialog.h \
            gui/Settings/gsettingswin.h \
@@ -114,7 +118,6 @@ FORMS += gui/ChatDialog.ui \
          gui/connect/AddFriendDialog.ui \
 	   gui/msgs/ChanMsgDialog.ui \
 	   gui/msgs/ChanCreateDialog.ui \
-         gui/msgs/ChatToaster.ui \
          gui/filehash/FileHashDialog.ui \
          gui/moreinfo/moreinfo.ui \ 
          gui/Preferences/CryptographyDialog.ui \
