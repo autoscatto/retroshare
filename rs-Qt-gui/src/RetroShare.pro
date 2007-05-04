@@ -23,6 +23,7 @@ DEPENDPATH += . \
               gui\moreinfo \
               gui\Preferences \
               gui\common\
+              gui\toaster \
               gui\Settings \
               gui\authdlg
              
@@ -57,6 +58,14 @@ HEADERS += rshare.h \
            util/registry.h \
            util/string.h \
            util/win32.h \
+           util/RetroStyleLabel.h \
+           util/dllexport.h \
+           util/NonCopyable.h \
+           util/rsutildll.h \ 
+           util/dllexport.h \
+           util/global.h \
+           util/rsqtutildll.h \
+           util/Interface.h \
            gui/chat/PopupChatDialog.h \
            gui/connect/ConnectDialog.h \
            gui/connect/ConfCertDialog.h \
@@ -103,8 +112,8 @@ FORMS += gui/ChatDialog.ui \
          gui/connect/ConfCertDialog.ui \
          gui/connect/InviteDialog.ui \
          gui/connect/AddFriendDialog.ui \
-	 gui/msgs/ChanMsgDialog.ui \
-	 gui/msgs/ChanCreateDialog.ui \
+	   gui/msgs/ChanMsgDialog.ui \
+	   gui/msgs/ChanCreateDialog.ui \
          gui/msgs/ChatToaster.ui \
          gui/filehash/FileHashDialog.ui \
          gui/moreinfo/moreinfo.ui \ 
@@ -113,7 +122,10 @@ FORMS += gui/ChatDialog.ui \
          gui/Preferences/LogDialog.ui \
          gui/Preferences/PreferencesDialog.ui \
          gui/Preferences/PreferencesWindow.ui \
-         gui/Preferences/ServerDialog.ui \
+         gui/Preferences/ServerDialog.ui \     
+         gui/toaster/ChatToaster.ui \
+         gui/toaster/MessageToaster.ui \
+         gui/toaster/CallToaster.ui \
          gui/Settings/settings.ui \
          gui/Settings/GeneralPage.ui \
          gui/Settings/DirectoriesPage.ui \
@@ -144,16 +156,21 @@ SOURCES += main.cpp \
            util/process.cpp \
            util/registry.cpp \
            util/string.cpp \
-           util/win32.cpp \
+           util/win32.cpp \     
+           util/RetroStyleLabel.cpp \
+           util/WidgetBackgroundImage.cpp \
+           util/NonCopyable.cpp \
            gui/chat/PopupChatDialog.cpp \
            gui/connect/ConnectDialog.cpp \
            gui/connect/ConfCertDialog.cpp \
            gui/connect/InviteDialog.cpp \
            gui/connect/AddFriendDialog.cpp \
-	   gui/msgs/ChanMsgDialog.cpp \
-	   gui/msgs/ChanCreateDialog.cpp \
-           gui/msgs/QtChatToaster.cpp \
-	     gui/msgs/QtToaster.cpp \
+	     gui/msgs/ChanMsgDialog.cpp \
+	     gui/msgs/ChanCreateDialog.cpp \          
+           gui/toaster/ChatToaster.cpp \
+           gui/toaster/MessageToaster.cpp \
+           gui/toaster/CallToaster.cpp \
+	     gui/toaster/QtToaster.cpp \
            gui/filehash/FileHashDialog.cpp \
            gui/moreinfo/moreinfo.cpp \ 
            gui/Preferences/configpagestack.cpp \

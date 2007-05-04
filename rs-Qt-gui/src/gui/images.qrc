@@ -53,7 +53,7 @@
         <file>images/folder-outbox.png</file>
         <file>images/folder-sent.png</file>
         <file>images/message-news.png</file>
-           <file>images/folder-draft24.png</file>
+        <file>images/folder-draft24.png</file>
         <file>images/folder-draft24-hover.png</file>
         <file>images/deletemail24.png</file>
         <file>images/deletemail-hover.png</file>
@@ -73,6 +73,10 @@
         <file>images/edit-italic.png</file>
         <file>images/hide_toolbox_frame.png</file>
         <file>images/show_toolbox_frame.png</file>
+        <file>images/toaster/toaster-background.png</file>
+        <file>images/toaster/chat.png</file>
+        <file>images/toaster/hangup.png</file>
+        <file>images/toaster/pickup.png</file>
         <file>images/pagefold.png</file>
     <file>images/frame.png</file>
     <file>images/radiobutton_unchecked.png</file>

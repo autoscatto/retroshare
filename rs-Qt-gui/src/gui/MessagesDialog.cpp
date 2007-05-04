@@ -23,7 +23,7 @@
 #include "rshare.h"
 #include "MessagesDialog.h"
 #include "msgs/ChanMsgDialog.h"
-#include "gui/msgs/QtChatToaster.h"
+#include "gui/toaster/MessageToaster.h"
 
 #include "rsiface/rsiface.h"
 #include <sstream>
@@ -501,8 +501,8 @@ void MessagesDialog::insertMsgTxtAndFiles()
 
 void MessagesDialog::eventsButtonClicked()
 {
-    QtChatToaster * chatToaster = new QtChatToaster();
-    chatToaster->show();
+    MessageToaster * msgToaster = new MessageToaster();
+    msgToaster->show();
 }
 
 
