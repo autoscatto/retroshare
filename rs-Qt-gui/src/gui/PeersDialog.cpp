@@ -27,6 +27,7 @@
 #include "PeersDialog.h"
 #include "rsiface/rsiface.h"
 #include "chat/PopupChatDialog.h"
+#include "ChatDialog.h"
 #include "connect/ConfCertDialog.h"
 
 #include <iostream>
@@ -38,6 +39,7 @@
 #include <QCursor>
 #include <QPoint>
 #include <QMouseEvent>
+#include <QMessageBox>
 
 
 /* Images for context menu icons */
@@ -47,7 +49,7 @@
 
 /** Constructor */
 PeersDialog::PeersDialog(QWidget *parent)
-: MainPage(parent)
+: MainPage(parent), chatDialog(NULL)
 {
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
@@ -55,11 +57,18 @@ PeersDialog::PeersDialog(QWidget *parent)
   connect( ui.peertreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( peertreeWidgetCostumPopupMenu( QPoint ) ) );
 
 
+
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
 
 #endif
 }
+
+void PeersDialog::setChatDialog(ChatDialog *cd)
+{
+  chatDialog = cd;
+}
+
 
 void PeersDialog::peertreeWidgetCostumPopupMenu( QPoint point )
 {
@@ -232,9 +241,35 @@ void PeersDialog::exportfriend()
 
 void PeersDialog::chatfriend()
 {
-    static PopupChatDialog *popupchatdialog = new PopupChatDialog();
-    popupchatdialog->show();
+    QTreeWidgetItem *i = getCurrentPeer();
+    std::string status = (i -> text(0)).toStdString();
+    std::string name = (i -> text(1)).toStdString();
+    std::string id = (i -> text(9)).toStdString();
 
+    if (status != "Online")
+    {
+    	/* info dialog */
+        QMessageBox::StandardButton sb = QMessageBox::question ( NULL, 
+			"Friend Not Online", 
+	"Your Friend is offline \nWhy don't you send them a Message instead",
+	(QMessageBox::Ok | QMessageBox::Save |
+	QMessageBox::Discard | QMessageBox::Reset |
+	QMessageBox::RestoreDefaults));
+	if (sb == QMessageBox::RestoreDefaults)
+	{
+		while(QMessageBox::Yes == QMessageBox::question ( NULL,         
+	                        "Rhetorical Question",
+			        "Are You Sure?",
+			        (QMessageBox::Yes | QMessageBox::No)));
+	}
+	return;
+    }
+
+    /* must reference ChatDialog */
+    if (chatDialog)
+    {
+    	chatDialog->getPrivateChat(id, name, true);
+    }
 }
 
 

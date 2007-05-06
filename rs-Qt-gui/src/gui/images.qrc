@@ -17,6 +17,7 @@
         <file>images/encrypted16.png</file>
         <file>images/encrypted48.png</file>	
         <file>images/settings.png</file>
+        <file>images/settings16.png</file>
         <file>images/network32.png</file>
         <file>images/network.png</file>
         <file>images/network16.png</file>
@@ -28,6 +29,18 @@
         <file>images/filefind.png</file>
 	  <file>images/flags/de.png</file>
 	  <file>images/flags/en.png</file>
+	  <file>images/flags/fr.png</file>
+	  <file>images/flags/ru.png</file>
+        <file>images/flags/it.png</file>
+	  <file>images/flags/tr.png</file>
+	  <file>images/flags/gr.png</file>
+	  <file>images/flags/es.png</file>
+        <file>images/flags/pl.png</file>
+	  <file>images/flags/jp.png</file>
+        <file>images/flags/kr.png</file>
+        <file>images/flags/pt.png</file>
+	  <file>images/flags/cn.png</file>
+        <file>images/flags/af.png</file>
         <file>images/peers_16x16.png</file>
         <file>images/ktorrent.png</file>
         <file>images/konsole.png</file>
@@ -73,10 +86,6 @@
         <file>images/edit-italic.png</file>
         <file>images/hide_toolbox_frame.png</file>
         <file>images/show_toolbox_frame.png</file>
-        <file>images/toaster/toaster-background.png</file>
-        <file>images/toaster/chat.png</file>
-        <file>images/toaster/hangup.png</file>
-        <file>images/toaster/pickup.png</file>
         <file>images/pagefold.png</file>
     <file>images/frame.png</file>
     <file>images/radiobutton_unchecked.png</file>
@@ -119,6 +128,19 @@
     <file>images/black/backgroundblack.png</file>
     <file>images/black/border.png</file>
     <file>images/arachnophobia/background.png</file>
+    <file>images/toaster/toaster-background.png</file>
+    <file>images/toaster/chat.png</file>
+    <file>images/toaster/hangup.png</file>
+    <file>images/toaster/pickup.png</file>
+    <file>images/graph-area.png</file>
+    <file>images/graph-line.png</file>
+    <file>images/ksysguard.png</file>
+    <file>images/avatar_background.png</file>
+    <file>images/amsn.png</file>
+    <file>images/amsn16.png</file>
+    <file>images/nopic.png</file>
+    <file>images/messenger.png</file>
+    <file>images/new-account.png</file>
    	  <file>layouts/default.ui</file>
         <file>layouts/pagefold.ui</file>
         <file>layouts/over.ui</file>

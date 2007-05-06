@@ -29,6 +29,9 @@
 #include "mainpage.h"
 #include "ui_PeersDialog.h"
 
+
+class ChatDialog;
+
 class PeersDialog : public MainPage 
 {
   Q_OBJECT
@@ -39,6 +42,8 @@ public:
   /** Default Destructor */
 
   void  insertPeers();
+
+  void setChatDialog(ChatDialog *cd);
 
 
 
@@ -71,6 +76,9 @@ private:
 
   /* (2) Utility Fns */
   QTreeWidgetItem *getCurrentPeer();
+
+  ChatDialog *chatDialog;
+
 
   /** Define the popup menus for the Context menu */
   QMenu* contextMnu;

@@ -29,6 +29,7 @@
 
 #include <rshare.h>
 #include "MainWindow.h"
+#include "MessengerWindow.h"
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
 #include "config/gconfig.h"
@@ -54,7 +55,9 @@
 #define IMAGE_INFORMATIONS      ":/images/informations_24x24.png"
 #define IMAGE_STATISTIC         ":/images/utilities-system-monitor.png"
 #define IMAGE_MESSAGES          ":/images/evolution.png"
-
+#define IMAGE_BWGRAPH           ":/images/ksysguard.png"
+#define IMAGE_MESSENGER         ":/images/messenger.png"
+#define IMAGE_RSM16             ":/images/amsn16.png"
 
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
@@ -72,6 +75,10 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 	
     /* Hide ToolBox frame */
 	showtoolboxFrame(true);
+	
+    /* Create all the dialogs of which we only want one instance */
+	_bandwidthGraph = new BandwidthGraph();
+	_messengerWindow = new MessengerWindow();
 	
 	connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
 	connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
@@ -121,19 +128,20 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
                      
   //ui.stackPages->add(groupsDialog = new GroupsDialog(ui.stackPages),
   //                   createPageAction(QIcon(), tr("Groups"), grp));
-
-                                         
-                     
+                                                              
   //ui.stackPages->add(new StatisticDialog(ui.stackPages),
   //                   createPageAction(QIcon(IMAGE_STATISTIC), tr("Statistics"), grp));
-  
+
+  /* also an empty list of chat windows */
+  peersDialog->setChatDialog(chatDialog);
+
   /* Create the toolbar */
   ui.toolBar->addActions(grp->actions());
   ui.toolBar->addSeparator();
   connect(grp, SIGNAL(triggered(QAction *)), ui.stackPages, SLOT(showPage(QAction *)));
  
-     	/* The Real grouptab-button */
-	//addAction(new QAction(QIcon(), tr("Grptab"), ui.toolBar), SLOT(addGroup()));
+  /* Create and bind the messenger button */
+  addAction(new QAction(QIcon(IMAGE_MESSENGER), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
  
  #ifdef NO_MORE_OPTIONS_OR_SS
 
@@ -168,7 +176,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     QObject::connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
     toggleVisibilityAction = 
     menu->addAction("Show/Hide", this, SLOT(toggleVisibility()));
+    menu->addSeparator();
+    menu->addAction(_messengerwindowAct);
+    menu->addAction(_bandwidthAct);
     menu->addAction("Preferences", this, SLOT(showPreferencesWindow()));
+    menu->addSeparator();
     menu->addAction("Minimize", this, SLOT(showMinimized()));
     menu->addAction("Maximize", this, SLOT(showMaximized()));
     menu->addSeparator();
@@ -253,7 +265,8 @@ void MainWindow::addFriend()
 virtual int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
 #else
 
-static  AddFriendDialog *addDialog = new AddFriendDialog(connectionsDialog);
+static  AddFriendDialog *addDialog = 
+	new AddFriendDialog(connectionsDialog, this);
 
 	std::string invite = "";
 	addDialog->setInfo(invite);
@@ -265,7 +278,7 @@ static  AddFriendDialog *addDialog = new AddFriendDialog(connectionsDialog);
 /** Add a Friend ShortCut */
 void MainWindow::inviteFriend()
 {
-static  InviteDialog *inviteDialog = new InviteDialog();
+static  InviteDialog *inviteDialog = new InviteDialog(this);
 
 	std::string invite = rsicontrol->NeighGetInvite();
 	inviteDialog->setInfo(invite);
@@ -309,12 +322,19 @@ void MainWindow::showSettings()
     win->activateWindow();
 }
 
+/** Shows Messenger window */
+void MainWindow::showMessengerWindow()
+{
+    static MessengerWindow *messengerwindow = new MessengerWindow();
+    messengerwindow->show();
+}
 
 /** Destructor. */
 MainWindow::~MainWindow()
 {
-
-
+   delete _prefsAct;
+   delete _bandwidthGraph;
+   delete _messengerwindowAct;
 }
 
 /** Create and bind actions to events. Setup for initial
@@ -323,9 +343,17 @@ void
 MainWindow::createActions()
 {
 
-  prefsAct = new QAction(QIcon(IMAGE_PREFERENCES), tr("Preferences"), this);
-  connect(prefsAct, SIGNAL(triggered()), this, SLOT(showPreferencesWindow()));
-  
+  _prefsAct = new QAction(QIcon(IMAGE_PREFERENCES), tr("Options"), this);
+  connect(_prefsAct, SIGNAL(triggered()), this, SLOT(showPreferencesWindow()));
+    
+  _bandwidthAct = new QAction(QIcon(IMAGE_BWGRAPH), tr("Bandwidth Graph"), this);
+  connect(_bandwidthAct, SIGNAL(triggered()), 
+          _bandwidthGraph, SLOT(showWindow()));
+          
+  _messengerwindowAct = new QAction(QIcon(IMAGE_RSM16), tr("Messenger"), this);
+  connect(_messengerwindowAct, SIGNAL(triggered()),this, SLOT(showMessengerWindow()));
+         
+          
   connect(ui.btntoggletoolbox, SIGNAL(toggled(bool)), this, SLOT(showtoolboxFrame(bool)));
   
 }
@@ -372,11 +400,11 @@ void MainWindow::showConsoleFrame(bool show)
 	if (show) {
 		ui.frmConsole->setVisible(true);
 		ui.btnToggleConsole->setChecked(true);
-		ui.btnToggleConsole->setToolTip("Hide ChatterBox");
+		ui.btnToggleConsole->setToolTip("Hide Console");
 	} else {
 		ui.frmConsole->setVisible(false);
 		ui.btnToggleConsole->setChecked(false);
-		ui.btnToggleConsole->setToolTip("Show ChatterBox");
+		ui.btnToggleConsole->setToolTip("Show Console");
 	}
 }
 

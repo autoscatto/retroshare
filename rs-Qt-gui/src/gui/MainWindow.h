@@ -37,10 +37,11 @@
 #include "ChatDialog.h"
 #include "SharedFilesDialog.h"
 #include "StatisticDialog.h"
+#include "MessengerWindow.h"
 
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
-
+#include "bwgraph/bwgraph.h"
 
 #include "ui_MainWindow.h"
 
@@ -106,6 +107,7 @@ private slots:
     void inviteFriend();
     void addSharedDirectory();
     void showPreferencesWindow();
+    void showMessengerWindow();
 
     void showSettings();
     
@@ -115,9 +117,6 @@ private slots:
 	/** Called when console button is toggled */
 	void showtoolboxFrame(bool show);
 
-    
-	//void addShareDirectory();
-
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -125,17 +124,22 @@ protected:
 
 
 private:
-    /** Loads the current configuration settings */
-  //void loadSettings();
-
 
   /** Create the actions on the tray menu or menubar */
   void createActions();
  
 
   /** Defines the actions for the tray menu */
-  QAction* prefsAct;
+  QAction* _prefsAct;
+  QAction* _bandwidthAct;
+  QAction* _messengerwindowAct;
   
+  /** A BandwidthGraph object which handles monitoring RetroShare bandwidth usage */
+  BandwidthGraph* _bandwidthGraph;
+  
+  PreferencesWindow* _preferencesWindow;
+  
+  MessengerWindow* _messengerWindow;
 
   /** Creates a new action for a config page. */
   QAction* createPageAction(QIcon img, QString text, QActionGroup *group);
@@ -146,11 +150,7 @@ private:
     QSystemTrayIcon *trayIcon;
     QAction *toggleVisibilityAction;
     QMenu *menu;
-    
-    PreferencesWindow* _preferencesWindow;
-  
-
-
+       
 
   /** Qt Designer generated object */
   Ui::MainWindow ui;

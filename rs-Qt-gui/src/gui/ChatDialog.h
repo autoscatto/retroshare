@@ -25,6 +25,8 @@
 #include "mainpage.h"
 #include "ui_ChatDialog.h"
 
+#include "chat/PopupChatDialog.h"
+
 class QAction;
 class QTextEdit;
 class QTextCharFormat;
@@ -39,6 +41,9 @@ public:
   /** Default Destructor */
 
 void insertChat();
+PopupChatDialog *getPrivateChat(std::string id, std::string name, bool show);
+void clearOldChats();
+
 int     loadInitMsg();
 
 private slots:
@@ -47,7 +52,6 @@ void toggleSendItem( QTreeWidgetItem *item, int col );
 
   /** Create the context popup menu and it's submenus */
   void msgSendListCostumPopupMenu( QPoint point );
-
 
   void setColor();
     
@@ -79,6 +83,10 @@ private:
   QAction* privchatAct;
 
   QTreeView *msgSendList;
+
+
+  std::map<std::string, PopupChatDialog *> chatDialogs;
+
 
 
   /** Qt Designer generated object */

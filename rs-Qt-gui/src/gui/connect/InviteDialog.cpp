@@ -47,12 +47,48 @@ void InviteDialog::cancelbutton()
 	close();
 }
 
+	/* for Win32 only */
+#if defined(Q_OS_WIN)
+#include <windows.h>
+
+#endif
 
 void InviteDialog::emailbutton()
 {
 	/* for Win32 only */
 #if defined(Q_OS_WIN)
-	ShellExecute("mailto:", "SUBJECT=join me in retroshare");
+
+	std::string mailstr = "mailto:";
+
+	mailstr += "&subject=RetroShare Invite";
+	mailstr += "&body=";
+	mailstr += ui.emailText->toPlainText().toStdString();
+
+	/* search and replace the end of lines with: "%0D%0A" */
+
+	std::cerr << "MAIL STRING:" << mailstr.c_str() << std::endl;
+
+	size_t loc;
+	while((loc = mailstr.find("\n")) != mailstr.npos)
+	{
+		/* sdfkasdflkjh */
+		mailstr.replace(loc, 1, "%0D%0A");
+	}
+
+	HINSTANCE hInst = ShellExecuteA(0, 
+		"open",
+		mailstr.c_str(), 
+		NULL, 
+		NULL, 
+		SW_SHOW);
+
+    if(reinterpret_cast<int>(hInst) <= 32)
+    {
+	/* error */
+	std::cerr << "ShellExecute Error: " << reinterpret_cast<int>(hInst);
+	std::cerr << std::endl;
+    }
+  
 #endif
 }
 

@@ -64,7 +64,8 @@ int main(int argc, char *argv[])
 	}
 	else
 	{
-        	LoadCertificates(config);
+		/* don't save auto login details */
+        	LoadCertificates(config, false);
 	}
 
         NotifyQt   *notify = new NotifyQt();
@@ -73,8 +74,17 @@ int main(int argc, char *argv[])
 
         notify->setRsIface(iface);
 
-  MainWindow w;
-  w.show();
+  	MainWindow w;
+
+	/* only show window, if not autologin */
+#if defined(Q_OS_WIN)
+  	if (!okStart)
+	{
+		w.show();
+	}
+#else
+	w.show();
+#endif
 
 	/* Attach the Dialogs, to the Notify Class */
         notify->setConnectionDialog(w.connectionsDialog);

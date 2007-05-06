@@ -1,5 +1,5 @@
 /****************************************************************
- *  RShare QT gui is distributed under the following license:
+ *  RetroShare QT gui is distributed under the following license:
  *
  *  Copyright (C) 2006,  crypton
  *
@@ -20,9 +20,9 @@
   ****************************************************************/
 
 
-
 #ifndef _BANDWIDTHEVENT_H
 #define _BANDWIDTHEVENT_H
+#include "eventtype.h"
 
 #include <QEvent>
 

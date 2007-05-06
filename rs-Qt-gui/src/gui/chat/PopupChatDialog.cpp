@@ -35,17 +35,22 @@
 /* Define the format used for displaying the date and time */
 #define DATETIME_FMT  "MMM dd hh:mm:ss"
 
+#include <sstream>
 
 
 /** Default constructor */
-PopupChatDialog::PopupChatDialog(QWidget *parent, Qt::WFlags flags)
-  : QMainWindow(parent, flags)
+PopupChatDialog::PopupChatDialog(std::string id, std::string name, 
+				QWidget *parent, Qt::WFlags flags)
+  : QMainWindow(parent, flags), dialogId(id), dialogName(name),
+    lastChatTime(0), lastChatName("")
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
 
   GConfig config;
   config.loadWidgetInformation(this);
+
+  connect(ui.lineEdit, SIGNAL(returnPressed( ) ), this, SLOT(sendChat( ) ));
 
   connect(ui.colorButton, SIGNAL(clicked()), this, SLOT(setColor()));
   
@@ -56,8 +61,11 @@ PopupChatDialog::PopupChatDialog(QWidget *parent, Qt::WFlags flags)
   connect(ui.textitalicButton, SIGNAL(clicked()), this, SLOT(textItalic()));
 
   // Create the status bar
-  statusBar()->showMessage("");
- 
+  std::ostringstream statusstr;
+  statusstr << "Chatting with: " << dialogName << " !!! " << id;
+  statusBar()->showMessage(QString::fromStdString(statusstr.str()));
+  ui.textBrowser->setOpenExternalLinks ( false );
+
 }
 
 
@@ -160,13 +168,97 @@ void PopupChatDialog::updateChat()
 }
 
 
+
+void PopupChatDialog::addChatMsg(ChatInfo *ci)
+{
+        QTextBrowser *msgWidget = ui.textBrowser;
+
+	QString currenttxt = msgWidget->toHtml();
+
+	/* determine how many spaces to add */
+	int n = msgWidget->width();
+	/* now spaces = (width - txt width) / (pixel / space)
+	 */
+
+	std::cerr << "Width is : " << n << std::endl;
+	n -= 256; /* 220 pixels for name */
+	if (n > 0)
+	{
+		n = 2 + n / 10;
+	}
+	else
+	{
+		n = 1;
+	}
+
+	std::cerr << "Space count : " << n << std::endl;
+
+	std::string spaces(" ");
+
+
+	/* add in lines at the bottom */
+	std::ostringstream out;
+	int ts = time(NULL);
+	if ((ci->name == lastChatName) && (ts - lastChatTime < 60))
+	{
+			/* no name */
+	}
+	else
+	{
+		for(int i = 0; i < n; i++)
+		{
+			out << spaces; 
+		}
+
+		out << "[" << ci->name << " Said @" << ts << "]" << std::endl;
+		out << "<br>" << std::endl;
+
+	}
+	out << ci -> msg << std::endl;
+	lastChatTime = ts;
+	lastChatName = ci->name;
+
+	QString extra = QString::fromStdString(out.str());
+	currenttxt += extra;
+
+	msgWidget->setHtml(currenttxt);
+
+	std::cerr << " Added Text: " << std::endl;
+	std::cerr << out.str() << std::endl;
+	QScrollBar *qsb =  msgWidget->verticalScrollBar();
+	qsb -> setValue(qsb->maximum());
+}
+
+
 void PopupChatDialog::sendChat()
 {
-	/* get the current txt */
+        QLineEdit *lineWidget = ui.lineEdit;
 
-	/* send to server */
+        ChatInfo ci;
 
+	{
+          rsiface->lockData(); /* Lock Interface */
+          const RsConfig &conf = rsiface->getConfig();
 
+	  ci.rsid = conf.ownId;
+	  ci.name = conf.ownName;
+
+          rsiface->unlockData(); /* Unlock Interface */
+	}
+
+        ci.msg = lineWidget->text().toStdString();
+        ci.chatflags = RS_CHAT_PRIVATE;
+
+	addChatMsg(&ci);
+
+        /* put proper destination */
+	ci.rsid = dialogId;
+	ci.name = dialogName;
+
+        rsicontrol -> ChatSend(ci);
+        lineWidget -> setText(QString(""));
+
+        /* redraw send list */
 }
 
 

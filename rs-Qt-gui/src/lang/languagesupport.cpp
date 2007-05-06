@@ -39,14 +39,29 @@ LanguageSupport::initialize()
   _languages.clear();
   _languages.insert("en",    "English");
   _languages.insert("de",    "Deutsch");
-  _languages.insert("fi",    "suomi");
+
+  _languages.insert("af",    "Afrikaans");
+  _languages.insert("cn_simp",    "Chinese-Simple");
+  _languages.insert("cn_trad",    "Chinese-Trad");
   _languages.insert("fr",    
     QString::fromUtf8("fran\303\247ais"));
+  _languages.insert("gr",    "Greek");
   _languages.insert("it",    "Italiano");
+  _languages.insert("jp",    "Japanese");
+  _languages.insert("kr",    "Korean");
+  _languages.insert("pl",    "Polish");
+  _languages.insert("pt",    "Portuguese");
   _languages.insert("ru",
     QString::fromUtf8("\320\240\321\203\321\201\321\201\320\272\320\270\320\271"));
+  _languages.insert("es",    
+    QString::fromUtf8("spanish"));
+  _languages.insert("tr",    "Turkish");
+/****
+  _languages.insert("fi",    "Suomi");
   _languages.insert("zh-cn", 
     QString::fromUtf8("\347\256\200\344\275\223\345\255\227"));
+***/
+
 }
 
 /** Returns the default language code for the system locale. */

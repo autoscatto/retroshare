@@ -501,8 +501,8 @@ void MessagesDialog::insertMsgTxtAndFiles()
 
 void MessagesDialog::eventsButtonClicked()
 {
-    MessageToaster * msgToaster = new MessageToaster();
-    msgToaster->show();
+    MessageToaster * messageToaster = new MessageToaster();
+    messageToaster->show();
 }
 
 

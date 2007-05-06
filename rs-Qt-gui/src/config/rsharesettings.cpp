@@ -24,7 +24,6 @@
 #include <QDir>
 #include <QCoreApplication>
 #include <lang/languagesupport.h>
-
 #include <rshare.h>
 
 #include "rsharesettings.h"
@@ -68,17 +67,64 @@
 #define DEFAULT_BWGRAPH_FILTER          (BWGRAPH_SEND|BWGRAPH_REC)
 #define DEFAULT_BWGRAPH_ALWAYS_ON_TOP   false
 
-/** The location of Rshare's settings and configuration file. */
+/** The location of RetroShare's settings and configuration file. */
 #define SETTINGS_FILE   (Rshare::dataDirectory() + "/RetroShare.conf")
 
 
 /** Default Constructor */
 RshareSettings::RshareSettings()
 : QSettings(SETTINGS_FILE, QSettings::IniFormat)
-{  
+{ 
+  setDefault(SETTING_STYLE, DEFAULT_STYLE); 
 }
 
-/** Resets all of Rshare's settings. */
+/** Sets the default value of <b>key</b> to be <b>val</b>. */
+void
+RshareSettings::setDefault(QString key, QVariant val)
+{
+  _defaults.insert(key, val);
+}
+
+/** Returns the default value for <b>key</b>. */
+QVariant
+RshareSettings::defaultValue(QString key)
+{
+  if (_defaults.contains(key)) {
+    return _defaults.value(key);
+  }
+  return QVariant();
+}
+
+
+
+/** Save <b>val</b> to the configuration file for the setting <b>key</b>, if
+ * <b>val</b> is different than <b>key</b>'s current value. */
+void
+RshareSettings::setValue(QString key, QVariant val)
+{
+  if (value(key) != val) {
+    QSettings::setValue(key, val);
+  }
+}
+
+/** Returns the value for <b>key</b>. If no value is currently saved, then the
+ * default value for <b>key</b> will be returned. */
+QVariant
+RshareSettings::value(QString key)
+{
+  return value(key, defaultValue(key));
+}
+
+/** Returns the value for <b>key</b>. If no value is currently saved, then
+ * <b>defaultValue</b> will be returned. */
+QVariant
+RshareSettings::value(QString key, QVariant defaultValue)
+{
+  return QSettings::value(key, defaultValue);
+}
+
+
+/** Resets all of RetroShare's settings. */
 void
 RshareSettings::reset()
 {

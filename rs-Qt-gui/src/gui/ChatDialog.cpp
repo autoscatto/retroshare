@@ -88,24 +88,9 @@ int     ChatDialog::loadInitMsg()
 	std::ostringstream out;
 
 	out << std::endl;
-	out << "This is your Universal ChatterBox Window";
 	out << std::endl;
 	out << std::endl;
-	out << "You can use it to chat with everyone";
-	out << std::endl;
-	out << "that is online at this moment";
-	out << std::endl;
-	out << std::endl;
-	out << "Sometimes the conversations can seem";
-	out << std::endl;
-	out << "weird and wonderful, if you're not";
-	out << std::endl;
-	out << "connected all the same people.";
-	out << std::endl;
-	out << std::endl;
-	out << "It is a bit of an experiment, so";
-	out << std::endl;
-	out << "let me know if you enjoy it or hate it!";
+	out << "Welcome to Retroshare's group chat.";
 	out << std::endl;
 	out << std::endl;
 
@@ -142,7 +127,7 @@ static  int         lastChatTime = 0;
 	n -= 256; /* 220 pixels for name */
 	if (n > 0)
 	{
-		n = 2 + n / 8;
+		n = 2 + n / 10;
 	}
 	else
 	{
@@ -159,6 +144,14 @@ static  int         lastChatTime = 0;
 	int ts = time(NULL);
 	for(it = newchat.begin(); it != newchat.end(); it++)
 	{
+		/* are they private? */
+		if (it->chatflags & RS_CHAT_PRIVATE)
+		{
+			PopupChatDialog *pcd = getPrivateChat(it->rsid, it->name, true);
+			pcd->addChatMsg(&(*it));
+		}
+
+
 		if ((it->name == lastChatName) && (ts - lastChatTime < 60))
 		{
 			/* no name */
@@ -169,8 +162,12 @@ static  int         lastChatTime = 0;
 			{
 				out << spaces; 
 			}
+
 			out << "<" <<  it -> name << " Said @" << ts << ">" << std::endl;
 		}
+
+		if (it->chatflags & RS_CHAT_PRIVATE)
+			out << "[P] ";
 		out << it -> msg << std::endl;
 
 		/* 
@@ -191,12 +188,16 @@ static  int         lastChatTime = 0;
 
 }
 
+
+
+
 void ChatDialog::sendMsg()
 {
         QLineEdit *lineWidget = ui.lineEdit;
 
 	ChatInfo ci;
 	ci.msg = lineWidget->text().toStdString();
+	ci.chatflags = RS_CHAT_PUBLIC;
 
 	rsicontrol -> ChatSend(ci);
 	lineWidget -> setText(QString(""));
@@ -375,7 +376,41 @@ void ChatDialog::colorChanged(const QColor &c)
 
 void ChatDialog::privchat()
 {
-    static PopupChatDialog *popupchatdialog = new PopupChatDialog();
-    popupchatdialog->show();
 
 }
+
+
+
+PopupChatDialog *ChatDialog::getPrivateChat(std::string id, std::string name, bool show)
+{
+   /* see if it exists already */
+   PopupChatDialog *popupchatdialog = NULL;
+
+   std::map<std::string, PopupChatDialog *>::iterator it;
+   if (chatDialogs.end() != (it = chatDialogs.find(id)))
+   {
+   	/* exists already */
+   	popupchatdialog = it->second;
+   }
+   else 
+   {
+   	popupchatdialog = new PopupChatDialog(id, name);
+	chatDialogs[id] = popupchatdialog;
+   }
+
+   if (show)
+   {
+   	popupchatdialog->show();
+   }
+
+   return popupchatdialog;
+
+}
+
+void ChatDialog::clearOldChats()
+{
+	/* nothing yet */
+
+}
+
+

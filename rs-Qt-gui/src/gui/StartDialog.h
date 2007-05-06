@@ -38,8 +38,8 @@ public:
   /** Default constructor */
   StartDialog(RsInit *config, QWidget *parent = 0, Qt::WFlags flags = 0);
   /** Default destructor */
-
-
+  //~StartDialog();
+ 
 public slots:
   /** Overloaded QWidget.show */
   void show();
@@ -50,10 +50,8 @@ protected:
 private slots:
 
 	void closeinfodlg();
-	void genPerson();
 	void loadPerson();
-	void selectFriend();
-	void checkChanged(int i);
+    void createnewaccount();
   
 private:
 

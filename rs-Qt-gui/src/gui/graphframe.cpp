@@ -1,7 +1,7 @@
 /****************************************************************
- *  RShare Qt Gui distributed under the following license:
+ *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006,  crypton
+ *  Copyright (C) 2007,  crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -20,9 +20,11 @@
  ****************************************************************/
 
 
+
 #include <QtGlobal>
 
 #include "graphframe.h"
+
 
 /** Default contructor */
 GraphFrame::GraphFrame(QWidget *parent)
@@ -32,6 +34,7 @@ GraphFrame::GraphFrame(QWidget *parent)
   _recvData = new QList<qreal>();
   _sendData = new QList<qreal>();
   _painter = new QPainter();
+  _graphStyle = SolidLine;
   
   /* Initialize graph values */
   _recvData->prepend(0);
@@ -40,7 +43,6 @@ GraphFrame::GraphFrame(QWidget *parent)
   _showRecv = true;
   _showSend = true;
   _maxValue = MIN_SCALE;
-
 }
 
 /** Default destructor */
@@ -51,10 +53,8 @@ GraphFrame::~GraphFrame()
   delete _sendData;
 }
 
-/**
- Gets the width of the desktop, which is the maximum 
- number of points we can plot in the graph
-*/
+/** Gets the width of the desktop, which is the maximum number of points 
+ * we can plot in the graph. */
 int
 GraphFrame::getNumPoints()
 {
@@ -63,9 +63,7 @@ GraphFrame::getNumPoints()
   return width;
 }
 
-/**
- Adds new data points to the graph
-*/
+/** Adds new data points to the graph. */
 void
 GraphFrame::addPoints(qreal recv, qreal send)
 {
@@ -90,9 +88,7 @@ GraphFrame::addPoints(qreal recv, qreal send)
   this->update();
 }
 
-/**
- Clears the graph
-*/
+/** Clears the graph. */
 void
 GraphFrame::resetGraph()
 {
@@ -106,9 +102,7 @@ GraphFrame::resetGraph()
   this->update();
 }
 
-/**
- Toggles display of respective graph lines and counters
-*/
+/** Toggles display of respective graph lines and counters. */
 void
 GraphFrame::setShowCounters(bool showRecv, bool showSend)
 {
@@ -117,10 +111,8 @@ GraphFrame::setShowCounters(bool showRecv, bool showSend)
   this->update();
 }
 
-/** 
- Overloads default QWidget::paintEvent
- Draws the actual bandwidth graph 
-*/
+/** Overloads default QWidget::paintEvent. Draws the actual 
+ * bandwidth graph. */
 void
 GraphFrame::paintEvent(QPaintEvent *event)
 {
@@ -142,10 +134,8 @@ GraphFrame::paintEvent(QPaintEvent *event)
 
   /* Paint the scale */
   paintScale();
-
-  /* Paint the send/receive lines */
-  paintLines();
-
+  /* Plot the send/receive data */
+  paintData();
   /* Paint the send/recv totals */
   paintTotals();
 
@@ -153,87 +143,119 @@ GraphFrame::paintEvent(QPaintEvent *event)
   _painter->end();
 }
 
-/**
- Calls paint function for each line that is supposed to 
- be painted.
-*/
+/** Paints an integral and an outline of that integral for each data set (send
+ * and/or receive) that is to be displayed. The integrals will be drawn first,
+ * followed by the outlines, since we want the area of overlapping integrals
+ * to blend, but not the outlines of those integrals. */
 void
-GraphFrame::paintLines()
+GraphFrame::paintData()
 {
-  /* If show received rate is selected */
-  if (_showRecv) {
-    _painter->setPen(QPen(RECV_COLOR, 2));
-    paintLine(_recvData);
-  }
+  QVector<QPointF> recvPoints, sendPoints;
 
-  /* If show send rate is selected */
-  if (_showSend) {
-    _painter->setPen(QPen(SEND_COLOR, 2));
-    paintLine(_sendData);
+  /* Convert the bandwidth data points to graph points */
+  recvPoints = pointsFromData(_recvData);
+  sendPoints = pointsFromData(_sendData);
+  
+  if (_graphStyle == AreaGraph) {
+    /* Plot the bandwidth data as area graphs */
+    if (_showRecv)
+      paintIntegral(recvPoints, RECV_COLOR, 0.6);
+    if (_showSend)
+      paintIntegral(sendPoints, SEND_COLOR, 0.4);
   }
+  
+  /* Plot the bandwidth as solid lines. If the graph style is currently an
+   * area graph, we end up outlining the integrals. */
+  if (_showRecv)
+    paintLine(recvPoints, RECV_COLOR);
+  if (_showSend)
+    paintLine(sendPoints, SEND_COLOR);
 }
 
-/** Iterates the input list and draws a line on the graph
- in the appropriate color
-*/
-void
-GraphFrame::paintLine(QList<qreal>* list)
+/** Returns a list of points on the bandwidth graph based on the supplied set
+ * of send or receive values. */
+QVector<QPointF>
+GraphFrame::pointsFromData(QList<qreal>* list)
 {
-  int x = _rec.width() + SCROLL_STEP;
+  QVector<QPointF> points;
+  int x = _rec.width();
   int y = _rec.height();
   qreal scale = (y - (y/10)) / _maxValue;
-  
-  qreal prevValue = y - (list->at(0) * scale);
   qreal currValue;
   
-  for (int i = 0; i < list->size(); ++i) {
+  /* Translate all data points to points on the graph frame */
+  points << QPointF(x, y);
+  for (int i = 0; i < list->size(); i++) {
     currValue = y - (list->at(i) * scale);
-    
-    /* Don't draw past the scale */
     if (x - SCROLL_STEP < SCALE_WIDTH) {
-      _painter->drawLine(QPointF(x, prevValue),
-                         QPointF(SCALE_WIDTH, currValue));
+      points << QPointF(SCALE_WIDTH, currValue);
       break;
     }
-     
-    _painter->drawLine(QPointF(x, prevValue),
-                       QPointF(x-SCROLL_STEP, currValue));
-      
-    /* Update for next iteration */
-    prevValue = currValue;
+    points << QPointF(x, currValue);
     x -= SCROLL_STEP;
   }
+  points << QPointF(SCALE_WIDTH, y);
+  return points; 
 }
 
-/**
- Paints selected total indicators on the graph
-*/
+/** Plots an integral using the data points in <b>points</b>. The area will be
+ * filled in using <b>color</b> and an alpha-blending level of <b>alpha</b>
+ * (default is opaque). */
+void
+GraphFrame::paintIntegral(QVector<QPointF> points, QColor color, qreal alpha)
+{
+  /* Save the current brush, plot the integral, and restore the old brush */
+  QBrush oldBrush = _painter->brush();
+  color.setAlphaF(alpha);
+  _painter->setBrush(QBrush(color));
+  _painter->drawPolygon(points.data(), points.size());
+  _painter->setBrush(oldBrush);
+}
+
+/** Iterates the input list and draws a line on the graph in the appropriate
+ * color. */
+void
+GraphFrame::paintLine(QVector<QPointF> points, QColor color, Qt::PenStyle lineStyle) 
+{
+  /* Save the current brush, plot the line, and restore the old brush */
+  QPen oldPen = _painter->pen();
+  _painter->setPen(QPen(color, lineStyle));
+  _painter->drawPolyline(points.data(), points.size());
+  _painter->setPen(oldPen);
+}
+
+/** Paints selected total indicators on the graph. */
 void
 GraphFrame::paintTotals()
 {
-  int x = SCALE_WIDTH + FONT_SIZE;
-  
+  int x = SCALE_WIDTH + FONT_SIZE, y = 0;
+  int rowHeight = FONT_SIZE;
+
+#if !defined(Q_WS_MAC)
+  /* On Mac, we don't need vertical spacing between the text rows. */
+  rowHeight += 5;
+#endif
+
   /* If total received is selected */
   if (_showRecv) {
+    y = rowHeight;
     _painter->setPen(RECV_COLOR);
-    _painter->drawText(x, FONT_SIZE,
+    _painter->drawText(x, y,
         tr("Recv: ") + totalToStr(_totalRecv) + 
         " ("+tr("%1 KB/s").arg(_recvData->first(), 0, 'f', 2)+")");
   }
 
   /* If total sent is selected */
   if (_showSend) {
+    y += rowHeight;
     _painter->setPen(SEND_COLOR);
-    _painter->drawText(x, (2*FONT_SIZE),
+    _painter->drawText(x, y,
         tr("Sent: ") + totalToStr(_totalSend) +
         " ("+tr("%1 KB/s").arg(_sendData->first(), 0, 'f', 2)+")");
   }
 }
 
-/**
- Returns a formatted string 
- with the correct size suffix
-*/
+/** Returns a formatted string with the correct size suffix. */
 QString
 GraphFrame::totalToStr(qreal total)
 {
@@ -250,9 +272,7 @@ GraphFrame::totalToStr(qreal total)
   }
 }
 
-/**
- Paints the scale on the graph
-*/
+/** Paints the scale on the graph. */
 void
 GraphFrame::paintScale()
 {

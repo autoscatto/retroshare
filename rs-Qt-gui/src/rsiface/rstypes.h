@@ -2,7 +2,7 @@
 #define RS_TYPES_GUI_INTERFACE_H
 
 /*
- * "$Id: rstypes.h,v 1.5 2007-03-21 18:45:41 rmf24 Exp $"
+ * "$Id: rstypes.h,v 1.6 2007-04-07 08:41:00 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -253,9 +253,14 @@ class ChannelInfo: public BaseInfo
 	int count; /* msg count     */
 };
 
+#define RS_CHAT_PUBLIC 		0x0001
+#define RS_CHAT_PRIVATE 	0x0002
+
 class ChatInfo: public BaseInfo
 {
 	public:
+	std::string rsid;
+	unsigned int chatflags;
 	std::string name;
 	std::string msg;
 };
@@ -264,6 +269,9 @@ class ChatInfo: public BaseInfo
 class RsConfig
 {
 	public:
+	std::string		ownId;
+	std::string		ownName;
+
 	std::list<std::string>   sharedDirList;
 	std::string		 incomingDir;
 

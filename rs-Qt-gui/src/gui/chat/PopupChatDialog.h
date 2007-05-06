@@ -26,6 +26,8 @@
 
 #include "ui_PopupChatDialog.h"
 
+#include "rsiface/rsiface.h"
+
 #include <QDialog>
 
 class QAction;
@@ -38,10 +40,12 @@ class PopupChatDialog : public QMainWindow
 
 public:
   /** Default constructor */
-  PopupChatDialog(QWidget *parent = 0, Qt::WFlags flags = 0);
+  PopupChatDialog(std::string id, std::string name, 
+  		QWidget *parent = 0, Qt::WFlags flags = 0);
   /** Default destructor */
 
   void updateChat();
+  void addChatMsg(ChatInfo *ci);
 
 public slots:
   /** Overloaded QWidget.show */
@@ -76,7 +80,9 @@ private:
    QAction     *actionTextUnderline;
    QAction     *actionTextItalic;
    
-   
+   std::string dialogId, dialogName;
+   unsigned int lastChatTime;
+   std::string  lastChatName;
   
   /** Qt Designer generated object */
   Ui::PopupChatDialog ui;

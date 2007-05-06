@@ -16,6 +16,7 @@ DEPENDPATH += . \
               gui \
               lang \
               util \
+              gui\bwgraph \
               gui\chat \
               gui\connect \
               gui\filehash \
@@ -23,8 +24,8 @@ DEPENDPATH += . \
               gui\moreinfo \
               gui\Preferences \
               gui\common\
-              gui\toaster \
               gui\Settings \
+              gui\toaster \
               gui\authdlg
              
 
@@ -39,15 +40,18 @@ HEADERS += rshare.h \
            config/gconfig.h \
            config/rshareSettings.h \
            control/bandwidthevent.h \
+           control/eventtype.h \
            gui/StartDialog.h \
            gui/ChatDialog.h \
            gui/ConnectionsDialog.h \
+           gui/GenCertDialog.h \
            gui/TransfersDialog.h \
            gui/graphframe.h \
            gui/linetypes.h \
            gui/mainpage.h \
            gui/mainpagestack.h \
            gui/MainWindow.h \
+           gui/MessengerWindow.h \
            gui/PeersDialog.h \
            gui/SearchDialog.h \
            gui/SharedFilesDialog.h \
@@ -66,11 +70,13 @@ HEADERS += rshare.h \
            util/global.h \
            util/rsqtutildll.h \
            util/Interface.h \
+           gui/bwgraph/bwgraph.h \
            gui/chat/PopupChatDialog.h \
            gui/connect/ConnectDialog.h \
            gui/connect/ConfCertDialog.h \
            gui/connect/InviteDialog.h \
            gui/connect/AddFriendDialog.h \
+           gui/connect/AddFriendWizard.h \
            gui/msgs/ChanMsgDialog.h \
 	     gui/msgs/ChanCreateDialog.h \
            gui/filehash/FileHashDialog.h \
@@ -83,7 +89,7 @@ HEADERS += rshare.h \
            gui/Preferences/LogDialog.h \
            gui/Preferences/PreferencesDialog.h \
            gui/Preferences/PreferencesWindow.h \
-           gui/Preferences/ServerDialog.h \     
+           gui/Preferences/ServerDialog.h \          
            gui/toaster/MessageToaster.h \
            gui/toaster/ChatToaster.h \
            gui/toaster/CallToaster.h \
@@ -91,6 +97,7 @@ HEADERS += rshare.h \
            gui/toaster/IQtToaster.h \
            gui/toaster/RetroStyleLabelProxy.h \
            gui/common/vmessagebox.h \
+           gui/common/rwindow.h \
            gui/MessagesDialog.h \
            gui/Settings/gsettingswin.h \
            gui/Settings/GeneralPage.h \
@@ -102,20 +109,24 @@ HEADERS += rshare.h \
 
 FORMS += gui/ChatDialog.ui \
          gui/StartDialog.ui \
+         gui/GenCertDialog.ui \
          gui/ConnectionsDialog.ui \
          gui/TransfersDialog.ui \
          gui/MainWindow.ui \
+         gui/MessengerWindow.ui \
          gui/PeersDialog.ui \
          gui/SearchDialog.ui \
          gui/SharedFilesDialog.ui \
          gui/StatisticDialog.ui \
          gui/ChannelsDialog.ui \
          gui/MessagesDialog.ui \
+         gui/bwgraph/bwgraph.ui \
          gui/chat/PopupChatDialog.ui \
          gui/connect/ConnectDialog.ui \
          gui/connect/ConfCertDialog.ui \
          gui/connect/InviteDialog.ui \
          gui/connect/AddFriendDialog.ui \
+         gui/connect/AddFriendWizard.ui \
 	   gui/msgs/ChanMsgDialog.ui \
 	   gui/msgs/ChanCreateDialog.ui \
          gui/filehash/FileHashDialog.ui \
@@ -125,10 +136,10 @@ FORMS += gui/ChatDialog.ui \
          gui/Preferences/LogDialog.ui \
          gui/Preferences/PreferencesDialog.ui \
          gui/Preferences/PreferencesWindow.ui \
-         gui/Preferences/ServerDialog.ui \     
+         gui/Preferences/ServerDialog.ui \
+         gui/toaster/CallToaster.ui \
          gui/toaster/ChatToaster.ui \
          gui/toaster/MessageToaster.ui \
-         gui/toaster/CallToaster.ui \
          gui/Settings/settings.ui \
          gui/Settings/GeneralPage.ui \
          gui/Settings/DirectoriesPage.ui \
@@ -143,12 +154,14 @@ SOURCES += main.cpp \
            config/gconfig.cpp \
            config/rshareSettings.cpp \
            gui/StartDialog.cpp \
+           gui/GenCertDialog.cpp \
            gui/ChatDialog.cpp \
            gui/ConnectionsDialog.cpp \
            gui/TransfersDialog.cpp \
            gui/graphframe.cpp \
            gui/mainpagestack.cpp \
            gui/MainWindow.cpp \
+           gui/MessengerWindow.cpp \
            gui/PeersDialog.cpp \
            gui/SearchDialog.cpp \
            gui/SharedFilesDialog.cpp \
@@ -159,21 +172,19 @@ SOURCES += main.cpp \
            util/process.cpp \
            util/registry.cpp \
            util/string.cpp \
-           util/win32.cpp \     
+           util/win32.cpp \
            util/RetroStyleLabel.cpp \
            util/WidgetBackgroundImage.cpp \
            util/NonCopyable.cpp \
+           gui/bwgraph/bwgraph.cpp \
            gui/chat/PopupChatDialog.cpp \
            gui/connect/ConnectDialog.cpp \
            gui/connect/ConfCertDialog.cpp \
            gui/connect/InviteDialog.cpp \
            gui/connect/AddFriendDialog.cpp \
+           gui/connect/AddFriendWizard.cpp \
 	     gui/msgs/ChanMsgDialog.cpp \
-	     gui/msgs/ChanCreateDialog.cpp \          
-           gui/toaster/ChatToaster.cpp \
-           gui/toaster/MessageToaster.cpp \
-           gui/toaster/CallToaster.cpp \
-	     gui/toaster/QtToaster.cpp \
+	     gui/msgs/ChanCreateDialog.cpp \
            gui/filehash/FileHashDialog.cpp \
            gui/moreinfo/moreinfo.cpp \ 
            gui/Preferences/configpagestack.cpp \
@@ -183,17 +194,37 @@ SOURCES += main.cpp \
            gui/Preferences/PreferencesDialog.cpp \
            gui/Preferences/PreferencesWindow.cpp \
            gui/Preferences/ServerDialog.cpp \
-           gui/common/vmessagebox.cpp \         
+           gui/common/vmessagebox.cpp \
+           gui/common/rwindow.cpp \         
            gui/Settings/gsettingswin.cpp \
            gui/Settings/GeneralPage.cpp \
            gui/Settings/DirectoriesPage.cpp \
            gui/Settings/ServerPage.cpp \
-           gui/Settings/NetworkPage.cpp \
+           gui/Settings/NetworkPage.cpp \    
+           gui/toaster/ChatToaster.cpp \
+           gui/toaster/MessageToaster.cpp \
+           gui/toaster/CallToaster.cpp \
+	     gui/toaster/QtToaster.cpp \
            gui/authdlg/AuthorizationDialog.cpp
 
 
 RESOURCES += gui/images.qrc lang/lang.qrc
-TRANSLATIONS += lang/rshare_en.ts lang/rshare_de.ts
+TRANSLATIONS +=  \
+	lang/retroshare_de.ts \
+	lang/retroshare_en.ts \
+	lang/retroshare_es.ts \
+	lang/retroshare_fr.ts \
+	lang/retroshare_af.ts  \
+	lang/retroshare_cn_simp.ts  \
+	lang/retroshare_cn_trad.ts  \
+	lang/retroshare_gr.ts  \
+	lang/retroshare_it.ts  \
+	lang/retroshare_jp.ts  \
+	lang/retroshare_kr.ts  \
+	lang/retroshare_pl.ts  \
+	lang/retroshare_pt.ts  \
+	lang/retroshare_ru.ts  \
+	lang/retroshare_tr.ts 
 
 !macx {
   # On non-Mac, make the binary all lowercase

@@ -23,6 +23,7 @@
 
 #include <rshare.h>
 #include "StartDialog.h"
+#include "GenCertDialog.h"
 #include "config/gconfig.h"
 #include <QFileDialog>
 
@@ -44,17 +45,14 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   /* Create Bandwidth Graph related QObjects */
   _settings = new RshareSettings();
   
-  // Create the status bar
-  statusBar()->showMessage("Peer Informations");
 
-  setFixedSize(QSize(330, 501));
   
-  connect(ui.genButton, SIGNAL(clicked()), this, SLOT(genPerson()));
+  //connect(ui.genButton, SIGNAL(clicked()), this, SLOT(genPerson()));
   connect(ui.loadButton, SIGNAL(clicked()), this, SLOT(loadPerson()));
   connect(ui.loadPasswd, SIGNAL(returnPressed()), this, SLOT(loadPerson()));
-  connect(ui.selectButton, SIGNAL(clicked()), this, SLOT(selectFriend()));
-  connect(ui.friendBox, SIGNAL(stateChanged(int)), this, SLOT(checkChanged(int)));
-
+  //connect(ui.selectButton, SIGNAL(clicked()), this, SLOT(selectFriend()));
+  //connect(ui.friendBox, SIGNAL(stateChanged(int)), this, SLOT(checkChanged(int)));
+  connect(ui.createNewAccountLabel, SIGNAL(clicked()), this, SLOT(createnewaccount()));
 
   /* load the Certificate File name */
   std::string userName;
@@ -71,12 +69,10 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   	/* need to generate new user */
 	ui.loadName->setText("<No Existing User>");
 	ui.loadButton -> setEnabled(false);
-	ui.genName->setFocus(Qt::OtherFocusReason);
-	ui.autoBox -> setChecked(false);
-	ui.autoBox -> setEnabled(false);
+	//ui.genName->setFocus(Qt::OtherFocusReason);
   }
 
-  ui.genFriend -> setText("<None Selected>");
+  //ui.genFriend -> setText("<None Selected>");
 
 }
 
@@ -107,50 +103,7 @@ void StartDialog::closeinfodlg()
 	close();
 }
 
-void StartDialog::genPerson()
-{
 
-	/* Check the data from the GUI. */
-	std::string genName = ui.genName->text().toStdString();
-	std::string genOrg  = ui.genOrg->text().toStdString();
-	std::string genLoc  = ui.genLoc->text().toStdString();
-	std::string genCountry = ui.genCountry->text().toStdString();
-	std::string passwd  = ui.genPasswd->text().toStdString();
-	std::string passwd2 = ui.genPasswd2->text().toStdString();
-	std::string err;
-
-	if (genName.length() >= 3)
-	{
-		/* name passes basic test */
-	}
-	else
-	{
-		/* Message Dialog */
-		return;
-	}
-
-	if ((passwd.length() >= 4) && (passwd == passwd2))
-	{
-		/* passwd passes basic test */
-	}
-	else
-	{
-		/* Message Dialog */
-		return;
-	}
-
-	bool okGen = RsGenerateCertificate(rsConfig, genName, genOrg, genLoc, genCountry, passwd, err);
-
-	if (okGen)
-	{
-		/* complete the process */
-		loadCertificates();
-	}
-	else
-	{
-		/* Message Dialog */
-	}
-}
 
 void StartDialog::loadPerson()
 {
@@ -161,57 +114,26 @@ void StartDialog::loadPerson()
 
 void StartDialog::loadCertificates()
 {
+	bool autoSave = (Qt::Checked == ui.autoBox -> checkState());
 	/* Final stage of loading */
-	if (LoadCertificates(rsConfig))
+	if (LoadCertificates(rsConfig, autoSave))
 	{
-		/* if Auto is requested.... */
-		if (Qt::Checked == ui.autoBox -> checkState())
-		{
-			RsStoreAutoLogin(rsConfig);
-		}
 		close();
 	}
 	else
 	{
 		/* some error msg */
 	}
+
 }
 
-void StartDialog::selectFriend()
+
+void StartDialog::createnewaccount()
 {
-
-	/* still need to find home (first) */
-
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Select Trusted Friend"), "",
-                                             tr("Certificates (*.pqi *.pem)"));
-
-	std::string fname, userName;
-	fname = fileName.toStdString();
-	if (ValidateTrustedUser(rsConfig, fname, userName))
-	{
-		ui.genFriend -> setText(QString::fromStdString(userName));
-	}
-	else
-	{
-		ui.genFriend -> setText("<Invalid Selected>");
-	}
+    //static GenCertDialog *gencertdialog = new GenCertDialog();
+    //gencertdialog->show();
 }
 
 
-void StartDialog::checkChanged(int i)
-{
-	if (i)
-	{
-		selectFriend();
-	}
-	else
-	{
-		/* invalidate selection */
-		std::string fname = "";
-		std::string userName = "";
-		ValidateTrustedUser(rsConfig, fname, userName);
-		ui.genFriend -> setText("<None Selected>");
-	}
-}
 
 
