@@ -11,19 +11,33 @@ OS = Linux
 ###########################################################################
 ###########################################################################
 # Please Define these Variables before Compiling. (Examples below:)
-# Linux (RS_DIR & SSL_DIR)
-# Cygwin (RS_DIR & SSL_DIR & FLTK_DIR & PTHREADS_DIR)
+# Linux (SSL_DIR & KADC_DIR)
+# Cygwin (SSL_DIR & KADC_DIR & FLTK_DIR & PTHREADS_DIR)
 
 #### Linux/Cygwin Parameters.
 #SSL_DIR=/home/xxx/prog/src/openssl-0.9.7g-xpgp-0.1c
 #KADC_DIR=/home/xxx/prog/src/KadC
 #
 #### Cygwin Only....
-#FLTK_DIR=/MinGWlibs/FLTK-1.1.6  # V0.2.1 Only
+#FLTK_DIR=/MinGWlibs/FLTK-1.1.6  
 #PTHREADS_DIR=/cygdrive/c/home/dev/prog/MinGw/pthreads/Pre-built.2
 #KADC_DIR=/cygdrive/c/home/dev/prog/MinGW/KadC
 #ZLIB_DIR=/cygdrive/c/home/dev/prog/MinGW/zlib-1.2.3
 #
+###########################################################################
+# My Versions: LINUX
+SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
+KADC_DIR=/home/rmf24/prog/src/KadC
+
+#Cygwin....
+#CYGWIN_SRC_ROOT=/cygdrive/c/home/rmfern/prog/MinGW
+#SSL_DIR=/home/rmfern/prog/src/openssl-0.9.7g
+#SSL_DIR=$(CYGWIN_SRC_ROOT)/openssl-0.9.7g
+#FLTK_DIR=$(CYGWIN_SRC_ROOT)/FLTK-1.1.6
+#PTHREADS_DIR=$(CYGWIN_SRC_ROOT)/pthreads/pthreads.2
+#KADC_DIR=$(CYGWIN_SRC_ROOT)/KadC
+#ZLIB_DIR=$(CYGWIN_SRC_ROOT)/zlib-1.2.3
+
 ###########################################################################
 ###########################################################################
 
@@ -76,11 +90,11 @@ USE_FILELOOK = 1
 INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
 # MinGw
 #INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)\include
-CFLAGS = -Wall -g $(INCLUDE) 
+CFLAGS = -Wall -O2 $(INCLUDE) 
 
 RANLIB = ranlib
 LIBRS = ../lib/libretroshare.a
-RSCFLAGS = -Wall -g $(INCLUDE) 
+RSCFLAGS = -Wall -O2 $(INCLUDE) 
 
 ifdef PQI_USE_XPGP
 	CFLAGS += -DPQI_USE_XPGP
@@ -107,7 +121,7 @@ WININC = -mno-cygwin -mwindows -fno-exceptions -fomit-frame-pointer -DWINDOWS_SY
 # for static pthread libs....
 WININC += -DPTW32_STATIC_LIB
 
-WINLIB = -lws2_32 -luuid -lole32 -liphlpapi
+WINLIB = -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32
 
 XLIB = 	-lXft -lpthread -lXext -lX11 -lfontconfig -lfreetype -lz \
 	-lXrender -lexpat -L/usr/X11R6/lib -lXau -lXinerama -lXdmcp -lXext
@@ -118,7 +132,9 @@ ifeq ($(OS),Linux)
 	RM = /bin/rm
 
 	LIBDIR = $(RS_DIR)/lib
-	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lfltk 
+	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto  
+	#-lfltk #only needed for old version.
+	
 	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread -lKadC
 
 	LIBS   += $(XLIB) -ldl
@@ -133,17 +149,17 @@ else  # windows.
         LIBDIR = $(RS_DIR)/lib
         LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lfltk
         LIBS +=  -L$(KADC_DIR) -lKadC 
-        LIBS += -L$(ZLIB_DIR) -lz
+        LIBS += -L$(ZLIB_DIR) -lz $(WINLIB)
 
         #RSLIBS += -L$(FLTK_DIR)/lib  
-	RSLIBS += -L$(PTHREADS_DIR)/lib $(WINLIB)
-        RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
+	RSLIBS +=  $(WINLIB)
+        RSLIBS +=  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
         RSLIBS +=  -L$(KADC_DIR) -lKadC 
         RSLIBS += -L$(ZLIB_DIR) -lz
+	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
 
 
         RSCFLAGS += $(WININC)
-        RSLIBS += -lpthreadGC2d $(WINLIB)
 
         RM = /bin/rm
 

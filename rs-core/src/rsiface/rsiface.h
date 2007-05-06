@@ -2,7 +2,7 @@
 #define RETROSHARE_GUI_INTERFACE_H
 
 /*
- * "$Id: rsiface.h,v 1.8 2007-04-15 18:45:23 rmf24 Exp $"
+ * "$Id: rsiface.h,v 1.9 2007-04-21 19:08:51 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -61,9 +61,10 @@ bool RsGenerateCertificate(RsInit *config, std::string name, std::string org,
 /* Auto Login Fns */
 bool  RsTryAutoLogin(RsInit *config);
 bool  RsStoreAutoLogin(RsInit *config);
+bool  RsClearAutoLogin(std::string basedir);
 
 // Handle actual Login.
-int LoadCertificates(RsInit *config);
+int LoadCertificates(RsInit *config, bool autoLoginNT);
 
 RsIface   *createRsIface  (NotifyBase &notify);
 RsControl *createRsControl(RsIface &iface, NotifyBase &notify);

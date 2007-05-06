@@ -1,5 +1,5 @@
 /*
- * "$Id: filedexserver.cc,v 1.23 2007-04-07 08:41:00 rmf24 Exp $"
+ * "$Id: filedexserver.cc,v 1.24 2007-05-05 16:10:06 rmf24 Exp $"
  *
  * Other Bits for RetroShare.
  *
@@ -584,6 +584,7 @@ int     filedexserver::sendChat(std::string msg)
 	ChatItem *ci = new ChatItem();
 	ci -> sid = getPQIsearchId();
 	ci -> p = sslr -> getOwnCert();
+	ci -> flags = 0;
 
 	pqioutput(PQL_DEBUG_BASIC, fldxsrvrzone, 
 		"filedexserver::sendChat()");
@@ -605,6 +606,25 @@ int     filedexserver::sendChat(std::string msg)
 	pqisi -> SendGlobalMsg(ci);
 	return 1;
 }
+
+int     filedexserver::sendPrivateChat(ChatItem *ci)
+{
+	// make chat item....
+	pqioutput(PQL_DEBUG_BASIC, fldxsrvrzone, 
+		"filedexserver::sendPrivateChat()");
+
+	{
+	  std::ostringstream out;
+	  out << "Private Chat Item we are sending:" << std::endl;
+	  ci -> print(out);
+	  pqioutput(PQL_DEBUG_BASIC, fldxsrvrzone, out.str());
+	}
+
+	/* to global .... */
+	pqisi -> SendMsg(ci);
+	return 1;
+}
+
 
 int 	filedexserver::getChat()
 {

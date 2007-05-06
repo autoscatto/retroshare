@@ -1,6 +1,6 @@
 
 /*
- * "$Id: retroshare.cc,v 1.3 2007-04-07 08:41:00 rmf24 Exp $"
+ * "$Id: retroshare.cc,v 1.4 2007-04-21 19:08:51 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
 	/* Objects */
 	RsInit *config = InitRsConfig();
 	InitRetroShare(argc, argv, config);
-	LoadCertificates(config);
+	LoadCertificates(config, false);
 
 	//NotifyBase *notify = new NotifyBase();
 	NotifyTxt *notify = new NotifyTxt();

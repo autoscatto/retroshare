@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-startup.cc,v 1.7 2007-04-15 18:45:23 rmf24 Exp $"
+ * "$Id: p3face-startup.cc,v 1.9 2007-05-05 16:10:06 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -93,7 +93,8 @@ RsInit *InitRsConfig()
 	strcpy(config->inet, "127.0.0.1");
 	strcpy(config->logfname, "");
 
-	config -> passwd = "";
+	config -> autoLogin      = false;
+	config -> passwd         = "";
 	config -> havePasswd     = false;
 	config -> haveDebugLevel = false;
 	config -> debugLevel	= PQL_WARNING;
@@ -203,10 +204,15 @@ int InitRetroShare(int argcIgnored, char **argvIgnored, RsInit *config)
 /******************************** WINDOWS/UNIX SPECIFIC PART ******************/
 
 	int c;
-	while((c = getopt(argc, argv,"i:p:c:sw:l:d:u")) != -1)
+	while((c = getopt(argc, argv,"ai:p:c:sw:l:d:u")) != -1)
 	{
 		switch (c)
 		{
+			case 'a':
+				config->autoLogin = true;
+				std::cerr << "AutoLogin Allowed";
+				std::cerr << std::endl;
+				break;
 			case 'l':
 				strncpy(config->logfname, optarg, 1024);
 				std::cerr << "LogFile (" << config->logfname;
@@ -507,7 +513,7 @@ int RsServer::StartupRetroShare(RsInit *config)
 
 
 
-int LoadCertificates(RsInit *config)
+int LoadCertificates(RsInit *config, bool autoLoginNT)
 {
 	if (config->load_cert == "")
 	{
@@ -547,6 +553,13 @@ int LoadCertificates(RsInit *config)
 /**************** PQI_USE_XPGP ******************/
 
 	{
+		if (autoLoginNT)
+		{
+			std::cerr << "RetroShare will AutoLogin next time";
+			std::cerr << std::endl;
+
+			RsStoreAutoLogin(config);
+		}
 		/* wipe password */
 		config->passwd = "";
 		create_configinit(config);
@@ -899,24 +912,67 @@ std::string make_path_unix(std::string path)
 	return path;
 }
 
-
-bool  RsTryAutoLogin(RsInit *config)
-{
-	std::cerr << "RsTryAutoLogin()" << std::endl;
-	/* Windows only */
 /******************************** WINDOWS/UNIX SPECIFIC PART ******************/
-#ifndef WINDOWS_SYS /* UNIX */
-	return false;
-#else
-	/* try to load from file */
-	std::string entropy = config->load_cert;
+/* WINDOWS STRUCTURES FOR DPAPI */
 
+#ifndef WINDOWS_SYS /* UNIX */
+#else
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+
+#include <windows.h>
+#include <Wincrypt.h>
+#include <iomanip>
+
+/*
+class CRYPTPROTECT_PROMPTSTRUCT;
+*/
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+typedef struct _CRYPTPROTECT_PROMPTSTRUCT {
+  DWORD cbSize;
+  DWORD dwPromptFlags;
+  HWND hwndApp;
+  LPCWSTR szPrompt;
+} CRYPTPROTECT_PROMPTSTRUCT, 
+ *PCRYPTPROTECT_PROMPTSTRUCT;
+
+/* definitions for the two functions */
+__declspec (dllimport)
+extern BOOL WINAPI CryptProtectData(
+  DATA_BLOB* pDataIn,
+  LPCWSTR szDataDescr,
+  DATA_BLOB* pOptionalEntropy,
+  PVOID pvReserved,
+  /* PVOID prompt, */
+  /* CRYPTPROTECT_PROMPTSTRUCT* pPromptStruct, */
+  CRYPTPROTECT_PROMPTSTRUCT* pPromptStruct, 
+  DWORD dwFlags,
+  DATA_BLOB* pDataOut
+);
+
+__declspec (dllimport)
+extern BOOL WINAPI CryptUnprotectData(
+  DATA_BLOB* pDataIn,
+  LPWSTR* ppszDataDescr,
+  DATA_BLOB* pOptionalEntropy,
+  PVOID pvReserved,
+  /* PVOID prompt, */
+  /* CRYPTPROTECT_PROMPTSTRUCT* pPromptStruct, */
+  CRYPTPROTECT_PROMPTSTRUCT* pPromptStruct, 
+  DWORD dwFlags,
+  DATA_BLOB* pDataOut
+);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
 /******************************** WINDOWS/UNIX SPECIFIC PART ******************/
-
-	return false;
-}
 
 
 
@@ -931,7 +987,80 @@ bool  RsStoreAutoLogin(RsInit *config)
 	/* store password encrypted in a file */
 	std::string entropy = config->load_cert;
 
+	DATA_BLOB DataIn;
+	DATA_BLOB DataEnt;
+	DATA_BLOB DataOut;
+	BYTE *pbDataInput = (BYTE *) strdup(config->passwd.c_str());
+	DWORD cbDataInput = strlen((char *)pbDataInput)+1;
+	BYTE *pbDataEnt   =(BYTE *)  strdup(entropy.c_str());
+	DWORD cbDataEnt   = strlen((char *)pbDataEnt)+1;
+	DataIn.pbData = pbDataInput;    
+	DataIn.cbData = cbDataInput; 
+	DataEnt.pbData = pbDataEnt;    
+	DataEnt.cbData = cbDataEnt; 
+	LPWSTR pDescrOut = NULL;
 
+        CRYPTPROTECT_PROMPTSTRUCT prom; 
+
+        prom.cbSize = sizeof(prom);
+        prom.dwPromptFlags = 0;
+
+	/*********
+     	std::cerr << "Password (" << cbDataInput << "):";
+	std::cerr << pbDataInput << std::endl;
+     	std::cerr << "Entropy (" << cbDataEnt << "):";
+	std::cerr << pbDataEnt   << std::endl;
+	*********/
+
+	if(CryptProtectData(
+     		&DataIn,
+		NULL,
+     		&DataEnt, /* entropy.c_str(), */
+     		NULL,                               // Reserved.
+		&prom,
+     		0,
+     		&DataOut))
+	{
+
+		/**********
+     		std::cerr << "The encryption phase worked. (";
+     		std::cerr << DataOut.cbData << ")" << std::endl;
+
+		for(unsigned int i = 0; i < DataOut.cbData; i++)
+		{
+			std::cerr << std::setw(2) << (int) DataOut.pbData[i];
+			std::cerr << " ";
+		}
+     		std::cerr << std::endl;
+		**********/
+
+		/* save the data to the file */
+		std::string passwdfile = config->basedir;
+		passwdfile += config->dirSeperator;
+		passwdfile += "help.dta";
+
+     		//std::cerr << "Save to: " << passwdfile;
+     		//std::cerr << std::endl;
+
+		FILE *fp = fopen(passwdfile.c_str(), "wb");
+		if (fp != NULL)
+		{
+			fwrite(DataOut.pbData, 1, DataOut.cbData, fp);
+			fclose(fp);
+			
+     			std::cerr << "AutoLogin Data saved: ";
+     			std::cerr << std::endl;
+		}
+	}
+	else
+	{
+     		std::cerr << "Encryption Failed";
+     		std::cerr << std::endl;
+	}
+
+	free(pbDataInput);
+	free(pbDataEnt);
+	LocalFree(DataOut.pbData);
 
 #endif
 /******************************** WINDOWS/UNIX SPECIFIC PART ******************/
@@ -939,6 +1068,156 @@ bool  RsStoreAutoLogin(RsInit *config)
 	return false;
 }
 
+
+
+bool  RsTryAutoLogin(RsInit *config)
+{
+	std::cerr << "RsTryAutoLogin()" << std::endl;
+	/* Windows only */
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS /* UNIX */
+	return false;
+#else
+	/* Require a AutoLogin flag in the config to do this */
+	if (!config->autoLogin)
+	{
+		return false;
+	}
+
+	/* try to load from file */
+	std::string entropy = config->load_cert;
+	/* get the data out */
+
+	/* open the data to the file */
+	std::string passwdfile = config->basedir;
+	passwdfile += config->dirSeperator;
+	passwdfile += "help.dta";
+
+	DATA_BLOB DataIn;
+	DATA_BLOB DataEnt;
+	DATA_BLOB DataOut;
+
+	BYTE *pbDataEnt   =(BYTE *)  strdup(entropy.c_str());
+	DWORD cbDataEnt   = strlen((char *)pbDataEnt)+1;
+	DataEnt.pbData = pbDataEnt;    
+	DataEnt.cbData = cbDataEnt;
+
+	char *dataptr = NULL;
+	int   datalen = 0;
+
+	FILE *fp = fopen(passwdfile.c_str(), "rb");
+	if (fp != NULL)
+	{
+		fseek(fp, 0, SEEK_END);
+		datalen = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		dataptr = (char *) malloc(datalen);
+		fread(dataptr, 1, datalen, fp);
+		fclose(fp);
+
+		/*****
+     		std::cerr << "Data loaded from: " << passwdfile;
+     		std::cerr << std::endl;
+
+     		std::cerr << "Size :";
+     		std::cerr << datalen << std::endl;
+
+		for(unsigned int i = 0; i < datalen; i++)
+		{
+			std::cerr << std::setw(2) << (int) dataptr[i];
+			std::cerr << " ";
+		}
+     		std::cerr << std::endl;
+		*****/
+	}
+	else
+	{
+		return false;
+	}
+
+	BYTE *pbDataInput =(BYTE *) dataptr;
+	DWORD cbDataInput = datalen;
+	DataIn.pbData = pbDataInput;    
+	DataIn.cbData = cbDataInput;
+
+
+        CRYPTPROTECT_PROMPTSTRUCT prom; 
+
+        prom.cbSize = sizeof(prom);
+        prom.dwPromptFlags = 0;
+
+
+	bool isDecrypt = CryptUnprotectData(
+       		&DataIn,
+		NULL, 
+       		&DataEnt,  /* entropy.c_str(), */
+        	NULL,                 // Reserved
+        	&prom,                 // Opt. Prompt
+        	0,
+        	&DataOut);
+
+	if (isDecrypt)
+	{
+     		//std::cerr << "Decrypted size: " << DataOut.cbData;
+		//std::cerr << std::endl;
+		if (DataOut.pbData[DataOut.cbData - 1] != '\0')
+		{
+     			std::cerr << "Error: Decrypted Data not a string...";
+			std::cerr << std::endl;
+			isDecrypt = false;
+		}
+		else
+		{
+     		  //std::cerr << "The decrypted data is: " << DataOut.pbData;
+		  //std::cerr << std::endl;
+		  config -> passwd = (char *) DataOut.pbData;
+		  config -> havePasswd = true;
+		}
+	}
+	else
+	{
+    		std::cerr << "Decryption error!";
+		std::cerr << std::endl;
+	}
+
+	/* strings to be freed */
+	free(pbDataInput);
+	free(pbDataEnt);
+
+	/* generated data space */
+	LocalFree(DataOut.pbData);
+
+	return isDecrypt;
+#endif
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+	return false;
+}
+
+bool  RsClearAutoLogin(std::string basedir)
+{
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS /* UNIX */
+	return false;
+#else
+	std::string file = basedir;
+	file += "\\help.dta";
+
+	FILE *fp = fopen(file.c_str(), "wb");
+	if (fp != NULL)
+	{
+		fwrite(" ", 1, 1, fp);
+		fclose(fp);
+		
+     		std::cerr << "AutoLogin Data cleared! ";
+     		std::cerr << std::endl;
+		return true;
+	}
+	return false;
+#endif
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+	return false;
+}
 
 
 

@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-config.cc,v 1.3 2007-03-05 21:26:04 rmf24 Exp $"
+ * "$Id: p3face-config.cc,v 1.4 2007-05-05 16:10:05 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -279,13 +279,24 @@ int RsServer::UpdateAllConfig()
 
  	RsConfig &config = iface.mConfig;
 
+	cert *own = sslr -> getOwnCert();
+
+        /* set the id.  */
+	{
+           RsCertId rid = intGetCertId(own);
+	   std::ostringstream out;
+	   out << rid;
+	   config.ownId = out.str();
+	}
+
+	config.ownName = own->Name();
+
 	/* shared dirs */
 	std::list<std::string> &dirs = server -> getSearchDirectories();
  	config.sharedDirList = dirs;
  	config.incomingDir = server->getSaveDir();
 
 	/* ports */
-	cert *own = sslr -> getOwnCert();
 	config.localAddr = inet_ntoa(own -> localaddr.sin_addr);
 	config.localPort = ntohs(own -> localaddr.sin_port);
 	

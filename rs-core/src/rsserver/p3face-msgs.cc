@@ -1,6 +1,6 @@
 
 /*
- * "$Id: p3face-msgs.cc,v 1.6 2007-04-07 08:41:00 rmf24 Exp $"
+ * "$Id: p3face-msgs.cc,v 1.7 2007-05-05 16:10:06 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -172,7 +172,25 @@ int 	RsServer::ChatSend(ChatInfo &ci)
 {
 	lockRsCore();     /* LOCK */
 	/* send a message to all for now */
-	server -> sendChat(ci.msg);
+	if (ci.chatflags & RS_CHAT_PRIVATE)
+	{
+
+	  /* to only one person */
+	  RsCertId id(ci.rsid);
+	  cert *c = intFindCert(id);
+	  ChatItem *item = new ChatItem();
+	  item -> sid = getPQIsearchId();
+	  item -> p = c;
+	  item -> cid = c -> cid;
+          item -> msg = ci.msg;
+          item -> flags = PQI_ITEM_FLAG_PRIVATE;
+	  server -> sendPrivateChat(item);
+	}
+	else
+	{
+	  /* global */
+	  server -> sendChat(ci.msg);
+	}
 	unlockRsCore();     /* UNLOCK */
 
 	UpdateAllChat();
@@ -359,9 +377,24 @@ int RsServer::UpdateAllChannels()
 
 void RsServer::initRsChatInfo(ChatItem *c, ChatInfo &i)
 {
+        RsCertId id = intGetCertId((cert *) c->p);
+	std::ostringstream out;
+	out << id;
+
 	i.name = c -> p -> Name();
+	i.rsid = out.str();
 	i.msg  = c -> msg;
-	//i = c;
+        if (c -> flags & PQI_ITEM_FLAG_PRIVATE)
+	{
+		std::cerr << "RsServer::initRsChatInfo() Chat Private!!!";
+		i.chatflags = RS_CHAT_PRIVATE;
+	}
+	else
+	{
+		i.chatflags = RS_CHAT_PUBLIC;
+		std::cerr << "RsServer::initRsChatInfo() Chat Public!!!";
+	}
+	std::cerr << std::endl;
 }
 
 int RsServer::intAddChannel(ChannelInfo &info)

@@ -1,5 +1,5 @@
 /*
- * "$Id: pqi_base.h,v 1.17 2007-04-07 08:40:54 rmf24 Exp $"
+ * "$Id: pqi_base.h,v 1.18 2007-05-05 16:10:05 rmf24 Exp $"
  *
  * 3P/PQI network interface for RetroShare.
  *
@@ -565,8 +565,9 @@ class certsign
 // EXCEPT FOR MAYBE THE FLAGS.
 
 // These are OR'ed together.
-const int PQI_ITEM_FLAG_NEW =   0x001;
-const int PQI_ITEM_FLAG_LOCAL = 0x002;
+const int PQI_ITEM_FLAG_NEW     = 0x001;
+const int PQI_ITEM_FLAG_LOCAL   = 0x002;
+const int PQI_ITEM_FLAG_PRIVATE = 0x004;
 
 const int PQI_ITEM_TYPE_ITEM = 0x000;
 const int PQI_ITEM_TYPE_FILEITEM = 0x001;

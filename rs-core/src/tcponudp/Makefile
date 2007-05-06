@@ -3,17 +3,7 @@ RS_TOP_DIR=..
 
 include $(RS_TOP_DIR)/make.opt
 
-EXECS = udp_server test_tou pair_tou reset_tou internal_tou largefile_tou libtou.a librs
-
-# OS specific (mingwin flags)
-#ifeq ($(OS),Linux)
-#  EXECS += libtou.so 
-#else
-#  CFLAGS += -mno-cygwin -mwindows -fno-exceptions \
-#		-fomit-frame-pointer -DWINDOWS_SYS 
-## need ws2_32, instead of wsock32 for IP_TTL to work.
-#  LIBS   += -lws2_32 -luuid -lole32 -liphlpapi
-#endif
+EXECS = librs udp_server test_tou pair_tou reset_tou internal_tou largefile_tou 
 
 OBJ = tcpstream.o tcppacket.o  udplayer.o tou_net.o tou.o 
 

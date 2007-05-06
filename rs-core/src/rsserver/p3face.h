@@ -2,7 +2,7 @@
 #define MRK_P3RS_INTERFACE_H
 
 /*
- * "$Id: p3face.h,v 1.8 2007-04-15 18:45:23 rmf24 Exp $"
+ * "$Id: p3face.h,v 1.9 2007-05-05 16:10:06 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -329,6 +329,7 @@ class RsInit
         std::string passwd;
 
         bool havePasswd; /* for Commandline password */
+        bool autoLogin;  /* autoLogin allowed */
 
         /* Win/Unix Differences */
         char dirSeperator;

@@ -1,5 +1,5 @@
 /*
- * "$Id: filedexserver.h,v 1.17 2007-04-07 08:41:00 rmf24 Exp $"
+ * "$Id: filedexserver.h,v 1.18 2007-05-05 16:10:06 rmf24 Exp $"
  *
  * Other Bits for RetroShare.
  *
@@ -115,6 +115,8 @@ int	setSearchInterface(P3Interface *si, sslroot *sr);
 int	additem(SearchItem *item, char *fname);
 
 int	sendChat(std::string msg);
+int	sendPrivateChat(ChatItem *ci);
+
 int	sendRecommend(PQFileItem *fi, std::string msg);
 int     sendMessage(MsgItem *item);
 int     checkOutgoingMessages();
