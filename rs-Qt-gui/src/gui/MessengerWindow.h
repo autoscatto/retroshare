@@ -70,7 +70,7 @@ private:
   /* (1) Update Display */
 
   /* (2) Utility Fns */
-  QTreeWidgetItem *getCurrentPeer2();
+  //QTreeWidgetItem *getCurrentPeer2();
 
   /** Define the popup menus for the Context menu */
   QMenu* contextMnu;
@@ -81,7 +81,7 @@ private:
   QAction* exportfriendAct;
   QAction* removefriendAct;
 
-  QTreeWidget *messengertreeWidget;
+  QTreeView *messengertreeWidget;
   
 
   /** Qt Designer generated object */
