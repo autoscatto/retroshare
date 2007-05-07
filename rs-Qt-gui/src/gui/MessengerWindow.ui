@@ -616,12 +616,15 @@ p, li { white-space: pre-wrap; }
          <number>0</number>
         </property>
         <item row="1" column="0" colspan="2" >
-         <widget class="QComboBox" name="comboBox_2" >
+         <widget class="QComboBox" name="messagecomboBox" >
           <property name="toolTip" >
            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">set your private Message for your Friends&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Share a personal message with your contacts&lt;/p>&lt;/body>&lt;/html></string>
+          </property>
+          <property name="editable" >
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -631,7 +634,8 @@ p, li { white-space: pre-wrap; }
            <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">set your Status&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Change your Status and your display&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">picture here.&lt;/p>&lt;/body>&lt;/html></string>
           </property>
           <property name="insertPolicy" >
            <enum>QComboBox::NoInsert</enum>
@@ -642,6 +646,62 @@ p, li { white-space: pre-wrap; }
           <property name="modelColumn" >
            <number>0</number>
           </property>
+          <item>
+           <property name="text" >
+            <string>Online</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/donline.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Busy</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/dbusy.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Be right Back</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/dbrb.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Away</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/daway.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>In a Call</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/dphone.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Out of lunch</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/dlunch.png</iconset>
+           </property>
+          </item>
+          <item>
+           <property name="text" >
+            <string>Apear Offline</string>
+           </property>
+           <property name="icon" >
+            <iconset resource="images.qrc" >:/images/dhidden.png</iconset>
+           </property>
+          </item>
          </widget>
         </item>
        </layout>

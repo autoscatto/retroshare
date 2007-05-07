@@ -43,6 +43,7 @@ LanguageSupport::initialize()
   _languages.insert("af",    "Afrikaans");
   _languages.insert("cn_simp",    "Chinese-Simple");
   _languages.insert("cn_trad",    "Chinese-Trad");
+  _languages.insert("dk",    "danish");
   _languages.insert("fr",    
     QString::fromUtf8("fran\303\247ais"));
   _languages.insert("gr",    "Greek");
@@ -55,6 +56,7 @@ LanguageSupport::initialize()
     QString::fromUtf8("\320\240\321\203\321\201\321\201\320\272\320\270\320\271"));
   _languages.insert("es",    
     QString::fromUtf8("spanish"));
+  _languages.insert("sl",    "slovenian");  
   _languages.insert("tr",    "Turkish");
 /****
   _languages.insert("fi",    "Suomi");

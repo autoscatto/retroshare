@@ -224,7 +224,9 @@ TRANSLATIONS +=  \
 	lang/retroshare_pl.ts  \
 	lang/retroshare_pt.ts  \
 	lang/retroshare_ru.ts  \
-	lang/retroshare_tr.ts 
+	lang/retroshare_tr.ts \
+      lang/retroshare_dk.ts \
+      lang/retroshare_sl.ts 
 
 !macx {
   # On non-Mac, make the binary all lowercase

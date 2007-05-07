@@ -41,6 +41,8 @@
         <file>images/flags/pt.png</file>
 	  <file>images/flags/cn.png</file>
         <file>images/flags/af.png</file>
+        <file>images/flags/sl.png</file>
+        <file>images/flags/dk.png</file>
         <file>images/peers_16x16.png</file>
         <file>images/ktorrent.png</file>
         <file>images/konsole.png</file>
@@ -142,7 +144,13 @@
     <file>images/rsmessenger32.png</file>
     <file>images/nopic.png</file>
     <file>images/messenger.png</file>
-    <file>images/new-account.png</file>
+    <file>images/donline.png</file>
+    <file>images/daway.png</file>
+    <file>images/dbusy.png</file>
+    <file>images/dbrb.png</file>
+    <file>images/dhidden.png</file>
+    <file>images/dphone.png</file>
+    <file>images/dlunch.png</file>
    	  <file>layouts/default.ui</file>
         <file>layouts/pagefold.ui</file>
         <file>layouts/over.ui</file>
