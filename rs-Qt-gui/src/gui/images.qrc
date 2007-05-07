@@ -21,7 +21,6 @@
         <file>images/network32.png</file>
         <file>images/network.png</file>
         <file>images/network16.png</file>
-        <file>images/retro3.png</file>
         <file>images/new-mail-alert.png</file>
         <file>images/folder_green.png</file>
         <file>images/folder_green16.png</file>
@@ -139,6 +138,8 @@
     <file>images/avatar_background.png</file>
     <file>images/amsn.png</file>
     <file>images/amsn16.png</file>
+    <file>images/rsmessenger16.png</file>
+    <file>images/rsmessenger32.png</file>
     <file>images/nopic.png</file>
     <file>images/messenger.png</file>
     <file>images/new-account.png</file>

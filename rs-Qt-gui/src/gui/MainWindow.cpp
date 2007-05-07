@@ -56,8 +56,8 @@
 #define IMAGE_STATISTIC         ":/images/utilities-system-monitor.png"
 #define IMAGE_MESSAGES          ":/images/evolution.png"
 #define IMAGE_BWGRAPH           ":/images/ksysguard.png"
-#define IMAGE_MESSENGER         ":/images/messenger.png"
-#define IMAGE_RSM16             ":/images/amsn16.png"
+#define IMAGE_RSM32             ":/images/rsmessenger32.png"
+#define IMAGE_RSM16             ":/images/rsmessenger16.png"
 
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
@@ -141,7 +141,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
   connect(grp, SIGNAL(triggered(QAction *)), ui.stackPages, SLOT(showPage(QAction *)));
  
   /* Create and bind the messenger button */
-  addAction(new QAction(QIcon(IMAGE_MESSENGER), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
+  addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
  
  #ifdef NO_MORE_OPTIONS_OR_SS
 
