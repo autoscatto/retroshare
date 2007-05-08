@@ -37,7 +37,7 @@ SetCompressor LZMA
 !insertmacro MUI_RESERVEFILE_LANGDLL
 
 LangString TEXT_FLocations_TITLE ${LANG_ENGLISH} "Choose Default Save Locations"
-LangString TEXT_FLocations_SUBTITLE ${LANG_ENGLISH} "Choose the folders to save your downloads and torrents to."
+LangString TEXT_FLocations_SUBTITLE ${LANG_ENGLISH} "Choose the folders to save your downloads to."
 
 !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
 
