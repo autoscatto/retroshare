@@ -1,6 +1,6 @@
 <ui version="4.0" >
  <class>InviteDialog</class>
- <widget class="QWidget" name="InviteDialog" >
+ <widget class="QMainWindow" name="InviteDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>

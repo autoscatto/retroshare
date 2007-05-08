@@ -1,6 +1,6 @@
 <ui version="4.0" >
  <class>AddFriendDialog</class>
- <widget class="QWidget" name="AddFriendDialog" >
+ <widget class="QMainWindow" name="AddFriendDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>
