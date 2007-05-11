@@ -87,9 +87,9 @@ int     ChatDialog::loadInitMsg()
 {
 	std::ostringstream out;
 
-	out << std::endl;
-	out << std::endl;
-	out << std::endl;
+	//out << std::endl;
+	//out << std::endl;
+	//out << std::endl;
 	out << "Welcome to Retroshare's group chat.";
 	out << std::endl;
 	out << std::endl;
