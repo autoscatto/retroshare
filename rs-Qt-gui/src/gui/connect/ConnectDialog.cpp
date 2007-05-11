@@ -69,8 +69,7 @@ ConnectDialog::show()
 
 void ConnectDialog::closeEvent (QCloseEvent * event)
 {
- GConfig config;
- config.saveWidgetInformation(this);
+
 
  QWidget::closeEvent(event);
 }
