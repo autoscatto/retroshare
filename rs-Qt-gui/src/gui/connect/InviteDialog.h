@@ -23,11 +23,11 @@
 #ifndef _INVITEDIALOG_H
 #define _INVITEDIALOG_H
 
-#include <QMainWindow>
+#include <QDialog>
 
 #include "ui_InviteDialog.h"
 
-class InviteDialog : public QMainWindow
+class InviteDialog : public QDialog
 {
   Q_OBJECT
 

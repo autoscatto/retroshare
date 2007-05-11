@@ -24,7 +24,7 @@
 
 /** Default constructor */
 InviteDialog::InviteDialog(QWidget *parent, Qt::WFlags flags)
-  : QMainWindow(parent, flags)
+  : QDialog(parent, flags)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
