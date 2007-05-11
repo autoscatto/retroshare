@@ -57,8 +57,7 @@ SectionEnd
 
 Section "File Association" section2
   ; Delete any existing keys
-  DeleteRegKey HKCR "Applications\btdownloadgui.exe"
-  DeleteRegKey HKCR "Applications\Azureus.exe"
+
 
   ; Write the file association
   WriteRegStr HKCR .pqi "" retroshare
