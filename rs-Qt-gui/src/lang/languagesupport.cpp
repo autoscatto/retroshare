@@ -19,10 +19,6 @@
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
 
-/** 
- * \file languagesupport.cpp
- * \version $Id: languagesupport.cpp 1071 2006-07-02 18:58:44Z edmanm $
- */
 
 #include <QTranslator>
 #include <QLocale>
@@ -39,7 +35,6 @@ LanguageSupport::initialize()
   _languages.clear();
   _languages.insert("en",    "English");
   _languages.insert("de",    "Deutsch");
-
   _languages.insert("af",    "Afrikaans");
   _languages.insert("cn_simp",    "Chinese-Simple");
   _languages.insert("cn_trad",    "Chinese-Trad");
