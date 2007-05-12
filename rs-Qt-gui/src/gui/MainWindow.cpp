@@ -78,7 +78,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 	
     /* Create all the dialogs of which we only want one instance */
 	_bandwidthGraph = new BandwidthGraph();
-	_messengerWindow = new MessengerWindow();
+	messengerWindow = new MessengerWindow();
+        messengerWindow->hide();
 	
 	connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
 	connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
@@ -134,6 +135,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 
   /* also an empty list of chat windows */
   peersDialog->setChatDialog(chatDialog);
+  messengerWindow->setChatDialog(chatDialog);
 
   /* Create the toolbar */
   ui.toolBar->addActions(grp->actions());
@@ -325,8 +327,7 @@ void MainWindow::showSettings()
 /** Shows Messenger window */
 void MainWindow::showMessengerWindow()
 {
-    static MessengerWindow *messengerwindow = new MessengerWindow();
-    messengerwindow->show();
+    messengerWindow->show();
 }
 
 /** Destructor. */

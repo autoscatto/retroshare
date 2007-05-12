@@ -13,6 +13,7 @@ class TransfersDialog;
 class ChatDialog;
 class MessagesDialog;
 class ChannelsDialog;
+class MessengerWindow;
 
 
 
@@ -33,6 +34,7 @@ class NotifyQt: public QObject, public NotifyBase
 	void setChatDialog(ChatDialog *m)         { hDialog = m; }
 	void setMessagesDialog(MessagesDialog *m) { mDialog = m; }
 	void setChannelsDialog(ChannelsDialog *s) { sDialog = s; }
+	void setMessengerWindow(MessengerWindow *mw) { mWindow = mw; }
 
 	void setRsIface(RsIface *i) { iface = i; }
 
@@ -72,6 +74,7 @@ void	UpdateGUI(); /* called by timer */
 	ChatDialog        *hDialog;
 	MessagesDialog    *mDialog;
 	ChannelsDialog    *sDialog;
+	MessengerWindow   *mWindow;
 
 	RsIface           *iface;
 };

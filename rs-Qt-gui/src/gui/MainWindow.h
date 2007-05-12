@@ -86,6 +86,7 @@ public:
   SharedFilesDialog *sharedfilesDialog;
   //GroupsDialog      *groupsDialog;
   //StatisticDialog   *statisticDialog;
+  MessengerWindow   *messengerWindow;
 
 
 public slots:
@@ -139,7 +140,6 @@ private:
   
   PreferencesWindow* _preferencesWindow;
   
-  MessengerWindow* _messengerWindow;
 
   /** Creates a new action for a config page. */
   QAction* createPageAction(QIcon img, QString text, QActionGroup *group);

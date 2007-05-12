@@ -94,6 +94,7 @@ int main(int argc, char *argv[])
         notify->setChatDialog(w.chatDialog);
         notify->setMessagesDialog(w.messagesDialog);
         notify->setChannelsDialog(w.channelsDialog);
+        notify->setMessengerWindow(w.messengerWindow);
 
         rsServer -> StartupRetroShare(config);
         CleanupRsConfig(config);

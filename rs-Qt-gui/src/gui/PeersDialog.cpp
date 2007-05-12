@@ -242,6 +242,10 @@ void PeersDialog::exportfriend()
 void PeersDialog::chatfriend()
 {
     QTreeWidgetItem *i = getCurrentPeer();
+
+    if (!i)
+	return;
+
     std::string status = (i -> text(0)).toStdString();
     std::string name = (i -> text(1)).toStdString();
     std::string id = (i -> text(9)).toStdString();

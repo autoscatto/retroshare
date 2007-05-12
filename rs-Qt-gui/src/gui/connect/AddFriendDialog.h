@@ -23,12 +23,12 @@
 #ifndef _ADDFRIENDDIALOG_H
 #define _ADDFRIENDDIALOG_H
 
-#include <QMainWindow>
+#include <QDialog>
 
 #include "ui_AddFriendDialog.h"
 class ConnectionsDialog;
 
-class AddFriendDialog : public QMainWindow
+class AddFriendDialog : public QDialog
 {
   Q_OBJECT
 

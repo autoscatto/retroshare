@@ -8,6 +8,7 @@
 #include "gui/ChatDialog.h"
 #include "gui/MessagesDialog.h"
 #include "gui/ChannelsDialog.h"
+#include "gui/MessengerWindow.h"
 
 #include <iostream>
 #include <sstream>
@@ -190,6 +191,7 @@ void NotifyQt::displayFriends()
 	iface->unlockData(); /* UnLock Interface */
 
 	pDialog->insertPeers();
+	mWindow->insertPeers();
 }
 
 

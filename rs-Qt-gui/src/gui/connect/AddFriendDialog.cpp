@@ -27,7 +27,7 @@
 
 /** Default constructor */
 AddFriendDialog::AddFriendDialog(ConnectionsDialog *cd, QWidget *parent, Qt::WFlags flags)
-  : QMainWindow(parent, flags), cDialog(cd)
+  : QDialog(parent, flags), cDialog(cd)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);

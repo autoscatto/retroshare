@@ -27,6 +27,7 @@
 #include "ui_MessengerWindow.h"
 
 
+class ChatDialog;
 
 class MessengerWindow : public QWidget
 {
@@ -37,7 +38,8 @@ public:
   MessengerWindow(QWidget *parent = 0);
   /** Default Destructor */
 
-  void  insertPeers2();
+  void  insertPeers();
+  void setChatDialog(ChatDialog *cd);
 
 protected:
   void closeEvent (QCloseEvent * event);
@@ -70,7 +72,9 @@ private:
   /* (1) Update Display */
 
   /* (2) Utility Fns */
-  //QTreeWidgetItem *getCurrentPeer2();
+  QTreeWidgetItem *getCurrentPeer(bool &isOnline);
+  
+  ChatDialog *chatDialog;
 
   /** Define the popup menus for the Context menu */
   QMenu* contextMnu;
@@ -82,7 +86,8 @@ private:
   QAction* removefriendAct;
 
   QTreeView *messengertreeWidget;
-  
+
+
 
   /** Qt Designer generated object */
   Ui::MessengerWindow ui;
