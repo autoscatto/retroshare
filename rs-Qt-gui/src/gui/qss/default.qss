@@ -1,4 +1,12 @@
-/* empty stylesheet */
+.QWidget {
+   background-color: #ECF3F6;
+}
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(:/images/retrotoolbar.png);
+
+}
 
 
 
