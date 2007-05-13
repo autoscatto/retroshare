@@ -24,6 +24,7 @@
 #include "GenCertDialog.h"
 #include "config/gconfig.h"
 #include <QFileDialog>
+#include <QMessageBox>
 #include <util/WidgetBackgroundImage.h>
 
 /* Define the format used for displaying the date and time */
@@ -51,26 +52,7 @@ GenCertDialog::GenCertDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   connect(ui.selectButton, SIGNAL(clicked()), this, SLOT(selectFriend()));
   connect(ui.friendBox, SIGNAL(stateChanged(int)), this, SLOT(checkChanged(int)));
 
-
-  /* load the Certificate File name */
-  std::string userName;
-
-  if (ValidateCertificate(rsConfig, userName))
-  {
-  	/* just need to enter password */
-	//ui.loadName->setText(QString::fromStdString(userName));
-	//ui.loadPasswd->setFocus(Qt::OtherFocusReason);
-	//ui.loadButton -> setEnabled(true);
-  }
-  else
-  {
-  	/* need to generate new user */
-	//ui.loadName->setText("<No Existing User>");
-	//ui.loadButton -> setEnabled(false);
-	ui.genName->setFocus(Qt::OtherFocusReason);
-  }
-
-  //ui.genFriend -> setText("<None Selected>");
+  ui.genName->setFocus(Qt::OtherFocusReason);
 
 }
 
@@ -123,6 +105,10 @@ void GenCertDialog::genPerson()
 	else
 	{
 		/* Message Dialog */
+		QMessageBox::StandardButton sb = QMessageBox::warning ( NULL,
+	                        "Generate ID Failure",
+			        "Your Name is too short (3+ characters)",
+			          QMessageBox::Ok);
 		return;
 	}
 
@@ -133,6 +119,14 @@ void GenCertDialog::genPerson()
 	else
 	{
 		/* Message Dialog */
+		QMessageBox::StandardButton sb = QMessageBox::warning ( NULL,
+	                        "Generate ID Failure",
+		        "Your password is too short, or don't match",
+			          QMessageBox::Ok);
+
+	        ui.genPasswd->setText("");
+	        ui.genPasswd2->setText("");
+
 		return;
 	}
 
@@ -146,6 +140,10 @@ void GenCertDialog::genPerson()
 	else
 	{
 		/* Message Dialog */
+		QMessageBox::StandardButton sb = QMessageBox::warning ( NULL,
+	                        "Generate ID Failure",
+			        "Failed to Generate your new Certificate!",
+			          QMessageBox::Ok);
 	}
 }
 
@@ -190,18 +188,22 @@ void GenCertDialog::checkChanged(int i)
 	}
 }
 
+
 void GenCertDialog::loadCertificates()
 {
-	//bool autoSave = (Qt::Checked == ui.autoBox -> checkState());
+	bool autoSave = false; 
 	/* Final stage of loading */
-	//if (LoadCertificates(rsConfig, autoSave))
-	//{
-	//	close();
-	//}
-	//else
-	//{
+	if (LoadCertificates(rsConfig, autoSave))
+	{
+		close();
+	}
+	else
+	{
 		/* some error msg */
-	//}
-
+		QMessageBox::StandardButton sb = QMessageBox::warning ( NULL,
+	                        "Generate ID Failure",
+			        "Failed to Load your new Certificate!",
+			          QMessageBox::Ok);
+	}
 }
 

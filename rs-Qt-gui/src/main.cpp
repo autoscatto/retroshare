@@ -24,6 +24,7 @@
 #include <rshare.h>
 #include <gui/MainWindow.h>
 #include <gui/StartDialog.h>
+#include <gui/GenCertDialog.h>
 
 #include <util/process.h>
 #include <util/string.h>
@@ -54,7 +55,19 @@ int main(int argc, char *argv[])
 	/* Login Dialog */
   	if (!okStart)
 	{
-		StartDialog *sd = new StartDialog(config);
+                /* check for existing Certificate */
+                std::string userName;
+   
+   		QWidget *sd = NULL;
+                if (ValidateCertificate(config, userName))
+		{
+		  sd = new StartDialog(config);
+		}
+		else
+		{
+		  sd = new GenCertDialog(config);
+		}
+
 		sd->show();
 
 		while(sd -> isVisible())

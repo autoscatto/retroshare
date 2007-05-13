@@ -57,6 +57,7 @@ HEADERS += rshare.h \
            gui/SharedFilesDialog.h \
            gui/StatisticDialog.h \
            gui/ChannelsDialog.h \
+           gui/HelpDialog.h \
            lang/languagesupport.h \
            util/process.h \
            util/registry.h \
@@ -120,6 +121,7 @@ FORMS += gui/ChatDialog.ui \
          gui/StatisticDialog.ui \
          gui/ChannelsDialog.ui \
          gui/MessagesDialog.ui \
+         gui/HelpDialog.ui \
          gui/bwgraph/bwgraph.ui \
          gui/chat/PopupChatDialog.ui \
          gui/connect/ConnectDialog.ui \
@@ -168,6 +170,7 @@ SOURCES += main.cpp \
            gui/StatisticDialog.cpp \
            gui/ChannelsDialog.cpp \
            gui/MessagesDialog.cpp \
+           gui/HelpDialog.cpp \
            lang/languagesupport.cpp \
            util/process.cpp \
            util/registry.cpp \

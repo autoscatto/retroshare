@@ -30,6 +30,8 @@
 #include <rshare.h>
 #include "MainWindow.h"
 #include "MessengerWindow.h"
+#include "HelpDialog.h"
+
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
 #include "config/gconfig.h"
@@ -44,15 +46,15 @@
 
 /* Images for toolbar icons */
 #define IMAGE_NETWORK           ":/images/network32.png"
-#define IMAGE_PEERS        		":/images/peers_24x24.png"
-#define IMAGE_SEARCH    		":/images/filefind.png"
+#define IMAGE_PEERS      	":/images/peers_24x24.png"
+#define IMAGE_SEARCH    	":/images/filefind.png"
 #define IMAGE_TRANSFERS      	":/images/ktorrent.png"
 #define IMAGE_FILES   	        ":/images/folder_green.png"
 #define IMAGE_CHANNELS       	":/images/konsole.png"
 #define IMAGE_PREFERENCES       ":/images/settings.png"
 #define IMAGE_CHAT          	":/images/chats_24x24.png"
 #define IMAGE_RETROSHARE        ":/images/RetroShare16.png"
-#define IMAGE_INFORMATIONS      ":/images/informations_24x24.png"
+#define IMAGE_ABOUT             ":/images/informations_24x24.png"
 #define IMAGE_STATISTIC         ":/images/utilities-system-monitor.png"
 #define IMAGE_MESSAGES          ":/images/evolution.png"
 #define IMAGE_BWGRAPH           ":/images/ksysguard.png"
@@ -126,6 +128,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
                      
   ui.stackPages->add(channelsDialog = new ChannelsDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_CHANNELS), tr("Channels"), grp));
+
+  ui.stackPages->add(new HelpDialog(ui.stackPages),
+                     createPageAction(QIcon(IMAGE_ABOUT), tr("About/Help"), grp));
                      
   //ui.stackPages->add(groupsDialog = new GroupsDialog(ui.stackPages),
   //                   createPageAction(QIcon(), tr("Groups"), grp));
@@ -168,10 +173,15 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     statusBar()->addPermanentWidget(new QLabel(tr("Down: 0.0  Up: 0.0 ")));
     statusBar()->addPermanentWidget(new QLabel(tr("Connections: 0/45 ")));
   
-  
+/******  
+ * This is an annoying warning I get all the time...
+ * (no help!)
+ *
+ *
    if (!QSystemTrayIcon::isSystemTrayAvailable())
             QMessageBox::warning(0, tr("System tray is unavailable"),
                                    tr("System tray unavailable"));
+******/
 
     // Create the menu that will be used for the context menu
     menu = new QMenu(this);

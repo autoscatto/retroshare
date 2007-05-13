@@ -26,6 +26,7 @@
 #include "GenCertDialog.h"
 #include "config/gconfig.h"
 #include <QFileDialog>
+#include <QMessageBox>
 
 /* Define the format used for displaying the date and time */
 #define DATETIME_FMT  "MMM dd hh:mm:ss"
@@ -123,6 +124,11 @@ void StartDialog::loadCertificates()
 	else
 	{
 		/* some error msg */
+                QMessageBox::StandardButton sb = QMessageBox::warning ( NULL,
+                                "Login Failure",
+                                "*** Wrong Password ***",
+				QMessageBox::Ok);
+	        ui.loadPasswd->setText("");
 	}
 
 }
