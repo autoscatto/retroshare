@@ -178,4 +178,13 @@ PreferencesWindow::cancelpreferences()
   QMainWindow::close();
 }
 
+void PreferencesWindow::closeEvent (QCloseEvent * event)
+{
+    hide();
+    event->ignore();
+}
+
+
+
+
 

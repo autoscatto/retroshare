@@ -56,6 +56,9 @@ public:
     /** Default destructor */
   //~PreferencesWindow();
 
+protected:
+  void closeEvent (QCloseEvent * event);
+
 public slots:
   /** Called when this dialog is to be displayed */
   void show();

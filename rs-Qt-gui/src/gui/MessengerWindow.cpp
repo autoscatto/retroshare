@@ -262,8 +262,8 @@ void MessengerWindow::configurefriend2()
 
 void MessengerWindow::closeEvent (QCloseEvent * event)
 {
-
- QWidget::closeEvent(event);
+    hide();
+    event->ignore();
 }
 
 
