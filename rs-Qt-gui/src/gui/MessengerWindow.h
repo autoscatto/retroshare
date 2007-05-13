@@ -41,6 +41,11 @@ public:
   void  insertPeers();
   void setChatDialog(ChatDialog *cd);
 
+
+public slots:
+  /** Called when this dialog is to be displayed */
+  void show();
+
 protected:
   void closeEvent (QCloseEvent * event);
 

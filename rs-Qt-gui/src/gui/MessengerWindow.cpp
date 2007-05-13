@@ -260,6 +260,20 @@ void MessengerWindow::configurefriend2()
 	
 }
 
+
+/** Overloads the default show  */
+void MessengerWindow::show()
+{
+
+  if (!this->isVisible()) {
+    QWidget::show();
+  } else {
+    QWidget::activateWindow();
+    setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+    QWidget::raise();
+  }
+}
+
 void MessengerWindow::closeEvent (QCloseEvent * event)
 {
     hide();
