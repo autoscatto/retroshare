@@ -44,7 +44,8 @@ void  insertSendList(); /* for Msgs */
 void  insertChannelSendList(); /* for Channels */
 void  insertFileList(); /* for Both */
 
-
+protected:
+  void closeEvent (QCloseEvent * event);
 
 
 private slots:

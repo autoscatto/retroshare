@@ -94,6 +94,13 @@ void ChanMsgDialog::channelstreeViewCostumPopupMenu( QPoint point )
       contextMnu.exec( mevent->globalPos() );
 }
 
+void ChanMsgDialog::closeEvent (QCloseEvent * event)
+{
+    hide();
+    event->ignore();
+}
+
+
 
 void ChanMsgDialog::deletechannel()
 {
