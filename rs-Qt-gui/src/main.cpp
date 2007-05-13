@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 
   QStringList args = char_array_to_stringlist(argv+1, argc-1);
   
-  //Q_INIT_RESOURCE(stylesheet);
+  Q_INIT_RESOURCE(images);
 
 	rsiface = NULL;
 
