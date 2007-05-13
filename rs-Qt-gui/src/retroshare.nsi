@@ -2,7 +2,7 @@
 
 ; Define your application name
 !define APPNAME "RetroShare"
-!define VERSION "0.3.0"
+!define VERSION "0.3.0pr10"
 !define APPNAMEANDVERSION "${APPNAME} ${VERSION}"
 
 ; Main Install settings
@@ -55,6 +55,17 @@ Section "RetroShare Core" Section1
 	
 SectionEnd
 
+Section "RetroShare Data" Section1b
+
+  ; Set Section properties
+  SetOverwrite on
+
+  ; Set Section Files and Shortcuts
+  SetOutPath "$APPDATA\RetroShare\"
+  File /r "data\*"
+	
+SectionEnd
+
 Section "File Association" section2
   ; Delete any existing keys
 
@@ -63,7 +74,7 @@ Section "File Association" section2
   WriteRegStr HKCR .pqi "" retroshare
   WriteRegStr HKCR .pqi "Content Type" application/x-bittorrent
   WriteRegStr HKCR "MIME\Database\Content Type\application/x-bittorrent" Extension .pqi
-  WriteRegStr HKCR retorshare "" "PQI File"
+  WriteRegStr HKCR retroshare "" "PQI File"
   WriteRegBin HKCR retroshare EditFlags 00000100
   WriteRegStr HKCR "retroshare\shell" "" open
   WriteRegStr HKCR "retroshare\shell\open\command" "" `"$INSTDIR\RetroShare.exe" "%1"`
@@ -84,6 +95,12 @@ Section "Desktop Shortcuts" section4
   
 SectionEnd
 
+Section "Automatic Startup" section5
+
+  WriteRegStr HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "RetroRun"   "$INSTDIR\${APPNAME}.exe -a"
+  
+SectionEnd
+
 Section -FinishSection
 
   WriteRegStr HKLM "Software\${APPNAME}" "" "$INSTDIR"
@@ -96,10 +113,12 @@ SectionEnd
 
 ; Modern install component descriptions
 !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-!insertmacro MUI_DESCRIPTION_TEXT ${Section1} "RetroShare program files"
+!insertmacro MUI_DESCRIPTION_TEXT ${Section1}  "RetroShare program files"
+!insertmacro MUI_DESCRIPTION_TEXT ${Section1b} "RetroShare data files"
 !insertmacro MUI_DESCRIPTION_TEXT ${Section2} "Associate RetroShare with .pqi file extension"
 !insertmacro MUI_DESCRIPTION_TEXT ${Section3} "Create RetroShare Start Menu shortcuts"
 !insertmacro MUI_DESCRIPTION_TEXT ${Section4} "Create RetroShare Desktop shortcut"	
+!insertmacro MUI_DESCRIPTION_TEXT ${Section5} "Auto-Run and Login at Startup"	
 !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;Uninstall section
@@ -114,6 +133,8 @@ Section "Uninstall"
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
   DeleteRegKey HKLM SOFTWARE\${APPNAME}
 
+  DeleteRegValue HKCU "Software\Microsoft\Windows\CurrentVersion\Run" "RetroRun"
+
   ; Remove files and uninstaller
   Delete $INSTDIR\RetroShare.exe
   Delete $INSTDIR\*.dll
@@ -122,9 +143,13 @@ Section "Uninstall"
   Delete $INSTDIR\*.ini
   Delete $INSTDIR\*.log
 
-	
-
   Delete $INSTDIR\uninstall.exe
+
+  ; Remove the kadc.ini file.
+  ; Don't remove the directory, otherwise
+  ; we lose the XPGP keys.
+  ; Should make this an option though...
+  Delete $APPDATA\RetroShare\kadc.ini
 
   ; Remove shortcuts, if any
   Delete "$SMPROGRAMS\${APPNAME}\*.*"
