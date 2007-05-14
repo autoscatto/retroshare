@@ -73,22 +73,23 @@ PopupChatDialog::PopupChatDialog(std::string id, std::string name,
 /** 
  Overloads the default show() slot so we can set opacity*/
 
-void
-PopupChatDialog::show()
+void PopupChatDialog::show()
 {
-  //loadSettings();
+
   if(!this->isVisible()) {
     QMainWindow::show();
-
+  } else {
+    QMainWindow::activateWindow();
+    setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+    QMainWindow::raise();
   }
+  
 }
 
 void PopupChatDialog::closeEvent (QCloseEvent * event)
 {
- GConfig config;
- config.saveWidgetInformation(this);
-
- QWidget::closeEvent(event);
+    hide();
+    event->ignore();
 }
 
 void PopupChatDialog::setColor()

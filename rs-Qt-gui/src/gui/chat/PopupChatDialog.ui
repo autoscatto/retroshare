@@ -499,7 +499,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle" >
-   <string>RetroShare Friend Chat</string>
+   <string>RetroShare User Chat</string>
   </property>
   <property name="windowIcon" >
    <iconset resource="../images.qrc" >:/images/chat.png</iconset>
