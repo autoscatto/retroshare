@@ -99,6 +99,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 	ui.tabWidget->setCornerWidget(closeButton);
 	ui.tabWidget->cornerWidget()->show();
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(closeActiveTab()));
+	
+	ui.styleSheetCombo->setCurrentIndex(ui.styleSheetCombo->findText("Default"));
+    loadStyleSheet("Default");
 
 
 
@@ -438,6 +441,20 @@ void MainWindow::showtoolboxFrame(bool show)
 }
 
 
+void MainWindow::on_styleSheetCombo_activated(const QString &sheetName)
+{
+    loadStyleSheet(sheetName);
+}
 
+void MainWindow::loadStyleSheet(const QString &sheetName)
+{
+    QFile file(":/qss/" + sheetName.toLower() + ".qss");
+    file.open(QFile::ReadOnly);
+    QString styleSheet = QLatin1String(file.readAll());
+
+    
+    qApp->setStyleSheet(styleSheet);
+    
+}
 
 

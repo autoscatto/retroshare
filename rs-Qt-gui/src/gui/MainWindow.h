@@ -123,6 +123,9 @@ protected:
     void closeEvent(QCloseEvent *);
 
 
+private slots:
+
+  void on_styleSheetCombo_activated(const QString &styleSheetName);
 
 private:
 
@@ -146,7 +149,8 @@ private:
   /** Adds a new action to the toolbar. */
   void addAction(QAction *action, const char *slot = 0);
   
-
+  void loadStyleSheet(const QString &sheetName);
+    
     QSystemTrayIcon *trayIcon;
     QAction *toggleVisibilityAction;
     QMenu *menu;
