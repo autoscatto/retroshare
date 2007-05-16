@@ -46,12 +46,12 @@
 
 /* Images for toolbar icons */
 #define IMAGE_NETWORK           ":/images/network32.png"
-#define IMAGE_PEERS      	":/images/peers_24x24.png"
-#define IMAGE_SEARCH    	":/images/filefind.png"
+#define IMAGE_PEERS         	":/images/peers_24x24.png"
+#define IMAGE_SEARCH    	    ":/images/filefind.png"
 #define IMAGE_TRANSFERS      	":/images/ktorrent.png"
 #define IMAGE_FILES   	        ":/images/folder_green.png"
 #define IMAGE_CHANNELS       	":/images/konsole.png"
-#define IMAGE_PREFERENCES       ":/images/settings.png"
+#define IMAGE_PREFERENCES       ":/images/settings16.png"
 #define IMAGE_CHAT          	":/images/chats_24x24.png"
 #define IMAGE_RETROSHARE        ":/images/RetroShare16.png"
 #define IMAGE_ABOUT             ":/images/informations_24x24.png"
@@ -60,6 +60,7 @@
 #define IMAGE_BWGRAPH           ":/images/ksysguard.png"
 #define IMAGE_RSM32             ":/images/rsmessenger32.png"
 #define IMAGE_RSM16             ":/images/rsmessenger16.png"
+#define IMAGE_CLOSE             ":/images/close_normal.png"
 
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
@@ -190,16 +191,16 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     menu = new QMenu(this);
     QObject::connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
     toggleVisibilityAction = 
-    menu->addAction("Show/Hide", this, SLOT(toggleVisibility()));
+    menu->addAction(QIcon(IMAGE_RETROSHARE), tr("Show/Hide"), this, SLOT(toggleVisibility()));
     menu->addSeparator();
     menu->addAction(_messengerwindowAct);
     menu->addAction(_bandwidthAct);
-    menu->addAction("Preferences", this, SLOT(showPreferencesWindow()));
+    menu->addAction(_prefsAct);
     menu->addSeparator();
     menu->addAction("Minimize", this, SLOT(showMinimized()));
     menu->addAction("Maximize", this, SLOT(showMaximized()));
     menu->addSeparator();
-    menu->addAction("&Quit", qApp, SLOT(quit()));
+    menu->addAction(QIcon(IMAGE_CLOSE), tr("&Quit"), qApp, SLOT(quit()));
 
     // Create the tray icon
     trayIcon = new QSystemTrayIcon(this);
