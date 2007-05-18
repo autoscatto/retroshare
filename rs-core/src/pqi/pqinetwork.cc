@@ -171,6 +171,8 @@ std::list<std::string> getLocalInterfaces()
 			addrs.push_back(astr);
 		}
 	}
+	// free socket -> or else run out of fds.
+	close(sock);
 
 	if_freenameindex(iflist);
 	return addrs;

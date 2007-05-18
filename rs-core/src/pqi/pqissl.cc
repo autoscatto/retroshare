@@ -630,11 +630,22 @@ int 	pqissl::Initiate_Connection()
 			return -1;
 		}
 
+		/* IF we get here ---- we Failed for some other reason. 
+                 * Should abandon this interface 
+		 * Known reasons to get here: EINVAL (bad address)
+		 */
+
 		out << "Error: Connection Failed: " << errno;
 		out << " - " << socket_errorType(errno) << std::endl;
+
 		net_internal_close(osock);
+		osock=-1;
+		waiting = WAITING_FAIL_INTERFACE;
 
   		pqioutput(PQL_WARNING, pqisslzone, out.str());
+		// extra output for the moment.
+		std::cerr << out.str();
+
 		return -1;
 	}
 	else
