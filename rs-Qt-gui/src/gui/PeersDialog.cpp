@@ -46,6 +46,8 @@
 #define IMAGE_REMOVEFRIEND       ":/images/removefriend16.png"
 #define IMAGE_EXPIORTFRIEND      ":/images/exportpeers_16x16.png"
 #define IMAGE_CHAT               ":/images/chat.png"
+#define IMAGE_ONLINE             ":/images/donline.png"
+#define IMAGE_OFFLINE            ":/images/dhidden.png"
 
 /** Constructor */
 PeersDialog::PeersDialog(QWidget *parent)
@@ -117,7 +119,7 @@ void  PeersDialog::insertPeers()
 
         /* remove old items ??? */
 	peerWidget->clear();
-	peerWidget->setColumnCount(11);
+	peerWidget->setColumnCount(12);
 
         QList<QTreeWidgetItem *> items;
 	for(it = friends.begin(); it != friends.end(); it++)
@@ -126,69 +128,76 @@ void  PeersDialog::insertPeers()
            	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
 
 		/* add all the labels */
-		/* First 5 (0-4) Key Items */
-		/* (0) Status */
-		item -> setText(0, QString::fromStdString(
+		/* First 5 (1-5) Key Items */
+		/* () Status Icon */
+		item -> setText(0, "");
+		
+		/* (0) Status */		
+		item -> setText(1, QString::fromStdString(
 						it->second.statusString));
 
 		/* (1) Person */
-		item -> setText(1, QString::fromStdString(it->second.name));
+		item -> setText(2, QString::fromStdString(it->second.name));
 
 		/* (2) Auto Connect */
-		item -> setText(2, QString::fromStdString(
+		item -> setText(3, QString::fromStdString(
 						it->second.connectString));
 
 		/* (3) Trust Level */
-		item -> setText(3, QString::fromStdString(it->second.trustString));
+		item -> setText(4, QString::fromStdString(it->second.trustString));
 		/* (4) Peer Address */
-		item -> setText(4, QString::fromStdString(it->second.peerAddress));
+		item -> setText(5, QString::fromStdString(it->second.peerAddress));
 
 		/* less important ones */
 		/* () Last Contact */
-		item -> setText(5, QString::fromStdString(it->second.lastConnect));
+		item -> setText(6, QString::fromStdString(it->second.lastConnect));
 
 		/* () Org */
-		item -> setText(6, QString::fromStdString(it->second.org));
+		item -> setText(7, QString::fromStdString(it->second.org));
 		/* () Location */
-		item -> setText(7, QString::fromStdString(it->second.loc));
+		item -> setText(8, QString::fromStdString(it->second.loc));
 		/* () Country */
-		item -> setText(8, QString::fromStdString(it->second.country));
+		item -> setText(9, QString::fromStdString(it->second.country));
+	
 	
 		/* Hidden ones: */
 		/* ()  RsCertId */
 		{
 			std::ostringstream out;
 			out << it -> second.id;
-			item -> setText(9, QString::fromStdString(out.str()));
+			item -> setText(10, QString::fromStdString(out.str()));
 		}
 
 		/* ()  AuthCode */	
-                item -> setText(10, QString::fromStdString(it->second.authCode));
+                item -> setText(11, QString::fromStdString(it->second.authCode));
 
 		/* change background */
 		int i;
                 if (it->second.statusString == "Online")
 		{
 			/* bright green */
-			for(i = 0; i < 11; i++)
+			for(i = 1; i < 12; i++)
 			{
 			  item -> setBackground(i,QBrush(Qt::green));
+			  item -> setIcon(0,(QIcon(IMAGE_ONLINE)));
 			}
 		}
 		else
 		{
                 	if (it->second.lastConnect != "Never")
 			{
-				for(i = 0; i < 11; i++)
+				for(i = 1; i < 12; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::lightGray));
+				  item -> setIcon(0,(QIcon(IMAGE_OFFLINE)));
 				}
 			}
 			else
 			{
-				for(i = 0; i < 11; i++)
+				for(i = 1; i < 12; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::gray));
+				  item -> setIcon(0,(QIcon(IMAGE_OFFLINE)));
 				}
 			}
 		}
@@ -210,7 +219,7 @@ void  PeersDialog::insertPeers()
 /* Utility Fns */
 std::string getPeerRsCertId(QTreeWidgetItem *i)
 {
-	std::string id = (i -> text(9)).toStdString();
+	std::string id = (i -> text(10)).toStdString();
 	return id;
 }
 
@@ -246,9 +255,9 @@ void PeersDialog::chatfriend()
     if (!i)
 	return;
 
-    std::string status = (i -> text(0)).toStdString();
-    std::string name = (i -> text(1)).toStdString();
-    std::string id = (i -> text(9)).toStdString();
+    std::string status = (i -> text(1)).toStdString();
+    std::string name = (i -> text(2)).toStdString();
+    std::string id = (i -> text(10)).toStdString();
 
     if (status != "Online")
     {
@@ -295,7 +304,7 @@ QTreeWidgetItem *PeersDialog::getCurrentPeer()
 	std::ostringstream out;
         out << "CurrentPeerItem: " << std::endl;
 
-	for(int i = 0; i < 5; i++)
+	for(int i = 1; i < 6; i++)
 	{
 		QString txt = item -> text(i);
 		out << "\t" << i << ":" << txt.toStdString() << std::endl;
