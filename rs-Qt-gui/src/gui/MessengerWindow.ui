@@ -467,7 +467,7 @@ p, li { white-space: pre-wrap; }
         <string/>
        </property>
        <property name="icon" >
-        <iconset resource="images.qrc" >:/images/loadcert16.png</iconset>
+        <iconset resource="images.qrc" >:/images/dadd.png</iconset>
        </property>
        <property name="iconSize" >
         <size>
