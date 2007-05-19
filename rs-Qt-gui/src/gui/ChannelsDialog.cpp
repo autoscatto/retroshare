@@ -53,6 +53,11 @@ ChannelsDialog::ChannelsDialog(QWidget *parent)
   connect( ui.msgList, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( msgfilelistWidgetCostumPopupMenu( QPoint ) ) );
   connect( ui.msgWidget, SIGNAL( itemClicked ( QTreeWidgetItem *, int) ), this, SLOT( updateChannels ( QTreeWidgetItem *, int) ) );
 
+  /* hide the Tree +/- */
+  ui.msgWidget -> setRootIsDecorated( false );
+  ui.msgList -> setRootIsDecorated( false );
+
+
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
 

@@ -59,6 +59,8 @@ PeersDialog::PeersDialog(QWidget *parent)
 
   connect( ui.peertreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( peertreeWidgetCostumPopupMenu( QPoint ) ) );
 
+  /* hide the Tree +/- */
+  ui.peertreeWidget -> setRootIsDecorated( false );
 
 
   /* Hide platform specific features */

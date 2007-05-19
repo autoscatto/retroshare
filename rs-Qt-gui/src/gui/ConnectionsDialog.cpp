@@ -60,6 +60,9 @@ ConnectionsDialog::ConnectionsDialog(QWidget *parent)
 
   /* create a single connect dialog */
   connectdialog = new ConnectDialog();
+  
+  /* hide the Tree +/- */
+  ui.connecttreeWidget -> setRootIsDecorated( false );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN

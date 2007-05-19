@@ -63,6 +63,9 @@ ChatDialog::ChatDialog(QWidget *parent)
 //  this, SLOT(toggleSendItem( QTreeWidgetItem *, int ) ));
 
   loadInitMsg();
+  
+  /* hide the Tree +/- */
+  ui.msgSendList -> setRootIsDecorated( false );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN

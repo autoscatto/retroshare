@@ -61,6 +61,9 @@ MessagesDialog::MessagesDialog(QWidget *parent)
 
   mCurrCertId = "";
   mCurrMsgId  = "";
+  
+  /* hide the Tree +/- */
+  ui.msgList -> setRootIsDecorated( false );
 
 
   /* Hide platform specific features */
