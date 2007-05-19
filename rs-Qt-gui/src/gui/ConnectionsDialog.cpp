@@ -43,6 +43,9 @@
 #define IMAGE_LOADCERT       ":/images/loadcert16.png"
 #define IMAGE_PEERDETAILS    ":/images/peerdetails_16x16.png"
 #define IMAGE_AUTH           ":/images/encrypted16.png"
+/* Images for Status icons */
+#define IMAGE_AUTHED         ":/images/dauthed.png"
+#define IMAGE_DENIED         ":/images/ddeny.png"
 
 RsCertId getNeighRsCertId(QTreeWidgetItem *i);
 
@@ -236,6 +239,7 @@ void ConnectionsDialog::insertConnect()
 				for(i = 0; i < 10; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::darkGreen));
+				  item -> setIcon(0,(QIcon(IMAGE_AUTHED)));
 				}
 			}
 			else
@@ -243,6 +247,7 @@ void ConnectionsDialog::insertConnect()
 				for(i = 0; i < 10; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::darkGreen));
+				  item -> setIcon(0,(QIcon(IMAGE_AUTHED)));
 				}
 			}
 		}
@@ -253,6 +258,7 @@ void ConnectionsDialog::insertConnect()
 				for(i = 0; i < 10; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::cyan));
+				  item -> setIcon(0,(QIcon(IMAGE_DENIED)));
 				}
 			}
                 	else if (it->second.lastConnect != "Never")
@@ -260,6 +266,7 @@ void ConnectionsDialog::insertConnect()
 				for(i = 0; i < 10; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::yellow));
+				  item -> setIcon(0,(QIcon(IMAGE_DENIED)));
 				}
 			}
 			else
@@ -267,6 +274,7 @@ void ConnectionsDialog::insertConnect()
 				for(i = 0; i < 10; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::gray));
+				  item -> setIcon(0,(QIcon(IMAGE_DENIED)));
 				}
 			}
 		}
