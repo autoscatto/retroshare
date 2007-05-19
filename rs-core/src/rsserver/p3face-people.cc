@@ -62,7 +62,8 @@ int     RsServer::NeighLoadPEMString(std::string pem, std::string &id);
 int 	RsServer::NeighLoadCertificate(std::string fname, std::string &id);
 int     RsServer::NeighAuthFriend(std::string id, RsAuthId code);
 int 	RsServer::NeighAddFriend(std::string id);
-std::list<std::string> 	RsServer::NeighGetSigners(std::string id);
+int RsServer::NeighGetSigners(std::string uid, char *out, int len);
+
  * This file implements the Above fns from the set of RsCore
  * functions. Above are the public entry points.
  *
@@ -985,6 +986,9 @@ int 	RsServer::NeighAddFriend(std::string uid)
 	return (ret);
 }
 
+
+#if 0
+
 std::list<std::string> 	RsServer::NeighGetSigners(std::string uid)
 {
 	lockRsCore(); /* LOCK */
@@ -1010,6 +1014,49 @@ std::list<std::string> 	RsServer::NeighGetSigners(std::string uid)
 
 	return signers;
 }
+
+#endif
+
+
+
+int RsServer::NeighGetSigners(std::string uid, char *out, int len)
+{
+	lockRsCore(); /* LOCK */
+	RsCertId id(uid);
+	std::list<std::string> signers;
+	std::list<std::string>::iterator it;
+
+	int ret = 1;
+
+	cert *c = intFindCert(id);
+	if ((c == NULL) || (c->certificate == NULL))
+	{
+		ret = 0;
+
+	}
+
+	/* if valid, get signers */
+	if (ret)
+	{
+		std::string str;
+		signers = getXPGPsigners(c->certificate);
+		for(it = signers.begin(); it != signers.end(); it++)
+		{
+			str += (*it);
+			str += "\n";
+		}
+		strncpy(out, str.c_str(), len);
+		std::cerr << "SIGNERS(1): " << str << std::endl;
+		std::cerr << "SIGNERS(2): " << out << std::endl;
+		ret = signers.size();
+	}
+	unlockRsCore(); /* UNLOCK */
+
+	return ret;
+}
+
+
+
 
 int  RsServer::UpdateAllNetwork()
 {

@@ -2,7 +2,8 @@
 #Define OS.
 #
 OS = Linux
-#OS = Win
+#OS = Cygwin
+#OS = Win # MinGw.
 #
 #
 #
@@ -13,6 +14,7 @@ OS = Linux
 # Please Define these Variables before Compiling. (Examples below:)
 # Linux (SSL_DIR & KADC_DIR)
 # Cygwin (SSL_DIR & KADC_DIR & FLTK_DIR & PTHREADS_DIR)
+# MinGW  (SSL_DIR & KADC_DIR & FLTK_DIR & PTHREADS_DIR)
 
 #### Linux/Cygwin Parameters.
 #SSL_DIR=/home/xxx/prog/src/openssl-0.9.7g-xpgp-0.1c
@@ -25,20 +27,39 @@ OS = Linux
 #ZLIB_DIR=/cygdrive/c/home/dev/prog/MinGW/zlib-1.2.3
 #
 ###########################################################################
-# My Versions: LINUX
-SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
-KADC_DIR=/home/rmf24/prog/src/KadC
+# My Versions
+ifeq ($(OS),Linux)
+  #Linux.
+  SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
+  KADC_DIR=/home/rmf24/prog/src/KadC
 
-#Cygwin....
-#CYGWIN_SRC_ROOT=/cygdrive/c/home/rmfern/prog/MinGW
-#SSL_DIR=/home/rmfern/prog/src/openssl-0.9.7g
-#SSL_DIR=$(CYGWIN_SRC_ROOT)/openssl-0.9.7g
-#FLTK_DIR=$(CYGWIN_SRC_ROOT)/FLTK-1.1.6
-#PTHREADS_DIR=$(CYGWIN_SRC_ROOT)/pthreads/pthreads.2
-#KADC_DIR=$(CYGWIN_SRC_ROOT)/KadC
-#ZLIB_DIR=$(CYGWIN_SRC_ROOT)/zlib-1.2.3
+else
+###########################################################################
+  ifeq ($(OS),Cygwin)
+
+    #Cygwin....
+    CYGWIN_SRC_ROOT=/cygdrive/c/home/rmfern/prog/MinGW
+    SSL_DIR=/home/rmfern/prog/src/openssl-0.9.7g
+    #SSL_DIR=$(CYGWIN_SRC_ROOT)/openssl-0.9.7g
+    FLTK_DIR=$(CYGWIN_SRC_ROOT)/FLTK-1.1.6
+    PTHREADS_DIR=$(CYGWIN_SRC_ROOT)/pthreads/pthreads.2
+    KADC_DIR=$(CYGWIN_SRC_ROOT)/debug/KadC-2006-Oct-19
+    ZLIB_DIR=$(CYGWIN_SRC_ROOT)/zlib-1.2.3
+
+  else
+
+    # MinGw
+    MINGW_SRC_ROOT=c:\home\rmfern\prog\MinGW
+    SSL_DIR=$(MINGW_SRC_ROOT)\openssl-0.9.7g
+    FLTK_DIR=$(MINGW_SRC_ROOT)\FLTK-1.1.6
+    PTHREADS_DIR=$(MINGW_SRC_ROOT)\pthreads\pthreads.2
+    KADC_DIR=$(MINGW_SRC_ROOT)\debug\KadC-2006-Oct-19
+    ZLIB_DIR=$(MINGW_SRC_ROOT)\zlib-1.2.3
+
+  endif
 
 ###########################################################################
+endif
 ###########################################################################
 
 ifndef RS_TOP_DIR
@@ -86,10 +107,14 @@ PQI_USE_PROXY = 1
 PQI_USE_CHANNELS = 1
 USE_FILELOOK = 1
 
-# Unix
-INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
-# MinGw
-#INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)\include
+ifeq ($(OS),Win)
+  # MinGw
+  INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)\include -I$(KADC_DIR)
+else
+  # Unix: Linux/Cygwin
+  INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
+endif
+
 CFLAGS = -Wall -O2 $(INCLUDE) 
 
 RANLIB = ranlib
@@ -115,19 +140,17 @@ endif
 
 #########################################################################
 # OS specific Includes/Libs.
-# Cygwin
-WININC = -mno-cygwin -mwindows -fno-exceptions -fomit-frame-pointer -DWINDOWS_SYS  
-
-# for static pthread libs....
-WININC += -DPTW32_STATIC_LIB
-
-WINLIB = -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32
-
-XLIB = 	-lXft -lpthread -lXext -lX11 -lfontconfig -lfreetype -lz \
-	-lXrender -lexpat -L/usr/X11R6/lib -lXau -lXinerama -lXdmcp -lXext
-
+# LINUX...
 ifeq ($(OS),Linux)
 
+
+	# XLIBS arent needed for basic libretroshare.
+	# only needed for FLTK interface.
+
+	#XLIB = -lXft -lpthread -lXext -lX11 \
+	#  -lXrender -lexpat -L/usr/X11R6/lib -lXau \
+	#  -lXinerama -lXdmcp -lXext \
+	#  -lfontconfig -lfreetype -lz 
 
 	RM = /bin/rm
 
@@ -140,10 +163,20 @@ ifeq ($(OS),Linux)
 	LIBS   += $(XLIB) -ldl
 	RSLIBS += $(XLIB) -ldl
 
-else  # windows.
+else # windows (Cygwin or MinGW)
+
+# for static pthread libs....
+WININC += -DPTW32_STATIC_LIB
+WINLIB = -lws2_32 -luuid -lole32 -liphlpapi 
+
+  ifeq ($(OS),Cygwin)
+  # Cygwin
+        WININC += -mno-cygwin -mwindows -fno-exceptions -fomit-frame-pointer -DWINDOWS_SYS  
+        WINLIB += -lcrypt32
+
         # Cygwin
         #CFLAGS += -I$(FLTK_DIR)/include 
-        CFLAGS += -I$(FLTK_DIR)/include -I$(PTHREADS_DIR) $(WININC)
+        CFLAGS += -I$(PTHREADS_DIR) $(WININC)
         CFLAGS += -I$(ZLIB_DIR)
 
         LIBDIR = $(RS_DIR)/lib
@@ -163,6 +196,35 @@ else  # windows.
 
         RM = /bin/rm
 
+  else  # MinGw.
+
+        #WININC += -mwindows -fno-exceptions -fomit-frame-pointer -DWINDOWS_SYS  
+        WININC += -frtti -fexceptions -DWINDOWS_SYS  
+	WINLIB += -lcrypt32-cygwin
+
+        # Cygwin
+        CFLAGS += -I$(PTHREADS_DIR) $(WININC)
+        CFLAGS += -I$(ZLIB_DIR)
+        #CFLAGS += -I$(FLTK_DIR)\include 
+
+        LIBDIR = $(RS_DIR)\lib
+        LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
+        LIBS +=  -L$(KADC_DIR) -lKadC 
+        LIBS += -L$(ZLIB_DIR) -lz $(WINLIB)
+	#LIBS += -lfltk
+
+	RSLIBS +=  $(WINLIB)
+        RSLIBS +=  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
+        RSLIBS +=  -L$(KADC_DIR) -lKadC 
+        RSLIBS += -L$(ZLIB_DIR) -lz
+	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
+        #RSLIBS += -L$(FLTK_DIR)\lib  
+
+
+        RSCFLAGS += $(WININC)
+
+        RM = del
+  endif
 endif
 
 

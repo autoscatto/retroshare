@@ -16,10 +16,10 @@ udp_server: $(OBJ) udp_server.o
 	$(CC) $(CFLAGS) -o udp_server $(OBJ) udp_server.o $(LIBS)
 
 clean:
-	-/bin/rm $(OBJ) $(BIOOBJ) test_tou.o pair_tou.o udp_server.o reset_tou.o internal_tou.o largefile_tou.o
+	-$(RM) $(OBJ) $(BIOOBJ) test_tou.o pair_tou.o udp_server.o reset_tou.o internal_tou.o largefile_tou.o
 
 clobber: clean
-	-/bin/rm udp_server test_tou pair_tou reset_tou internal_tou largefile_tou libtou.so ../lib/libtou.a
+	-$(RM) udp_server test_tou pair_tou reset_tou internal_tou largefile_tou libtou.so ../lib/libtou.a
 
 test_tou : $(OBJ) test_tou.o
 	$(CC) $(CFLAGS) -o test_tou $(OBJ) test_tou.o $(LIBS)
@@ -44,7 +44,7 @@ largefile_tou : $(OBJ) largefile_tou.o
 
 BIOOBJ = bss_tou.o 
 BIOCC  = gcc
-BIOCFLAGS =  -I $(SSL_DIR)/include -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DOPENSSL_NO_KRB5 -DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -m486 -Wall -DSHA1_ASM -DMD5_ASM -DRMD160_ASM  
+BIOCFLAGS = -DWINDOWS_SYS -I $(SSL_DIR)/include -DOPENSSL_THREADS -D_REENTRANT -DDSO_DLFCN -DHAVE_DLFCN_H -DOPENSSL_NO_KRB5 -DL_ENDIAN -DTERMIO -O3 -fomit-frame-pointer -m486 -Wall -DSHA1_ASM -DMD5_ASM -DRMD160_ASM  
 
 
 libtou.a: $(BIOOBJ) $(OBJ)

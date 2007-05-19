@@ -206,7 +206,7 @@ virtual	int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
 virtual	int NeighLoadCertificate(std::string fname, std::string &id)  = 0;
 virtual	int NeighAuthFriend(std::string id, RsAuthId code)   = 0;
 virtual	int NeighAddFriend(std::string id)                   = 0;
-virtual std::list<std::string> NeighGetSigners(std::string id) = 0;
+virtual int NeighGetSigners(std::string uid, char *out, int len) = 0;
 
 /****************************************/
 	/* Friend Operations */
