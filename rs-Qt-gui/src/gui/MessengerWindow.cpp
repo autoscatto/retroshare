@@ -39,6 +39,7 @@
 #include <QCursor>
 #include <QPoint>
 #include <QMouseEvent>
+#include <QHeaderView>
 
 
 /* Images for context menu icons */
@@ -56,7 +57,9 @@ MessengerWindow::MessengerWindow(QWidget * parent)
 
   connect( ui.messengertreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( messengertreeWidgetCostumPopupMenu( QPoint ) ) );
 
-
+  /* to hide the header  */
+  ui.messengertreeWidget->header()->hide(); 
+  
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
 
@@ -124,6 +127,7 @@ void  MessengerWindow::insertPeers()
         /* remove old items ??? */
 	peerWidget->clear();
 	peerWidget->setColumnCount(4);
+	
 
 
 	/* have two lists: online / offline */
@@ -145,6 +149,7 @@ void  MessengerWindow::insertPeers()
 		item -> setText(2, QString::fromStdString(it->second.loc));
 		/* (3) Country */
 		item -> setText(3, QString::fromStdString(it->second.country));
+		
 
 		/* Hidden ones: */
 		/* ()  RsCertId */
@@ -157,7 +162,7 @@ void  MessengerWindow::insertPeers()
 		/* add to the list */
                 if (it->second.statusString == "Online")
 		{
-		   online_items.append(item);
+		   online_items.append(item);		   
 		}
 		else
 		{
