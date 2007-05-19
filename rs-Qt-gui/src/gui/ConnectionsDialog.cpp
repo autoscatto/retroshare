@@ -198,7 +198,7 @@ void ConnectionsDialog::insertConnect()
 
 	/* remove old items ??? */
 	connectWidget->clear();
-	connectWidget->setColumnCount(7);
+	connectWidget->setColumnCount(8);
 
         QList<QTreeWidgetItem *> items;
 	for(it = neighs.begin(); it != neighs.end(); it++)
@@ -207,29 +207,32 @@ void ConnectionsDialog::insertConnect()
            	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
 
 		/* add all the labels */
+		
+	    /* () Status Icon */
+		        item -> setText(0, "");
 
-		/* (0) Accept/Deny */
-                item -> setText(0, QString::fromStdString(it->second.acceptString));
-		/* (1) Trust Level */
-                item -> setText(1, QString::fromStdString(it->second.trustString));
-		/* (2) Last Connect */
-                item -> setText(2, QString::fromStdString(it->second.lastConnect));
+		/* (1) Accept/Deny */
+                item -> setText(1, QString::fromStdString(it->second.acceptString));
+		/* (2) Trust Level */
+                item -> setText(2, QString::fromStdString(it->second.trustString));
+		/* (3) Last Connect */
+                item -> setText(3, QString::fromStdString(it->second.lastConnect));
                 /* (3) Person */
-		item -> setText(3, QString::fromStdString(it->second.name));
+		item -> setText(4, QString::fromStdString(it->second.name));
 
 		/* Others */
-		item -> setText(4, QString::fromStdString(it->second.org));
-		item -> setText(5, QString::fromStdString(it->second.loc));
-		item -> setText(6, QString::fromStdString(it->second.country));
+		item -> setText(5, QString::fromStdString(it->second.org));
+		item -> setText(6, QString::fromStdString(it->second.loc));
+		item -> setText(7, QString::fromStdString(it->second.country));
 
                 /* (4) Peer Address */
-                item -> setText(7, QString::fromStdString(it->second.peerAddress));
+                item -> setText(8, QString::fromStdString(it->second.peerAddress));
 		{
 			std::ostringstream out;
 			out << it -> second.id;
-			item -> setText(8, QString::fromStdString(out.str()));
+			item -> setText(9, QString::fromStdString(out.str()));
 		}
-		item -> setText(9, QString::fromStdString(it->second.authCode));
+		item -> setText(10, QString::fromStdString(it->second.authCode));
 
 
 		/* change background */
@@ -239,7 +242,7 @@ void ConnectionsDialog::insertConnect()
                 	if (it->second.lastConnect != "Never")
 			{
 				/* bright green */
-				for(i = 0; i < 10; i++)
+				for(i = 1; i < 11; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::darkGreen));
 				  item -> setIcon(0,(QIcon(IMAGE_AUTHED)));
@@ -247,7 +250,7 @@ void ConnectionsDialog::insertConnect()
 			}
 			else
 			{
-				for(i = 0; i < 10; i++)
+				for(i = 1; i < 11; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::darkGreen));
 				  item -> setIcon(0,(QIcon(IMAGE_AUTHED)));
@@ -258,7 +261,7 @@ void ConnectionsDialog::insertConnect()
 		{
                 	if (it->second.trustLvl > 3)
 			{
-				for(i = 0; i < 10; i++)
+				for(i = 1; i < 11; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::cyan));
 				  item -> setIcon(0,(QIcon(IMAGE_DENIED)));
@@ -266,7 +269,7 @@ void ConnectionsDialog::insertConnect()
 			}
                 	else if (it->second.lastConnect != "Never")
 			{
-				for(i = 0; i < 10; i++)
+				for(i = 1; i < 11; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::yellow));
 				  item -> setIcon(0,(QIcon(IMAGE_DENIED)));
@@ -274,7 +277,7 @@ void ConnectionsDialog::insertConnect()
 			}
 			else
 			{
-				for(i = 0; i < 10; i++)
+				for(i = 1; i < 11; i++)
 				{
 				  item -> setBackground(i,QBrush(Qt::gray));
 				  item -> setIcon(0,(QIcon(IMAGE_DENIED)));
@@ -313,7 +316,7 @@ QTreeWidgetItem *ConnectionsDialog::getCurrentNeighbour()
         std::ostringstream out;
         out << "CurrentNeighbourItem: " << std::endl;
 
-        for(int i = 0; i < 5; i++)
+        for(int i = 1; i < 6; i++)
         {
                 QString txt = item -> text(i);
                 out << "\t" << i << ":" << txt.toStdString() << std::endl;
@@ -325,7 +328,7 @@ QTreeWidgetItem *ConnectionsDialog::getCurrentNeighbour()
 /* Utility Fns */
 RsCertId getNeighRsCertId(QTreeWidgetItem *i)
 {
-        RsCertId id = (i -> text(8)).toStdString();
+        RsCertId id = (i -> text(9)).toStdString();
         return id;
 }   
   
