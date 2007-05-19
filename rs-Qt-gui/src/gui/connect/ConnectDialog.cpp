@@ -137,29 +137,32 @@ void ConnectDialog::authAttempt()
 
 bool ConnectDialog::loadPeer(std::string id)
 { 
+	std::map<RsCertId,NeighbourInfo>::const_iterator it;
 	/* first grab the list of signers (outside lock) */
-	std::list<std::string> signers = rsicontrol->NeighGetSigners(id);
-	
+
+	char signerstr[1024];
+	rsicontrol->NeighGetSigners(id, signerstr, 1024);
+
+	/* XXX NOTE We must copy the char * to a string, 
+         * otherwise it get trampled on by the it = find(id).
+         * ( DONT KNOW WHY???? ) under mingw.
+         */
+
+	std::string signersString; 
+	signersString = signerstr;
+
 	/* grab the interface and check person */
 	rsiface->lockData(); /* Lock Interface */
 	
-	std::map<RsCertId,NeighbourInfo>::const_iterator it;
 	const std::map<RsCertId,NeighbourInfo> &neighs = 
 			rsiface->getNeighbourMap();
-	
+
 	it = neighs.find(id);
+
 	if (it == neighs.end())
 	{
 		rsiface->unlockData(); /* UnLock Interface */
 		return false;
-	}
-
-	std::list<std::string>::iterator sit;
-	std::string signersString;
-	for(sit = signers.begin(); sit != signers.end(); sit++) 
-	{
-		signersString += (*sit);
-		signersString += "\n";
 	}
 
 	/* setup the gui */
