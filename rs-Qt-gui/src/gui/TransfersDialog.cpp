@@ -131,23 +131,23 @@ void TransfersDialog::insertTransfers()
 		{
 			std::ostringstream out;
 		    out << (it -> transfered * 100.0 / it -> size) << "%";
-			item -> setText(3, QString::fromStdString(out.str()));
+			item -> setText(5, QString::fromStdString(out.str()));
 
 		}
 		{
 			std::ostringstream out;
             out << it -> size;
-			item -> setText(5, QString::fromStdString(out.str()));
-		}
-		{
-			std::ostringstream out;
-			out << it -> transfered << "/" << it -> size << " Bytes";
 			item -> setText(6, QString::fromStdString(out.str()));
 		}
 		{
 			std::ostringstream out;
-			out << it -> id;
+			out << it -> transfered << "/" << it -> size << " Bytes";
 			item -> setText(7, QString::fromStdString(out.str()));
+		}
+		{
+			std::ostringstream out;
+			out << it -> id;
+			item -> setText(8, QString::fromStdString(out.str()));
 		}
 
 		/* change background */
@@ -184,8 +184,7 @@ void TransfersDialog::insertTransfers()
 				  item -> setBackground(i,QBrush(Qt::green));
 				}
 		}
-			
-
+									
 
 		/* add to the list */
 		items.append(item);
