@@ -113,29 +113,30 @@ void TransfersDialog::insertTransfers()
 		{
 			/* XXX HAND CODED! */
 			case 0: /* FAILED */
-				item -> setText(2, "Failed");
+				item -> setText(4, "Failed");
 				break;
 			case 1: /* OKAY */
-				item -> setText(2, "Okay");
+				item -> setText(4, "Downloading");
 				break;
 			case 2: /* COMPLETE */
 			default:
-				item -> setText(2, "Complete");
+				item -> setText(4, "Complete");
 				break;
-		}
-		{
-			std::ostringstream out;
-			out << it -> size;
-			item -> setText(3, QString::fromStdString(out.str()));
 		}
 		{
 			std::ostringstream out;
 			out << it -> tfRate << " kB/s";
-			item -> setText(4, QString::fromStdString(out.str()));
+			item -> setText(2, QString::fromStdString(out.str()));
 		}
 		{
 			std::ostringstream out;
-			out << (it -> transfered * 100.0 / it -> size) << "%";
+		    out << (it -> transfered * 100.0 / it -> size) << "%";
+			item -> setText(3, QString::fromStdString(out.str()));
+
+		}
+		{
+			std::ostringstream out;
+            out << it -> size;
 			item -> setText(5, QString::fromStdString(out.str()));
 		}
 		{
