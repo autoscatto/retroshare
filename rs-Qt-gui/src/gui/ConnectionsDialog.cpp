@@ -198,7 +198,7 @@ void ConnectionsDialog::insertConnect()
 
 	/* remove old items ??? */
 	connectWidget->clear();
-	connectWidget->setColumnCount(8);
+	connectWidget->setColumnCount(11);
 
         QList<QTreeWidgetItem *> items;
 	for(it = neighs.begin(); it != neighs.end(); it++)

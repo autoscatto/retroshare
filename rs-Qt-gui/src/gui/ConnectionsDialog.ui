@@ -605,6 +605,11 @@ p, li { white-space: pre-wrap; }
        </property>
        <column>
         <property name="text" >
+         <string>#</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
          <string>Accept</string>
         </property>
        </column>
