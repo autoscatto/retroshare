@@ -202,8 +202,8 @@ void ConnectionsDialog::insertConnect()
 	connectWidget->clear();
 	connectWidget->setColumnCount(11);
 	
-	QHeaderView * _header = connectWidget->header () ;
-    
+	/* Set header resize modes and initial section sizes */
+	QHeaderView * _header = connectWidget->header () ;   
 	_header->setResizeMode (0, QHeaderView::Custom);
 	_header->setResizeMode (1, QHeaderView::Interactive);
 	_header->setResizeMode (2, QHeaderView::Interactive);
@@ -217,6 +217,7 @@ void ConnectionsDialog::insertConnect()
 	_header->setResizeMode (10, QHeaderView::Interactive);
     
 	_header->resizeSection ( 0, 25 );
+	_header->resizeSection ( 5, 200);
 
         QList<QTreeWidgetItem *> items;
 	for(it = neighs.begin(); it != neighs.end(); it++)
@@ -226,7 +227,7 @@ void ConnectionsDialog::insertConnect()
 
 		/* add all the labels */
 		
-	    /* () Status Icon */
+	    /* (0) Status Icon */
 		        item -> setText(0, "");
 
 		/* (1) Accept/Deny */
@@ -235,22 +236,25 @@ void ConnectionsDialog::insertConnect()
                 item -> setText(2, QString::fromStdString(it->second.trustString));
 		/* (3) Last Connect */
                 item -> setText(3, QString::fromStdString(it->second.lastConnect));
-                /* (3) Person */
-		item -> setText(4, QString::fromStdString(it->second.name));
+        /* (4) Person */
+				item -> setText(4, QString::fromStdString(it->second.name));
+		
+		/* (5) Peer Address */
+				item -> setText(5, QString::fromStdString(it->second.peerAddress));
 
 		/* Others */
-		item -> setText(5, QString::fromStdString(it->second.org));
-		item -> setText(6, QString::fromStdString(it->second.loc));
-		item -> setText(7, QString::fromStdString(it->second.country));
+				item -> setText(6, QString::fromStdString(it->second.org));
+				item -> setText(7, QString::fromStdString(it->second.loc));
+				item -> setText(8, QString::fromStdString(it->second.country));
 
-                /* (4) Peer Address */
-                item -> setText(8, QString::fromStdString(it->second.peerAddress));
+
 		{
 			std::ostringstream out;
 			out << it -> second.id;
 			item -> setText(9, QString::fromStdString(out.str()));
 		}
-		item -> setText(10, QString::fromStdString(it->second.authCode));
+
+			item -> setText(10, QString::fromStdString(it->second.authCode));
 
 
 		/* change background */

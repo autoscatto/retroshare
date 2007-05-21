@@ -124,9 +124,9 @@ void  PeersDialog::insertPeers()
 	peerWidget->clear();
 	peerWidget->setColumnCount(12);
 	
+    /* Set header resize modes and initial section sizes */
 	QHeaderView * _header = peerWidget->header () ;
-    
-	_header->setResizeMode (0, QHeaderView::Custom);
+   	_header->setResizeMode (0, QHeaderView::Custom);
 	_header->setResizeMode (1, QHeaderView::Interactive);
 	_header->setResizeMode (2, QHeaderView::Interactive);
 	_header->setResizeMode (3, QHeaderView::Interactive);
@@ -140,6 +140,7 @@ void  PeersDialog::insertPeers()
 	_header->setResizeMode (11, QHeaderView::Interactive);
     
 	_header->resizeSection ( 0, 25 );
+	_header->resizeSection ( 5, 200);
 
         QList<QTreeWidgetItem *> items;
 	for(it = friends.begin(); it != friends.end(); it++)
