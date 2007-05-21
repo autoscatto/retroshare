@@ -630,6 +630,11 @@ p, li { white-space: pre-wrap; }
        </column>
        <column>
         <property name="text" >
+         <string>Peer Address</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
          <string>Organisation</string>
         </property>
        </column>
@@ -641,11 +646,6 @@ p, li { white-space: pre-wrap; }
        <column>
         <property name="text" >
          <string>Country</string>
-        </property>
-       </column>
-       <column>
-        <property name="text" >
-         <string>Peer Address</string>
         </property>
        </column>
        <column>

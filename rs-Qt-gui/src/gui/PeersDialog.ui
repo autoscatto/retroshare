@@ -558,6 +558,12 @@ p, li { white-space: pre-wrap; }
        <property name="acceptDrops" >
         <bool>false</bool>
        </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
        <property name="itemsExpandable" >
         <bool>true</bool>
        </property>
