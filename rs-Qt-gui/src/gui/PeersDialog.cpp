@@ -1,7 +1,7 @@
 /****************************************************************
  *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006, crypton
+ *  Copyright (C) 2006,2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -33,13 +33,13 @@
 #include <iostream>
 #include <sstream>
 
-
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QCursor>
 #include <QPoint>
 #include <QMouseEvent>
 #include <QMessageBox>
+#include <QHeaderView>
 
 
 /* Images for context menu icons */
@@ -123,6 +123,23 @@ void  PeersDialog::insertPeers()
         /* remove old items ??? */
 	peerWidget->clear();
 	peerWidget->setColumnCount(12);
+	
+	QHeaderView * _header = peerWidget->header () ;
+    
+	_header->setResizeMode (0, QHeaderView::Custom);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+	_header->setResizeMode (4, QHeaderView::Interactive);
+	_header->setResizeMode (5, QHeaderView::Interactive);
+	_header->setResizeMode (6, QHeaderView::Interactive);
+	_header->setResizeMode (7, QHeaderView::Interactive);
+	_header->setResizeMode (8, QHeaderView::Interactive);
+	_header->setResizeMode (9, QHeaderView::Interactive);
+	_header->setResizeMode (10, QHeaderView::Interactive);
+	_header->setResizeMode (11, QHeaderView::Interactive);
+    
+	_header->resizeSection ( 0, 25 );
 
         QList<QTreeWidgetItem *> items;
 	for(it = friends.begin(); it != friends.end(); it++)
