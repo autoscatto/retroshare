@@ -38,6 +38,7 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QHeaderView>
 
 /* Images for context menu icons */
 #define IMAGE_LOADCERT       ":/images/loadcert16.png"
@@ -63,6 +64,7 @@ ConnectionsDialog::ConnectionsDialog(QWidget *parent)
   
   /* hide the Tree +/- */
   ui.connecttreeWidget -> setRootIsDecorated( false );
+     
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
@@ -199,6 +201,22 @@ void ConnectionsDialog::insertConnect()
 	/* remove old items ??? */
 	connectWidget->clear();
 	connectWidget->setColumnCount(11);
+	
+	QHeaderView * _header = connectWidget->header () ;
+    
+	_header->setResizeMode (0, QHeaderView::Custom);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+	_header->setResizeMode (4, QHeaderView::Interactive);
+	_header->setResizeMode (5, QHeaderView::Interactive);
+	_header->setResizeMode (6, QHeaderView::Interactive);
+	_header->setResizeMode (7, QHeaderView::Interactive);
+	_header->setResizeMode (8, QHeaderView::Interactive);
+	_header->setResizeMode (9, QHeaderView::Interactive);
+	_header->setResizeMode (10, QHeaderView::Interactive);
+    
+	_header->resizeSection ( 0, 25 );
 
         QList<QTreeWidgetItem *> items;
 	for(it = neighs.begin(); it != neighs.end(); it++)
