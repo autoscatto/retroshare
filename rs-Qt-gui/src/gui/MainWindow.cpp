@@ -365,7 +365,7 @@ MainWindow::createActions()
   connect(_bandwidthAct, SIGNAL(triggered()), 
           _bandwidthGraph, SLOT(showWindow()));
           
-  _messengerwindowAct = new QAction(QIcon(IMAGE_RSM16), tr("Messenger"), this);
+  _messengerwindowAct = new QAction(QIcon(IMAGE_RSM16), tr("Open Messenger"), this);
   connect(_messengerwindowAct, SIGNAL(triggered()),this, SLOT(showMessengerWindow()));
          
           
