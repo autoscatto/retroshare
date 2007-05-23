@@ -46,6 +46,13 @@
 #define IMAGE_REMOVEFRIEND       ":/images/removefriend16.png"
 #define IMAGE_EXPIORTFRIEND      ":/images/exportpeers_16x16.png"
 #define IMAGE_CHAT               ":/images/chat.png"
+/* Images for Status icons */
+#define IMAGE_ONLINE             ":/images/donline.png"
+#define IMAGE_OFFLINE            ":/images/dhidden.png"
+/* Images for Status icons */
+#define IMAGE_ON             ":/images/contract_hover.png"
+#define IMAGE_OFF            ":/images/expand_hover.png"
+
 
 /** Constructor */
 MessengerWindow::MessengerWindow(QWidget * parent)
@@ -59,6 +66,8 @@ MessengerWindow::MessengerWindow(QWidget * parent)
 
   /* to hide the header  */
   ui.messengertreeWidget->header()->hide(); 
+ 
+  
   
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
@@ -128,6 +137,14 @@ void  MessengerWindow::insertPeers()
 	peerWidget->clear();
 	peerWidget->setColumnCount(4);
 	
+    /* Set header resize modes and initial section sizes */
+	QHeaderView * _header = peerWidget->header () ;   
+	_header->setResizeMode (0, QHeaderView::Interactive);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+
+	_header->resizeSection ( 0, 200 );
 
 
 	/* have two lists: online / offline */
@@ -162,11 +179,13 @@ void  MessengerWindow::insertPeers()
 		/* add to the list */
                 if (it->second.statusString == "Online")
 		{
-		   online_items.append(item);		   
+		   online_items.append(item);
+		   item -> setIcon(0,(QIcon(IMAGE_ONLINE)));	   
 		}
 		else
 		{
 		   offline_items.append(item);
+		   item -> setIcon(0,(QIcon(IMAGE_OFFLINE)));
 		}
 	}
 
@@ -181,6 +200,7 @@ void  MessengerWindow::insertPeers()
 		/* (0) Person */
 		item -> setText(0, "Online");
 		item -> addChildren(online_items);
+		item -> setIcon(0,(QIcon(IMAGE_ON)));
 	        peerWidget->addTopLevelItem(item);
 		peerWidget->expandItem(item);
 	}
@@ -193,8 +213,10 @@ void  MessengerWindow::insertPeers()
 		/* (0) Person */
 		item -> setText(0, "Offline");
 		item -> addChildren(offline_items);
+		
 	        peerWidget->addTopLevelItem(item);
 		peerWidget->expandItem(item);
+		item -> setIcon(0,(QIcon(IMAGE_OFF)));
 	}
 
 	rsiface->unlockData(); /* UnLock Interface */
