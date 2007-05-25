@@ -9,6 +9,7 @@
         <file>images/console-small-up.png</file>
         <file>images/informations_24x24.png</file>
         <file>images/close_normal.png</file>
+        <file>images/close-down.png</file>
         <file>images/peers_24x24.png</file>
         <file>images/chats_24x24.png</file>
         <file>images/directoryadd_24x24_shadow.png</file>	
@@ -133,6 +134,8 @@
     <file>images/black/border.png</file>
     <file>images/arachnophobia/background.png</file>
     <file>images/toaster/toaster-background.png</file>
+    <file>images/toaster/toaster-backrs3.png</file>
+    <file>images/toaster/toaster-backrs4.png</file>
     <file>images/toaster/chat.png</file>
     <file>images/toaster/hangup.png</file>
     <file>images/toaster/pickup.png</file>
