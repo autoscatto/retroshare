@@ -10,7 +10,7 @@
    </rect>
   </property>
   <property name="windowTitle" >
-   <string>Dialog</string>
+   <string>Invite a Friend</string>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
