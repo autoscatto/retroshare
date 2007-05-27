@@ -66,7 +66,14 @@ MessengerWindow::MessengerWindow(QWidget * parent)
 
   /* to hide the header  */
   ui.messengertreeWidget->header()->hide(); 
- 
+  
+
+  //QPixmap rsl(":images/rsmlabel2.png");
+  //ui.logolabel->setPixmap(rsl);
+  ui.logolabel->setMinimumWidth(20);
+  ui.statuscomboBox->setMinimumWidth(20);
+  ui.messagecomboBox->setMinimumWidth(20);
+  ui.searchlineEdit->setMinimumWidth(20);
   
   
   /* Hide platform specific features */

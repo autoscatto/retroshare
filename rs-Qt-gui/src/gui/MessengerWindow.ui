@@ -606,7 +606,7 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item row="0" column="1" >
-      <widget class="QLabel" name="label" >
+      <widget class="QLabel" name="logolabel" >
        <property name="sizePolicy" >
         <sizepolicy>
          <hsizetype>1</hsizetype>
@@ -678,7 +678,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item row="0" column="0" >
-      <widget class="QLineEdit" name="lineEdit_2" />
+      <widget class="QLineEdit" name="searchlineEdit" />
      </item>
     </layout>
    </item>
