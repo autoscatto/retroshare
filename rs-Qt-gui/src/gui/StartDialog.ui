@@ -105,9 +105,9 @@
      <colorrole role="Window" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
-        <red>244</red>
-        <green>244</green>
-        <blue>244</blue>
+        <red>236</red>
+        <green>243</green>
+        <blue>246</blue>
        </color>
       </brush>
      </colorrole>
@@ -242,9 +242,9 @@
      <colorrole role="Window" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
-        <red>244</red>
-        <green>244</green>
-        <blue>244</blue>
+        <red>236</red>
+        <green>243</green>
+        <blue>246</blue>
        </color>
       </brush>
      </colorrole>
@@ -379,9 +379,9 @@
      <colorrole role="Window" >
       <brush brushstyle="SolidPattern" >
        <color alpha="255" >
-        <red>244</red>
-        <green>244</green>
-        <blue>244</blue>
+        <red>236</red>
+        <green>243</green>
+        <blue>246</blue>
        </color>
       </brush>
      </colorrole>
@@ -437,7 +437,7 @@
    <iconset resource="images.qrc" >:/images/RetroShare16.png</iconset>
   </property>
   <property name="styleSheet" >
-   <string>.QWidget {
+   <string>QWidget {
    background-color: #ECF3F6;
 }</string>
   </property>
