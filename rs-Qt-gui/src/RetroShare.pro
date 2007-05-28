@@ -58,6 +58,7 @@ HEADERS += rshare.h \
            gui/StatisticDialog.h \
            gui/ChannelsDialog.h \
            gui/HelpDialog.h \
+           gui/LogoBar.h \
            lang/languagesupport.h \
            util/process.h \
            util/registry.h \
@@ -72,6 +73,9 @@ HEADERS += rshare.h \
            util/rsqtutildll.h \
            util/Interface.h \
            util/PixmapMerging.h \
+           util/MouseEventFilter.h \
+           util/EventFilter.h \
+           util/Widget.h \
            gui/bwgraph/bwgraph.h \
            gui/chat/PopupChatDialog.h \
            gui/connect/ConnectDialog.h \
@@ -172,6 +176,7 @@ SOURCES += main.cpp \
            gui/ChannelsDialog.cpp \
            gui/MessagesDialog.cpp \
            gui/HelpDialog.cpp \
+           gui/LogoBar.cpp \
            lang/languagesupport.cpp \
            util/process.cpp \
            util/registry.cpp \
@@ -181,6 +186,9 @@ SOURCES += main.cpp \
            util/WidgetBackgroundImage.cpp \
            util/NonCopyable.cpp \
            util/PixmapMerging.cpp \
+           util/MouseEventFilter.cpp \
+           util/EventFilter.cpp \
+           util/Widget.cpp \
            gui/bwgraph/bwgraph.cpp \
            gui/chat/PopupChatDialog.cpp \
            gui/connect/ConnectDialog.cpp \
