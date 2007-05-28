@@ -69,6 +69,9 @@ private slots:
   void connectfriend2();
   void setaddressfriend2();
   void trustfriend2();
+  
+  void changeAvatarClicked();
+  void updateAvatar();
 
   
 private:

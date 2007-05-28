@@ -571,7 +571,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to change your avatar&lt;/p>&lt;/body>&lt;/html></string>
      </property>
      <property name="icon" >
-      <iconset resource="images.qrc" >:/images/avatar_background.png</iconset>
+      <iconset resource="images.qrc" >:/images/mystatus_bg.png</iconset>
      </property>
      <property name="iconSize" >
       <size>

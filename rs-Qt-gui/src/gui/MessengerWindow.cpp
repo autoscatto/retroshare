@@ -29,6 +29,7 @@
 #include "chat/PopupChatDialog.h"
 #include "ChatDialog.h"
 #include "connect/ConfCertDialog.h"
+#include "util/PixmapMerging.h"
 
 #include <iostream>
 #include <sstream>
@@ -64,6 +65,8 @@ MessengerWindow::MessengerWindow(QWidget * parent)
 
   connect( ui.messengertreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( messengertreeWidgetCostumPopupMenu( QPoint ) ) );
 
+  connect( ui.avatarButton, SIGNAL(clicked()), SLOT(changeAvatarClicked()));
+  
   /* to hide the header  */
   ui.messengertreeWidget->header()->hide(); 
   
@@ -386,8 +389,21 @@ QTreeWidgetItem *MessengerWindow::getCurrentPeer(bool &isOnline)
 	return item;
 }
 
+void MessengerWindow::changeAvatarClicked() 
+{
+
+	updateAvatar();
+}
 
 
+void MessengerWindow::updateAvatar() 
+{
+	std::string backgroundPixmapFilename = ":/images/mystatus_bg.png";
+	std::string foregroundPixmapData = ":/images/nopic.png";
+	//std::string foregroundPixmapData = _cUserProfile->getUserProfile().getIcon().getData();
+
+	ui.avatarButton->setIcon(PixmapMerging::merge(foregroundPixmapData, backgroundPixmapFilename));
+}
 
 
 
