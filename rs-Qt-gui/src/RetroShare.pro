@@ -34,9 +34,9 @@ INCLUDEPATH += .
 # Input
 HEADERS += rshare.h \
            rsiface/rsiface.h \
-	     rsiface/rstypes.h \
-	     rsiface/notifyqt.h \
-	     rsiface/RemoteDirModel.h \
+	       rsiface/rstypes.h \
+	       rsiface/notifyqt.h \
+	       rsiface/RemoteDirModel.h \
            config/gconfig.h \
            config/rshareSettings.h \
            control/bandwidthevent.h \
@@ -71,6 +71,7 @@ HEADERS += rshare.h \
            util/global.h \
            util/rsqtutildll.h \
            util/Interface.h \
+           util/PixmapMerging.h \
            gui/bwgraph/bwgraph.h \
            gui/chat/PopupChatDialog.h \
            gui/connect/ConnectDialog.h \
@@ -79,7 +80,7 @@ HEADERS += rshare.h \
            gui/connect/AddFriendDialog.h \
            gui/connect/AddFriendWizard.h \
            gui/msgs/ChanMsgDialog.h \
-	     gui/msgs/ChanCreateDialog.h \
+	       gui/msgs/ChanCreateDialog.h \
            gui/filehash/FileHashDialog.h \
            gui/images/retroshare_win.rc.h \
            gui/moreinfo/moreinfo.h \ 
@@ -94,7 +95,7 @@ HEADERS += rshare.h \
            gui/toaster/MessageToaster.h \
            gui/toaster/ChatToaster.h \
            gui/toaster/CallToaster.h \
-	     gui/toaster/QtToaster.h \
+	       gui/toaster/QtToaster.h \
            gui/toaster/IQtToaster.h \
            gui/toaster/RetroStyleLabelProxy.h \
            gui/common/vmessagebox.h \
@@ -129,8 +130,8 @@ FORMS += gui/ChatDialog.ui \
          gui/connect/InviteDialog.ui \
          gui/connect/AddFriendDialog.ui \
          gui/connect/AddFriendWizard.ui \
-	   gui/msgs/ChanMsgDialog.ui \
-	   gui/msgs/ChanCreateDialog.ui \
+	     gui/msgs/ChanMsgDialog.ui \
+	     gui/msgs/ChanCreateDialog.ui \
          gui/filehash/FileHashDialog.ui \
          gui/moreinfo/moreinfo.ui \ 
          gui/Preferences/CryptographyDialog.ui \
@@ -179,6 +180,7 @@ SOURCES += main.cpp \
            util/RetroStyleLabel.cpp \
            util/WidgetBackgroundImage.cpp \
            util/NonCopyable.cpp \
+           util/PixmapMerging.cpp \
            gui/bwgraph/bwgraph.cpp \
            gui/chat/PopupChatDialog.cpp \
            gui/connect/ConnectDialog.cpp \
@@ -186,8 +188,8 @@ SOURCES += main.cpp \
            gui/connect/InviteDialog.cpp \
            gui/connect/AddFriendDialog.cpp \
            gui/connect/AddFriendWizard.cpp \
-	     gui/msgs/ChanMsgDialog.cpp \
-	     gui/msgs/ChanCreateDialog.cpp \
+	       gui/msgs/ChanMsgDialog.cpp \
+	       gui/msgs/ChanCreateDialog.cpp \
            gui/filehash/FileHashDialog.cpp \
            gui/moreinfo/moreinfo.cpp \ 
            gui/Preferences/configpagestack.cpp \
@@ -207,7 +209,7 @@ SOURCES += main.cpp \
            gui/toaster/ChatToaster.cpp \
            gui/toaster/MessageToaster.cpp \
            gui/toaster/CallToaster.cpp \
-	     gui/toaster/QtToaster.cpp \
+	       gui/toaster/QtToaster.cpp \
            gui/authdlg/AuthorizationDialog.cpp
 
 
@@ -215,7 +217,7 @@ RESOURCES += gui/images.qrc lang/lang.qrc
 TRANSLATIONS +=  \
 	lang/retroshare_de.ts \
 	lang/retroshare_en.ts \
-      lang/retroshare_bg.ts \
+    lang/retroshare_bg.ts \
 	lang/retroshare_es.ts \
 	lang/retroshare_fr.ts \
 	lang/retroshare_af.ts  \
@@ -229,8 +231,8 @@ TRANSLATIONS +=  \
 	lang/retroshare_pt.ts  \
 	lang/retroshare_ru.ts  \
 	lang/retroshare_tr.ts \
-      lang/retroshare_dk.ts \
-      lang/retroshare_sl.ts 
+    lang/retroshare_dk.ts \
+    lang/retroshare_sl.ts 
 
 !macx {
   # On non-Mac, make the binary all lowercase
