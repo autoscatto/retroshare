@@ -26,7 +26,7 @@
 #include "mainpage.h"
 #include "ui_MessengerWindow.h"
 
-
+class LogoBar;
 class ChatDialog;
 
 class MessengerWindow : public QWidget
@@ -45,6 +45,8 @@ public:
 public slots:
   /** Called when this dialog is to be displayed */
   void show();
+  
+  LogoBar & getLogoBar() const;
 
 protected:
   void closeEvent (QCloseEvent * event);
@@ -95,7 +97,7 @@ private:
 
   QTreeView *messengertreeWidget;
 
-
+  LogoBar * _rsLogoBarmessenger;
 
   /** Qt Designer generated object */
   Ui::MessengerWindow ui;

@@ -1,7 +1,7 @@
 /****************************************************************
- *  RShare is distributed under the following license:
+ *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006, crypton
+ *  Copyright (C) 2006, 2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -28,7 +28,7 @@
 
 #include "ui_StartDialog.h"
 
-
+class LogoBar;
 
 class StartDialog : public QMainWindow
 {
@@ -43,6 +43,8 @@ public:
 public slots:
   /** Overloaded QWidget.show */
   void show();
+  
+  LogoBar & getLogoBar() const;
 
 protected:
   void closeEvent (QCloseEvent * event);
@@ -62,6 +64,8 @@ private:
 
   /** A VidaliaSettings object that handles getting/saving settings */
   RshareSettings* _settings;
+  
+  LogoBar * _rsLogoBar;
   
   /** Qt Designer generated object */
   Ui::StartDialog ui;

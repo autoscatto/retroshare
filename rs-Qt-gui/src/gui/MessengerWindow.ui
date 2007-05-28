@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>263</width>
+    <width>276</width>
     <height>482</height>
    </rect>
   </property>
@@ -442,213 +442,179 @@ background-repeat: no-repeat
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="spacing" >
-    <number>6</number>
+    <number>0</number>
    </property>
-   <item row="0" column="1" >
+   <item row="0" column="0" >
     <layout class="QGridLayout" >
      <property name="margin" >
-      <number>0</number>
+      <number>4</number>
      </property>
      <property name="spacing" >
-      <number>0</number>
+      <number>6</number>
      </property>
-     <item row="1" column="0" colspan="2" >
-      <widget class="QComboBox" name="messagecomboBox" >
+     <item row="0" column="0" >
+      <widget class="QToolButton" name="avatarButton" >
        <property name="toolTip" >
         <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Share a personal message with your contacts&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to change your avatar&lt;/p>&lt;/body>&lt;/html></string>
        </property>
-       <property name="editable" >
+       <property name="icon" >
+        <iconset resource="images.qrc" >:/images/mystatus_bg.png</iconset>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>70</width>
+         <height>70</height>
+        </size>
+       </property>
+       <property name="autoRaise" >
         <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="0" column="0" >
-      <widget class="QComboBox" name="statuscomboBox" >
-       <property name="toolTip" >
-        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+     <item row="0" column="1" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>4</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="QComboBox" name="statuscomboBox" >
+         <property name="toolTip" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Change your Status and your display&lt;/p>
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">picture here.&lt;/p>&lt;/body>&lt;/html></string>
-       </property>
-       <property name="insertPolicy" >
-        <enum>QComboBox::NoInsert</enum>
-       </property>
-       <property name="frame" >
-        <bool>true</bool>
-       </property>
-       <property name="modelColumn" >
-        <number>0</number>
-       </property>
-       <item>
-        <property name="text" >
-         <string>Online</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/donline.png</iconset>
-        </property>
+         </property>
+         <property name="insertPolicy" >
+          <enum>QComboBox::NoInsert</enum>
+         </property>
+         <property name="frame" >
+          <bool>true</bool>
+         </property>
+         <property name="modelColumn" >
+          <number>0</number>
+         </property>
+         <item>
+          <property name="text" >
+           <string>Online</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/donline.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Busy</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/dbusy.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Be right Back</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/dbrb.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Away</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/daway.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>In a Call</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/dphone.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Out of lunch</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/dlunch.png</iconset>
+          </property>
+         </item>
+         <item>
+          <property name="text" >
+           <string>Apear Offline</string>
+          </property>
+          <property name="icon" >
+           <iconset resource="images.qrc" >:/images/dhidden.png</iconset>
+          </property>
+         </item>
+        </widget>
        </item>
-       <item>
-        <property name="text" >
-         <string>Busy</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/dbusy.png</iconset>
-        </property>
+       <item row="1" column="0" colspan="2" >
+        <widget class="QComboBox" name="messagecomboBox" >
+         <property name="toolTip" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Share a personal message with your contacts&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+         <property name="editable" >
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
-       <item>
-        <property name="text" >
-         <string>Be right Back</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/dbrb.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Away</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/daway.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>In a Call</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/dphone.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Out of lunch</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/dlunch.png</iconset>
-        </property>
-       </item>
-       <item>
-        <property name="text" >
-         <string>Apear Offline</string>
-        </property>
-        <property name="icon" >
-         <iconset resource="images.qrc" >:/images/dhidden.png</iconset>
-        </property>
-       </item>
-      </widget>
+      </layout>
      </item>
     </layout>
    </item>
-   <item row="2" column="0" colspan="2" >
-    <widget class="QTreeWidget" name="messengertreeWidget" >
-     <property name="contextMenuPolicy" >
-      <enum>Qt::CustomContextMenu</enum>
+   <item row="2" column="0" >
+    <widget class="QFrame" name="logoframe" >
+     <property name="frameShape" >
+      <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="iconSize" >
-      <size>
-       <width>18</width>
-       <height>18</height>
-      </size>
-     </property>
-     <property name="columnCount" >
-      <number>0</number>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" >
-    <widget class="QToolButton" name="avatarButton" >
-     <property name="toolTip" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Click to change your avatar&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-     <property name="icon" >
-      <iconset resource="images.qrc" >:/images/mystatus_bg.png</iconset>
-     </property>
-     <property name="iconSize" >
-      <size>
-       <width>70</width>
-       <height>70</height>
-      </size>
-     </property>
-     <property name="autoRaise" >
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="0" colspan="2" >
+   <item row="1" column="0" >
     <layout class="QGridLayout" >
      <property name="margin" >
-      <number>0</number>
+      <number>9</number>
      </property>
      <property name="spacing" >
       <number>6</number>
      </property>
-     <item row="0" column="2" >
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
+     <item row="1" column="0" colspan="2" >
+      <widget class="QTreeWidget" name="messengertreeWidget" >
+       <property name="contextMenuPolicy" >
+        <enum>Qt::CustomContextMenu</enum>
        </property>
-       <property name="sizeHint" >
+       <property name="iconSize" >
         <size>
-         <width>20</width>
-         <height>20</height>
+         <width>18</width>
+         <height>18</height>
         </size>
        </property>
-      </spacer>
-     </item>
-     <item row="0" column="1" >
-      <widget class="QLabel" name="logolabel" >
-       <property name="sizePolicy" >
-        <sizepolicy>
-         <hsizetype>1</hsizetype>
-         <vsizetype>5</vsizetype>
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text" >
-        <string/>
-       </property>
-       <property name="pixmap" >
-        <pixmap resource="images.qrc" >:/images/rsmlabel2.png</pixmap>
-       </property>
-       <property name="scaledContents" >
-        <bool>true</bool>
+       <property name="columnCount" >
+        <number>0</number>
        </property>
       </widget>
      </item>
      <item row="0" column="0" >
-      <spacer>
-       <property name="orientation" >
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" >
-        <size>
-         <width>16</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
+      <widget class="QLineEdit" name="searchlineEdit" />
      </item>
-    </layout>
-   </item>
-   <item row="1" column="0" colspan="2" >
-    <layout class="QGridLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
      <item row="0" column="1" >
       <widget class="QToolButton" name="addIMAccountButton" >
        <property name="toolTip" >
@@ -676,9 +642,6 @@ p, li { white-space: pre-wrap; }
         <bool>true</bool>
        </property>
       </widget>
-     </item>
-     <item row="0" column="0" >
-      <widget class="QLineEdit" name="searchlineEdit" />
      </item>
     </layout>
    </item>

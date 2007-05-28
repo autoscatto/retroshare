@@ -152,6 +152,9 @@
     <file>images/chat/font_underline_on.png</file>
     <file>images/chat/font_bold.png</file>
     <file>images/chat/font_bold_on.png</file>
+    <file>images/logobar/logo_bar_start.png</file>
+    <file>images/logobar/logo_bar_fill.png</file>
+    <file>images/logobar/rslogo.png</file>
     <file>images/graph-area.png</file>
     <file>images/graph-line.png</file>
     <file>images/ksysguard.png</file>

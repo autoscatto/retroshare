@@ -30,6 +30,8 @@
 #include "ChatDialog.h"
 #include "connect/ConfCertDialog.h"
 #include "util/PixmapMerging.h"
+#include "LogoBar.h"
+#include "util/Widget.h"
 
 #include <iostream>
 #include <sstream>
@@ -70,13 +72,18 @@ MessengerWindow::MessengerWindow(QWidget * parent)
   /* to hide the header  */
   ui.messengertreeWidget->header()->hide(); 
   
-
+  _rsLogoBarmessenger = NULL;
+ 
+  //LogoBar
+  _rsLogoBarmessenger = new LogoBar(ui.logoframe);
+  Widget::createLayout(ui.logoframe)->addWidget(_rsLogoBarmessenger);
+  
   //QPixmap rsl(":images/rsmlabel2.png");
   //ui.logolabel->setPixmap(rsl);
-  ui.logolabel->setMinimumWidth(20);
-  ui.statuscomboBox->setMinimumWidth(20);
-  ui.messagecomboBox->setMinimumWidth(20);
-  ui.searchlineEdit->setMinimumWidth(20);
+  //ui.logolabel->setMinimumWidth(20);
+  //ui.statuscomboBox->setMinimumWidth(20);
+  //ui.messagecomboBox->setMinimumWidth(20);
+  //ui.searchlineEdit->setMinimumWidth(20);
   
   
   /* Hide platform specific features */
@@ -406,4 +413,7 @@ void MessengerWindow::updateAvatar()
 }
 
 
+LogoBar & MessengerWindow::getLogoBar() const {
+	return *_rsLogoBarmessenger;
+}
 

@@ -1,7 +1,7 @@
 /****************************************************************
  *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006,  crypton
+ *  Copyright (C) 2006, 2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -19,14 +19,14 @@
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
 
-
-
 #include <rshare.h>
 #include "StartDialog.h"
 #include "GenCertDialog.h"
 #include "config/gconfig.h"
+#include "LogoBar.h"
 #include <QFileDialog>
 #include <QMessageBox>
+#include "util/Widget.h"
 
 /* Define the format used for displaying the date and time */
 #define DATETIME_FMT  "MMM dd hh:mm:ss"
@@ -40,8 +40,14 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
 
- GConfig config;
- config.loadWidgetInformation(this);
+  GConfig config;
+  config.loadWidgetInformation(this);
+ 
+  _rsLogoBar = NULL;
+ 
+  //LogoBar
+  _rsLogoBar = new LogoBar(ui.callBarFrame);
+  Widget::createLayout(ui.callBarFrame)->addWidget(_rsLogoBar);
 
   /* Create Bandwidth Graph related QObjects */
   _settings = new RshareSettings();
@@ -53,7 +59,7 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   connect(ui.loadPasswd, SIGNAL(returnPressed()), this, SLOT(loadPerson()));
   //connect(ui.selectButton, SIGNAL(clicked()), this, SLOT(selectFriend()));
   //connect(ui.friendBox, SIGNAL(stateChanged(int)), this, SLOT(checkChanged(int)));
-  connect(ui.createNewAccountLabel, SIGNAL(clicked()), this, SLOT(createnewaccount()));
+  //connect(ui.createNewAccountLabel, SIGNAL(clicked()), this, SLOT(createnewaccount()));
 
   /* load the Certificate File name */
   std::string userName;
@@ -141,5 +147,7 @@ void StartDialog::createnewaccount()
 }
 
 
-
+LogoBar & StartDialog::getLogoBar() const {
+	return *_rsLogoBar;
+}
 
