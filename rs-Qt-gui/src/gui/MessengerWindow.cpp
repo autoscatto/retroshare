@@ -78,12 +78,10 @@ MessengerWindow::MessengerWindow(QWidget * parent)
   _rsLogoBarmessenger = new LogoBar(ui.logoframe);
   Widget::createLayout(ui.logoframe)->addWidget(_rsLogoBarmessenger);
   
-  //QPixmap rsl(":images/rsmlabel2.png");
-  //ui.logolabel->setPixmap(rsl);
-  //ui.logolabel->setMinimumWidth(20);
-  //ui.statuscomboBox->setMinimumWidth(20);
-  //ui.messagecomboBox->setMinimumWidth(20);
-  //ui.searchlineEdit->setMinimumWidth(20);
+
+  ui.statuscomboBox->setMinimumWidth(20);
+  ui.messagecomboBox->setMinimumWidth(20);
+  ui.searchlineEdit->setMinimumWidth(20);
   
   
   /* Hide platform specific features */
