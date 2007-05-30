@@ -1,4 +1,7 @@
 <ui version="4.0" >
+ <author></author>
+ <comment></comment>
+ <exportmacro></exportmacro>
  <class>AvatarWidget</class>
  <widget class="QWidget" name="AvatarWidget" >
   <property name="geometry" >
@@ -65,7 +68,7 @@
  </widget>
  <pixmapfunction></pixmapfunction>
  <resources>
-  <include location="../../images.qrc" />
+  <include location="../../wengophone.qrc" />
  </resources>
  <connections/>
 </ui>
