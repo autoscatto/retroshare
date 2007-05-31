@@ -28,13 +28,13 @@
 #include <iostream>
 #include <sstream>
 
-
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QCursor>
 #include <QPoint>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QHeaderView>
 
 /* Images for context menu icons */
 #define IMAGE_DOWNLOAD       ":/images/start.png"
@@ -74,9 +74,30 @@ SharedFilesDialog::SharedFilesDialog(QWidget *parent)
   connect( ui.localDirTreeView, SIGNAL( expanded(const QModelIndex & ) ),
   	localModel, SLOT(  expanded(const QModelIndex & ) ) );
 
-  /* 
-  ui.remoteDirTreeView->setRootIndex(model->index(QDir::currentPath()));
-  */
+  
+  /* Set header resize modes and initial section sizes  */
+	QHeaderView * l_header = ui.localDirTreeView->header () ;   
+	l_header->setResizeMode (0, QHeaderView::Interactive);
+	l_header->setResizeMode (1, QHeaderView::Interactive);
+	l_header->setResizeMode (2, QHeaderView::Interactive);
+	l_header->setResizeMode (3, QHeaderView::Interactive);
+   
+	l_header->resizeSection ( 0, 210 );
+	l_header->resizeSection ( 1, 100 );
+	l_header->resizeSection ( 2, 100 );
+	l_header->resizeSection ( 3, 100 );
+	
+	/* Set header resize modes and initial section sizes */
+	QHeaderView * r_header = ui.remoteDirTreeView->header () ;   
+	r_header->setResizeMode (0, QHeaderView::Interactive);
+	r_header->setResizeMode (1, QHeaderView::Interactive);
+	r_header->setResizeMode (2, QHeaderView::Interactive);
+	r_header->setResizeMode (3, QHeaderView::Interactive);
+   
+	r_header->resizeSection ( 0, 210 );
+	r_header->resizeSection ( 1, 100 );
+	r_header->resizeSection ( 2, 100 );
+	r_header->resizeSection ( 3, 100 );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN

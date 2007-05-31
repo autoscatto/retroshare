@@ -542,7 +542,7 @@
           <widget class="QFrame" name="toolboxframe" >
            <property name="maximumSize" >
             <size>
-             <width>101</width>
+             <width>120</width>
              <height>16777215</height>
             </size>
            </property>
@@ -571,13 +571,13 @@
               </property>
               <property name="minimumSize" >
                <size>
-                <width>100</width>
+                <width>120</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize" >
                <size>
-                <width>100</width>
+                <width>120</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -705,7 +705,7 @@ p, li { white-space: pre-wrap; }
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>90</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -718,13 +718,13 @@ p, li { white-space: pre-wrap; }
                    <widget class="QPushButton" name="addfriendButton" >
                     <property name="minimumSize" >
                      <size>
-                      <width>90</width>
+                      <width>0</width>
                       <height>0</height>
                      </size>
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>90</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -743,7 +743,7 @@ p, li { white-space: pre-wrap; }
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>90</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -762,7 +762,7 @@ p, li { white-space: pre-wrap; }
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>90</width>
+                      <width>16777215</width>
                       <height>16777215</height>
                      </size>
                     </property>
@@ -780,8 +780,8 @@ p, li { white-space: pre-wrap; }
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>120</width>
+                 <height>135</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -851,13 +851,13 @@ p, li { white-space: pre-wrap; }
           <widget class="MainPageStack" native="1" name="stackPages" >
            <property name="sizeIncrement" >
             <size>
-             <width>100</width>
+             <width>120</width>
              <height>0</height>
             </size>
            </property>
            <property name="baseSize" >
             <size>
-             <width>100</width>
+             <width>120</width>
              <height>0</height>
             </size>
            </property>

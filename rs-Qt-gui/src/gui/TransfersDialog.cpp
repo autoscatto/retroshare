@@ -31,6 +31,8 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QHeaderView>
+
 
 #include <sstream>
 #include "rsiface/rsiface.h"
@@ -48,6 +50,46 @@ TransfersDialog::TransfersDialog(QWidget *parent)
   ui.setupUi(this);
 
   connect( ui.downtreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( downtreeWidgetCostumPopupMenu( QPoint ) ) );
+  
+    /* Set header resize modes and initial section sizes Downloads TreeWidget*/
+	QHeaderView * _header = ui.downtreeWidget->header () ;
+   	_header->setResizeMode (0, QHeaderView::Interactive);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+	_header->setResizeMode (4, QHeaderView::Interactive);
+	_header->setResizeMode (5, QHeaderView::Interactive);
+	_header->setResizeMode (6, QHeaderView::Interactive);
+	_header->setResizeMode (7, QHeaderView::Interactive);
+    
+	_header->resizeSection ( 0, 100 );
+	_header->resizeSection ( 1, 100 );
+	_header->resizeSection ( 2, 100 );
+	_header->resizeSection ( 3, 100 );
+	_header->resizeSection ( 4, 100 );
+	_header->resizeSection ( 5, 100 );
+	_header->resizeSection ( 6, 100 );
+	_header->resizeSection ( 7, 100 );
+	
+	/* Set header resize modes and initial section sizes Uploads TreeWidget*/
+	QHeaderView * upheader = ui.uptreeWidget->header () ;
+	upheader->setResizeMode (0, QHeaderView::Interactive);
+	upheader->setResizeMode (1, QHeaderView::Interactive);
+	upheader->setResizeMode (2, QHeaderView::Interactive);
+	upheader->setResizeMode (3, QHeaderView::Interactive);
+	upheader->setResizeMode (4, QHeaderView::Interactive);
+	upheader->setResizeMode (5, QHeaderView::Interactive);
+	upheader->setResizeMode (6, QHeaderView::Interactive);
+	upheader->setResizeMode (7, QHeaderView::Interactive);
+    
+	upheader->resizeSection ( 0, 100 );
+	upheader->resizeSection ( 1, 100 );
+	upheader->resizeSection ( 2, 100 );
+	upheader->resizeSection ( 3, 100 );
+	upheader->resizeSection ( 4, 100 );
+	upheader->resizeSection ( 5, 100 );
+	upheader->resizeSection ( 6, 100 );
+	upheader->resizeSection ( 7, 100 );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN

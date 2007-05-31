@@ -64,6 +64,31 @@ ConnectionsDialog::ConnectionsDialog(QWidget *parent)
   
   /* hide the Tree +/- */
   ui.connecttreeWidget -> setRootIsDecorated( false );
+  
+  /* Set header resize modes and initial section sizes */
+	QHeaderView * _header = ui.connecttreeWidget->header () ;   
+	_header->setResizeMode (0, QHeaderView::Custom);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+	_header->setResizeMode (4, QHeaderView::Interactive);
+	_header->setResizeMode (5, QHeaderView::Interactive);
+	_header->setResizeMode (6, QHeaderView::Interactive);
+	_header->setResizeMode (7, QHeaderView::Interactive);
+	_header->setResizeMode (8, QHeaderView::Interactive);
+	_header->setResizeMode (9, QHeaderView::Interactive);
+	_header->setResizeMode (10, QHeaderView::Interactive);
+    
+	_header->resizeSection ( 0, 25 );
+	_header->resizeSection ( 1, 100 );
+	_header->resizeSection ( 2, 100 );
+	_header->resizeSection ( 3, 100 );
+	_header->resizeSection ( 4, 100 );
+	_header->resizeSection ( 5, 200);
+	_header->resizeSection ( 6, 100 );
+	_header->resizeSection ( 7, 100 );
+	_header->resizeSection ( 8, 100 );
+	_header->resizeSection ( 9, 100 );
      
 
   /* Hide platform specific features */
@@ -200,24 +225,7 @@ void ConnectionsDialog::insertConnect()
 
 	/* remove old items ??? */
 	connectWidget->clear();
-	connectWidget->setColumnCount(11);
-	
-	/* Set header resize modes and initial section sizes */
-	QHeaderView * _header = connectWidget->header () ;   
-	_header->setResizeMode (0, QHeaderView::Custom);
-	_header->setResizeMode (1, QHeaderView::Interactive);
-	_header->setResizeMode (2, QHeaderView::Interactive);
-	_header->setResizeMode (3, QHeaderView::Interactive);
-	_header->setResizeMode (4, QHeaderView::Interactive);
-	_header->setResizeMode (5, QHeaderView::Interactive);
-	_header->setResizeMode (6, QHeaderView::Interactive);
-	_header->setResizeMode (7, QHeaderView::Interactive);
-	_header->setResizeMode (8, QHeaderView::Interactive);
-	_header->setResizeMode (9, QHeaderView::Interactive);
-	_header->setResizeMode (10, QHeaderView::Interactive);
-    
-	_header->resizeSection ( 0, 25 );
-	_header->resizeSection ( 5, 200);
+	connectWidget->setColumnCount(11);	
 
         QList<QTreeWidgetItem *> items;
 	for(it = neighs.begin(); it != neighs.end(); it++)

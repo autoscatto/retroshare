@@ -61,6 +61,33 @@ PeersDialog::PeersDialog(QWidget *parent)
 
   /* hide the Tree +/- */
   ui.peertreeWidget -> setRootIsDecorated( false );
+  
+    /* Set header resize modes and initial section sizes */
+	QHeaderView * _header = ui.peertreeWidget->header () ;
+   	_header->setResizeMode (0, QHeaderView::Custom);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+	_header->setResizeMode (4, QHeaderView::Interactive);
+	_header->setResizeMode (5, QHeaderView::Interactive);
+	_header->setResizeMode (6, QHeaderView::Interactive);
+	_header->setResizeMode (7, QHeaderView::Interactive);
+	_header->setResizeMode (8, QHeaderView::Interactive);
+	_header->setResizeMode (9, QHeaderView::Interactive);
+	_header->setResizeMode (10, QHeaderView::Interactive);
+	_header->setResizeMode (11, QHeaderView::Interactive);
+    
+	_header->resizeSection ( 0, 25 );
+	_header->resizeSection ( 1, 100 );
+	_header->resizeSection ( 2, 100 );
+	_header->resizeSection ( 3, 100 );
+	_header->resizeSection ( 4, 100 );
+	_header->resizeSection ( 5, 200 );
+	_header->resizeSection ( 6, 100 );
+	_header->resizeSection ( 7, 100 );
+	_header->resizeSection ( 8, 100 );
+	_header->resizeSection ( 9, 100 );
+	_header->resizeSection ( 10, 100 );
 
 
   /* Hide platform specific features */
@@ -124,23 +151,7 @@ void  PeersDialog::insertPeers()
 	peerWidget->clear();
 	peerWidget->setColumnCount(12);
 	
-    /* Set header resize modes and initial section sizes */
-	QHeaderView * _header = peerWidget->header () ;
-   	_header->setResizeMode (0, QHeaderView::Custom);
-	_header->setResizeMode (1, QHeaderView::Interactive);
-	_header->setResizeMode (2, QHeaderView::Interactive);
-	_header->setResizeMode (3, QHeaderView::Interactive);
-	_header->setResizeMode (4, QHeaderView::Interactive);
-	_header->setResizeMode (5, QHeaderView::Interactive);
-	_header->setResizeMode (6, QHeaderView::Interactive);
-	_header->setResizeMode (7, QHeaderView::Interactive);
-	_header->setResizeMode (8, QHeaderView::Interactive);
-	_header->setResizeMode (9, QHeaderView::Interactive);
-	_header->setResizeMode (10, QHeaderView::Interactive);
-	_header->setResizeMode (11, QHeaderView::Interactive);
-    
-	_header->resizeSection ( 0, 25 );
-	_header->resizeSection ( 5, 200);
+
 
         QList<QTreeWidgetItem *> items;
 	for(it = friends.begin(); it != friends.end(); it++)
