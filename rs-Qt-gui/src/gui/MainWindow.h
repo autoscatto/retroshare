@@ -100,7 +100,9 @@ public slots:
 private slots:
 
     void updateMenu();
-    void toggleVisibility();
+    
+    void toggleVisibility(QSystemTrayIcon::ActivationReason e);
+    void toggleVisibilitycontextmenu();
 
 
 /** Toolbar fns. */

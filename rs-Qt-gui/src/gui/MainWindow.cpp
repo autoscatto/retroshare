@@ -187,11 +187,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
                                    tr("System tray unavailable"));
 ******/
 
-    // Create the menu that will be used for the context menu
+    // Tray icon Menu
     menu = new QMenu(this);
     QObject::connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
     toggleVisibilityAction = 
-    menu->addAction(QIcon(IMAGE_RETROSHARE), tr("Show/Hide"), this, SLOT(toggleVisibility()));
+    menu->addAction(QIcon(IMAGE_RETROSHARE), tr("Show/Hide"), this, SLOT(toggleVisibilitycontextmenu()));
     menu->addSeparator();
     menu->addAction(_messengerwindowAct);
     menu->addAction(_bandwidthAct);
@@ -201,12 +201,15 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     menu->addAction("Maximize", this, SLOT(showMaximized()));
     menu->addSeparator();
     menu->addAction(QIcon(IMAGE_CLOSE), tr("&Quit"), qApp, SLOT(quit()));
-
+    // End of Icon Menu
+    
     // Create the tray icon
     trayIcon = new QSystemTrayIcon(this);
     trayIcon->setToolTip("RetroShare");
     trayIcon->setContextMenu(menu);
     trayIcon->setIcon(QIcon(IMAGE_RETROSHARE));
+    
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleVisibility(QSystemTrayIcon::ActivationReason)));
     trayIcon->show();
 
 
@@ -397,14 +400,33 @@ void MainWindow::updateMenu()
     toggleVisibilityAction->setText(isVisible() ? tr("Hide") : tr("Show"));
 }
 
-void MainWindow::toggleVisibility()
+void MainWindow::toggleVisibility(QSystemTrayIcon::ActivationReason e)
 {
-    if (isVisible())
-        hide();
-    else
-        show();
+  if(e == QSystemTrayIcon::Trigger || e == QSystemTrayIcon::DoubleClick){
+    if(isHidden()){
+      show();
+      if(isMinimized()){
+        if(isMaximized()){
+          showMaximized();
+        }else{
+          showNormal();
+        }
+      }
+      raise();
+      activateWindow();
+    }else{
+      hide();
+    }
+  }
 }
 
+void MainWindow::toggleVisibilitycontextmenu()
+{
+    if (isVisible())
+         hide();
+     else
+         show();
+}
 
 
 /**
