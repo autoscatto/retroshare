@@ -38,7 +38,7 @@ ConfCertDialog::ConfCertDialog(QWidget *parent, Qt::WFlags flags)
   
   connect(ui.applyButton, SIGNAL(clicked()), this, SLOT(applyDialog()));
   connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(closeinfodlg()));
-  connect(ui.doneButton, SIGNAL(clicked()), this, SLOT(closeinfodlg()));
+
  
   setFixedSize(QSize(434, 462));
 }

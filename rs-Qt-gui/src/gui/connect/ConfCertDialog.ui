@@ -501,12 +501,77 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowIcon" >
-   <iconset resource="../images.qrc" >:/images/RShare16.png</iconset>
+   <iconset resource="../images.qrc" >:/images/RetroShare16.png</iconset>
   </property>
+  <widget class="QGroupBox" name="groupBox_3" >
+   <property name="geometry" >
+    <rect>
+     <x>10</x>
+     <y>300</y>
+     <width>411</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>Trust Settings</string>
+   </property>
+   <widget class="QLabel" name="label_9" >
+    <property name="geometry" >
+     <rect>
+      <x>20</x>
+      <y>20</y>
+      <width>81</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Trust Level</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="trustBox" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>70</y>
+      <width>271</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Trust Their Signature</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="signBox" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>50</y>
+      <width>271</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Sign The Certificate</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="trustLvl" >
+    <property name="geometry" >
+     <rect>
+      <x>110</x>
+      <y>20</y>
+      <width>221</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="readOnly" >
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
   <widget class="QPushButton" name="cancelButton" >
    <property name="geometry" >
     <rect>
-     <x>20</x>
+     <x>210</x>
      <y>430</y>
      <width>101</width>
      <height>23</height>
@@ -516,30 +581,23 @@
     <string>Cancel</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="doneButton" >
-   <property name="geometry" >
-    <rect>
-     <x>280</x>
-     <y>430</y>
-     <width>101</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Done</string>
-   </property>
-  </widget>
   <widget class="QPushButton" name="applyButton" >
    <property name="geometry" >
     <rect>
-     <x>150</x>
+     <x>320</x>
      <y>430</y>
      <width>101</width>
      <height>23</height>
     </rect>
    </property>
    <property name="text" >
-    <string>Apply</string>
+    <string>OK</string>
+   </property>
+   <property name="autoDefault" >
+    <bool>false</bool>
+   </property>
+   <property name="default" >
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QGroupBox" name="groupBox" >
@@ -552,7 +610,7 @@
     </rect>
    </property>
    <property name="title" >
-    <string>Peer Settings</string>
+    <string>Peer Adress</string>
    </property>
    <widget class="QWidget" name="layoutWidget" >
     <property name="geometry" >
@@ -768,70 +826,54 @@ p, li { white-space: pre-wrap; }
     </rect>
    </property>
    <property name="title" >
-    <string>Peer Settings</string>
+    <string>Peer Info</string>
    </property>
-   <widget class="QLabel" name="label_11" >
+   <widget class="QLineEdit" name="name" >
     <property name="geometry" >
      <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>66</width>
-      <height>21</height>
+      <x>101</x>
+      <y>25</y>
+      <width>259</width>
+      <height>19</height>
      </rect>
     </property>
-    <property name="text" >
-     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Org / Loc:&lt;/p>&lt;/body>&lt;/html></string>
+    <property name="readOnly" >
+     <bool>true</bool>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget_2" >
+   <widget class="QLineEdit" name="country" >
     <property name="geometry" >
      <rect>
-      <x>100</x>
-      <y>20</y>
-      <width>261</width>
-      <height>91</height>
+      <x>101</x>
+      <y>85</y>
+      <width>259</width>
+      <height>19</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <widget class="QLineEdit" name="name" >
-       <property name="readOnly" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="orgloc" >
-       <property name="readOnly" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLineEdit" name="country" >
-       <property name="readOnly" >
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+    <property name="readOnly" >
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="orgloc" >
+    <property name="geometry" >
+     <rect>
+      <x>101</x>
+      <y>55</y>
+      <width>259</width>
+      <height>19</height>
+     </rect>
+    </property>
+    <property name="readOnly" >
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="label_10" >
     <property name="geometry" >
      <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>66</width>
-      <height>21</height>
+      <x>11</x>
+      <y>21</y>
+      <width>79</width>
+      <height>26</height>
      </rect>
     </property>
     <property name="text" >
@@ -844,10 +886,10 @@ p, li { white-space: pre-wrap; }
    <widget class="QLabel" name="label_8" >
     <property name="geometry" >
      <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>91</width>
-      <height>21</height>
+      <x>11</x>
+      <y>84</y>
+      <width>79</width>
+      <height>26</height>
      </rect>
     </property>
     <property name="text" >
@@ -857,69 +899,20 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Country/State:&lt;/p>&lt;/body>&lt;/html></string>
     </property>
    </widget>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_3" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>300</y>
-     <width>411</width>
-     <height>121</height>
-    </rect>
-   </property>
-   <property name="title" >
-    <string>Trust Settings</string>
-   </property>
-   <widget class="QLabel" name="label_9" >
+   <widget class="QLabel" name="label_11" >
     <property name="geometry" >
      <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>81</width>
-      <height>21</height>
+      <x>11</x>
+      <y>53</y>
+      <width>79</width>
+      <height>25</height>
      </rect>
     </property>
     <property name="text" >
-     <string>Trust Level</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="trustBox" >
-    <property name="geometry" >
-     <rect>
-      <x>120</x>
-      <y>70</y>
-      <width>271</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Trust Their Signature</string>
-    </property>
-   </widget>
-   <widget class="QCheckBox" name="signBox" >
-    <property name="geometry" >
-     <rect>
-      <x>120</x>
-      <y>50</y>
-      <width>271</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Sign The Certificate</string>
-    </property>
-   </widget>
-   <widget class="QLineEdit" name="trustLvl" >
-    <property name="geometry" >
-     <rect>
-      <x>110</x>
-      <y>20</y>
-      <width>221</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="readOnly" >
-     <bool>true</bool>
+     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Org / Loc:&lt;/p>&lt;/body>&lt;/html></string>
     </property>
    </widget>
   </widget>
