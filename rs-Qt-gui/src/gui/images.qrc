@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/" >
+        <file>images/COPYING</file>
 	  <file>images/RetroShare16.png</file>
         <file>images/locale.png</file>
         <file>images/info16.png</file>
@@ -180,7 +181,6 @@
     <file>images/dauthed.png</file>
     <file>images/dchat.png</file>
     <file>images/dadd.png</file>
-    <file>images/rsmlabel2.png</file>
     <file>images/retrotoolbar.png</file>
    	  <file>layouts/default.ui</file>
         <file>layouts/pagefold.ui</file>

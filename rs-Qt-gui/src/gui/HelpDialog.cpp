@@ -26,6 +26,8 @@
 #include <iostream>
 #include <sstream>
 
+#include <QtCore/QFile>
+#include <QtCore/QTextStream>
 
 #include <QContextMenuEvent>
 #include <QMenu>
@@ -43,6 +45,13 @@ HelpDialog::HelpDialog(QWidget *parent)
 {
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
+  
+  QFile licenseFile(QLatin1String(":/images/COPYING"));
+   if (licenseFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&licenseFile);
+        ui.license->setText(in.readAll());
+   }
+
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
