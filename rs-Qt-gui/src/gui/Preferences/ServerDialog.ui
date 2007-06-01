@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>466</height>
+    <width>419</width>
+    <height>371</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -500,108 +500,95 @@
   <property name="contextMenuPolicy" >
    <enum>Qt::NoContextMenu</enum>
   </property>
-  <widget class="QGroupBox" name="groupBox_3" >
+  <widget class="QGroupBox" name="groupBox_2" >
    <property name="geometry" >
     <rect>
      <x>0</x>
-     <y>160</y>
+     <y>0</y>
+     <width>411</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <property name="title" >
+    <string>DHT</string>
+   </property>
+   <widget class="QRadioButton" name="radioButton_8" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>381</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>DHT Enabled (requires restart)</string>
+    </property>
+    <property name="checked" >
+     <bool>true</bool>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4" >
+   <property name="geometry" >
+    <rect>
+     <x>0</x>
+     <y>50</y>
      <width>411</width>
      <height>91</height>
     </rect>
    </property>
    <property name="title" >
-    <string>Transfer Rates</string>
+    <string>Network Configuration:</string>
    </property>
-   <widget class="QWidget" name="layoutWidget" >
+   <widget class="QRadioButton" name="radioButton_5" >
     <property name="geometry" >
      <rect>
-      <x>100</x>
-      <y>10</y>
-      <width>172</width>
-      <height>74</height>
+      <x>10</x>
+      <y>20</y>
+      <width>381</width>
+      <height>18</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" >
-     <property name="margin" >
-      <number>0</number>
-     </property>
-     <property name="spacing" >
-      <number>6</number>
-     </property>
-     <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="label_14" >
-         <property name="text" >
-          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Total Rate (kb/s) &lt;/p>&lt;/body>&lt;/html></string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="totalRate" >
-         <property name="maximum" >
-          <number>65535</number>
-         </property>
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="value" >
-          <number>7812</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" >
-       <property name="margin" >
-        <number>0</number>
-       </property>
-       <property name="spacing" >
-        <number>6</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="label_12" >
-         <property name="text" >
-          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Per Person          &lt;/p>&lt;/body>&lt;/html></string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QSpinBox" name="indivRate" >
-         <property name="maximum" >
-          <number>65535</number>
-         </property>
-         <property name="minimum" >
-          <number>1</number>
-         </property>
-         <property name="value" >
-          <number>7812</number>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <property name="text" >
+     <string>I'm a Noobie, and will hide behind my firewall.</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_6" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>391</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>I'm a real man, let me do it myself: Manual settings.</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="radioButton_7" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>391</width>
+      <height>18</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Use uPnP to configure my router. (default)</string>
+    </property>
+    <property name="checked" >
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox" >
    <property name="geometry" >
     <rect>
      <x>0</x>
-     <y>0</y>
+     <y>140</y>
      <width>411</width>
      <height>161</height>
     </rect>
@@ -772,18 +759,100 @@ p, li { white-space: pre-wrap; }
     </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="serverButton" >
+  <widget class="QGroupBox" name="groupBox_3" >
    <property name="geometry" >
     <rect>
-     <x>100</x>
-     <y>260</y>
-     <width>101</width>
-     <height>23</height>
+     <x>0</x>
+     <y>300</y>
+     <width>411</width>
+     <height>61</height>
     </rect>
    </property>
-   <property name="text" >
-    <string>Check Settings</string>
+   <property name="title" >
+    <string>Transfer Rates</string>
    </property>
+   <widget class="QWidget" name="layoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>170</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_14" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Total Rate (kb/s) &lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="totalRate" >
+       <property name="maximum" >
+        <number>1024</number>
+       </property>
+       <property name="minimum" >
+        <number>1</number>
+       </property>
+       <property name="value" >
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="layoutWidget" >
+    <property name="geometry" >
+     <rect>
+      <x>200</x>
+      <y>20</y>
+      <width>170</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
+     <property name="spacing" >
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_12" >
+       <property name="text" >
+        <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Per Person          &lt;/p>&lt;/body>&lt;/html></string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QSpinBox" name="indivRate" >
+       <property name="maximum" >
+        <number>256</number>
+       </property>
+       <property name="minimum" >
+        <number>1</number>
+       </property>
+       <property name="value" >
+        <number>1</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
   </widget>
  </widget>
  <resources>

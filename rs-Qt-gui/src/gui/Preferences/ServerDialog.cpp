@@ -37,7 +37,7 @@ ServerDialog::ServerDialog(QWidget *parent)
 
  /* Create RshareSettings object */
   _settings = new RshareSettings();
-  connect(ui.serverButton, SIGNAL(clicked( bool )), this, SLOT( saveAddresses()) );
+
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
