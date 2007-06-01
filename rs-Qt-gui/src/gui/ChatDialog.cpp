@@ -152,6 +152,7 @@ static  int         lastChatTime = 0;
 		{
 			PopupChatDialog *pcd = getPrivateChat(it->rsid, it->name, true);
 			pcd->addChatMsg(&(*it));
+			continue;
 		}
 
 
@@ -169,8 +170,6 @@ static  int         lastChatTime = 0;
 			out << "<" <<  it -> name << " Said @" << ts << ">" << std::endl;
 		}
 
-		if (it->chatflags & RS_CHAT_PRIVATE)
-			out << "[P] ";
 		out << it -> msg << std::endl;
 
 		/* 

@@ -227,6 +227,7 @@ TRANSLATIONS +=  \
 	lang/retroshare_en.ts \
     lang/retroshare_bg.ts \
 	lang/retroshare_es.ts \
+	lang/retroshare_fi.ts \
 	lang/retroshare_fr.ts \
 	lang/retroshare_af.ts  \
 	lang/retroshare_cn_simp.ts  \

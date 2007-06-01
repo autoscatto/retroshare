@@ -53,8 +53,8 @@ LanguageSupport::initialize()
     QString::fromUtf8("spanish"));
   _languages.insert("sl",    "slovenian");  
   _languages.insert("tr",    "Turkish");
+  _languages.insert("fi",    "suomi");
 /****
-  _languages.insert("fi",    "Suomi");
   _languages.insert("zh-cn", 
     QString::fromUtf8("\347\256\200\344\275\223\345\255\227"));
 ***/

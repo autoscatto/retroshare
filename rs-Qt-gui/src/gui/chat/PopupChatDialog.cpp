@@ -211,7 +211,7 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 			out << spaces; 
 		}
 
-		out << "[" << ci->name << " Said @" << ts << "]" << std::endl;
+		out << "[ " << ci->name << " +" << ts - lastChatTime << "s ]" << std::endl;
 		out << "<br>" << std::endl;
 
 	}
