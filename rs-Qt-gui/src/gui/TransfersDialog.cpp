@@ -182,7 +182,7 @@ void TransfersDialog::insertTransfers()
 		{
 			std::ostringstream out;
 			out << (it -> transfered * 100.0 / it -> size) << "%";
-			item -> setText(3, QString::fromStdString(out.str()));3
+			item -> setText(3, QString::fromStdString(out.str()));
 			//m_pProgressBar->setValue(it -> transfered * 100.0 / it -> size);
 		}
 		{
