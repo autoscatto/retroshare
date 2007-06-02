@@ -51,6 +51,15 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 
   connect( ui.downtreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( downtreeWidgetCostumPopupMenu( QPoint ) ) );
   
+  	m_pProgressBar = new QProgressBar( NULL );
+
+	m_pProgressBar->setMinimum( 0 );
+	m_pProgressBar->setMaximum( 100 );
+	
+    QVBoxLayout* pVBox = new QVBoxLayout();
+	
+	pVBox->addWidget( m_pProgressBar );
+  
     /* Set header resize modes and initial section sizes Downloads TreeWidget*/
 	QHeaderView * _header = ui.downtreeWidget->header () ;
    	_header->setResizeMode (0, QHeaderView::Interactive);
@@ -169,6 +178,12 @@ void TransfersDialog::insertTransfers()
 			std::ostringstream out;
 			out << it -> tfRate << " kB/s";
 			item -> setText(2, QString::fromStdString(out.str()));
+		}
+		{
+			std::ostringstream out;
+			out << (it -> transfered * 100.0 / it -> size) << "%";
+			item -> setText(3, QString::fromStdString(out.str()));3
+			//m_pProgressBar->setValue(it -> transfered * 100.0 / it -> size);
 		}
 		{
 			std::ostringstream out;

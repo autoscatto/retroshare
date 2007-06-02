@@ -1,7 +1,7 @@
 /****************************************************************
- *  RShare is distributed under the following license:
+ *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006, crypton
+ *  Copyright (C) 2006,2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -23,8 +23,7 @@
 #define _TRANSFERSDIALOG_H
 
 #include <QFileDialog>
-
-//#include <config/rsharesettings.h>
+#include <QProgressBar>
 
 #include "mainpage.h"
 #include "ui_TransfersDialog.h"
@@ -71,6 +70,7 @@ QTreeWidgetItem* getCurrentPeer();
   QAction* clearcompletedAct;
 
   QTreeWidget *downtreeWidget;
+  QProgressBar* m_pProgressBar;
 
   /** Adds a new action to the toolbar. */
   void addAction(QAction *action, const char *slot = 0);

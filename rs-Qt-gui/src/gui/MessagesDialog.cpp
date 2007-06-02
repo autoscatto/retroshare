@@ -24,6 +24,7 @@
 #include "MessagesDialog.h"
 #include "msgs/ChanMsgDialog.h"
 #include "gui/toaster/MessageToaster.h"
+#include "chat/ChatWindow.h"
 
 #include "rsiface/rsiface.h"
 #include <sstream>
@@ -502,13 +503,6 @@ void MessagesDialog::insertMsgTxtAndFiles()
 	rsicontrol -> MessageRead(mid);
 }
 
-void MessagesDialog::eventsButtonClicked()
-{
-    MessageToaster * messageToaster = new MessageToaster();
-    messageToaster->show();
-}
-
-
 
 bool MessagesDialog::getCurrentMsg(std::string &cid, std::string &mid)
 {
@@ -562,4 +556,8 @@ void MessagesDialog::markMsgAsRead()
 	return;
 }
 
-
+void MessagesDialog::eventsButtonClicked()
+{
+    ChatWindow * chatw = new ChatWindow();
+    chatw->show();
+}

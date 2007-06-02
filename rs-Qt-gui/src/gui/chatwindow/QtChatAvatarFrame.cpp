@@ -21,6 +21,7 @@
 
 #include "QtChatAvatarFrame.h"
 #include "QtChatAvatarWidget.h"
+#include "util/Widget.h"
 
 #include <QtGui/QtGui>
 

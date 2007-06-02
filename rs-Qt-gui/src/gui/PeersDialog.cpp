@@ -38,6 +38,7 @@
 #include <QCursor>
 #include <QPoint>
 #include <QMouseEvent>
+#include <QPixmap>
 #include <QMessageBox>
 #include <QHeaderView>
 
@@ -126,6 +127,7 @@ void PeersDialog::peertreeWidgetCostumPopupMenu( QPoint point )
 
       contextMnu.clear();
       contextMnu.addAction( chatAct);
+      contextMnu.addSeparator(); 
       contextMnu.addAction( connectfriendAct);
       contextMnu.addAction( configurefriendAct);
       contextMnu.addAction( exportfriendAct);

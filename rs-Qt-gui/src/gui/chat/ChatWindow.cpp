@@ -25,6 +25,7 @@
 #include "ChatWindow.h"
 #include "config/gconfig.h"
 #include "ChatAvatarFrame.h"
+#include "util/Widget.h"
 
 #include <QTextCodec>
 #include <QTextEdit>
