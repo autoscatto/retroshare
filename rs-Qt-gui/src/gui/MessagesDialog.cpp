@@ -24,7 +24,7 @@
 #include "MessagesDialog.h"
 #include "msgs/ChanMsgDialog.h"
 #include "gui/toaster/MessageToaster.h"
-#include "chat/ChatWindow.h"
+
 
 #include "rsiface/rsiface.h"
 #include <sstream>
@@ -558,6 +558,6 @@ void MessagesDialog::markMsgAsRead()
 
 void MessagesDialog::eventsButtonClicked()
 {
-    ChatWindow * chatw = new ChatWindow();
-    chatw->show();
+//
+//
 }
