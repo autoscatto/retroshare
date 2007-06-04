@@ -320,6 +320,14 @@ ssize_t tou_recvfrom(int sockfd, void *buf, size_t len, int flags, struct sockad
 		return -1;
 	}
 
+	/* extra checks */
+	if ((!tous->tcp) || (!tous->udp))
+	{
+		std::cerr << "tou_recvfrom() Bad sockfd (!udp) || (!tcp) :" << sockfd;
+		std::cerr << std::endl;
+		return -1;
+	}
+
 	if (tous->tcp->state == 0)
 	{
 		//std::cerr << "tou_recvfrom() State = 0 .... Allow??";

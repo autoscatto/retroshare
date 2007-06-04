@@ -44,23 +44,38 @@ RsCertId::RsCertId()
 	}
 }
 
+/**********************************************************************
+ * NOTE NOTE NOTE ...... XXX
+ * BUG in MinGW .... %hhx in sscanf overwrites 32bits, instead of 8bits.
+ * this means that scanf(.... &(data[15])) is running off the 
+ * end of the buffer, and hitting data[15-18]...
+ * To work around this bug we are reading into proper int32s
+ * and then copying the data over...
+ *
+**********************************************************************/
+
 RsCertId::RsCertId(std::string idstr)
 {
-	/* scan the string and create an id */
-	if (16 != sscanf(idstr.c_str(), 
-		"%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx",
-		&(data[0]), &(data[1]), &(data[2]), &(data[3]),
-		&(data[4]), &(data[5]), &(data[6]), &(data[7]),
-		&(data[8]), &(data[9]), &(data[10]), &(data[11]),
-		&(data[12]), &(data[13]), &(data[14]), &(data[15])))
-	{
-		std::cerr << "RsCertId() Invalid Parsing!" << std::endl;
-		/* clear it */
-		for(int i = 0; i < RSCERTIDLEN; i++)
-		{
-			data[i] = 0;
-		}
-	}
+        unsigned int a, b, c, d;
+        /* scan the string and create an id */
+        if (16 != sscanf(idstr.c_str(),
+                "%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%hhx:%x:%x:%x:%x",
+                &(data[0]), &(data[1]), &(data[2]), &(data[3]),
+                &(data[4]), &(data[5]), &(data[6]), &(data[7]),
+                &(data[8]), &(data[9]), &(data[10]), &(data[11]),
+                &a, &b, &c, &d))
+        {
+                std::cerr << "RsCertId() Invalid Parsing!" << std::endl;
+                /* clear it */
+                for(int i = 0; i < RSCERTIDLEN; i++)
+                {
+                        data[i] = 0;
+                }
+        }
+        ((unsigned char *) data)[12] = a;
+        ((unsigned char *) data)[13] = b;
+        ((unsigned char *) data)[14] = c;
+        ((unsigned char *) data)[15] = d;
 }
 
 bool RsCertId::operator<(const RsCertId &ref) const

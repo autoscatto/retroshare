@@ -941,9 +941,14 @@ int     pqiudplistener::setuplisten()
 	{
 		active = true;
 		pqioutput(PQL_DEBUG_BASIC, pqissludpzone, "pqiudplistener::setuplisten Succeeded!");
+		return 1;
 	}
+        active = false;
 	pqioutput(PQL_DEBUG_BASIC, pqissludpzone, "pqiudplistener::setuplisten Failed!");
-	return 1;
+
+	std::cerr << "pqiudplistener failed to bind to :" << inet_ntoa(laddr.sin_addr);
+	std::cerr << ":" << ntohs(laddr.sin_port) << std::endl;
+	return 0;
 }
 
 int     pqiudplistener::status()
@@ -958,8 +963,13 @@ int     pqiudplistener::tick()
 	char data[dsize];
 	struct sockaddr_in addr, pot_ext_addr;
 
-	/* 
+	/* must check if address is okay. 
 	 */
+        if (!active)
+	{
+		/* can't do much ... */
+		return 1;
+	}
 
 	serverStun();
 
