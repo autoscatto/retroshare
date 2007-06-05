@@ -101,6 +101,8 @@ dhthandler::~dhthandler()
 
 }
 
+
+
 bool    dhthandler::networkUp()
 {
 	/* no need for mutex? */
@@ -218,7 +220,7 @@ int dhthandler::init()
 	return 1;
 #endif
 
-	char filename[1024];
+	char *filename = (char *) malloc(1024);
 	sprintf(filename, "%.1023s", kadcFile.c_str());
 
 	/* start up the dht server. */
@@ -261,13 +263,39 @@ int dhthandler::shutdown()
 	return 0;
 }
 
+
+int dhthandler::write_inifile()
+{
+	/* if we're up and we have enough valid ones */
+
+#define MIN_KONTACTS 50
+
+	if (KadC_getncontacts(pkcc) > MIN_KONTACTS)
+	{
+		std::cerr << "DhtHandler::Write_IniFile() Writing File" << std::endl;
+		if (KADC_OK != KadC_write_inifile(pkcc, NULL))
+		{
+		KadC_log("KadC_write_inifile(%s, %d) returned error %d:\n",
+			kadcFile.c_str(), 1, kcc.s);
+		KadC_log("%s %s", kcc.errmsg1, kcc.errmsg2);
+		}
+	}
+	else
+	{
+		std::cerr << "DhtHandler::Write_IniFile() Not enough contacts" << std::endl;
+	}
+	return 1;
+}
+
+
 void dhthandler::run()
 {
 
 	/* infinite loop */
+	int totalsleep = 0;
 	while(1)
 	{
-		std::cerr << "DhtHandler::Run()" << std::endl;
+	//	std::cerr << "DhtHandler::Run()" << std::endl;
 
 		if (!dhtOk)
 		{
@@ -288,17 +316,20 @@ void dhthandler::run()
 		/* lock it up */
 		dataMtx.lock(); /* LOCK MUTEX */
 
-		bool shutdown = mShutdown;
+		bool toShutdown = mShutdown;
 
 		/* shutdown */
 		dataMtx.unlock(); /* UNLOCK MUTEX */
 
-		if (shutdown)
-		{
-			return;
-		}
 
 		print();
+
+		if (toShutdown)
+		{
+			shutdown();
+			dhtOk = false;
+		}
+
 
 		/* check ids */
 
@@ -316,7 +347,7 @@ void dhthandler::run()
 		{
 			allowedSleep = 10;
 		}
-		std::cerr << "DhtHandler::Run() sleeping for:" << allowedSleep << std::endl;
+	//	std::cerr << "DhtHandler::Run() sleeping for:" << allowedSleep << std::endl;
 /********************************** WINDOWS/UNIX SPECIFIC PART ******************/
 #ifndef WINDOWS_SYS
 		sleep(allowedSleep); 
@@ -324,6 +355,17 @@ void dhthandler::run()
 		Sleep(1000 * allowedSleep); 
 #endif
 /********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+#define DHT_INIT_STORE_PERIOD	 300
+
+		totalsleep += allowedSleep;
+		if (totalsleep > DHT_INIT_STORE_PERIOD)
+		{
+			write_inifile();
+			totalsleep = 0;
+		}
+
+
 	}
 	return;
 }
@@ -543,7 +585,7 @@ int dhthandler::searchId(std::string id)
 		KadC_log("\n");
 
         	KadCtag_iter iter;
-	        int i;
+	        unsigned int i;
 
 		bool found = false;
 		std::string addrline;

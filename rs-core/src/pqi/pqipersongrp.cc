@@ -397,10 +397,10 @@ int     pqipersongrp::load_config()
 		pqioutput(PQL_DEBUG_BASIC, pqipersongrpzone,
 			"pqipersongrp::load_config() Loading Default Rates!");
 
-		setMaxRate(true, 20.0);
-		setMaxRate(false, 20.0);
-		setMaxIndivRate(true, 5.0);
-		setMaxIndivRate(false, 5.0);
+		setMaxRate(true, 50.0);
+		setMaxRate(false,50.0);
+		setMaxIndivRate(true, 50.0);
+		setMaxIndivRate(false, 50.0);
 	}
 
 	return 1;

@@ -1,0 +1,307 @@
+
+/*
+ * "$Id: p3face-people.cc,v 1.8 2007-04-15 18:45:23 rmf24 Exp $"
+ *
+ * RetroShare C++ Interface.
+ *
+ * Copyright 2004-2006 by Robert Fernie.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License Version 2 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA.
+ *
+ * Please report all bugs and problems to "retroshare@lunamutt.com".
+ *
+ */
+
+
+
+#include "dht/dhthandler.h"
+#include "upnp/upnphandler.h"
+
+#include "rsserver/p3face.h"
+#include "rsserver/pqistrings.h"
+
+#include <iostream>
+#include <sstream>
+
+#include "pqi/pqidebug.h"
+
+#include <sys/time.h>
+#include <time.h>
+
+
+
+const int p3facenetworkzone = 4219;
+
+/*****
+int RsServer::NetworkDHTActive(bool active);
+int RsServer::NetworkUPnPActive(bool active);
+int RsServer::NetworkDHTStatus();
+int RsServer::NetworkUPnPStatus();
+********/
+
+/* internal */
+
+/*****
+int	RsServer::CheckNetworking();
+int	RsServer::InitNetworking();
+
+int RsServer::InitDHT();
+int RsServer::CheckDHT();
+
+int RsServer::InitUPnP();
+int RsServer::CheckUPnP();
+********/
+
+int RsServer::NetworkDHTActive(bool active)
+{
+	lockRsCore(); /* LOCK */
+
+	/* TODO Store */
+
+	unlockRsCore(); /* UNLOCK */
+
+	return 1;
+}
+
+int RsServer::NetworkUPnPActive(bool active)
+{
+	lockRsCore(); /* LOCK */
+
+	/* TODO Store */
+
+	unlockRsCore(); /* UNLOCK */
+
+	return 1;
+}
+
+int RsServer::NetworkDHTStatus()
+{
+	lockRsCore(); /* LOCK */
+
+	/* TODO Store */
+
+	unlockRsCore(); /* UNLOCK */
+
+	return 1;
+}
+
+
+int RsServer::NetworkUPnPStatus()
+{
+	lockRsCore(); /* LOCK */
+
+	/* TODO Store */
+
+	unlockRsCore(); /* UNLOCK */
+
+	return 1;
+}
+
+
+
+int	RsServer::InitNetworking(std::string dhtfile)
+{
+	InitDHT(dhtfile);
+	InitUPnP();
+	return 1;
+}
+
+
+int	RsServer::CheckNetworking()
+{
+	CheckDHT();
+	CheckUPnP();
+	return 1;
+}
+
+
+dhthandler *dhtp = NULL;
+
+pqiAddrStore *getDHTServer()
+{
+	return dhtp;
+}
+
+int	RsServer::InitDHT(std::string file)
+{
+	dhtp = new dhthandler(file);
+	/* 
+	 *
+	 */
+	dhtp -> start();
+	cert *c = sslr -> getOwnCert();
+
+	if (ntohs(c -> serveraddr.sin_port) < 100)
+	{
+		dhtp -> setOwnPort(ntohs(c -> localaddr.sin_port));
+	}
+	else
+	{
+		dhtp -> setOwnPort(ntohs(c -> serveraddr.sin_port));
+	}
+
+	/* give it our port, and hash */
+	dhtp -> setOwnHash(c->Signature());
+	return 1;
+}
+
+int	RsServer::CheckDHT()
+{
+	lockRsCore(); /* LOCK */
+
+	int i;
+	int ret = 1;
+
+	if (server -> getDHTEnabled()) 
+	{
+		/* startup if necessary */
+
+	}
+	else
+	{
+		/* shutdown if necessary */
+	}
+		
+	/* for each friend */
+
+	/* add, and then check */
+
+	std::list<cert *>::iterator it;
+	std::list<cert *> &certs = sslr -> getCertList();
+	
+	std::string emptystr("");
+	int online = 0;
+
+	for(it = certs.begin(), i = 0; it != certs.end(); it++, i++)
+	{
+		cert *c = (*it);
+
+		/* skip own cert */
+		if (c == sslr -> getOwnCert())
+		{
+			continue;
+		}
+
+		if (c -> hasDHT())
+		{
+			/* ignore */
+		}
+		else
+		{
+			std::string id = c -> Signature();
+			dhtp -> addFriend(id);
+
+			struct sockaddr_in addr;
+			unsigned int flags;
+			if (dhtp -> addrFriend(id, addr, flags))
+			{
+				c -> setDHT(addr, flags);
+
+				/* connect attempt! */
+				c -> nc_timestamp = 0;
+				c -> WillConnect(true);
+			}
+		}
+	}
+
+	unlockRsCore(); /* UNLOCK */
+	return ret;
+}
+
+
+
+
+upnphandler *upnpp = NULL;
+
+int	RsServer::InitUPnP()
+{
+	upnpp = new upnphandler();
+	/* 
+	 *
+	 */
+
+	/* set our internal address to it */
+	cert *c = sslr -> getOwnCert();
+	upnpp -> setInternalAddress(c -> localaddr);
+
+	upnpp -> start();
+
+
+	return 1;
+}
+
+int	RsServer::CheckUPnP()
+{
+	lockRsCore(); /* LOCK */
+
+	int i;
+	int ret = 1;
+
+	/* set our internal address to it */
+	cert *c = sslr -> getOwnCert();
+	upnpp -> setInternalAddress(c -> localaddr);
+
+	/* get the state */
+	upnpentry ent;
+	int state = upnpp -> getUPnPStatus(ent);
+
+	if (server -> getUPnPEnabled()) 
+	{
+		switch(state)
+		{
+			case RS_UPNP_S_ACTIVE:
+				std::cerr << "UPnP Forwarding already up";
+			break;
+			case RS_UPNP_S_FAILED:
+				std::cerr << "UPnP Forwarding Failed";
+			break;
+			case RS_UPNP_S_READY:
+				std::cerr << "Setting up UPnP Forwarding";
+				upnpp -> setupUPnPForwarding();
+			break;
+			case RS_UPNP_S_UNAVAILABLE:
+			case RS_UPNP_S_UNINITIALISED:
+				std::cerr << "Error UPNP not working";
+			break;
+		}
+	}
+	else
+	{
+                /* shutdown a forward */
+		switch(state)
+		{
+			case RS_UPNP_S_ACTIVE:
+			case RS_UPNP_S_FAILED:
+				std::cerr << "Shutting down UPnP Forwarding";
+                		upnpp->shutdownUPnPForwarding();
+			break;
+			case RS_UPNP_S_READY:
+				std::cerr << "UPnP Forwarding already down";
+			break;
+			case RS_UPNP_S_UNAVAILABLE:
+			case RS_UPNP_S_UNINITIALISED:
+				std::cerr << "Error UPNP not working";
+			break;
+		}
+
+
+	}
+
+	unlockRsCore(); /* UNLOCK */
+	return ret;
+}
+
+
+

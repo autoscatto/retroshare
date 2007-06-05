@@ -31,8 +31,7 @@ OS = Linux
 ifeq ($(OS),Linux)
   #Linux.
   SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
-  KADC_DIR=/home/rmf24/prog/src/KadC
-
+  KADC_DIR=/home/rmf24/prog/src/KadC/KadC-2007-Oct-19
 else
 ###########################################################################
   ifeq ($(OS),Cygwin)
@@ -160,8 +159,8 @@ ifeq ($(OS),Linux)
 	
 	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread -lKadC
 
-	LIBS   += $(XLIB) -ldl
-	RSLIBS += $(XLIB) -ldl
+	LIBS   += $(XLIB) -ldl -lz
+	RSLIBS += $(XLIB) -ldl -lz
 
 else # windows (Cygwin or MinGW)
 

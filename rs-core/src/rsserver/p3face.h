@@ -147,10 +147,6 @@ void    initRsNI(cert *c, NeighbourInfo &ni); /* translate to Ext */
 
 int 	ensureExtension(std::string &name, std::string def_ext);
 
-	/* for DHT stuff */
-int 	InitDHT(std::string);
-int 	CheckDHT();
-
 /****************************************/
 /****************************************/
 	/* p3face-file Operations */
@@ -269,6 +265,24 @@ void initRsMI(MsgItem *msg, MessageInfo &mi);
 /****************************************/
 /****************************************/
 
+	public:
+/****************************************/
+	/* RsIface Networking */
+virtual int	NetworkDHTActive(bool active);
+virtual int	NetworkUPnPActive(bool active);
+virtual int	NetworkDHTStatus();
+virtual int	NetworkUPnPStatus();
+
+	private:
+/* internal */
+int	InitNetworking(std::string);
+int	CheckNetworking();
+
+int	InitDHT(std::string);
+int	CheckDHT();
+
+int	InitUPnP();
+int	CheckUPnP();
 
 	public:
 /****************************************/

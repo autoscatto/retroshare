@@ -1017,6 +1017,7 @@ int     filedexserver::reScanDirs()
 static const std::string fdex_dir("FDEX_DIR");
 static const std::string save_dir_ss("SAVE_DIR");
 static const std::string save_inc_ss("SAVE_INC");
+static const std::string NETWORK_ss("NET_PARAM");
 
 int     filedexserver::save_config()
 {
@@ -1025,6 +1026,14 @@ int     filedexserver::save_config()
 
 	pqioutput(PQL_DEBUG_BASIC, fldxsrvrzone, 
 		"fildexserver::save_config()");
+
+	/* basic control parameters */
+	{
+	  std::ostringstream out;
+	  out << getDHTEnabled() << " " << getUPnPEnabled();
+	  sslr -> setSetting(NETWORK_ss, out.str());
+	}
+
 
 	sslr -> setSetting(save_dir_ss, getSaveDir());
 	if (getSaveIncSearch())
@@ -1142,6 +1151,22 @@ int     filedexserver::load_config()
 	std::string empty("");
 	std::string dir("notempty");
 	std::string str_true("true");
+
+	std::string snet = sslr -> getSetting(NETWORK_ss);
+	{
+	  int a, b;
+
+	  // on by default
+	  setDHTEnabled(true);
+	  setUPnPEnabled(true);
+
+	  if (2 == sscanf(snet.c_str(), "%d %d", &a, &b))
+	  {
+	  	setDHTEnabled(a);
+		setUPnPEnabled(b);
+	  }
+	}
+
 
 	std::string sdir = sslr -> getSetting(save_dir_ss);
 	if (sdir != empty)

@@ -259,6 +259,33 @@ channelMsg *getChannelMsg(channelSign s, MsgHash mh);
 	private:
 p3channel *p3chan;
 
+
+	public:
+	/* some more switches (here for uniform saving) */
+int	getDHTEnabled()
+	{
+		return DHTState;
+	}
+
+int 	getUPnPEnabled()
+	{
+		return UPnPState;
+	}
+
+void	setDHTEnabled(int i)
+	{
+		DHTState = i;
+	}
+
+void 	setUPnPEnabled(int i)
+	{
+		UPnPState = i;
+	}
+
+	private:
+	int DHTState;
+	int UPnPState;
+
 #endif
 
 };

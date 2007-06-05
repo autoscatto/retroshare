@@ -278,6 +278,8 @@ int 	pqiperson::notifyEvent(NetInterface *ni, int newState)
 			sslcert -> Connected(true);
 			sroot -> IndicateCertsChanged();
 
+			connectSuccess();
+
 	  		inConnectAttempt = false;
 			// stop listening.
 			stoplistening();
@@ -498,19 +500,23 @@ int	pqiperson::connectattempt(pqiconnect *last)
 
 // returns (in secs) the time til next connect attempt
 // this is based on the 
+//
+#define SEC_PER_LOG_UNIT   600
+
 int	pqiperson::connectWait()
 {
-	int hours = (1 << waittimes++);
-	// max wait of 2^10 = 1024 hours (over a month)
+	int log_weight = (1 << waittimes++);
+	// max wait of 2^10 = 1024  * X min (over a month)
+	// 			10240 min = 1 day
 	if (waittimes > 10)
 		waittimes = 10;
-	return 3600 * hours;
+	return log_weight * SEC_PER_LOG_UNIT;
 }
 
 // called to reduce the waittimes, next time.
 int	pqiperson::connectSuccess()
 {
-	return waittimes /= 2;
+	return waittimes = 0;
 }
 
 

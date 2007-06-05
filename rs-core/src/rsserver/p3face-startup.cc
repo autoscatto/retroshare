@@ -502,8 +502,8 @@ int RsServer::StartupRetroShare(RsInit *config)
 	std::string helppage = config->basedir + config->dirSeperator;
 	helppage += configHelpName;
 
-	/* for DHT stuff */
-	InitDHT(config->basedir + "/kadc.ini");
+	/* for DHT/UPnP stuff */
+	InitNetworking(config->basedir + "/kadc.ini");
 
 	/* Startup this thread! */
         pthread_t coreId = createThread(*this);

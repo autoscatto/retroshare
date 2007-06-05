@@ -67,6 +67,8 @@ virtual void run();
 
 	private:
 
+	int write_inifile();
+
 	int checkOwnStatus();
 	int checkPeerIds();
 	int publishOwnId();

@@ -129,7 +129,7 @@ void 	RsServer::run()
 
 /******************************** RUN SERVER *****************/
 		lockRsCore();
-		std::cerr << "RsServer::run() Lock() -> Run()" << std::endl;
+	//	std::cerr << "RsServer::run() Lock() -> Run()" << std::endl;
 		int moreToTick = server -> tick();
 		unlockRsCore();
 /******************************** RUN SERVER *****************/
@@ -176,11 +176,11 @@ void 	RsServer::run()
 			lastSec = (int) ts;
 
 			/* Once a Second... */
-			std::cerr << "RsServer::run() UpdateDirectories()" << std::endl;
+			//std::cerr << "RsServer::run() UpdateDirectories()" << std::endl;
 			UpdateDirectories();
 
 			/* Chat needs to be quick too! */
-			std::cerr << "RsServer::run() UpdateAllChat()" << std::endl;
+			//std::cerr << "RsServer::run() UpdateAllChat()" << std::endl;
 			UpdateAllChat();
 
 	
@@ -191,37 +191,37 @@ void 	RsServer::run()
 
 				// Update All Every 10 Seconds.
 				// These Update Functions do the locking themselves.
-				std::cerr << "RsServer::run() Updates()" << std::endl;
+				//std::cerr << "RsServer::run() Updates()" << std::endl;
 			
 				// These two have been completed!	
-				std::cerr << "RsServer::run() UpdateAllCerts()" << std::endl;
+				//std::cerr << "RsServer::run() UpdateAllCerts()" << std::endl;
 				UpdateAllCerts();
-				std::cerr << "RsServer::run() UpdateAllNetwork()" << std::endl;
+				//std::cerr << "RsServer::run() UpdateAllNetwork()" << std::endl;
 				UpdateAllNetwork();
 
 				// currently Dummy Functions.
-				std::cerr << "RsServer::run() UpdateAllTransfers()" << std::endl;
+				//std::cerr << "RsServer::run() UpdateAllTransfers()" << std::endl;
 				UpdateAllTransfers();
 
-				std::cerr << "RsServer::run() UpdateAllMsgs()" << std::endl;
+				//std::cerr << "RsServer::run() UpdateAllMsgs()" << std::endl;
 				UpdateAllMsgs();
-				std::cerr << "RsServer::run() UpdateAllChannels()" << std::endl;
+				//std::cerr << "RsServer::run() UpdateAllChannels()" << std::endl;
 				UpdateAllChannels();
 
-			        std::cerr << "RsServer::run() ";
-				std::cerr << "UpdateRemotePeople()"<<std::endl;
+			        //std::cerr << "RsServer::run() ";
+				//std::cerr << "UpdateRemotePeople()"<<std::endl;
 				UpdateRemotePeople();
 	
 				//std::cerr << "RsServer::run() UpdateAllFiles()" << std::endl;
 				//UpdateAllFiles();
 
-				std::cerr << "RsServer::run() UpdateAllConfig()" << std::endl;
+				//std::cerr << "RsServer::run() UpdateAllConfig()" << std::endl;
 				UpdateAllConfig();
 
 
 
-				std::cerr << "RsServer::run() CheckDHT()" << std::endl;
-				CheckDHT();
+				//std::cerr << "RsServer::run() CheckDHT()" << std::endl;
+				CheckNetworking();
 
 			}
 	
