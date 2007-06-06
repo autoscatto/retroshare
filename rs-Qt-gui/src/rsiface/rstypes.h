@@ -2,7 +2,7 @@
 #define RS_TYPES_GUI_INTERFACE_H
 
 /*
- * "$Id: rstypes.h,v 1.6 2007-04-07 08:41:00 rmf24 Exp $"
+ * "$Id: rstypes.h,v 1.7 2007-05-05 16:10:05 rmf24 Exp $"
  *
  * RetroShare C++ Interface.
  *
@@ -265,6 +265,13 @@ class ChatInfo: public BaseInfo
 	std::string msg;
 };
 
+/* matched to the uPnP states */
+#define UPNP_STATE_UNINITIALISED  0
+#define UPNP_STATE_UNAVAILABILE   1
+#define UPNP_STATE_READY          2
+#define UPNP_STATE_FAILED_TCP     3
+#define UPNP_STATE_FAILED_UDP     4
+#define UPNP_STATE_ACTIVE         5
 
 class RsConfig
 {
@@ -288,6 +295,11 @@ class RsConfig
 	int			maxIndivDataRate; /* kb */
 
 	int			promptAtBoot; /* popup the password prompt */
+
+	bool			DHTActive;
+	bool			uPnPActive;
+
+	int			uPnPState;
 };
 
 /********************** For Search Interface *****************/

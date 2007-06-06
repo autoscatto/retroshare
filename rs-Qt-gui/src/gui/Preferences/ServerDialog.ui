@@ -512,7 +512,7 @@
    <property name="title" >
     <string>DHT</string>
    </property>
-   <widget class="QRadioButton" name="radioButton_8" >
+   <widget class="QRadioButton" name="DHTButton" >
     <property name="geometry" >
      <rect>
       <x>10</x>
@@ -541,7 +541,7 @@
    <property name="title" >
     <string>Network Configuration:</string>
    </property>
-   <widget class="QRadioButton" name="radioButton_5" >
+   <widget class="QRadioButton" name="NoobieButton" >
     <property name="geometry" >
      <rect>
       <x>10</x>
@@ -554,7 +554,7 @@
      <string>I'm a Noobie, and will hide behind my firewall.</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_6" >
+   <widget class="QRadioButton" name="ManualButton" >
     <property name="geometry" >
      <rect>
       <x>10</x>
@@ -567,7 +567,7 @@
      <string>I'm a real man, let me do it myself: Manual settings.</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="radioButton_7" >
+   <widget class="QRadioButton" name="UPnPButton" >
     <property name="geometry" >
      <rect>
       <x>10</x>
@@ -655,7 +655,7 @@ p, li { white-space: pre-wrap; }
       <number>6</number>
      </property>
      <item>
-      <widget class="QLineEdit" name="extName" />
+      <widget class="QLineEdit" name="upnpStatus" />
      </item>
      <item>
       <layout class="QGridLayout" >

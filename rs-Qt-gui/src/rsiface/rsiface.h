@@ -277,6 +277,10 @@ virtual int 	SetInBroadcast(std::string id, bool in) = 0;	/* channel : channel b
 virtual int 	SetInSubscribe(std::string id, bool in) = 0;	/* channel : subscribed channels */
 virtual int 	SetInRecommend(std::string id, bool in) = 0;	/* file : recommended file */
 
+/****************************************/
+        /* RsIface Networking */
+virtual int     NetworkDHTActive(bool active)  = 0;
+virtual int     NetworkUPnPActive(bool active) = 0;
 
 /****************************************/
 	/* Config */

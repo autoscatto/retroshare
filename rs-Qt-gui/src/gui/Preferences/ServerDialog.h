@@ -45,6 +45,7 @@ public:
 
 private slots:
   void saveAddresses();
+  void toggleUPnP();
 
   
 private:
