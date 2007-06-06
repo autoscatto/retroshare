@@ -590,7 +590,7 @@
      <x>0</x>
      <y>140</y>
      <width>411</width>
-     <height>161</height>
+     <height>151</height>
     </rect>
    </property>
    <property name="title" >
@@ -599,9 +599,35 @@
    <widget class="QLabel" name="label" >
     <property name="geometry" >
      <rect>
-      <x>12</x>
-      <y>21</y>
+      <x>10</x>
+      <y>50</y>
       <width>66</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Local Adress:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>uPnP Status</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>120</y>
+      <width>91</width>
       <height>21</height>
      </rect>
     </property>
@@ -609,14 +635,14 @@
      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Lokal Adress:&lt;/p>&lt;/body>&lt;/html></string>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">External Address:&lt;/p>&lt;/body>&lt;/html></string>
     </property>
    </widget>
-   <widget class="QWidget" name="layoutWidget" >
+   <widget class="QWidget" name="" >
     <property name="geometry" >
      <rect>
-      <x>100</x>
-      <y>20</y>
+      <x>110</x>
+      <y>10</y>
       <width>274</width>
       <height>130</height>
      </rect>
@@ -629,6 +655,9 @@ p, li { white-space: pre-wrap; }
       <number>6</number>
      </property>
      <item>
+      <widget class="QLineEdit" name="extName" />
+     </item>
+     <item>
       <layout class="QGridLayout" >
        <property name="margin" >
         <number>0</number>
@@ -636,6 +665,9 @@ p, li { white-space: pre-wrap; }
        <property name="spacing" >
         <number>6</number>
        </property>
+       <item row="0" column="0" >
+        <widget class="QLineEdit" name="localAddress" />
+       </item>
        <item row="0" column="2" >
         <widget class="QSpinBox" name="localPort" >
          <property name="maximum" >
@@ -655,9 +687,6 @@ p, li { white-space: pre-wrap; }
           <string>Port:</string>
          </property>
         </widget>
-       </item>
-       <item row="0" column="0" >
-        <widget class="QLineEdit" name="localAddress" />
        </item>
       </layout>
      </item>
@@ -721,49 +750,14 @@ p, li { white-space: pre-wrap; }
        </item>
       </layout>
      </item>
-     <item>
-      <widget class="QLineEdit" name="extName" />
-     </item>
     </layout>
-   </widget>
-   <widget class="QLabel" name="label_2" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>90</y>
-      <width>91</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">External Address:&lt;/p>&lt;/body>&lt;/html></string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_3" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>120</y>
-      <width>80</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">External Name&lt;/p>&lt;/body>&lt;/html></string>
-    </property>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_3" >
    <property name="geometry" >
     <rect>
      <x>0</x>
-     <y>300</y>
+     <y>290</y>
      <width>411</width>
      <height>61</height>
     </rect>
