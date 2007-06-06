@@ -4,11 +4,7 @@ include ../make.opt
 
 OBJ = upnphandler.o upnputil.o
 
-UPNPC_DIR = /home/rmf24/prog/src/miniupnp/miniupnpc-20070515
-CFLAGS += -I$(UPNPC_DIR)
-
-LIBS += -lminiupnpc
-RSLIBS += -lminiupnpc
+CFLAGS += -I$(UPNPC_DIR) -DMINIUPNP_EXPORTS 
 
 all : $(OBJ) librs upnptest
 

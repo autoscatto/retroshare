@@ -79,7 +79,8 @@ void upnphandler::run()
 			break;
 
 			case RS_UPNP_S_READY:
-			case RS_UPNP_S_FAILED:
+			case RS_UPNP_S_TCP_FAILED: 
+			case RS_UPNP_S_UDP_FAILED:
 			case RS_UPNP_S_ACTIVE:
 				/* working ... normal 15 seconds */
 				allowedSleep = 15;
@@ -119,7 +120,8 @@ void upnphandler::checkUPnPState()
 		break;
 
 		case RS_UPNP_S_READY:
-		case RS_UPNP_S_FAILED:
+		case RS_UPNP_S_TCP_FAILED: 
+		case RS_UPNP_S_UDP_FAILED:
 		case RS_UPNP_S_ACTIVE:
 			printUPnPState();
 			updateUPnP();
@@ -293,19 +295,19 @@ bool upnphandler::updateUPnP()
 		std::cerr << std::endl;
 
 		bool ok = true;
-		ok = ok && SetRedirectAndTest(&(config -> urls), &(config->data),
-				in_addr, in_port1, eport1, eprot1);
-		ok = ok && SetRedirectAndTest(&(config -> urls), &(config->data),
-				in_addr, in_port2, eport2, eprot2);
-
-		/* ip port external_port protocol */
-		if (ok)
+		if (!SetRedirectAndTest(&(config -> urls), &(config->data),
+				in_addr, in_port1, eport1, eprot1))
 		{
-			upnpState = RS_UPNP_S_ACTIVE;
+			upnpState = RS_UPNP_S_TCP_FAILED; 
+		}
+		else if (!SetRedirectAndTest(&(config -> urls), &(config->data),
+				in_addr, in_port2, eport2, eprot2))
+		{
+			upnpState = RS_UPNP_S_UDP_FAILED; 
 		}
 		else
 		{
-			upnpState = RS_UPNP_S_FAILED;
+			upnpState = RS_UPNP_S_ACTIVE;
 		}
 	}
 
@@ -316,123 +318,5 @@ bool upnphandler::updateUPnP()
 
 }
 
-
-
-#ifdef USE_OLDOLD
-
-/**************************** RS - UPNP interface ******************/
-
-/* sample upnp client program */
-int main(int argc, char ** argv)
-{
-	char command = 0;
-	struct UPNPDev * devlist;
-	char lanaddr[16];	/* my ip address on the LAN */
-	int i;
-
-#ifdef WIN32
-	WSADATA wsaData;
-	int nResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-	if(nResult != NO_ERROR)
-	{
-		fprintf(stderr, "WSAStartup() failed.\n");
-		return -1;
-	}
-#endif
-    printf("upnpc : miniupnp test client. (c) 2006 Thomas Bernard\n");
-    printf("Go to http://miniupnp.free.fr/ or http://miniupnp.tuxfamily.org/\n"
-	       "for more information.\n");
-	if(argc>=2 && (argv[1][0] == '-'))
-		command = argv[1][1];
-
-	if(!command || argc<2 || (command == 'a' && argc<6)
-	   || (command == 'd' && argc<4)
-	   || (command == 'r' && argc<4))
-	{
-		fprintf(stderr, "Usage :\t%s -a ip port external_port protocol\tAdd port redirection\n", argv[0]);
-		fprintf(stderr, "       \t%s -d external_port protocol\tDelete port redirection\n", argv[0]);
-		fprintf(stderr, "       \t%s -s\t\t\t\tGet Connection status\n", argv[0]);
-		fprintf(stderr, "       \t%s -l\t\t\t\tList redirections\n", argv[0]);
-		fprintf(stderr, "       \t%s -r port1 protocol1 [port2 protocol2] [...]\n\t\t\t\tAdd all redirections to the current host\n", argv[0]);
-		fprintf(stderr, "\nprotocol is UDP or TCP\n");
-		return 1;
-	}
-	
-	devlist = upnpDiscover(2000);
-	if(devlist)
-	{
-		struct UPNPDev * device;
-		struct UPNPUrls urls;
-		struct IGDdatas data;
-		printf("List of UPNP devices found on the network :\n");
-		for(device = devlist; device; device = device->pNext)
-		{
-			printf("\n desc: %s\n st: %s\n",
-				   device->descURL, device->st);
-		}
-		putchar('\n');
-		if(UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr)))
-		{
-			printf("Found valid IGD : %s\n", urls.controlURL);
-			printf("Local LAN ip address : %s\n", lanaddr);
-			#if 0
-			printf("getting \"%s\"\n", urls.ipcondescURL);
-			descXML = miniwget(urls.ipcondescURL, &descXMLsize);
-			if(descXML)
-			{
-				/*fwrite(descXML, 1, descXMLsize, stdout);*/
-				free(descXML); descXML = NULL;
-			}
-			#endif
-
-			switch(command)
-			{
-			case 'l':
-				DisplayInfos(&urls, &data);
-				ListRedirections(&urls, &data);
-				break;
-			case 'a':
-				SetRedirectAndTest(&urls, &data, argv[2], argv[3], argv[4], argv[5]);
-				break;
-			case 'd':
-				RemoveRedirect(&urls, &data, argv[2], argv[3]);
-				break;
-			case 's':
-				GetConnectionStatus(&urls, &data);
-				break;
-			case 'r':
-				for(i=2; i<argc-1; i+=2)
-				{
-					/*printf("port %s protocol %s\n", argv[i], argv[i+1]);*/
-					SetRedirectAndTest(&urls, &data,
-					                   lanaddr, argv[i], argv[i], argv[i+1]);
-				}
-				break;
-			default:
-				fprintf(stderr, "Unknown switch -%c\n", command);
-			}
-
-			FreeUPNPUrls(&urls);
-		}
-		else
-		{
-			fprintf(stderr, "No valid UPNP Internet Gateway Device found.\n");
-		}
-		freeUPNPDevlist(devlist); devlist = 0;
-	}
-	else
-	{
-		fprintf(stderr, "No IGD UPnP Device found on the network !\n");
-	}
-
-	/*puts("************* HOP ***************");*/
-
-	return 0;
-}
-
-
-
-
-#endif /* USE_OLDOLD */
 
 

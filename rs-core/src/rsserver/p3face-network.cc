@@ -68,7 +68,7 @@ int RsServer::NetworkDHTActive(bool active)
 {
 	lockRsCore(); /* LOCK */
 
-	/* TODO Store */
+	server->setDHTEnabled(active);
 
 	unlockRsCore(); /* UNLOCK */
 
@@ -79,7 +79,7 @@ int RsServer::NetworkUPnPActive(bool active)
 {
 	lockRsCore(); /* LOCK */
 
-	/* TODO Store */
+	server->setUPnPEnabled(active);
 
 	unlockRsCore(); /* UNLOCK */
 
@@ -90,7 +90,7 @@ int RsServer::NetworkDHTStatus()
 {
 	lockRsCore(); /* LOCK */
 
-	/* TODO Store */
+	server->getDHTEnabled();
 
 	unlockRsCore(); /* UNLOCK */
 
@@ -102,7 +102,7 @@ int RsServer::NetworkUPnPStatus()
 {
 	lockRsCore(); /* LOCK */
 
-	/* TODO Store */
+	server->getUPnPEnabled();
 
 	unlockRsCore(); /* UNLOCK */
 
@@ -264,7 +264,10 @@ int	RsServer::CheckUPnP()
 			case RS_UPNP_S_ACTIVE:
 				std::cerr << "UPnP Forwarding already up";
 			break;
-			case RS_UPNP_S_FAILED:
+			case RS_UPNP_S_UDP_FAILED:
+				std::cerr << "UPnP TCP Forwarding Ok / UDP Failed";
+			break;
+			case RS_UPNP_S_TCP_FAILED:
 				std::cerr << "UPnP Forwarding Failed";
 			break;
 			case RS_UPNP_S_READY:
@@ -283,7 +286,8 @@ int	RsServer::CheckUPnP()
 		switch(state)
 		{
 			case RS_UPNP_S_ACTIVE:
-			case RS_UPNP_S_FAILED:
+			case RS_UPNP_S_UDP_FAILED:
+			case RS_UPNP_S_TCP_FAILED:
 				std::cerr << "Shutting down UPnP Forwarding";
                 		upnpp->shutdownUPnPForwarding();
 			break;
@@ -302,6 +306,24 @@ int	RsServer::CheckUPnP()
 	unlockRsCore(); /* UNLOCK */
 	return ret;
 }
+
+
+/* called from update Config (inside locks) */
+int	RsServer::UpdateNetworkConfig(RsConfig &config)
+{
+	upnpentry ent;
+	int state = upnpp -> getUPnPStatus(ent);
+
+	config.DHTActive  = server -> getDHTEnabled();
+	config.uPnPActive = server -> getUPnPEnabled();
+	config.uPnPState  = state;
+
+	return 1;
+}
+
+
+
+
 
 
 

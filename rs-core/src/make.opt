@@ -1,8 +1,8 @@
 ####
 #Define OS.
 #
-OS = Linux
-#OS = Cygwin
+#OS = Linux
+OS = Cygwin
 #OS = Win # MinGw.
 #
 #
@@ -32,6 +32,7 @@ ifeq ($(OS),Linux)
   #Linux.
   SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
   KADC_DIR=/home/rmf24/prog/src/KadC/KadC-2007-Oct-19
+  UPNPC_DIR=/home/rmf24/prog/src/miniupnp/miniupnpc-20070515
 else
 ###########################################################################
   ifeq ($(OS),Cygwin)
@@ -44,16 +45,18 @@ else
     PTHREADS_DIR=$(CYGWIN_SRC_ROOT)/pthreads/pthreads.2
     KADC_DIR=$(CYGWIN_SRC_ROOT)/debug/KadC-2006-Oct-19
     ZLIB_DIR=$(CYGWIN_SRC_ROOT)/zlib-1.2.3
+    UPNPC_DIR=$(CYGWIN_SRC_ROOT)/miniupnpc-20070515
 
   else
 
-    # MinGw
+    #MinGw....
     MINGW_SRC_ROOT=c:\home\rmfern\prog\MinGW
     SSL_DIR=$(MINGW_SRC_ROOT)\openssl-0.9.7g
     FLTK_DIR=$(MINGW_SRC_ROOT)\FLTK-1.1.6
     PTHREADS_DIR=$(MINGW_SRC_ROOT)\pthreads\pthreads.2
     KADC_DIR=$(MINGW_SRC_ROOT)\debug\KadC-2006-Oct-19
     ZLIB_DIR=$(MINGW_SRC_ROOT)\zlib-1.2.3
+    UPNPC_DIR=$(MINGW_SRC_ROOT)\miniupnpc-20070515
 
   endif
 
@@ -114,11 +117,11 @@ else
   INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
 endif
 
-CFLAGS = -Wall -O2 $(INCLUDE) 
+CFLAGS = -Wall -march=i486 -O2 $(INCLUDE) 
 
 RANLIB = ranlib
 LIBRS = ../lib/libretroshare.a
-RSCFLAGS = -Wall -O2 $(INCLUDE) 
+RSCFLAGS = -Wall -march=i486 -O2 $(INCLUDE) 
 
 ifdef PQI_USE_XPGP
 	CFLAGS += -DPQI_USE_XPGP
@@ -155,9 +158,11 @@ ifeq ($(OS),Linux)
 
 	LIBDIR = $(RS_DIR)/lib
 	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto  
+        LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
 	#-lfltk #only needed for old version.
 	
 	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread -lKadC
+        RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
 
 	LIBS   += $(XLIB) -ldl -lz
 	RSLIBS += $(XLIB) -ldl -lz
@@ -181,12 +186,15 @@ WINLIB = -lws2_32 -luuid -lole32 -liphlpapi
         LIBDIR = $(RS_DIR)/lib
         LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lfltk
         LIBS +=  -L$(KADC_DIR) -lKadC 
+        LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
         LIBS += -L$(ZLIB_DIR) -lz $(WINLIB)
 
         #RSLIBS += -L$(FLTK_DIR)/lib  
 	RSLIBS +=  $(WINLIB)
         RSLIBS +=  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
         RSLIBS +=  -L$(KADC_DIR) -lKadC 
+        RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
+
         RSLIBS += -L$(ZLIB_DIR) -lz
 	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
 
@@ -209,12 +217,14 @@ WINLIB = -lws2_32 -luuid -lole32 -liphlpapi
         LIBDIR = $(RS_DIR)\lib
         LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
         LIBS +=  -L$(KADC_DIR) -lKadC 
+        LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
         LIBS += -L$(ZLIB_DIR) -lz $(WINLIB)
 	#LIBS += -lfltk
 
 	RSLIBS +=  $(WINLIB)
         RSLIBS +=  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
         RSLIBS +=  -L$(KADC_DIR) -lKadC 
+        RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
         RSLIBS += -L$(ZLIB_DIR) -lz
 	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
         #RSLIBS += -L$(FLTK_DIR)\lib  

@@ -284,6 +284,8 @@ int	CheckDHT();
 int	InitUPnP();
 int	CheckUPnP();
 
+int     UpdateNetworkConfig(RsConfig &config);
+
 	public:
 /****************************************/
 	/* RsIface Config */

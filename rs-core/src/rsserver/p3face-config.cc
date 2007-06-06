@@ -321,6 +321,9 @@ int RsServer::UpdateAllConfig()
 	config.maxIndivDataRate  = (int) pqih -> getMaxIndivRate(true);/* kb */
 	config.promptAtBoot = true; /* popup the password prompt */      
 
+	/* update DHT/UPnP config */
+	UpdateNetworkConfig(config);
+
 	/* Notify of Changes */
 	iface.setChanged(RsIface::Config);
 
