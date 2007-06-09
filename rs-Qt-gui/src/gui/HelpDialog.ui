@@ -510,7 +510,7 @@
    <item row="1" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -565,6 +565,12 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="readOnly" >
           <bool>true</bool>
+         </property>
+         <property name="html" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+p, li { white-space: pre-wrap; }
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;span style=" font-weight:600;">We've had a number of new people join the Retroshare &lt;br />project over the last couple of months. &lt;br />A quick introduction: &lt;/span>&lt;br /> &lt;br />&lt;span style=" color:#0000ff;">defnax&lt;/span>: Lead GUI developer &lt;br />&lt;span style=" color:#0000ff;">drbob7&lt;/span>: Lead Core developer. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">bmeck&lt;/span> : Our new web-developer. Joined retroshare a couple &lt;br />of weeks ago, and already starting on an exciting new &lt;br />design for the web-page. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">noragen&lt;/span> : Developer from the SIM-IM project. Working on a retroshare plugin to SIM-IM. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">linuxsmarre&lt;/span> : Helping out defnax with GUI development. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">agent725&lt;/span>: Manages the 'local' Retroshare release, &lt;br />and beta-testing retroshare on a large scale. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">the_mgt&lt;/span>: Maintains the Gentoo and generic linux &lt;br />installation/compilation scripts. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">lindisfarne&lt;/span>: Helping out with retroshare web-page. &lt;br /> &lt;br />&lt;span style=" color:#0000ff;">dolfcao&lt;/span>: Developer from TStone VOIP project &lt;br />leonwangcn: Developer from TStone VOIP project. &lt;/p>&lt;/body>&lt;/html></string>
          </property>
          <property name="acceptRichText" >
           <bool>false</bool>
