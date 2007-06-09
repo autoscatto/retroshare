@@ -79,6 +79,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     /* Hide ToolBox frame */
 	showtoolboxFrame(true);
 	
+	// Setting icons
+	this->setWindowIcon(QIcon(QString::fromUtf8(":/images/RetroShare16.png")));
+	
     /* Create all the dialogs of which we only want one instance */
 	_bandwidthGraph = new BandwidthGraph();
 	messengerWindow = new MessengerWindow();

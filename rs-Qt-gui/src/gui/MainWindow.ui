@@ -495,9 +495,6 @@
   <property name="windowTitle" >
    <string>RetroShare</string>
   </property>
-  <property name="windowIcon" >
-   <iconset resource="images.qrc" >:/images/RetroShare16.png</iconset>
-  </property>
   <property name="iconSize" >
    <size>
     <width>24</width>
@@ -780,8 +777,8 @@ p, li { white-space: pre-wrap; }
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>120</width>
-                 <height>135</height>
+                 <width>98</width>
+                 <height>28</height>
                 </rect>
                </property>
                <attribute name="label" >
