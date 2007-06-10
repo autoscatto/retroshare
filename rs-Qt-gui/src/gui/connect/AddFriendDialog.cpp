@@ -1,7 +1,7 @@
 /****************************************************************
  *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006,  crypton
+ *  Copyright (C) 2006, 2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 
 #include "rsiface/rsiface.h"
 #include "gui/ConnectionsDialog.h"
+#include <util/WidgetBackgroundImage.h>
 
 #include <QMessageBox>
 
@@ -31,6 +32,9 @@ AddFriendDialog::AddFriendDialog(ConnectionsDialog *cd, QWidget *parent, Qt::WFl
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
+  
+  /* add a Background image for Add Friend Label */
+  WidgetBackgroundImage::setBackgroundImage(ui.addfriendLabel, ":images/new-contact.png", true);
 
   connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(cancelbutton()));
   connect(ui.fileButton, SIGNAL(clicked()), this, SLOT(filebutton()));
