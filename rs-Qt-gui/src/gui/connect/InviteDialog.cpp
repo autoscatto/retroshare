@@ -1,7 +1,7 @@
 /****************************************************************
  *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006,  crypton
+ *  Copyright (C) 2006, 2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -18,9 +18,11 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
+ 
 #include "InviteDialog.h"
 
 #include "rsiface/rsiface.h"
+#include <util/WidgetBackgroundImage.h>
 
 /** Default constructor */
 InviteDialog::InviteDialog(QWidget *parent, Qt::WFlags flags)
@@ -28,6 +30,9 @@ InviteDialog::InviteDialog(QWidget *parent, Qt::WFlags flags)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
+  
+  /* add a Background image for Invite a Friend Label */
+  WidgetBackgroundImage::setBackgroundImage(ui.invitefriendLabel, ":images/new-contact.png", WidgetBackgroundImage::AdjustHeight);
 
   connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(cancelbutton()));
   connect(ui.emailButton, SIGNAL(clicked()), this, SLOT(emailbutton()));
