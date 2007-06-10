@@ -33,7 +33,7 @@ class QWidget;
  *
  * Draws a background image inside a QWidget.
  *
- * @author Tanguy Krotoff
+ *
  */
 class WidgetBackgroundImage : NonCopyable {
 public:
