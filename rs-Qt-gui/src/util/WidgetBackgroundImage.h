@@ -18,7 +18,7 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
-
+ 
 #ifndef WIDGETBACKGROUNDIMAGE_H
 #define WIDGETBACKGROUNDIMAGE_H
 
@@ -33,19 +33,26 @@ class QWidget;
  *
  * Draws a background image inside a QWidget.
  *
- * 
+ * @author Tanguy Krotoff
  */
 class WidgetBackgroundImage : NonCopyable {
 public:
 
+	enum AdjustMode {
+		AdjustNone,
+		AdjustWidth,
+		AdjustHeight,
+		AdjustSize
+	};
 	/**
 	 * Sets a background image to a QWidget.
 	 *
 	 * @param widget QWidget that will get the background image
 	 * @param imageFile background image filename
-	 * @param resizeWidget true if widget should be resize to fit the image; false otherwise
+	 * @param adjustMode whether we should adjust the image width, height or
+	 * both
 	 */
-	RSQTUTIL_API static void setBackgroundImage(QWidget * widget, const char * imageFile, bool resizeWidget);
+	RSQTUTIL_API static void setBackgroundImage(QWidget * widget, const char * imageFile, AdjustMode adjustMode);
 };
 
 #endif	//WIDGETBACKGROUNDIMAGE_H

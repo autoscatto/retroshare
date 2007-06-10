@@ -1,7 +1,7 @@
 /****************************************************************
  *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006,2007 crypton
+ *  Copyright (C) 2006, 2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -27,14 +27,24 @@
 #include <QtGui/QPalette>
 #include <QtGui/QBrush>
 
-void WidgetBackgroundImage::setBackgroundImage(QWidget * widget, const char * imageFile, bool resizeWidget) {
+void WidgetBackgroundImage::setBackgroundImage(QWidget * widget, const char * imageFile, WidgetBackgroundImage::AdjustMode adjustMode) {
 	widget->setAutoFillBackground(true);
 
 	QPixmap pixmap(imageFile);
 
-	if (resizeWidget) {
+	switch (adjustMode) {
+	case AdjustNone:
+		break;
+	case AdjustWidth:
+		widget->setMinimumWidth(pixmap.width());
+		break;
+	case AdjustHeight:
+		widget->setMinimumHeight(pixmap.height());
+		break;
+	case AdjustSize:
 		widget->resize(pixmap.size());
 		widget->setMinimumSize(pixmap.size());
+		break;
 	}
 
 	QPalette palette = widget->palette();
