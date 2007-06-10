@@ -27,6 +27,7 @@
         <file>images/network16.png</file>
         <file>images/new-mail-alert.png</file>
         <file>images/new-account.png</file>
+        <file>images/new-contact.png</file>
         <file>images/folder_green.png</file>
         <file>images/folder_green16.png</file>
         <file>images/down.png</file>
@@ -158,6 +159,12 @@
     <file>images/logobar/logo_bar_start.png</file>
     <file>images/logobar/logo_bar_fill.png</file>
     <file>images/logobar/rslogo.png</file>
+    <file>images/messagebar/compose_button.png</file>
+    <file>images/messagebar/compose_button_on.png</file>
+    <file>images/messagebar/reply_button.png</file>
+    <file>images/messagebar/reply_button_on.png</file>
+    <file>images/messagebar/remove.png</file>
+    <file>images/messagebar/remove_on.png</file>
     <file>images/graph-area.png</file>
     <file>images/graph-line.png</file>
     <file>images/ksysguard.png</file>
