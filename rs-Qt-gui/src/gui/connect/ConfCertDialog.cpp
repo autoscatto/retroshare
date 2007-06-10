@@ -33,6 +33,7 @@ ConfCertDialog::ConfCertDialog(QWidget *parent, Qt::WFlags flags)
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
 
+
   GConfig config;
   config.loadWidgetInformation(this);
   
@@ -240,6 +241,9 @@ void ConfCertDialog::applyDialog()
 
 	/* reload now */
 	loadDialog();
+	
+	/* close the Dialog after the Changes applied */
+	closeinfodlg();
 }
 
 
