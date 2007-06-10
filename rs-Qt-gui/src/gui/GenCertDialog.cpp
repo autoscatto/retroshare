@@ -45,7 +45,7 @@ GenCertDialog::GenCertDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   /* Create Bandwidth Graph related QObjects */
   _settings = new RshareSettings();
   
-  WidgetBackgroundImage::setBackgroundImage(ui.loginLabel, ":images/new-account.png", true);
+  WidgetBackgroundImage::setBackgroundImage(ui.loginLabel, ":images/new-account.png", WidgetBackgroundImage::AdjustHeight);
 
   
   connect(ui.genButton, SIGNAL(clicked()), this, SLOT(genPerson()));
