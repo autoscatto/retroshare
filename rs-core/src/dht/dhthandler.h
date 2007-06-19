@@ -53,7 +53,7 @@ bool 	getExtAddr(sockaddr_in &addr, unsigned int &flags);
 	/* at startup */
 void    addFriend(std::string id);
 void    removeFriend(std::string id);
-bool 	networkUp(); /* get status */
+int     dhtPeers();
 
 	/* pqiAddrStore ... called prior to connect */
 virtual bool    addrFriend(std::string id, struct sockaddr_in &addr, unsigned int &flags);
@@ -68,6 +68,8 @@ virtual void run();
 	private:
 
 	int write_inifile();
+
+	bool 	networkUp(); /* get status */
 
 	int checkOwnStatus();
 	int checkPeerIds();

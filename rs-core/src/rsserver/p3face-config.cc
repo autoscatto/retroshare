@@ -106,6 +106,8 @@ int RsServer::ConfigSetIncomingDir( std::string dir )
 
 }
 
+#ifdef MOVE_TO_RS_NETWORK
+
 int     RsServer::ConfigSetLocalAddr( std::string ipAddr, int port )
 {
 	/* check if this is all necessary */
@@ -179,6 +181,8 @@ int     RsServer::ConfigSetExtAddr( std::string ipAddr, int port )
 	UpdateAllConfig();
 	return 1;
 }
+
+#endif /* MOVE_TO_RS_NETWORK */
 
 
 int     RsServer::ConfigSetLanConfig( bool firewalled, bool forwarded )

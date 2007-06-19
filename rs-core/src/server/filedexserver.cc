@@ -1158,7 +1158,7 @@ int     filedexserver::load_config()
 
 	  // on by default
 	  setDHTEnabled(true);
-	  setUPnPEnabled(true);
+	  setUPnPEnabled(false); /* UPnP false -> until its totally happy */
 
 	  if (2 == sscanf(snet.c_str(), "%d %d", &a, &b))
 	  {

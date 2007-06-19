@@ -136,7 +136,16 @@ pqiAddrStore *getDHTServer()
 
 int	RsServer::InitDHT(std::string file)
 {
-	dhtp = new dhthandler(file);
+	/* only startup if it is supposed to be started! */
+	if (server -> getDHTEnabled()) 
+	{
+	  dhtp = new dhthandler(file);
+	}
+	else
+	{
+	  dhtp = new dhthandler("");
+	}
+	  
 	/* 
 	 *
 	 */
@@ -235,6 +244,7 @@ int	RsServer::InitUPnP()
 	/* set our internal address to it */
 	cert *c = sslr -> getOwnCert();
 	upnpp -> setInternalAddress(c -> localaddr);
+	upnpp -> setExternalPort(ntohs(c -> serveraddr.sin_port));
 
 	upnpp -> start();
 
@@ -300,13 +310,11 @@ int	RsServer::CheckUPnP()
 			break;
 		}
 
-
 	}
 
 	unlockRsCore(); /* UNLOCK */
 	return ret;
 }
-
 
 /* called from update Config (inside locks) */
 int	RsServer::UpdateNetworkConfig(RsConfig &config)
@@ -315,15 +323,94 @@ int	RsServer::UpdateNetworkConfig(RsConfig &config)
 	int state = upnpp -> getUPnPStatus(ent);
 
 	config.DHTActive  = server -> getDHTEnabled();
+	config.DHTPeers   = dhtp   -> dhtPeers();
 	config.uPnPActive = server -> getUPnPEnabled();
 	config.uPnPState  = state;
 
 	return 1;
 }
 
+/************************/
+
+int     RsServer::ConfigSetLocalAddr( std::string ipAddr, int port )
+{
+	/* check if this is all necessary */
+	struct in_addr inaddr_local;
+	if (0 == inet_aton(ipAddr.c_str(), &inaddr_local))
+	{
+		//bad address - reset.
+		return 0;
+	}
+		
+	/* fill the rsiface class */
+	RsIface &iface = getIface();
+
+	/* lock Mutexes */
+	lockRsCore();     /* LOCK */
+	iface.lockData(); /* LOCK */
+
+	/* a little rough and ready, should be moved to the server! */
+	cert *c = sslr -> getOwnCert();
+		
+	/* always change the address (checked by sslr->checkNetAddress()) */
+	c -> localaddr.sin_addr = inaddr_local;
+	c -> localaddr.sin_port = htons((short) port);
+		
+	sslr -> checkNetAddress();
+	pqih -> restart_listener();
+	sslr -> CertsChanged();
+
+	/* update local port address on uPnP */
+	upnpp -> setInternalAddress(c -> localaddr);
+
+	/* unlock Mutexes */
+	iface.unlockData(); /* UNLOCK */
+	unlockRsCore();     /* UNLOCK */
+
+	/* does its own locking */
+	UpdateAllConfig();
+	return 1;
+}
 
 
+int     RsServer::ConfigSetExtAddr( std::string ipAddr, int port )
+{
+	/* check if this is all necessary */
+	struct in_addr inaddr;
+	if (0 == inet_aton(ipAddr.c_str(), &inaddr))
+	{
+		//bad address - reset.
+		return 0;
+	}
+		
+	/* fill the rsiface class */
+	RsIface &iface = getIface();
 
+	/* lock Mutexes */
+	lockRsCore();     /* LOCK */
+	iface.lockData(); /* LOCK */
 
+	/* a little rough and ready, should be moved to the server! */
+	cert *c = sslr -> getOwnCert();
+		
+	/* always change the address (checked by sslr->checkNetAddress()) */
+	c -> serveraddr.sin_addr = inaddr;
+	c -> serveraddr.sin_port = htons((short) port);
+		
+	sslr -> checkNetAddress();
+	sslr -> CertsChanged();
+
+	/* update the DHT/UPnP port (in_addr is auto found ) */
+	upnpp -> setExternalPort(ntohs(c -> serveraddr.sin_port));
+	dhtp  -> setOwnPort(ntohs(c -> serveraddr.sin_port));
+
+	/* unlock Mutexes */
+	iface.unlockData(); /* UNLOCK */
+	unlockRsCore();     /* UNLOCK */
+
+	/* does its own locking */
+	UpdateAllConfig();
+	return 1;
+}
 
 

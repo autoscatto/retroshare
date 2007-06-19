@@ -102,11 +102,25 @@ dhthandler::~dhthandler()
 }
 
 
-
+	/* This is internal - only called when active */
 bool    dhthandler::networkUp()
 {
 	/* no need for mutex? */
 	return (20 < KadC_getnknodes(pkcc));
+}
+
+	/* this is external */
+int     dhthandler::dhtPeers()
+{
+	int count = 0;
+	dataMtx.lock(); /* LOCK MUTEX */
+	if (dhtOk)
+	{
+		count = KadC_getnknodes(pkcc);
+	}
+	dataMtx.unlock(); /* UNLOCK MUTEX */
+	return count;
+
 }
 
 
@@ -122,6 +136,9 @@ void    dhthandler::setOwnPort(short port)
 {
 	dataMtx.lock(); /* LOCK MUTEX */
 	ownId.addr.sin_port = htons(port);
+	/* reset own status -> so we republish */
+	ownId.status = DHT_UNKNOWN;
+
 	dataMtx.unlock(); /* UNLOCK MUTEX */
 }
 

@@ -235,15 +235,19 @@ bool upnphandler::updateUPnP()
 		return false;
 	}
 
-	char eport1[] = "7812";
-	char eport2[] = "7813";
 	char eprot1[] = "TCP";
 	char eprot2[] = "UDP";
 
 	/* if we're to unload -> unload */
-	if (toStop)
+	if ((toStop) && (eport_curr > 0))
 	{
 		toStop = false;
+
+		char eport1[256];
+		char eport2[256];
+
+		snprintf(eport1, 256, "%d", eport_curr);
+		snprintf(eport2, 256, "%d", eport_curr + 1);
 
 		std::cerr << "Attempting To Remove Redirection: port: " << eport1;
 		std::cerr << " Prot: " << eprot1;
@@ -251,6 +255,12 @@ bool upnphandler::updateUPnP()
 
 		RemoveRedirect(&(config -> urls), &(config->data), 
 				eport1, eprot1);
+
+
+		std::cerr << "Attempting To Remove Redirection: port: " << eport2;
+		std::cerr << " Prot: " << eprot2;
+		std::cerr << std::endl;
+
 		RemoveRedirect(&(config -> urls), &(config->data), 
 				eport2, eprot2);
 
@@ -261,14 +271,31 @@ bool upnphandler::updateUPnP()
 	/* if we're to load -> load */
 	if (toStart)
 	{
-		toStart = false;
+		/* select external ports */
+		eport_curr = eport;
+		if (!eport_curr)
+		{
+			/* use local port if eport is zero */
+			eport_curr = ntohs(iaddr.sin_port);
+			std::cerr << "Using LocalPort for extPort!";
+			std::cerr << std::endl;
+		}
 
-		/* our address */
+		if (!eport_curr)
+		{
+			std::cerr << "Invalid eport ... ";
+			std::cerr << std::endl;
+			return false;
+		}
+
+		toStart = false;
 
 		/* our port */
 		char in_addr[256];
 		char in_port1[256];
 		char in_port2[256];
+		char eport1[256];
+		char eport2[256];
 
 		//struct sockaddr_in localAddr = iaddr;
 		if (iaddr.sin_addr.s_addr != upnp_iaddr.sin_addr.s_addr)
@@ -287,6 +314,9 @@ bool upnphandler::updateUPnP()
 			 ((localAddr.sin_addr.s_addr >> 8) & 0xff),
 			 ((localAddr.sin_addr.s_addr >> 16) & 0xff),
 			 ((localAddr.sin_addr.s_addr >> 24) & 0xff));
+
+		snprintf(eport1, 256, "%d", eport_curr);
+		snprintf(eport2, 256, "%d", eport_curr + 1);
 
 		std::cerr << "Attempting Redirection: InAddr: " << in_addr;
 		std::cerr << " InPort: " << in_port1;
@@ -314,7 +344,7 @@ bool upnphandler::updateUPnP()
 	dataMtx.unlock(); /* UNLOCK MUTEX */
 
 
-	return 1;
+	return true;
 
 }
 

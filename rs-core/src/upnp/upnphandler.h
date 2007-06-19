@@ -49,7 +49,7 @@ class upnphandler: public RsThread
 	upnphandler()
 	:toShutdown(false), toEnable(false), 
 	toStart(false), toStop(false),
-	eport(0), 
+	eport(0), eport_curr(0),
 	upnpState(RS_UPNP_S_UNINITIALISED)
 	{
 		return;
@@ -104,20 +104,28 @@ void    setInternalAddress(struct sockaddr_in iaddr_in)
 {
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
 
-	iaddr = iaddr_in;
+	if ((iaddr.sin_addr.s_addr != iaddr_in.sin_addr.s_addr) ||
+	    (iaddr.sin_port != iaddr_in.sin_port))
+	{
+		toStop  = true;
+		toStart = true;
+		iaddr = iaddr_in;
+	}
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
 }
 
-void    setExternalPort(unsigned short eport)
+void    setExternalPort(unsigned short eport_in)
 {
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
 
 	/* flag both shutdown/start -> for restart */
-	toStop  = true;
-	toStart = true;
-
-	/* TODO */
+	if (eport != eport_in)
+	{
+		toStop  = true;
+		toStart = true;
+		eport = eport_in;
+	}
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
 }
@@ -183,7 +191,8 @@ bool updateUPnP();
 	bool toStop;   /* if set stop  forwarding */
 
 	struct sockaddr_in iaddr;
-	unsigned short eport;
+	unsigned short eport;       /* config            */
+	unsigned short eport_curr;  /* current forwarded */
 
 	/* info from upnp */
 	unsigned int upnpState;
