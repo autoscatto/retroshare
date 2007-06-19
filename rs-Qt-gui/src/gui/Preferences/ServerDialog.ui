@@ -630,7 +630,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text" >
-     <string>Use uPnP to configure my router</string>
+     <string>Use uPnP to configure router</string>
     </property>
     <property name="checked" >
      <bool>true</bool>
@@ -659,7 +659,7 @@ p, li { white-space: pre-wrap; }
      </rect>
     </property>
     <property name="text" >
-     <string>Use DHT to Auto-Locate Friends </string>
+     <string>Use DHT to locate friends </string>
     </property>
     <property name="checked" >
      <bool>true</bool>
@@ -757,14 +757,14 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QCheckBox" name="chkFirewall" >
          <property name="text" >
-          <string>behind a Firewall</string>
+          <string>Firewalled</string>
          </property>
         </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="chkForwarded" >
          <property name="text" >
-          <string>Forwarded External Port</string>
+          <string>Forwarded Port</string>
          </property>
         </widget>
        </item>

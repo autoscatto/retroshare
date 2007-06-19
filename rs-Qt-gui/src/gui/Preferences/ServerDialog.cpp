@@ -38,7 +38,6 @@ ServerDialog::ServerDialog(QWidget *parent)
  /* Create RshareSettings object */
   _settings = new RshareSettings();
 
-  connect( ui.NoobieButton, SIGNAL( toggled( bool ) ), this, SLOT( toggleUPnP( ) ) );
   connect( ui.ManualButton, SIGNAL( toggled( bool ) ), this, SLOT( toggleUPnP( ) ) );
   connect( ui.UPnPButton, SIGNAL( toggled( bool ) ), this, SLOT( toggleUPnP( ) ) );
 
@@ -84,8 +83,29 @@ ServerDialog::load()
 	ui.chkForwarded ->setChecked(rsiface->getConfig().forwardPort);
 
 	/* now handle networking options */
-	ui.DHTButton -> setChecked(rsiface->getConfig().DHTActive);
+	if (rsiface->getConfig().DHTActive)
+	{
+		ui.DHTButton -> setChecked(true);
+	}
+	else
+	{
+		ui.noDHTButton -> setChecked(true);
+	}
 
+	int dhtPeers = rsiface->getConfig().DHTPeers;
+	if (!dhtPeers)
+	{
+		ui.dhtStatus -> setText("DHT Off/Unavailable");
+	}
+	else if (dhtPeers < 20)
+	{
+		ui.dhtStatus -> setText("DHT Initialising");
+	}
+	else
+	{
+		ui.dhtStatus -> setText("DHT Active");
+	}
+		
 	switch(rsiface->getConfig().uPnPState)
 	{
 		case UPNP_STATE_ACTIVE:
@@ -110,30 +130,18 @@ ServerDialog::load()
 
 	}
 	ui.upnpStatus->setEnabled(false);
+	ui.dhtStatus ->setEnabled(false);
       
 	if (rsiface->getConfig().uPnPActive)
 	{
 		/* flag uPnP */
 		ui.UPnPButton->setChecked(true);
-		/* switch external port to local port */
-		ui.extPort -> setValue(rsiface->getConfig().localPort);
-	}
-	else if ((rsiface->getConfig().firewalled) &&
-		(rsiface->getConfig().forwardPort))
-	{
-		/* own settings */
-		ui.ManualButton->setChecked(true);
-	}
-	else if ((!(rsiface->getConfig().firewalled)) &&
-		((!rsiface->getConfig().forwardPort)))
-	{
-		/* own settings */
-		ui.ManualButton->setChecked(true);
+		/* shouldn't fiddle with port */
 	}
 	else
 	{
 		/* noobie */
-		ui.NoobieButton->setChecked(true);
+		ui.ManualButton->setChecked(true);
 
 	}
 

@@ -300,6 +300,7 @@ class RsConfig
 	bool			uPnPActive;
 
 	int			uPnPState;
+	int			DHTPeers;
 };
 
 /********************** For Search Interface *****************/

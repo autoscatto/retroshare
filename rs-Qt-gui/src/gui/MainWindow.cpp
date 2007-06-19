@@ -62,6 +62,9 @@
 #define IMAGE_RSM16             ":/images/rsmessenger16.png"
 #define IMAGE_CLOSE             ":/images/close_normal.png"
 
+/* uncomment this for release version */
+#define RS_RELEASE_VERSION    1
+
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 : QMainWindow(parent, flags)
@@ -118,8 +121,13 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
   ui.stackPages->add(peersDialog = new PeersDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_PEERS), tr("Friends"), grp));
                                         
+#ifdef RS_RELEASE_VERSION    
+  searchDialog = new SearchDialog(ui.stackPages);
+  searchDialog -> hide();
+#else
   ui.stackPages->add(searchDialog = new SearchDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_SEARCH), tr("Search"), grp));
+#endif
                      
   ui.stackPages->add(transfersDialog = new TransfersDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_TRANSFERS), tr("Transfers"), grp));
@@ -133,8 +141,13 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
   ui.stackPages->add(messagesDialog = new MessagesDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_MESSAGES), tr("Messages"), grp));
                      
+#ifdef RS_RELEASE_VERSION    
+  channelsDialog = new ChannelsDialog(ui.stackPages);
+  channelsDialog->hide();
+#else
   ui.stackPages->add(channelsDialog = new ChannelsDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_CHANNELS), tr("Channels"), grp));
+#endif
 
   ui.stackPages->add(new HelpDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_ABOUT), tr("About/Help"), grp));
@@ -197,7 +210,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     menu->addAction(QIcon(IMAGE_RETROSHARE), tr("Show/Hide"), this, SLOT(toggleVisibilitycontextmenu()));
     menu->addSeparator();
     menu->addAction(_messengerwindowAct);
+    /* bandwidth only in development version */
+#ifdef RS_RELEASE_VERSION    
+#else
     menu->addAction(_bandwidthAct);
+#endif
     menu->addAction(_prefsAct);
     menu->addSeparator();
     menu->addAction("Minimize", this, SLOT(showMinimized()));
@@ -388,8 +405,10 @@ void MainWindow::closeEvent(QCloseEvent *e)
     if (trayIcon->isVisible()) {
         if (firstTime)
 	{
+/*****
           QMessageBox::information(this, tr("RetroShare System tray"),
                     tr("Application will continue running. Quit using context menu in the system tray"));
+*****/
 	  firstTime = false;
 	}
         hide();
