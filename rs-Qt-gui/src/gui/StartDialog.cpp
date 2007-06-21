@@ -99,8 +99,8 @@ void StartDialog::show()
 
 void StartDialog::closeEvent (QCloseEvent * event)
 {
- GConfig config;
- config.saveWidgetInformation(this);
+ //GConfig config;
+ //config.saveWidgetInformation(this);
 
  QWidget::closeEvent(event);
 }
