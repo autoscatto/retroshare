@@ -23,7 +23,6 @@
 
 #include "rshare.h"
 #include "AuthorizationDialog.h"
-#include "config/gconfig.h"
 
 #include "rsiface/rsiface.h"
 
@@ -37,12 +36,9 @@ AuthorizationDialog::AuthorizationDialog(QWidget *parent, Qt::WFlags flags)
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
 
- GConfig config;
- config.loadWidgetInformation(this);
+// GConfig config;
+// config.loadWidgetInformation(this);
 
-  /* Create Bandwidth Graph related QObjects */
-  _settings = new RshareSettings();
-  
   // Create the status bar
   //statusBar()->showMessage("Please enter the correct AUTH CODE !");
 
@@ -72,8 +68,8 @@ AuthorizationDialog::show()
 
 void AuthorizationDialog::closeEvent (QCloseEvent * event)
 {
- GConfig config;
- config.saveWidgetInformation(this);
+// GConfig config;
+// config.saveWidgetInformation(this);
 
  QWidget::closeEvent(event);
 }

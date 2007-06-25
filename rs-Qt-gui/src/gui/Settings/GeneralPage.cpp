@@ -20,7 +20,6 @@
  ****************************************************************/
 
 #include "GeneralPage.h"
-#include "config/gconfig.h"
 #include "rshare.h"
 
 GeneralPage::GeneralPage(QWidget * parent, Qt::WFlags flags)
@@ -30,8 +29,8 @@ GeneralPage::GeneralPage(QWidget * parent, Qt::WFlags flags)
     setAttribute(Qt::WA_QuitOnClose, false);
     setWindowTitle(windowTitle() + QLatin1String(" - Gloster 2"));
 
-    GConfig config;
-    config.loadWidgetInformation(this);
+    //GConfig config;
+    //config.loadWidgetInformation(this);
     
      /* Create RshareSettings object */
    _settings = new RshareSettings();
@@ -50,8 +49,8 @@ GeneralPage::GeneralPage(QWidget * parent, Qt::WFlags flags)
 void
 GeneralPage::closeEvent (QCloseEvent * event)
 {
-    GConfig config;
-    config.saveWidgetInformation(this);
+    //GConfig config;
+    //config.saveWidgetInformation(this);
 
     QWidget::closeEvent(event);
 }

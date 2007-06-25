@@ -19,7 +19,6 @@
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
 
-#include "config/gconfig.h"
 #include "rshare.h"
 #include "ChanMsgDialog.h"
 
@@ -40,9 +39,6 @@ ChanMsgDialog::ChanMsgDialog(bool msg, QWidget *parent, Qt::WFlags flags)
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
   
-  GConfig config;
-  config.loadWidgetInformation(this);
-
   //connect( ui.channelstreeView, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( channelstreeViewCostumPopupMenu( QPoint ) ) );
   //
  

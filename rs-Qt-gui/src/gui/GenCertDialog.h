@@ -23,7 +23,6 @@
 #ifndef _GENCERTDIALOG_H
 #define _GENCERTDIALOG_H
 
-#include <config/rsharesettings.h>
 #include "rsiface/rsiface.h"
 
 #include "ui_GenCertDialog.h"
@@ -62,10 +61,6 @@ private:
   //  void loadSettings();
   void loadCertificates();
 
-
-  /** A VidaliaSettings object that handles getting/saving settings */
-  RshareSettings* _settings;
-  
   /** Qt Designer generated object */
   Ui::GenCertDialog ui;
 

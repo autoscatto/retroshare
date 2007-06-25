@@ -22,8 +22,6 @@
 #ifndef SERVERPAGE_H
 # define SERVERPAGE_H
 
-#include "config/rsharesettings.h"
-
 # include <QtGui/QWidget>
 # include "ui_ServerPage.h"
 
@@ -39,9 +37,6 @@ class ServerPage: public QWidget
     void load();
 
     private:
-       /** A VidaliaSettings object used for saving/loading settings */
-       RshareSettings* _settings;
-    
     
        void closeEvent (QCloseEvent * event);
         

@@ -22,7 +22,6 @@
 #include <rshare.h>
 #include "StartDialog.h"
 #include "GenCertDialog.h"
-#include "config/gconfig.h"
 #include "LogoBar.h"
 #include <QFileDialog>
 #include <QMessageBox>
@@ -40,7 +39,7 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
 
-  GConfig config;
+  RshareSettings config;
   config.loadWidgetInformation(this);
  
   _rsLogoBar = NULL;
@@ -99,8 +98,8 @@ void StartDialog::show()
 
 void StartDialog::closeEvent (QCloseEvent * event)
 {
- //GConfig config;
- //config.saveWidgetInformation(this);
+ RshareSettings config;
+ config.saveWidgetInformation(this);
 
  QWidget::closeEvent(event);
 }

@@ -37,7 +37,6 @@ HEADERS += rshare.h \
 	       rsiface/rstypes.h \
 	       rsiface/notifyqt.h \
 	       rsiface/RemoteDirModel.h \
-           config/gconfig.h \
            config/rshareSettings.h \
            control/bandwidthevent.h \
            control/eventtype.h \
@@ -158,7 +157,6 @@ SOURCES += main.cpp \
            rshare.cpp \
            rsiface/notifyqt.cpp \
            rsiface/RemoteDirModel.cpp \
-           config/gconfig.cpp \
            config/rshareSettings.cpp \
            gui/StartDialog.cpp \
            gui/GenCertDialog.cpp \

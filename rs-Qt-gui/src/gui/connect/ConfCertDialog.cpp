@@ -18,7 +18,6 @@
  *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
-#include "config/gconfig.h"
 #include "ConfCertDialog.h"
 
 #include "rsiface/rsiface.h"
@@ -34,9 +33,6 @@ ConfCertDialog::ConfCertDialog(QWidget *parent, Qt::WFlags flags)
   ui.setupUi(this);
 
 
-  GConfig config;
-  config.loadWidgetInformation(this);
-  
   connect(ui.applyButton, SIGNAL(clicked()), this, SLOT(applyDialog()));
   connect(ui.cancelButton, SIGNAL(clicked()), this, SLOT(closeinfodlg()));
 

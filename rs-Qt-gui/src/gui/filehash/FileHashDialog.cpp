@@ -23,7 +23,6 @@
 
 #include <rshare.h>
 #include "FileHashDialog.h"
-#include "config/gconfig.h"
 
 /* Define the format used for displaying the date and time */
 #define DATETIME_FMT  "MMM dd hh:mm:ss"
@@ -34,12 +33,6 @@ FileHashDialog::FileHashDialog(QWidget *parent, Qt::WFlags flags)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
-  
-   GConfig config;
-   config.loadWidgetInformation(this);
-
-  /* Create Bandwidth Graph related QObjects */
-  _settings = new RshareSettings();
   
   // Create the status bar
   statusBar()->showMessage("Please enter a valid file hash");
@@ -65,9 +58,6 @@ FileHashDialog::show()
 
 void FileHashDialog::closeEvent (QCloseEvent * event)
 {
- GConfig config;
- config.saveWidgetInformation(this);
-
  QWidget::closeEvent(event);
 }
 

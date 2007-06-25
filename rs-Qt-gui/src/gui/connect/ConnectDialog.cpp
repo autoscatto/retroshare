@@ -23,7 +23,6 @@
 
 #include <rshare.h>
 #include "ConnectDialog.h"
-#include "config/gconfig.h"
 
 #include "rsiface/rsiface.h"
 #include <iostream>
@@ -34,9 +33,6 @@ ConnectDialog::ConnectDialog(QWidget *parent, Qt::WFlags flags)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
-
- GConfig config;
- config.loadWidgetInformation(this);
 
   /* Create Bandwidth Graph related QObjects */
   _settings = new RshareSettings();

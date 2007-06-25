@@ -34,7 +34,6 @@
 
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
-#include "config/gconfig.h"
 
 #include "rsiface/rsiface.h"
 
@@ -71,9 +70,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 {
   /* Invoke the Qt Designer generated QObject setup routine */
   ui.setupUi(this);
-  
-  GConfig config;
-  config.loadWidgetInformation(this);
   
   	/* Hide Console frame */
 	showConsoleFrame(false);

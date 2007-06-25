@@ -28,6 +28,9 @@
 
 #include "rsharesettings.h"
 
+#include <QWidget>
+#include <QMainWindow>
+
 #if defined(Q_WS_WIN)
 #include <util/registry.h>
 #include <util/win32.h>
@@ -208,11 +211,57 @@ RshareSettings::setBWGraphAlwaysOnTop(bool alwaysOnTop)
 
 
 
+/** Saving Generic Widget Size / Location */
 
+void RshareSettings::saveWidgetInformation(QWidget *widget)
+{
+    beginGroup("widgetInformation");
+    beginGroup(widget->objectName());
 
+    setValue("size", widget->size());
+    setValue("pos", widget->pos());
 
+    endGroup();
+    endGroup();
+}
 
+void RshareSettings::saveWidgetInformation(QMainWindow *widget, QToolBar *toolBar)
+{
+ beginGroup("widgetInformation");
+ beginGroup(widget->objectName());
 
+ setValue("toolBarArea", widget->toolBarArea(toolBar));
 
+ endGroup();
+ endGroup();
+ 
+ saveWidgetInformation(widget);
+}
+
+void RshareSettings::loadWidgetInformation(QWidget *widget)
+{
+ beginGroup("widgetInformation");
+ beginGroup(widget->objectName());
+ 
+ widget->resize(value("size", widget->size()).toSize());
+ widget->move(value("pos", QPoint(200, 200)).toPoint());
+
+ endGroup();
+ endGroup();
+}
+
+void RshareSettings::loadWidgetInformation(QMainWindow *widget, QToolBar *toolBar)
+{
+ beginGroup("widgetInformation");
+ beginGroup(widget->objectName());
+ 
+ widget->addToolBar((Qt::ToolBarArea) value("toolBarArea", Qt::TopToolBarArea).toInt(),
+                    toolBar);
+ 
+ endGroup();
+ endGroup();
+ 
+ loadWidgetInformation(widget);
+}
 
 

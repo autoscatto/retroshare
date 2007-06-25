@@ -22,8 +22,6 @@
 #ifndef DIRECTORIESPAGE_H
 # define DIRECTORIESPAGE_H
 
-#include "config/rsharesettings.h"
-
 # include <QtGui/QWidget>
 # include "ui_DirectoriesPage.h"
 
@@ -39,9 +37,6 @@ class DirectoriesPage: public QWidget
     void load();
 
     private:
-       /** A VidaliaSettings object used for saving/loading settings */
-       RshareSettings* _settings;
-    
     
        void closeEvent (QCloseEvent * event);
         

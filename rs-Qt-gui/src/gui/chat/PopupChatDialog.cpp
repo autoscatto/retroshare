@@ -23,7 +23,6 @@
 
 #include "rshare.h"
 #include "PopupChatDialog.h"
-#include "config/gconfig.h"
 
 #include <QTextCodec>
 #include <QTextEdit>
@@ -46,9 +45,6 @@ PopupChatDialog::PopupChatDialog(std::string id, std::string name,
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
-
-  GConfig config;
-  config.loadWidgetInformation(this);
 
   connect(ui.lineEdit, SIGNAL(returnPressed( ) ), this, SLOT(sendChat( ) ));
 

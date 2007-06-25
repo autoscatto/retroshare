@@ -20,7 +20,6 @@
  ****************************************************************/
 
 #include "moreinfo.h"
-#include "config/gconfig.h"
 
 /** Default constructor */
 moreinfo::moreinfo(QWidget *parent, Qt::WFlags flags)
@@ -28,10 +27,6 @@ moreinfo::moreinfo(QWidget *parent, Qt::WFlags flags)
 {
 	/* Invoke Qt Designer generated QObject setup routine */
 	ui.setupUi(this);
-
-	GConfig config;
-	config.loadWidgetInformation(this);
-
 
 	setFixedSize(QSize(400, 300));
 
@@ -53,9 +48,6 @@ moreinfo::show()
 
 void moreinfo::closeEvent (QCloseEvent * event)
 {
- GConfig config;
- config.saveWidgetInformation(this);
-
  QWidget::closeEvent(event);
 }
 

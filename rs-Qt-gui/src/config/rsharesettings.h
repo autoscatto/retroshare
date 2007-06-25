@@ -30,6 +30,12 @@
 #include <gui/linetypes.h>
 
 
+//Forward declaration.
+class QWidget;
+class QTableWidget;
+class QToolBar;
+class QMainWindow;
+
 /** Handles saving and restoring RShares's settings, such as the
  * location of Tor, the control port, etc.
  *
@@ -91,6 +97,20 @@ public:
   /** Sets whether the bandwidth graph is always on top. */
   void setBWGraphAlwaysOnTop(bool alwaysOnTop);
   
+
+        //! Save placement, state and size information of a window.
+        void saveWidgetInformation(QWidget *widget);
+        
+        //! Load placement, state and size information of a window.
+        void loadWidgetInformation(QWidget *widget);
+        
+        //! Method overload. Save window and toolbar information.
+        void saveWidgetInformation(QMainWindow *widget, QToolBar *toolBar);
+
+        //! Method overload. Restore window and toolbar information.
+        void loadWidgetInformation(QMainWindow *widget, QToolBar *toolBar);
+
+
 private:
   QHash<QString,QVariant> _defaults;
 

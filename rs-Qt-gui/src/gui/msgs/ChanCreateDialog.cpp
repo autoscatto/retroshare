@@ -22,7 +22,6 @@
 
 #include "rshare.h"
 #include "ChanCreateDialog.h"
-#include "config/gconfig.h"
 
 #include "rsiface/rsiface.h"
 #include <sstream>
@@ -41,9 +40,6 @@ ChanCreateDialog::ChanCreateDialog(QWidget *parent, Qt::WFlags flags)
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
   
-  GConfig config;
- config.loadWidgetInformation(this);
-
   // connect up the buttons.
   connect( ui.cancelButton, SIGNAL( clicked ( bool ) ), this, SLOT( cancelChan( ) ) );
   connect( ui.createButton, SIGNAL( clicked ( bool ) ), this, SLOT( createChan( ) ) );

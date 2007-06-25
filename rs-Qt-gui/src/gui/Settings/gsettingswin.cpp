@@ -25,7 +25,6 @@
 #include "ServerPage.h"
 #include "NetworkPage.h"
 #include "gsettingswin.h"
-#include "config/gconfig.h"
 
 GSettingsWin::GSettingsWin(QWidget * parent, Qt::WFlags flags)
                             : QDialog(parent, flags)
@@ -40,15 +39,11 @@ GSettingsWin::GSettingsWin(QWidget * parent, Qt::WFlags flags)
     connect(listWidget, SIGNAL(currentRowChanged(int)),
             this, SLOT(setNewPage(int)));
 
-    GConfig config;
-    config.loadWidgetInformation(this);
 }
 
 void
 GSettingsWin::closeEvent (QCloseEvent * event)
 {
-    GConfig config;
-    config.saveWidgetInformation(this);
 
     QWidget::closeEvent(event);
 }

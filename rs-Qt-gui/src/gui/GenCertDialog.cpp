@@ -22,7 +22,7 @@
 
 #include <rshare.h>
 #include "GenCertDialog.h"
-#include "config/gconfig.h"
+#include "config/rsharesettings.h"
 #include <QFileDialog>
 #include <QMessageBox>
 #include <util/WidgetBackgroundImage.h>
@@ -39,12 +39,6 @@ GenCertDialog::GenCertDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
 
- GConfig config;
- config.loadWidgetInformation(this);
-
-  /* Create Bandwidth Graph related QObjects */
-  _settings = new RshareSettings();
-  
   WidgetBackgroundImage::setBackgroundImage(ui.loginLabel, ":images/new-account.png", WidgetBackgroundImage::AdjustHeight);
 
   

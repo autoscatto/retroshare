@@ -20,7 +20,6 @@
  ****************************************************************/
 
 #include "NetworkPage.h"
-#include "config/gconfig.h"
 #include "rshare.h"
 
 NetworkPage::NetworkPage(QWidget * parent, Qt::WFlags flags)
@@ -28,23 +27,12 @@ NetworkPage::NetworkPage(QWidget * parent, Qt::WFlags flags)
 {
     ui.setupUi(this);
     setAttribute(Qt::WA_QuitOnClose, false);
-    setWindowTitle(windowTitle() + QLatin1String(" - Gloster 2"));
 
-    GConfig config;
-    config.loadWidgetInformation(this);
-    
-     /* Create RshareSettings object */
-   _settings = new RshareSettings();
-
- 
 }
 
 void
 NetworkPage::closeEvent (QCloseEvent * event)
 {
-    GConfig config;
-    config.saveWidgetInformation(this);
-
     QWidget::closeEvent(event);
 }
 

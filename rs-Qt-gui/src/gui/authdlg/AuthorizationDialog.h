@@ -62,10 +62,6 @@ private:
   /** Loads the saved connectidialog settings */
   //  void loadSettings();
  
-
-  /** A VidaliaSettings object that handles getting/saving settings */
-  RshareSettings* _settings;
-  
   /** Qt Designer generated object */
   Ui::AuthorizationDialog ui;
 };
