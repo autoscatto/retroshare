@@ -26,7 +26,7 @@
 #include <QStyleFactory>
 #include <util/string.h>
 #include <lang/languagesupport.h>
-
+#include "config/rsharesettings.h"
 
 #include "rshare.h"
 
@@ -41,14 +41,15 @@
 QMap<QString, QString> Rshare::_args; /**< List of command-line arguments.  */
 QString Rshare::_style;               /**< The current GUI style.           */
 QString Rshare::_language;            /**< The current language.            */
-RshareSettings Rshare::_settings;    /**< Rshare's configurable settings. */
+bool Rshare::useConfigDir;           
+QString Rshare::configDir;           
 
 
 
 /** Constructor. Parses the command-line arguments, resets Rshare's
  * configuration (if requested), and sets up the GUI style and language
  * translation. */
-Rshare::Rshare(QStringList args, int &argc, char **argv)
+Rshare::Rshare(QStringList args, int &argc, char **argv, QString dir)
 : QApplication(argc, argv)
 {
   /* Read in all our command-line arguments. */
@@ -56,7 +57,15 @@ Rshare::Rshare(QStringList args, int &argc, char **argv)
 
   /* Check if we're supposed to reset our config before proceeding. */
   if (_args.contains(ARG_RESET)) {
-    _settings.reset();
+    RshareSettings settings;
+    settings.reset();
+  }
+
+  /* config directory */
+  useConfigDir = false;
+  if (dir != "")
+  {
+  	setConfigDirectory(dir);
   }
 
   /** Initialize support for language translations. */
@@ -67,7 +76,6 @@ Rshare::Rshare(QStringList args, int &argc, char **argv)
 
   /** Set the GUI style appropriately. */
   setStyle(_args.value(ARG_GUISTYLE));
-
 
 }
 
@@ -185,7 +193,8 @@ Rshare::setLanguage(QString languageCode)
 {
   /* If the language code is empty, use the previously-saved setting */
   if (languageCode.isEmpty()) {
-    languageCode = _settings.getLanguageCode();
+    RshareSettings settings;
+    languageCode = settings.getLanguageCode();
   }
   /* Translate into the desired langauge */
   if (LanguageSupport::translate(languageCode)) {
@@ -204,7 +213,8 @@ Rshare::setStyle(QString styleKey)
 {
   /* If no style was specified, use the previously-saved setting */
   if (styleKey.isEmpty()) {
-    styleKey = _settings.getInterfaceStyle();
+    RshareSettings settings;
+    styleKey = settings.getInterfaceStyle();
   }
   /* Apply the specified GUI style */
   if (QApplication::setStyle(styleKey)) {
@@ -226,7 +236,11 @@ Rshare::help(QString topic)
 QString
 Rshare::dataDirectory()
 {
-  if (_args.contains(ARG_DATADIR)) {
+  if (useConfigDir)
+  {
+    return configDir;
+  }
+  else if (_args.contains(ARG_DATADIR)) {
     return _args.value(ARG_DATADIR);
   }
   return defaultDataDirectory();
@@ -255,6 +269,15 @@ Rshare::createDataDirectory(QString *errmsg)
                  QString("Could not create data directory: %1").arg(path));
     }
   }
+  return true;
+}
+
+
+/** Set Rshare's data directory - externally */
+bool Rshare::setConfigDirectory(QString dir)
+{
+  useConfigDir = true;
+  configDir = dir;
   return true;
 }
 

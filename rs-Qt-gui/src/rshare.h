@@ -34,9 +34,6 @@
 #include <QString>
 
 
-#include <config/rsharesettings.h>
-
-
 /** Rshare's version string */
 #define RSHARE_VERSION    "0.7"
 
@@ -47,7 +44,7 @@ class Rshare : public QApplication
 
 public:
   /** Constructor. */
-  Rshare(QStringList args, int &argc, char **argv);
+  Rshare(QStringList args, int &argc, char **argv, QString dir);
   /** Destructor. */
   ~Rshare();
 
@@ -82,7 +79,8 @@ public:
   /** Creates Rshare's data directory, if it doesn't already exist. */
   static bool createDataDirectory(QString *errmsg);
   
-
+  /** Creates Rshare's data directory, if it doesn't already exist. */
+  static bool setConfigDirectory(QString dir);
   
 signals:
   /** Signals that the application needs to shutdown now. */
@@ -103,8 +101,9 @@ private:
   static QMap<QString, QString> _args; /**< List of command-line arguments.  */
   static QString _style;               /**< The current GUI style.           */
   static QString _language;            /**< The current language.            */
-  static RshareSettings _settings;    /**< Rshare's configurable settings. */
 
+  static bool    useConfigDir;
+  static QString configDir;
 
 };
 

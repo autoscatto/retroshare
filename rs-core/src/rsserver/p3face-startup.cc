@@ -141,6 +141,11 @@ RsInit *InitRsConfig()
 	return config;
 }
 
+const char *RsConfigDirectory(RsInit *config)
+{
+	return (config->basedir).c_str();
+}
+
 //int InitRetroShare(int argc, char **argv, RsInit *config)
 //{
 

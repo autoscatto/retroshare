@@ -46,7 +46,9 @@ extern RsControl *rsicontrol;
  */
 
 RsInit *InitRsConfig();
+const char   *RsConfigDirectory(RsInit *config);
 void    CleanupRsConfig(RsInit *);
+
 
 // Called First... (handles comandline options) 
 int InitRetroShare(int argc, char **argv, RsInit *config);

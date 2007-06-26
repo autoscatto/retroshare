@@ -50,7 +50,8 @@ int main(int argc, char *argv[])
 
 
 	/* Setup The GUI Stuff */
-	Rshare rshare(args, argc, argv);
+	Rshare rshare(args, argc, argv, 
+		QString(RsConfigDirectory(config)));
 
 	/* Login Dialog */
   	if (!okStart)
@@ -86,6 +87,7 @@ int main(int argc, char *argv[])
         RsControl *rsServer = createRsControl(*iface, *notify);
 
         notify->setRsIface(iface);
+
 
   	MainWindow w;
 
