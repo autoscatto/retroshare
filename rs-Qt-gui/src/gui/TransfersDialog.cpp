@@ -167,9 +167,12 @@ void TransfersDialog::insertTransfers()
 				item -> setText(4, "Failed");
 				break;
 			case 1: /* OKAY */
+				item -> setText(4, "OK");
+				break;
+			case 2: /* Downloading */
 				item -> setText(4, "Downloading");
 				break;
-			case 2: /* COMPLETE */
+		    case 3: /* COMPLETE */
 			default:
 				item -> setText(4, "Complete");
 				break;

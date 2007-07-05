@@ -195,7 +195,7 @@ class FileTransferInfo: public FileInfo
 	int transfered;
 	double tfRate; /* kbytes */
 	bool download;
-	int  downloadStatus; /* 0 = Err, 1 = Ok, 2 = Done */
+	int  downloadStatus; /* 0 = Err, 1 = Ok, 2 = Downloading, 3 = Completed */
 };
 
 

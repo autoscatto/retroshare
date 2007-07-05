@@ -215,15 +215,15 @@ SOURCES += main.cpp \
            gui/toaster/ChatToaster.cpp \
            gui/toaster/MessageToaster.cpp \
            gui/toaster/CallToaster.cpp \
-	       gui/toaster/QtToaster.cpp \
+	     gui/toaster/QtToaster.cpp \
            gui/authdlg/AuthorizationDialog.cpp
 
 
 RESOURCES += gui/images.qrc lang/lang.qrc
 TRANSLATIONS +=  \
+      lang/retroshare_en.ts \
 	lang/retroshare_de.ts \
-	lang/retroshare_en.ts \
-    lang/retroshare_bg.ts \
+      lang/retroshare_bg.ts \
 	lang/retroshare_es.ts \
 	lang/retroshare_fi.ts \
 	lang/retroshare_fr.ts \
@@ -238,8 +238,8 @@ TRANSLATIONS +=  \
 	lang/retroshare_pt.ts  \
 	lang/retroshare_ru.ts  \
 	lang/retroshare_tr.ts \
-    lang/retroshare_dk.ts \
-    lang/retroshare_sl.ts 
+      lang/retroshare_dk.ts \
+      lang/retroshare_sl.ts 
 
 !macx {
   # On non-Mac, make the binary all lowercase
