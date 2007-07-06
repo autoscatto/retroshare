@@ -91,6 +91,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 
 	connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addSharedDirectory() ) );
 	connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
+	
+	ui.addfriendButton->setToolTip("Add a Friend");
+	ui.invitefriendButton->setToolTip("Invite a Friend");
+	ui.addshareButton->setToolTip("Add a Share");
+    ui.optionsButton->setToolTip("Options");
 
 
   	QPushButton *closeButton = new QPushButton(QIcon(":/images/close_normal.png"), "", ui.tabWidget);
@@ -103,7 +108,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 	ui.tabWidget->cornerWidget()->show();
 	connect(closeButton, SIGNAL(clicked()), this, SLOT(closeActiveTab()));
 	
-	ui.styleSheetCombo->setCurrentIndex(ui.styleSheetCombo->findText("Default"));
     loadStyleSheet("Default");
 
 

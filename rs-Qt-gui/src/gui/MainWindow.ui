@@ -539,7 +539,7 @@
           <widget class="QFrame" name="toolboxframe" >
            <property name="maximumSize" >
             <size>
-             <width>120</width>
+             <width>64</width>
              <height>16777215</height>
             </size>
            </property>
@@ -568,13 +568,13 @@
               </property>
               <property name="minimumSize" >
                <size>
-                <width>120</width>
+                <width>64</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize" >
                <size>
-                <width>120</width>
+                <width>64</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -589,8 +589,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>114</width>
-                 <height>200</height>
+                 <width>52</width>
+                 <height>215</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -603,61 +603,6 @@
                 <property name="spacing" >
                  <number>6</number>
                 </property>
-                <item row="1" column="0" >
-                 <widget class="QComboBox" name="styleSheetCombo" >
-                  <property name="toolTip" >
-                   <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Select StyleSheet&lt;/p>&lt;/body>&lt;/html></string>
-                  </property>
-                  <item>
-                   <property name="text" >
-                    <string>Default</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>blue</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>silver</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>ed2k</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>over</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>black</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>arachnophobia</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>Skin2</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text" >
-                    <string>Pagefold</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
                 <item row="2" column="0" >
                  <spacer>
                   <property name="orientation" >
@@ -667,19 +612,6 @@ p, li { white-space: pre-wrap; }
                    <size>
                     <width>20</width>
                     <height>40</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-                <item row="3" column="0" >
-                 <spacer>
-                  <property name="orientation" >
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" >
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
                    </size>
                   </property>
                  </spacer>
@@ -694,77 +626,145 @@ p, li { white-space: pre-wrap; }
                   </property>
                   <item row="1" column="0" >
                    <widget class="QPushButton" name="invitefriendButton" >
+                    <property name="sizePolicy" >
+                     <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>0</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>90</width>
-                      <height>0</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="text" >
-                     <string>Invite Friend</string>
+                     <string/>
+                    </property>
+                    <property name="icon" >
+                     <iconset resource="images.qrc" >:/images/invite-friend24.png</iconset>
+                    </property>
+                    <property name="iconSize" >
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
                   <item row="0" column="0" >
                    <widget class="QPushButton" name="addfriendButton" >
+                    <property name="sizePolicy" >
+                     <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>0</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>0</width>
-                      <height>0</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="text" >
-                     <string>Add Friend</string>
+                     <string/>
+                    </property>
+                    <property name="icon" >
+                     <iconset resource="images.qrc" >:/images/add-friend24.png</iconset>
+                    </property>
+                    <property name="iconSize" >
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
                   <item row="3" column="0" >
                    <widget class="QPushButton" name="optionsButton" >
+                    <property name="sizePolicy" >
+                     <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>0</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>90</width>
-                      <height>0</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="text" >
-                     <string>Options</string>
+                     <string/>
+                    </property>
+                    <property name="icon" >
+                     <iconset resource="images.qrc" >:/images/settings.png</iconset>
+                    </property>
+                    <property name="iconSize" >
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
                   <item row="2" column="0" >
                    <widget class="QPushButton" name="addshareButton" >
+                    <property name="sizePolicy" >
+                     <sizepolicy>
+                      <hsizetype>0</hsizetype>
+                      <vsizetype>0</vsizetype>
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>90</width>
-                      <height>0</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="maximumSize" >
                      <size>
-                      <width>16777215</width>
-                      <height>16777215</height>
+                      <width>32</width>
+                      <height>32</height>
                      </size>
                     </property>
                     <property name="text" >
-                     <string>Add Share</string>
+                     <string/>
+                    </property>
+                    <property name="icon" >
+                     <iconset resource="images.qrc" >:/images/add-share24.png</iconset>
+                    </property>
+                    <property name="iconSize" >
+                     <size>
+                      <width>24</width>
+                      <height>24</height>
+                     </size>
                     </property>
                    </widget>
                   </item>
