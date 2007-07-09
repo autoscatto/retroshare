@@ -37,6 +37,12 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="2" column="2" >
     <widget class="QPushButton" name="fileButton" >
+     <property name="minimumSize" >
+      <size>
+       <width>77</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="text" >
       <string>Load From File</string>
      </property>
@@ -44,6 +50,12 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="2" column="0" >
     <widget class="QPushButton" name="cancelButton" >
+     <property name="minimumSize" >
+      <size>
+       <width>77</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="text" >
       <string>Cancel</string>
      </property>
@@ -51,6 +63,12 @@ p, li { white-space: pre-wrap; }
    </item>
    <item row="2" column="4" >
     <widget class="QPushButton" name="doneButton" >
+     <property name="minimumSize" >
+      <size>
+       <width>77</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="text" >
       <string>Done</string>
      </property>
