@@ -42,7 +42,7 @@ HEADERS += rshare.h \
            control/eventtype.h \
            gui/StartDialog.h \
            gui/ChatDialog.h \
-           gui/ConnectionsDialog.h \
+           gui/NetworkDialog.h \
            gui/GenCertDialog.h \
            gui/TransfersDialog.h \
            gui/graphframe.h \
@@ -115,7 +115,7 @@ HEADERS += rshare.h \
 FORMS += gui/ChatDialog.ui \
          gui/StartDialog.ui \
          gui/GenCertDialog.ui \
-         gui/ConnectionsDialog.ui \
+         gui/NetworkDialog.ui \
          gui/TransfersDialog.ui \
          gui/MainWindow.ui \
          gui/MessengerWindow.ui \
@@ -161,7 +161,7 @@ SOURCES += main.cpp \
            gui/StartDialog.cpp \
            gui/GenCertDialog.cpp \
            gui/ChatDialog.cpp \
-           gui/ConnectionsDialog.cpp \
+           gui/NetworkDialog.cpp \
            gui/TransfersDialog.cpp \
            gui/graphframe.cpp \
            gui/mainpagestack.cpp \
@@ -249,5 +249,8 @@ TRANSLATIONS +=  \
 win32 {
 
   RC_FILE = gui/images/retroshare_win.rc
+  
+    "LIBS += -L"D:\Development\retroshare\winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin
+  CONFIG += qt release"
 
 }

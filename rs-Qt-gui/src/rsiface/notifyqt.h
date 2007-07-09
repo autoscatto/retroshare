@@ -6,7 +6,7 @@
 
 #include <string>
 
-class ConnectionsDialog;
+class NetworkDialog;
 class PeersDialog;
 class SharedFilesDialog;
 class TransfersDialog;
@@ -27,7 +27,7 @@ class NotifyQt: public QObject, public NotifyBase
 
         virtual ~NotifyQt() { return; }
 
-	void setConnectionDialog(ConnectionsDialog *c) { cDialog = c; }
+	void setNetworkDialog(NetworkDialog *c) { cDialog = c; }
 	void setPeersDialog(PeersDialog *p) { pDialog = p; }
 	void setDirDialog(SharedFilesDialog *d) { dDialog = d; }
 	void setTransfersDialog(TransfersDialog *t) { tDialog = t; }
@@ -67,7 +67,7 @@ void	UpdateGUI(); /* called by timer */
 	void preDisplayTransfers();
 
 	/* so we can update windows */
-	ConnectionsDialog *cDialog;
+	NetworkDialog *cDialog;
 	PeersDialog       *pDialog;
 	SharedFilesDialog *dDialog;
 	TransfersDialog   *tDialog;

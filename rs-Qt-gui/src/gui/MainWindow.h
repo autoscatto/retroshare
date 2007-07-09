@@ -28,7 +28,7 @@
 #include <QSystemTrayIcon>
 
 
-#include "ConnectionsDialog.h"
+#include "NetworkDialog.h"
 #include "PeersDialog.h"
 #include "SearchDialog.h"
 #include "TransfersDialog.h"
@@ -53,7 +53,7 @@ class MainWindow : public QMainWindow
 public:
    /** Main dialog pages. */
   enum Page {
-    Network            = 0,  /** Connections page. */
+    Network            = 0,  /** Network page. */
     Friends            = 1,  /** Peers page. */
     SharedDirectories  = 2,  /** Shared Directories page. */
     Search 		       = 3,  /** Search page. */
@@ -76,7 +76,7 @@ public:
    * Notify Class...
    */
 
-  ConnectionsDialog *connectionsDialog;
+  NetworkDialog *networkDialog;
   PeersDialog       *peersDialog;
   SearchDialog      *searchDialog;
   TransfersDialog   *transfersDialog;

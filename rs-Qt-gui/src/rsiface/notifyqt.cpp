@@ -1,7 +1,7 @@
 
 #include "rsiface/notifyqt.h"
 
-#include "gui/ConnectionsDialog.h"
+#include "gui/NetworkDialog.h"
 #include "gui/PeersDialog.h"
 #include "gui/SharedFilesDialog.h"
 #include "gui/TransfersDialog.h"

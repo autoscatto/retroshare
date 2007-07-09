@@ -21,13 +21,13 @@
 #include "AddFriendDialog.h"
 
 #include "rsiface/rsiface.h"
-#include "gui/ConnectionsDialog.h"
+#include "gui/NetworkDialog.h"
 #include <util/WidgetBackgroundImage.h>
 
 #include <QMessageBox>
 
 /** Default constructor */
-AddFriendDialog::AddFriendDialog(ConnectionsDialog *cd, QWidget *parent, Qt::WFlags flags)
+AddFriendDialog::AddFriendDialog(NetworkDialog *cd, QWidget *parent, Qt::WFlags flags)
   : QDialog(parent, flags), cDialog(cd)
 {
   /* Invoke Qt Designer generated QObject setup routine */

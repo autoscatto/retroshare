@@ -1,7 +1,7 @@
 /****************************************************************
  *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006, crypton
+ *  Copyright (C) 2006, 2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -115,7 +115,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
   /* Create the config pages and actions */
   QActionGroup *grp = new QActionGroup(this);
 
-  ui.stackPages->add(connectionsDialog = new ConnectionsDialog(ui.stackPages),
+  ui.stackPages->add(networkDialog = new NetworkDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_NETWORK), tr("Network"), grp));
   
   ui.stackPages->add(peersDialog = new PeersDialog(ui.stackPages),
@@ -305,7 +305,7 @@ virtual int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
 #else
 
 static  AddFriendDialog *addDialog = 
-	new AddFriendDialog(connectionsDialog, this);
+	new AddFriendDialog(networkDialog, this);
 
 	std::string invite = "";
 	addDialog->setInfo(invite);

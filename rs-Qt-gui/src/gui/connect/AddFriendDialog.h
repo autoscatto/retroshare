@@ -26,7 +26,7 @@
 #include <QDialog>
 
 #include "ui_AddFriendDialog.h"
-class ConnectionsDialog;
+class NetworkDialog;
 
 class AddFriendDialog : public QDialog
 {
@@ -34,7 +34,7 @@ class AddFriendDialog : public QDialog
 
 public:
   /** Default constructor */
-  AddFriendDialog(ConnectionsDialog *cd, QWidget *parent = 0, Qt::WFlags flags = 0);
+  AddFriendDialog(NetworkDialog *cd, QWidget *parent = 0, Qt::WFlags flags = 0);
   /** Default destructor */
 
 void setInfo(std::string text);
@@ -51,7 +51,7 @@ private:
 
   /** Qt Designer generated object */
   Ui::AddFriendDialog ui;
-  ConnectionsDialog *cDialog;
+  NetworkDialog *cDialog;
 };
 
 #endif

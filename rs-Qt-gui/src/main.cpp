@@ -102,7 +102,7 @@ int main(int argc, char *argv[])
 #endif
 
 	/* Attach the Dialogs, to the Notify Class */
-        notify->setConnectionDialog(w.connectionsDialog);
+        notify->setNetworkDialog(w.networkDialog);
         notify->setPeersDialog(w.peersDialog);
         notify->setDirDialog(w.sharedfilesDialog);
         notify->setTransfersDialog(w.transfersDialog);
