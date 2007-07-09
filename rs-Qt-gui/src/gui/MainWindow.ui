@@ -589,8 +589,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>52</width>
-                 <height>215</height>
+                 <width>68</width>
+                 <height>195</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -636,7 +636,7 @@
                     </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>32</width>
+                      <width>48</width>
                       <height>32</height>
                      </size>
                     </property>
@@ -672,7 +672,7 @@
                     </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>32</width>
+                      <width>48</width>
                       <height>32</height>
                      </size>
                     </property>
@@ -708,7 +708,7 @@
                     </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>32</width>
+                      <width>48</width>
                       <height>32</height>
                      </size>
                     </property>
@@ -744,7 +744,7 @@
                     </property>
                     <property name="minimumSize" >
                      <size>
-                      <width>32</width>
+                      <width>48</width>
                       <height>32</height>
                      </size>
                     </property>
