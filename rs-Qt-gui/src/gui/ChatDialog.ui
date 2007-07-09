@@ -504,7 +504,7 @@
    <string/>
   </property>
   <property name="windowIcon" >
-   <iconset resource="images.qrc" >:/images/RShare16.png</iconset>
+   <iconset/>
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
@@ -662,7 +662,7 @@ p, li { white-space: pre-wrap; }
                </font>
               </property>
               <property name="text" >
-               <string>Chat With:</string>
+               <string>Users:</string>
               </property>
              </widget>
             </item>
