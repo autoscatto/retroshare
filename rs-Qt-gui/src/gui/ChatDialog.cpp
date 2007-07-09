@@ -39,6 +39,7 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QHeaderView>
 
 /** Constructor */
 ChatDialog::ChatDialog(QWidget *parent)
@@ -66,6 +67,9 @@ ChatDialog::ChatDialog(QWidget *parent)
   
   /* hide the Tree +/- */
   ui.msgSendList -> setRootIsDecorated( false );
+  
+  /* to hide the header  */
+  ui.msgSendList->header()->hide();
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
