@@ -127,7 +127,7 @@ protected:
 
 private slots:
 
-  void on_styleSheetCombo_activated(const QString &styleSheetName);
+
 
 private:
 

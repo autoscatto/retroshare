@@ -106,7 +106,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 	closeButton->setToolTip(tr("Exit"));
 	ui.tabWidget->setCornerWidget(closeButton);
 	ui.tabWidget->cornerWidget()->show();
-	connect(closeButton, SIGNAL(clicked()), this, SLOT(closeActiveTab()));
+	//connect(closeButton, SIGNAL(clicked()), this, SLOT(closeActiveTab()));
 	
     loadStyleSheet("Default");
 
@@ -486,10 +486,6 @@ void MainWindow::showtoolboxFrame(bool show)
 }
 
 
-void MainWindow::on_styleSheetCombo_activated(const QString &sheetName)
-{
-    loadStyleSheet(sheetName);
-}
 
 void MainWindow::loadStyleSheet(const QString &sheetName)
 {
