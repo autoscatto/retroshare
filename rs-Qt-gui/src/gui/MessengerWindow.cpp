@@ -53,8 +53,8 @@
 #define IMAGE_ONLINE             ":/images/donline.png"
 #define IMAGE_OFFLINE            ":/images/dhidden.png"
 /* Images for Status icons */
-#define IMAGE_ON             ":/images/contract_hover.png"
-#define IMAGE_OFF            ":/images/expand_hover.png"
+#define IMAGE_ON                 ":/images/contract_hover.png"
+#define IMAGE_OFF                ":/images/expand_hover.png"
 
 
 /** Constructor */
@@ -69,12 +69,20 @@ MessengerWindow::MessengerWindow(QWidget * parent)
 
   connect( ui.avatarButton, SIGNAL(clicked()), SLOT(changeAvatarClicked()));
   
-  /* to hide the header  */
-  ui.messengertreeWidget->header()->hide(); 
-  
-  _rsLogoBarmessenger = NULL;
+   /* to hide the header  */
+   ui.messengertreeWidget->header()->hide(); 
+ 
+    /* Set header resize modes and initial section sizes */
+	QHeaderView * _header = ui.messengertreeWidget->header () ;   
+	_header->setResizeMode (0, QHeaderView::Interactive);
+	_header->setResizeMode (1, QHeaderView::Interactive);
+	_header->setResizeMode (2, QHeaderView::Interactive);
+	_header->setResizeMode (3, QHeaderView::Interactive);
+
+	_header->resizeSection ( 0, 200 );   
  
   //LogoBar
+  _rsLogoBarmessenger = NULL;
   _rsLogoBarmessenger = new LogoBar(ui.logoframe);
   Widget::createLayout(ui.logoframe)->addWidget(_rsLogoBarmessenger);
   
@@ -151,15 +159,6 @@ void  MessengerWindow::insertPeers()
         /* remove old items ??? */
 	peerWidget->clear();
 	peerWidget->setColumnCount(4);
-	
-    /* Set header resize modes and initial section sizes */
-	QHeaderView * _header = peerWidget->header () ;   
-	_header->setResizeMode (0, QHeaderView::Interactive);
-	_header->setResizeMode (1, QHeaderView::Interactive);
-	_header->setResizeMode (2, QHeaderView::Interactive);
-	_header->setResizeMode (3, QHeaderView::Interactive);
-
-	_header->resizeSection ( 0, 200 );
 
 
 	/* have two lists: online / offline */
