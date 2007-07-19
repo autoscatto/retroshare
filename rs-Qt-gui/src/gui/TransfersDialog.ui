@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>346</height>
+    <width>590</width>
+    <height>314</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -567,7 +567,7 @@ p, li { white-space: pre-wrap; }
         </layout>
        </item>
        <item row="1" column="0" colspan="2" >
-        <widget class="QTreeWidget" name="downtreeWidget" >
+        <widget class="QTreeView" name="downloadList" >
          <property name="mouseTracking" >
           <bool>true</bool>
          </property>
@@ -593,7 +593,7 @@ p, li { white-space: pre-wrap; }
           <bool>false</bool>
          </property>
          <property name="dragDropMode" >
-          <enum>QAbstractItemView::DragDrop</enum>
+          <enum>QAbstractItemView::NoDragDrop</enum>
          </property>
          <property name="alternatingRowColors" >
           <bool>false</bool>
@@ -607,46 +607,6 @@ p, li { white-space: pre-wrap; }
          <property name="allColumnsShowFocus" >
           <bool>false</bool>
          </property>
-         <column>
-          <property name="text" >
-           <string>File Name</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Sources</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Speed</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Progress</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Status</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>%</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>File Size</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Completed</string>
-          </property>
-         </column>
         </widget>
        </item>
       </layout>
@@ -660,45 +620,10 @@ p, li { white-space: pre-wrap; }
         <number>0</number>
        </property>
        <item row="1" column="0" colspan="2" >
-        <widget class="QTreeWidget" name="uptreeWidget" >
+        <widget class="QTreeView" name="uploadsList" >
          <property name="sortingEnabled" >
           <bool>true</bool>
          </property>
-         <column>
-          <property name="text" >
-           <string>File Name</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Peer Name</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Speed</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Progress</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Status</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>File Size</string>
-          </property>
-         </column>
-         <column>
-          <property name="text" >
-           <string>Completed</string>
-          </property>
-         </column>
         </widget>
        </item>
        <item row="0" column="1" >

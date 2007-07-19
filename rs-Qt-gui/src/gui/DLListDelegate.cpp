@@ -142,7 +142,7 @@ void DLListDelegate::paint(QPainter * painter, const QStyleOptionViewItem & opti
 				opt.palette.setColor(QPalette::Text, QColor("grey"));
 				painter->setPen(opt.palette.color(cg, QPalette::Text));
 			}
-			painter->drawText(option.rect, Qt::AlignCenter, newopt.text);		
+			painter->drawText(option.rect, Qt::AlignCenter, newopt.text);
 			break;
 		case NAME:
         		// decoration

@@ -24,11 +24,17 @@
 
 #include <QFileDialog>
 #include <QProgressBar>
+#include <QtGui>
+#include <QObject>
+#include <QModelIndex>
 
 #include "mainpage.h"
 #include "ui_TransfersDialog.h"
 
 
+class DLListDelegate;
+class ULListDelegate;
+class QStandardItemModel;
 
 class TransfersDialog : public MainPage
 {
@@ -38,7 +44,7 @@ public:
   /** Default Constructor */
   TransfersDialog(QWidget *parent = 0);
   /** Default Destructor */
-
+  ~TransfersDialog();
 
 
 
@@ -49,14 +55,26 @@ private slots:
   void showDownInfoWindow();
   
   /** Create the context popup menu and it's submenus */
-  void downtreeWidgetCostumPopupMenu( QPoint point );
+  void downloadListCostumPopupMenu( QPoint point );
   
   void cancel();
   /** removes finished Downloads**/
   void clearcompleted();
+ 
 
 private:
-QTreeWidgetItem* getCurrentPeer();
+  QTreeWidgetItem* getCurrentPeer();
+  
+  		QStandardItemModel *DLListModel;
+  		QStandardItemModel *ULListModel;
+		QItemSelectionModel *selection;
+		DLListDelegate *DLDelegate;
+		ULListDelegate *ULDelegate;
+		qlonglong fileSize;
+		double progress;
+		double dlspeed;
+		QString status, icon, name;
+		qlonglong completed, remaining;
 
 
   /** Create the actions on the tray menu or menubar */
@@ -69,14 +87,20 @@ QTreeWidgetItem* getCurrentPeer();
   QAction* cancelAct;
   QAction* clearcompletedAct;
 
-  QTreeWidget *downtreeWidget;
-  QProgressBar* m_pProgressBar;
+  QTreeView *downloadList;
 
   /** Adds a new action to the toolbar. */
   void addAction(QAction *action, const char *slot = 0);
 
   /** Qt Designer generated object */
   Ui::TransfersDialog ui;
+  
+public slots:
+
+		int addItem(QString symbol, QString name, qlonglong size, double progress, double dlspeed, QString sources, QString status, qlonglong completed, qlonglong remaining);
+		void delItem(int row);
+		void editItem(int row, int column, QVariant data);
+		void updateProgress(int value);
 };
 
 #endif

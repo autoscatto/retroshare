@@ -1,7 +1,7 @@
 /****************************************************************
- *  RShare is distributed under the following license:
+ *  RetroShare is distributed under the following license:
  *
- *  Copyright (C) 2006, crypton
+ *  Copyright (C) 2006,2007 crypton
  *
  *  This program is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU General Public License
@@ -23,7 +23,8 @@
 #include "rshare.h"
 #include "TransfersDialog.h"
 #include "moreinfo/moreinfo.h"
-#include <QHeaderView>
+#include "DLListDelegate.h"
+#include "ULListDelegate.h"
 
 #include <QContextMenuEvent>
 #include <QMenu>
@@ -32,7 +33,7 @@
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QHeaderView>
-
+#include <QStandardItemModel>
 
 #include <sstream>
 #include "rsiface/rsiface.h"
@@ -46,22 +47,30 @@
 TransfersDialog::TransfersDialog(QWidget *parent)
 : MainPage(parent)
 {
-  /* Invoke the Qt Designer generated object setup routine */
-  ui.setupUi(this);
+    /* Invoke the Qt Designer generated object setup routine */
+    ui.setupUi(this);
 
-  connect( ui.downtreeWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( downtreeWidgetCostumPopupMenu( QPoint ) ) );
-  
-  	m_pProgressBar = new QProgressBar( NULL );
+    connect( ui.downloadList, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( downloadListCostumPopupMenu( QPoint ) ) );
 
-	m_pProgressBar->setMinimum( 0 );
-	m_pProgressBar->setMaximum( 100 );
-	
-    QVBoxLayout* pVBox = new QVBoxLayout();
-	
-	pVBox->addWidget( m_pProgressBar );
+    // Set Download list model
+    DLListModel = new QStandardItemModel(0,8);
+    DLListModel->setHeaderData(NAME, Qt::Horizontal, tr("Name", "i.e: file name"));
+    DLListModel->setHeaderData(SIZE, Qt::Horizontal, tr("Size", "i.e: file size"));
+    DLListModel->setHeaderData(PROGRESS, Qt::Horizontal, tr("Progress", "i.e: % downloaded"));
+    DLListModel->setHeaderData(DLSPEED, Qt::Horizontal, tr("Speed", "i.e: Download speed"));
+    DLListModel->setHeaderData(SOURCES, Qt::Horizontal, tr("Sources", "i.e: Sources"));
+    DLListModel->setHeaderData(STATUS, Qt::Horizontal, tr("Status"));
+    DLListModel->setHeaderData(COMPLETED, Qt::Horizontal, tr("Completed", ""));
+    DLListModel->setHeaderData(REMAINING, Qt::Horizontal, tr("Remaining", "i.e: Estimated Time of Arrival / Time left"));
+    ui.downloadList->setModel(DLListModel);
+    DLDelegate = new DLListDelegate();
+    ui.downloadList->setItemDelegate(DLDelegate);
   
-    /* Set header resize modes and initial section sizes Downloads TreeWidget*/
-	QHeaderView * _header = ui.downtreeWidget->header () ;
+  	//Selection Setup
+	selection = ui.downloadList->selectionModel();
+  
+    /* Set header resize modes and initial section sizes Downloads TreeView*/
+	QHeaderView * _header = ui.downloadList->header () ;
    	_header->setResizeMode (0, QHeaderView::Interactive);
 	_header->setResizeMode (1, QHeaderView::Interactive);
 	_header->setResizeMode (2, QHeaderView::Interactive);
@@ -70,18 +79,35 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	_header->setResizeMode (5, QHeaderView::Interactive);
 	_header->setResizeMode (6, QHeaderView::Interactive);
 	_header->setResizeMode (7, QHeaderView::Interactive);
+
     
 	_header->resizeSection ( 0, 100 );
 	_header->resizeSection ( 1, 100 );
-	_header->resizeSection ( 2, 100 );
+	_header->resizeSection ( 2, 170 );
 	_header->resizeSection ( 3, 100 );
 	_header->resizeSection ( 4, 100 );
 	_header->resizeSection ( 5, 100 );
 	_header->resizeSection ( 6, 100 );
 	_header->resizeSection ( 7, 100 );
 	
-	/* Set header resize modes and initial section sizes Uploads TreeWidget*/
-	QHeaderView * upheader = ui.uptreeWidget->header () ;
+	// Set Upload list model
+    ULListModel = new QStandardItemModel(0,6);
+    ULListModel->setHeaderData(UNAME, Qt::Horizontal, tr("Name", "i.e: file name"));
+    ULListModel->setHeaderData(USIZE, Qt::Horizontal, tr("Size", "i.e: file size"));
+    ULListModel->setHeaderData(USERNAME, Qt::Horizontal, tr("User Name", "i.e: user name"));
+    ULListModel->setHeaderData(UPROGRESS, Qt::Horizontal, tr("Progress", "i.e: % uploaded"));
+    ULListModel->setHeaderData(ULSPEED, Qt::Horizontal, tr("Speed", "i.e: upload speed"));
+    ULListModel->setHeaderData(USTATUS, Qt::Horizontal, tr("Status"));
+    ULListModel->setHeaderData(UTRANSFERRED, Qt::Horizontal, tr("Transferred", ""));
+    ui.uploadsList->setModel(ULListModel);
+    ULDelegate = new ULListDelegate();
+    ui.uploadsList->setItemDelegate(ULDelegate);
+  
+  	//Selection Setup
+	selection = ui.uploadsList->selectionModel();
+	
+	/* Set header resize modes and initial section sizes Uploads TreeView*/
+	QHeaderView * upheader = ui.uploadsList->header () ;
 	upheader->setResizeMode (0, QHeaderView::Interactive);
 	upheader->setResizeMode (1, QHeaderView::Interactive);
 	upheader->setResizeMode (2, QHeaderView::Interactive);
@@ -89,7 +115,6 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	upheader->setResizeMode (4, QHeaderView::Interactive);
 	upheader->setResizeMode (5, QHeaderView::Interactive);
 	upheader->setResizeMode (6, QHeaderView::Interactive);
-	upheader->setResizeMode (7, QHeaderView::Interactive);
     
 	upheader->resizeSection ( 0, 100 );
 	upheader->resizeSection ( 1, 100 );
@@ -98,7 +123,6 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	upheader->resizeSection ( 4, 100 );
 	upheader->resizeSection ( 5, 100 );
 	upheader->resizeSection ( 6, 100 );
-	upheader->resizeSection ( 7, 100 );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
@@ -106,7 +130,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 #endif
 }
 
-void TransfersDialog::downtreeWidgetCostumPopupMenu( QPoint point )
+void TransfersDialog::downloadListCostumPopupMenu( QPoint point )
 {
 
       QMenu contextMnu( this );
@@ -137,143 +161,162 @@ void TransfersDialog::showDownInfoWindow()
     detailsdlg->show();
 } 
 
+void TransfersDialog::updateProgress(int value)
+{
+	for(int i = 0; i <= DLListModel->rowCount(); i++) {
+		if(selection->isRowSelected(i, QModelIndex())) {
+			editItem(i, PROGRESS, QVariant((double)value));
+		}
+	}
+}
 
-	/* get the list of Transfers from the RsIface.  */
+TransfersDialog::~TransfersDialog()
+{
+	;
+}
+
+
+
+int TransfersDialog::addItem(QString symbol, QString name, qlonglong fileSize, double progress, double dlspeed, QString sources,  QString status, qlonglong completed, qlonglong remaining)
+{
+	int row;
+	QString sl;
+	//QIcon icon(symbol);
+	name.insert(0, " ");
+	//sl.sprintf("%d / %d", seeds, leechs);
+	row = DLListModel->rowCount();
+	DLListModel->insertRow(row);
+
+	//DLListModel->setData(DLListModel->index(row, NAME), QVariant((QIcon)icon), Qt::DecorationRole);
+	DLListModel->setData(DLListModel->index(row, NAME), QVariant((QString)name), Qt::DisplayRole);
+	DLListModel->setData(DLListModel->index(row, SIZE), QVariant((qlonglong)fileSize));
+	DLListModel->setData(DLListModel->index(row, PROGRESS), QVariant((double)progress));
+	DLListModel->setData(DLListModel->index(row, DLSPEED), QVariant((double)dlspeed));
+	DLListModel->setData(DLListModel->index(row, SOURCES), QVariant((QString)sources));
+	DLListModel->setData(DLListModel->index(row, STATUS), QVariant((QString)status));
+	DLListModel->setData(DLListModel->index(row, COMPLETED), QVariant((qlonglong)completed));
+	DLListModel->setData(DLListModel->index(row, REMAINING), QVariant((qlonglong)remaining));
+	return row;
+}
+
+void TransfersDialog::delItem(int row)
+{
+	DLListModel->removeRow(row, QModelIndex());
+}
+
+void TransfersDialog::editItem(int row, int column, QVariant data)
+{
+	//QIcon *icon;
+	switch(column) {
+		//case SYMBOL:
+		//	icon = new QIcon(data.toString());
+		//	DLListModel->setData(DLListModel->index(row, NAME), QVariant((QIcon)*icon), Qt::DecorationRole);
+		//	delete icon;
+		//	break;
+		case NAME:
+			DLListModel->setData(DLListModel->index(row, NAME), data, Qt::DisplayRole);
+			break;
+		case SIZE:
+			DLListModel->setData(DLListModel->index(row, SIZE), data);
+			break;
+		case PROGRESS:
+			DLListModel->setData(DLListModel->index(row, PROGRESS), data);
+			break;
+		case DLSPEED:
+			DLListModel->setData(DLListModel->index(row, DLSPEED), data);
+			break;
+		case SOURCES:
+			DLListModel->setData(DLListModel->index(row, SOURCES), data);
+			break;
+		case STATUS:
+			DLListModel->setData(DLListModel->index(row, STATUS), data);
+			break;
+		case COMPLETED:
+			DLListModel->setData(DLListModel->index(row, COMPLETED), data);
+			break;
+		case REMAINING:
+			DLListModel->setData(DLListModel->index(row, REMAINING), data);
+			break;
+	}
+}
+
+	/* get the list of Transfers from the RsIface.  **/
 void TransfersDialog::insertTransfers()
 {
+	QString symbol, name, sources, status;
+	qlonglong fileSize, completed, remaining;
+	double progress, dlspeed; 
+
+	//remove all Items 
+	for(int i = DLListModel->rowCount(); i >= 0; i--) 
+	{
+		delItem(i);
+	}
+	
+	
+	//nun aktuelle DownloadListe hinzufügen
 	rsiface->lockData(); /* Lock Interface */
 
 	std::list<FileTransferInfo>::const_iterator it;
 	const std::list<FileTransferInfo> &transfers = rsiface->getTransferList();
 
-	/* get a link to the table */
-        QTreeWidget *transferWidget = ui.downtreeWidget;
-
-	/* remove old items ??? */
-
-        QList<QTreeWidgetItem *> items;
-	for(it = transfers.begin(); it != transfers.end(); it++)
+	for(it = transfers.begin(); it != transfers.end(); it++) 
 	{
-		/* make a widget per friend */
-           	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
-
-		/* add all the labels */
-		item -> setText(0, QString::fromStdString(it->fname));
-		item -> setText(1, QString::fromStdString(it->source));
-		switch(it->downloadStatus)
+		
+		symbol  	= "";
+		name    	= QString::fromStdString(it->fname);
+		sources  	= QString::fromStdString(it->source);
+		
+		switch(it->downloadStatus) 
 		{
 			/* XXX HAND CODED! */
 			case 0: /* FAILED */
-				item -> setText(4, "Failed");
+				status = "Failed";
 				break;
-			case 1: /* OKAY */
-				item -> setText(4, "OK");
+			case 1: /* Downloading */
+				status = "Downloading";
 				break;
-			case 2: /* Downloading */
-				item -> setText(4, "Downloading");
-				break;
-		    case 3: /* COMPLETE */
+		    case 2: /* COMPLETE */
 			default:
-				item -> setText(4, "Complete");
+				status = "Complete";
 				break;
-		}
-		{
-			std::ostringstream out;
-			out << it -> tfRate << " kB/s";
-			item -> setText(2, QString::fromStdString(out.str()));
-		}
-		{
-			std::ostringstream out;
-			out << (it -> transfered * 100.0 / it -> size) << "%";
-			item -> setText(3, QString::fromStdString(out.str()));
-			//m_pProgressBar->setValue(it -> transfered * 100.0 / it -> size);
-		}
-		{
-			std::ostringstream out;
-		    out << (it -> transfered * 100.0 / it -> size) << "%";
-			item -> setText(5, QString::fromStdString(out.str()));
+		
+        }
+        
+		dlspeed  	= it->tfRate * 1024.0;
+		fileSize 	= it->size;
+		completed 	= it->transfered;
+		progress 	= it->transfered * 100.0 / it->size;
+		remaining   = (it->size - it->transfered) / (it->tfRate * 1024.0);
 
-		}
-		{
-			std::ostringstream out;
-            out << it -> size;
-			item -> setText(6, QString::fromStdString(out.str()));
-		}
-		{
-			std::ostringstream out;
-			out << it -> transfered << "/" << it -> size << " Bytes";
-			item -> setText(7, QString::fromStdString(out.str()));
-		}
-		{
-			std::ostringstream out;
-			out << it -> id;
-			item -> setText(8, QString::fromStdString(out.str()));
-		}
-
-		/* change background */
-		int i;
-		switch(it->downloadStatus)
-		{
-			/* XXX HAND CODED! */
-			case 0: /* FAILED */
-				for(i = 0; i < 10; i++)
-				{
-				  item -> setBackground(i,QBrush(Qt::red));
-				}
-				break;
-			case 1: /* OKAY */
-				if (it->tfRate > 0)
-				{
-				  for(i = 0; i < 10; i++)
-				  {
-				  item -> setBackground(i,QBrush(Qt::cyan));
-				  }
-				}
-				else
-				{
-				  for(i = 0; i < 10; i++)
-				  {
-				  item -> setBackground(i,QBrush(Qt::lightGray));
-				  }
-				}
-				break;
-			case 2: /* COMPLETE */
-			default:
-				for(i = 0; i < 10; i++)
-				{
-				  item -> setBackground(i,QBrush(Qt::green));
-				}
-		}
-									
-
-		/* add to the list */
-		items.append(item);
+		
+		//?? 
+		std::ostringstream out;
+		out << it -> id;
+		
+		addItem(symbol, name, fileSize, progress, dlspeed, sources,  status, completed, remaining);
 	}
-
-	/* add the items in! */
-	transferWidget->clear();
-	transferWidget->insertTopLevelItems(0, items);
 
 	rsiface->unlockData(); /* UnLock Interface */
 }
 
 /* Utility Fns */
-std::string getFileRsCertId(QTreeWidgetItem *i)
-{
-	std::string id = (i -> text(7)).toStdString();
-	return id;
-}
+//std::string getFileRsCertId(QTreeWidgetItem *i)
+//{
+//	std::string id = (i -> text(7)).toStdString();
+//	return id;
+//}
 
-std::string getFileName(QTreeWidgetItem *i)
-{
-	std::string id = (i -> text(0)).toStdString();
-	return id;
-}
+//std::string getFileName(QTreeWidgetItem *i)
+//{
+//	std::string id = (i -> text(0)).toStdString();
+//	return id;
+//}
 
 /** Open a QFileDialog to browse for export a file. */
 void TransfersDialog::cancel()
 {
-        QTreeWidgetItem *c = getCurrentPeer();
+    /*    DLListModel *c = getCurrentPeer();
         std::cerr << "TransfersDialog::cancel()" << std::endl;
 	if (!c)
 	{
@@ -289,12 +332,12 @@ void TransfersDialog::cancel()
         	std::cerr << "TransfersDialog::cancel(): " << file << std::endl;
         	std::cerr << std::endl;
 		rsicontrol->FileCancel(id, file);
-	}
+	}*/
 }
 
 void TransfersDialog::clearcompleted()
 {
-        std::cerr << "TransfersDialog::clearcompleted()" << std::endl;
+    std::cerr << "TransfersDialog::clearcompleted()" << std::endl;
 	rsicontrol->FileClearCompleted();
 }
 
@@ -304,16 +347,16 @@ QTreeWidgetItem *TransfersDialog::getCurrentPeer()
 	/* get the current, and extract the Id */
 
 	/* get a link to the table */
-        QTreeWidget *peerWidget = ui.downtreeWidget;
+    /*    QTreeWidget *peerWidget = ui.downloadList;
         QTreeWidgetItem *item = peerWidget -> currentItem();
         if (!item)
         {
 		std::cerr << "Invalid Current Item" << std::endl;
 		return NULL;
-	}
+	}*/
 
 	/* Display the columns of this item. */
-	std::ostringstream out;
+	/* std::ostringstream out;
         out << "CurrentPeerItem: " << std::endl;
 
 	for(int i = 0; i < 5; i++)
@@ -323,6 +366,7 @@ QTreeWidgetItem *TransfersDialog::getCurrentPeer()
 	}
 	std::cerr << out.str();
 	return item;
+	*/
 }
 
 
