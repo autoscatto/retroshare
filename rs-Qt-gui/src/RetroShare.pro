@@ -40,6 +40,8 @@ HEADERS += rshare.h \
            config/rshareSettings.h \
            control/bandwidthevent.h \
            control/eventtype.h \
+           gui/DLListDelegate.h \
+           gui/ULListDelegate.h \
            gui/StartDialog.h \
            gui/ChatDialog.h \
            gui/NetworkDialog.h \
@@ -158,6 +160,8 @@ SOURCES += main.cpp \
            rsiface/notifyqt.cpp \
            rsiface/RemoteDirModel.cpp \
            config/rshareSettings.cpp \
+           gui/DLListDelegate.cpp \
+           gui/ULListDelegate.cpp \
            gui/StartDialog.cpp \
            gui/GenCertDialog.cpp \
            gui/ChatDialog.cpp \
