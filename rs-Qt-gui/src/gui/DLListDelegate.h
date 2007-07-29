@@ -33,6 +33,7 @@
 #define STATUS 5
 #define COMPLETED 6
 #define REMAINING 7
+#define ID 8
 
 
 #define MAX_CHAR_TMP 128

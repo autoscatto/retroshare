@@ -27,6 +27,7 @@
 #include <QtGui>
 #include <QObject>
 #include <QModelIndex>
+#include <QVariant>
 
 #include "mainpage.h"
 #include "ui_TransfersDialog.h"
@@ -63,8 +64,6 @@ private slots:
  
 
 private:
-  QTreeWidgetItem* getCurrentPeer();
-  
   		QStandardItemModel *DLListModel;
   		QStandardItemModel *ULListModel;
 		QItemSelectionModel *selection;
@@ -96,11 +95,19 @@ private:
   Ui::TransfersDialog ui;
   
 public slots:
-
-		int addItem(QString symbol, QString name, qlonglong size, double progress, double dlspeed, QString sources, QString status, qlonglong completed, qlonglong remaining);
+		int addItem(QString symbol, QString name, QString coreID, qlonglong size, double progress, double dlspeed, QString sources, QString status, qlonglong completed, qlonglong remaining);
 		void delItem(int row);
 		void editItem(int row, int column, QVariant data);
 		void updateProgress(int value);
+		
+		double getProgress(int row, QStandardItemModel *model);
+		double getSpeed(int row, QStandardItemModel *model);
+		QString getFileName(int row, QStandardItemModel *model);
+		QString getStatus(int row, QStandardItemModel *model);
+		QString getID(int row, QStandardItemModel *model);
+		qlonglong getFileSize(int row, QStandardItemModel *model);
+		qlonglong getTransfered(int row, QStandardItemModel *model);
+		qlonglong getRemainingTime(int row, QStandardItemModel *model);
 };
 
 #endif

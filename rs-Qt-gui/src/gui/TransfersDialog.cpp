@@ -62,9 +62,12 @@ TransfersDialog::TransfersDialog(QWidget *parent)
     DLListModel->setHeaderData(STATUS, Qt::Horizontal, tr("Status"));
     DLListModel->setHeaderData(COMPLETED, Qt::Horizontal, tr("Completed", ""));
     DLListModel->setHeaderData(REMAINING, Qt::Horizontal, tr("Remaining", "i.e: Estimated Time of Arrival / Time left"));
+	DLListModel->setHeaderData(ID, Qt::Horizontal, tr("Core-ID"));
     ui.downloadList->setModel(DLListModel);
+	ui.downloadList->hideColumn(ID);
     DLDelegate = new DLListDelegate();
     ui.downloadList->setItemDelegate(DLDelegate);
+	
   
   	//Selection Setup
 	selection = ui.downloadList->selectionModel();
@@ -104,7 +107,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
     ui.uploadsList->setItemDelegate(ULDelegate);
   
   	//Selection Setup
-	selection = ui.uploadsList->selectionModel();
+	//selection = ui.uploadsList->selectionModel();
 	
 	/* Set header resize modes and initial section sizes Uploads TreeView*/
 	QHeaderView * upheader = ui.uploadsList->header () ;
@@ -177,7 +180,7 @@ TransfersDialog::~TransfersDialog()
 
 
 
-int TransfersDialog::addItem(QString symbol, QString name, qlonglong fileSize, double progress, double dlspeed, QString sources,  QString status, qlonglong completed, qlonglong remaining)
+int TransfersDialog::addItem(QString symbol, QString name, QString coreID, qlonglong fileSize, double progress, double dlspeed, QString sources,  QString status, qlonglong completed, qlonglong remaining)
 {
 	int row;
 	QString sl;
@@ -196,6 +199,7 @@ int TransfersDialog::addItem(QString symbol, QString name, qlonglong fileSize, d
 	DLListModel->setData(DLListModel->index(row, STATUS), QVariant((QString)status));
 	DLListModel->setData(DLListModel->index(row, COMPLETED), QVariant((qlonglong)completed));
 	DLListModel->setData(DLListModel->index(row, REMAINING), QVariant((qlonglong)remaining));
+	DLListModel->setData(DLListModel->index(row, ID), QVariant((QString)coreID));
 	return row;
 }
 
@@ -237,13 +241,16 @@ void TransfersDialog::editItem(int row, int column, QVariant data)
 		case REMAINING:
 			DLListModel->setData(DLListModel->index(row, REMAINING), data);
 			break;
+		case ID:
+			DLListModel->setData(DLListModel->index(row, ID), data);
+			break;
 	}
 }
 
 	/* get the list of Transfers from the RsIface.  **/
 void TransfersDialog::insertTransfers()
 {
-	QString symbol, name, sources, status;
+	QString symbol, name, sources, status, coreId;
 	qlonglong fileSize, completed, remaining;
 	double progress, dlspeed; 
 
@@ -264,8 +271,13 @@ void TransfersDialog::insertTransfers()
 	{
 		
 		symbol  	= "";
+		coreId		= "";
 		name    	= QString::fromStdString(it->fname);
 		sources  	= QString::fromStdString(it->source);
+		std::ostringstream out;
+		out << it->id;
+		//coreId.sprintf("%s", out);
+		//coreId		= QString::fromStdString(it->id);
 		
 		switch(it->downloadStatus) 
 		{
@@ -288,51 +300,23 @@ void TransfersDialog::insertTransfers()
 		completed 	= it->transfered;
 		progress 	= it->transfered * 100.0 / it->size;
 		remaining   = (it->size - it->transfered) / (it->tfRate * 1024.0);
-
 		
-		//?? 
-		std::ostringstream out;
-		out << it -> id;
-		
-		addItem(symbol, name, fileSize, progress, dlspeed, sources,  status, completed, remaining);
+		addItem(symbol, name, coreId, fileSize, progress, dlspeed, sources,  status, completed, remaining);
 	}
 
 	rsiface->unlockData(); /* UnLock Interface */
 }
 
-/* Utility Fns */
-//std::string getFileRsCertId(QTreeWidgetItem *i)
-//{
-//	std::string id = (i -> text(7)).toStdString();
-//	return id;
-//}
-
-//std::string getFileName(QTreeWidgetItem *i)
-//{
-//	std::string id = (i -> text(0)).toStdString();
-//	return id;
-//}
-
-/** Open a QFileDialog to browse for export a file. */
 void TransfersDialog::cancel()
 {
-    /*    DLListModel *c = getCurrentPeer();
-        std::cerr << "TransfersDialog::cancel()" << std::endl;
-	if (!c)
-	{
-        	std::cerr << "TransfersDialog::cancel()";
-        	std::cerr << "Noone Selected -- sorry" << std::endl;
-		return;
+	for(int i = 0; i <= DLListModel->rowCount(); i++) {
+		if(selection->isRowSelected(i, QModelIndex())) {
+			std::string id = getID(i, DLListModel).toStdString();
+			std::string name = getFileName(i, DLListModel).toStdString();
+			rsicontrol->FileCancel(id, name);
+			delItem(i);
+		}
 	}
-
-	std::string id = getFileRsCertId(c);
-	std::string file = getFileName(c);
-	if (file != "")
-	{
-        	std::cerr << "TransfersDialog::cancel(): " << file << std::endl;
-        	std::cerr << std::endl;
-		rsicontrol->FileCancel(id, file);
-	}*/
 }
 
 void TransfersDialog::clearcompleted()
@@ -341,33 +325,45 @@ void TransfersDialog::clearcompleted()
 	rsicontrol->FileClearCompleted();
 }
 
-
-QTreeWidgetItem *TransfersDialog::getCurrentPeer()
+double TransfersDialog::getProgress(int row, QStandardItemModel *model)
 {
-	/* get the current, and extract the Id */
-
-	/* get a link to the table */
-    /*    QTreeWidget *peerWidget = ui.downloadList;
-        QTreeWidgetItem *item = peerWidget -> currentItem();
-        if (!item)
-        {
-		std::cerr << "Invalid Current Item" << std::endl;
-		return NULL;
-	}*/
-
-	/* Display the columns of this item. */
-	/* std::ostringstream out;
-        out << "CurrentPeerItem: " << std::endl;
-
-	for(int i = 0; i < 5; i++)
-	{
-		QString txt = item -> text(i);
-		out << "\t" << i << ":" << txt.toStdString() << std::endl;
-	}
-	std::cerr << out.str();
-	return item;
-	*/
+	return model->data(model->index(row, PROGRESS), Qt::DisplayRole).toDouble();
 }
 
+double TransfersDialog::getSpeed(int row, QStandardItemModel *model)
+{
+	return model->data(model->index(row, DLSPEED), Qt::DisplayRole).toDouble();
+}
 
+QString TransfersDialog::getFileName(int row, QStandardItemModel *model)
+{
+	return model->data(model->index(row, NAME), Qt::DisplayRole).toString();
+}
 
+QString TransfersDialog::getStatus(int row, QStandardItemModel *model)
+{
+	return model->data(model->index(row, STATUS), Qt::DisplayRole).toString();
+}
+
+QString TransfersDialog::getID(int row, QStandardItemModel *model)
+{
+	return model->data(model->index(row, ID), Qt::DisplayRole).toString();
+}
+
+qlonglong TransfersDialog::getFileSize(int row, QStandardItemModel *model)
+{
+	bool ok = false;
+	return model->data(model->index(row, SIZE), Qt::DisplayRole).toULongLong(&ok);
+}
+
+qlonglong TransfersDialog::getTransfered(int row, QStandardItemModel *model)
+{
+	bool ok = false;
+	return model->data(model->index(row, COMPLETED), Qt::DisplayRole).toULongLong(&ok);
+}
+
+qlonglong TransfersDialog::getRemainingTime(int row, QStandardItemModel *model)
+{
+	bool ok = false;
+	return model->data(model->index(row, REMAINING), Qt::DisplayRole).toULongLong(&ok);
+}
