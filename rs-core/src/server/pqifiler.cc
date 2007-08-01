@@ -45,7 +45,7 @@ const int pqifilerzone = 86539;
  *
  */
 
-const int PQIFILE_OFFLINE_CHECK  = 300; /* check every 5 minutes */
+const int PQIFILE_OFFLINE_CHECK  = 120; /* check every 2 minutes */
 const int PQIFILE_DOWNLOAD_TIMEOUT  = 60; /* time it out, -> offline after 60 secs */
 const int PQIFILE_DOWNLOAD_CHECK    = 10; /* desired delta = 10 secs */
 const int PQIFILE_DOWNLOAD_TOO_FAST = 8; /* 8 secs */

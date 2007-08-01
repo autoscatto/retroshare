@@ -1,8 +1,8 @@
 ####
 #Define OS.
 #
-#OS = Linux
-OS = Cygwin
+OS = Linux
+#OS = Cygwin
 #OS = Win # MinGw.
 #
 #

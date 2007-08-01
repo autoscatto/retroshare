@@ -1645,6 +1645,12 @@ int	pqissl::connectInterface(struct sockaddr_in &addr)
 	//net_attempt;    0x01   0x02  0x04
 	//net_failure;    0x01   0x02  0x04
         //net_unreachable;
+	
+	{
+		std::ostringstream out;
+		out << "pqissl::connectInterface() for: " << sslcert->Name();
+  		pqioutput(PQL_WARNING, pqisslzone, out.str());
+	}
 
 	if ((net_unreachable & PQISSL_LOCAL_FLAG) ||
 		(net_failure & PQISSL_LOCAL_FLAG) ||

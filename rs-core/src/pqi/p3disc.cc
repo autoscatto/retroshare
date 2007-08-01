@@ -1838,12 +1838,13 @@ int 	p3disc::distillData()
 					cert_both = c -> lr_timestamp;
 				}
 
-				int log_delta;
+				int log_delta = -1; /* invalid log */
 				if (mr_both > cert_both)
 				{
 					log_delta = (int) log10((double) (mr_both - cert_both));
 				}
 
+				/* if a peer has connected more recently than us */
 				if (log_delta > 3) // or > 10000 (secs), or ~3 hours.
 				{
 			  		out << "\tUpdating OLD Addresses:" << std::endl;
@@ -1950,7 +1951,7 @@ int	p3disc::save_configuration()
 
 int	p3disc::load_configuration()
 {
-	unsigned int i;
+	unsigned int i = 0;
 
 	if (sroot == NULL)
 		return -1;

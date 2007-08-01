@@ -53,7 +53,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
     connect( ui.downloadList, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( downloadListCostumPopupMenu( QPoint ) ) );
 
     // Set Download list model
-    DLListModel = new QStandardItemModel(0,8);
+    DLListModel = new QStandardItemModel(0,9);
     DLListModel->setHeaderData(NAME, Qt::Horizontal, tr("Name", "i.e: file name"));
     DLListModel->setHeaderData(SIZE, Qt::Horizontal, tr("Size", "i.e: file size"));
     DLListModel->setHeaderData(PROGRESS, Qt::Horizontal, tr("Progress", "i.e: % downloaded"));
@@ -62,7 +62,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
     DLListModel->setHeaderData(STATUS, Qt::Horizontal, tr("Status"));
     DLListModel->setHeaderData(COMPLETED, Qt::Horizontal, tr("Completed", ""));
     DLListModel->setHeaderData(REMAINING, Qt::Horizontal, tr("Remaining", "i.e: Estimated Time of Arrival / Time left"));
-	DLListModel->setHeaderData(ID, Qt::Horizontal, tr("Core-ID"));
+    DLListModel->setHeaderData(ID, Qt::Horizontal, tr("Core-ID"));
     ui.downloadList->setModel(DLListModel);
 	ui.downloadList->hideColumn(ID);
     DLDelegate = new DLListDelegate();
@@ -82,6 +82,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	_header->setResizeMode (5, QHeaderView::Interactive);
 	_header->setResizeMode (6, QHeaderView::Interactive);
 	_header->setResizeMode (7, QHeaderView::Interactive);
+	//_header->setResizeMode (8, QHeaderView::Interactive);
 
     
 	_header->resizeSection ( 0, 100 );
@@ -92,6 +93,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	_header->resizeSection ( 5, 100 );
 	_header->resizeSection ( 6, 100 );
 	_header->resizeSection ( 7, 100 );
+	//_header->resizeSection ( 8, 100 );
 	
 	// Set Upload list model
     ULListModel = new QStandardItemModel(0,6);
@@ -276,9 +278,8 @@ void TransfersDialog::insertTransfers()
 		sources  	= QString::fromStdString(it->source);
 		std::ostringstream out;
 		out << it->id;
-		//coreId.sprintf("%s", out);
-		//coreId		= QString::fromStdString(it->id);
-		
+		coreId		= QString::fromStdString(out.str());
+
 		switch(it->downloadStatus) 
 		{
 			/* XXX HAND CODED! */
@@ -286,14 +287,21 @@ void TransfersDialog::insertTransfers()
 				status = "Failed";
 				break;
 			case 1: /* Downloading */
-				status = "Downloading";
+				if (it->tfRate > 0.01)
+				{
+					status = "Downloading";
+				}
+				else
+				{
+					status = "Waiting for Peer";
+				}
 				break;
 		    case 2: /* COMPLETE */
 			default:
 				status = "Complete";
 				break;
 		
-        }
+        	}
         
 		dlspeed  	= it->tfRate * 1024.0;
 		fileSize 	= it->size;
@@ -312,9 +320,13 @@ void TransfersDialog::cancel()
 	for(int i = 0; i <= DLListModel->rowCount(); i++) {
 		if(selection->isRowSelected(i, QModelIndex())) {
 			std::string id = getID(i, DLListModel).toStdString();
-			std::string name = getFileName(i, DLListModel).toStdString();
+			QString  qname = getFileName(i, DLListModel);
+			/* XXX -> Should not have to 'trim' filename ... something wrong here..
+			 * but otherwise, not exact filename .... BUG
+			 */
+			std::string name = (qname.trimmed()).toStdString();
 			rsicontrol->FileCancel(id, name);
-			delItem(i);
+			//delItem(i);
 		}
 	}
 }

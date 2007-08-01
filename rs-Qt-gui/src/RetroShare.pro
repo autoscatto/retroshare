@@ -28,7 +28,6 @@ DEPENDPATH += . \
               gui\toaster \
               gui\authdlg
              
-
 INCLUDEPATH += .
 
 # Input
@@ -258,3 +257,8 @@ win32 {
   CONFIG += qt release"
 
 }
+
+!win32 {
+  LIBS += -L../../../libs -lretroshare -lKadC -lminiupnpc -lssl -lcrypto 
+}
+

@@ -184,12 +184,12 @@ void 	RsServer::run()
 			UpdateAllChat();
 
 	
-			// every ten loops (> 10 secs)
-			if (loop % 10 == 0)
+			// every five loops (> 5 secs)
+			if (loop % 5 == 0)
 			{
 				//	update_quick_stats();
 
-				// Update All Every 10 Seconds.
+				// Update All Every 5 Seconds.
 				// These Update Functions do the locking themselves.
 				//std::cerr << "RsServer::run() Updates()" << std::endl;
 			

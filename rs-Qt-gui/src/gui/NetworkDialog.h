@@ -30,7 +30,7 @@
 #include "mainpage.h"
 #include "ui_NetworkDialog.h"
 
-#include "connect/connectDialog.h"
+#include "connect/ConnectDialog.h"
 
 
 class NetworkDialog : public MainPage 
