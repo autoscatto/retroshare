@@ -49,6 +49,10 @@ int main()
 	dirs.push_back("/incoming/htuyr/Q//");
 	dirs.push_back("/incoming/htuyr/Q/");
 	dirs.push_back("/incoming/htuyr/Q/text");
+	dirs.push_back("/home/tst1//test2///test3/");
+	dirs.push_back("home2/tst4//test5///test6");
+	dirs.push_back("//home3");
+	dirs.push_back("//");
 
 	for(it = dirs.begin(); it != dirs.end(); it++)
 	{

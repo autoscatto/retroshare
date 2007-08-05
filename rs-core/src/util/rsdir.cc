@@ -50,7 +50,7 @@ std::string 	RsDirUtil::getTopDir(std::string dir)
 		top += dir[i];
 	}
 
-	std::cerr << "getTopDir(" << dir << ") -> " << top << std::endl;
+	//std::cerr << "getTopDir(" << dir << ") -> " << top << std::endl;
 	return top;
 }
 
@@ -64,29 +64,21 @@ std::string 	RsDirUtil::removeTopDir(std::string dir)
 	int i,j;
 	int len = dir.length();
 	for(j = len - 1; (j > 0) && (dir[j] == '/'); j--);
-	for(i = j; (i > 0) && (dir[i] != '/'); i--);
+	for(i = j; (i >= 0) && (dir[i] != '/'); i--);
 	if (i == j)
 		return rest; /* empty */
-	if (dir[i] == '/')
-		i++;
 
-	/* topdir (as above) */
-	/* now back past all //'s and well be at end of restDirs */
-	if ((i > 0) && (dir[i-1] == '/'))
-	{
-		i--;
-		for(; (i > 0) && (dir[i] == '/'); i--);
-	}
+	/* remove any more slashes */
+	for(; (i >= 0) && (dir[i] == '/'); i--);
 
 	for(j = 0; j <= i; j++)
 	{
 		rest += dir[j];
 	}
 
-	std::cerr << "removeTopDir(" << dir << ") -> " << rest << std::endl;
+	//std::cerr << "removeTopDir(" << dir << ") -> " << rest << std::endl;
 	return rest;
 }
-
 
 
 std::string 	RsDirUtil::getRootDir(std::string dir)
@@ -109,14 +101,14 @@ std::string 	RsDirUtil::getRootDir(std::string dir)
 		root += dir[i];
 	}
 
-	std::cerr << "getRootDir(" << dir << ") -> " << root << std::endl;
+	//std::cerr << "getRootDir(" << dir << ") -> " << root << std::endl;
 	return root;
 }
 std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
 {
 	/* too tired */
 	std::string notroot;
-	std::cerr << "remoteRootDir( TODO! )";
+	//std::cerr << "remoteRootDir( TODO! )";
 
 	int i = 0, j = 0;
 
@@ -134,12 +126,12 @@ std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
 	/* should have consumed root. */
 	if (j == root.length())
 	{
-		std::cerr << "matched root!" << std::endl;
+		//std::cerr << "matched root!" << std::endl;
 	}
 	else
 	{
-		std::cerr << "failed i: " << i << ", j: " << j << std::endl;
-		std::cerr << "root: " << root << " path: " << path << std::endl;
+		//std::cerr << "failed i: " << i << ", j: " << j << std::endl;
+		//std::cerr << "root: " << root << " path: " << path << std::endl;
 		return notroot;
 	}
 
@@ -153,7 +145,7 @@ std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
 		notroot += path[i];
 	}
 
-	std::cerr << "Found NotRoot: " << notroot << std::endl;
+	//std::cerr << "Found NotRoot: " << notroot << std::endl;
 
 	return notroot;
 }
