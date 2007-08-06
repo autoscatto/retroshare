@@ -74,25 +74,25 @@ TransfersDialog::TransfersDialog(QWidget *parent)
   
     /* Set header resize modes and initial section sizes Downloads TreeView*/
 	QHeaderView * _header = ui.downloadList->header () ;
-   	_header->setResizeMode (0, QHeaderView::Interactive);
-	_header->setResizeMode (1, QHeaderView::Interactive);
-	_header->setResizeMode (2, QHeaderView::Interactive);
-	_header->setResizeMode (3, QHeaderView::Interactive);
-	_header->setResizeMode (4, QHeaderView::Interactive);
-	_header->setResizeMode (5, QHeaderView::Interactive);
-	_header->setResizeMode (6, QHeaderView::Interactive);
-	_header->setResizeMode (7, QHeaderView::Interactive);
+   	_header->setResizeMode (0, QHeaderView::Interactive); /*Name*/
+	_header->setResizeMode (1, QHeaderView::Interactive); /*Size*/
+	_header->setResizeMode (2, QHeaderView::Interactive); /*Progress*/
+	_header->setResizeMode (3, QHeaderView::Interactive); /*Speed*/
+	_header->setResizeMode (4, QHeaderView::Interactive); /*Sources*/
+	_header->setResizeMode (5, QHeaderView::Interactive); /*Status*/
+	_header->setResizeMode (6, QHeaderView::Interactive); /*Completed*/
+	_header->setResizeMode (7, QHeaderView::Interactive); /*Remaining */
 	//_header->setResizeMode (8, QHeaderView::Interactive);
 
     
-	_header->resizeSection ( 0, 100 );
-	_header->resizeSection ( 1, 100 );
-	_header->resizeSection ( 2, 170 );
-	_header->resizeSection ( 3, 100 );
-	_header->resizeSection ( 4, 100 );
-	_header->resizeSection ( 5, 100 );
-	_header->resizeSection ( 6, 100 );
-	_header->resizeSection ( 7, 100 );
+	_header->resizeSection ( 0, 100 ); /*Name*/
+	_header->resizeSection ( 1, 100 ); /*Size*/
+	_header->resizeSection ( 2, 170 ); /*Progress*/
+	_header->resizeSection ( 3, 100 ); /*Speed*/
+	_header->resizeSection ( 4, 100 ); /*Sources*/
+	_header->resizeSection ( 5, 100 ); /*Status*/
+	_header->resizeSection ( 6, 100 ); /*Completed*/
+	_header->resizeSection ( 7, 100 ); /*Remaining */
 	//_header->resizeSection ( 8, 100 );
 	
 	// Set Upload list model
@@ -113,21 +113,21 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	
 	/* Set header resize modes and initial section sizes Uploads TreeView*/
 	QHeaderView * upheader = ui.uploadsList->header () ;
-	upheader->setResizeMode (0, QHeaderView::Interactive);
-	upheader->setResizeMode (1, QHeaderView::Interactive);
-	upheader->setResizeMode (2, QHeaderView::Interactive);
-	upheader->setResizeMode (3, QHeaderView::Interactive);
-	upheader->setResizeMode (4, QHeaderView::Interactive);
-	upheader->setResizeMode (5, QHeaderView::Interactive);
-	upheader->setResizeMode (6, QHeaderView::Interactive);
+	upheader->setResizeMode (0, QHeaderView::Interactive); /*Name */
+	upheader->setResizeMode (1, QHeaderView::Interactive); /*Size */
+	upheader->setResizeMode (2, QHeaderView::Interactive); /*User Name*/
+	upheader->setResizeMode (3, QHeaderView::Interactive); /*Progress*/
+	upheader->setResizeMode (4, QHeaderView::Interactive); /*Speed */
+	upheader->setResizeMode (5, QHeaderView::Interactive); /*Status*/
+	upheader->setResizeMode (6, QHeaderView::Interactive); /*Transferred*/
     
-	upheader->resizeSection ( 0, 100 );
-	upheader->resizeSection ( 1, 100 );
-	upheader->resizeSection ( 2, 100 );
-	upheader->resizeSection ( 3, 100 );
-	upheader->resizeSection ( 4, 100 );
-	upheader->resizeSection ( 5, 100 );
-	upheader->resizeSection ( 6, 100 );
+	upheader->resizeSection ( 0, 100 ); /*Name */
+	upheader->resizeSection ( 1, 100 ); /*Size */
+	upheader->resizeSection ( 2, 100 ); /*User Name*/
+	upheader->resizeSection ( 3, 100 ); /*Progress*/
+	upheader->resizeSection ( 4, 100 ); /*Speed */
+	upheader->resizeSection ( 5, 100 ); /*Status*/
+	upheader->resizeSection ( 6, 100 ); /*Transferred*/
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
