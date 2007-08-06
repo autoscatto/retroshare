@@ -53,6 +53,10 @@ int main()
 	dirs.push_back("home2/tst4//test5///test6");
 	dirs.push_back("//home3");
 	dirs.push_back("//");
+	dirs.push_back("A");
+	dirs.push_back("ABC");
+	dirs.push_back("////ABC////");
+	dirs.push_back("A/B/C");
 
 	for(it = dirs.begin(); it != dirs.end(); it++)
 	{

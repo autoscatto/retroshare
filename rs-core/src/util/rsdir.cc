@@ -40,8 +40,7 @@ std::string 	RsDirUtil::getTopDir(std::string dir)
 	int len = dir.length();
 	for(j = len - 1; (j > 0) && (dir[j] == '/'); j--);
 	for(i = j; (i > 0) && (dir[i] != '/'); i--);
-	if (i == j)
-		return top; /* empty */
+
 	if (dir[i] == '/')
 		i++;
 
@@ -50,7 +49,6 @@ std::string 	RsDirUtil::getTopDir(std::string dir)
 		top += dir[i];
 	}
 
-	//std::cerr << "getTopDir(" << dir << ") -> " << top << std::endl;
 	return top;
 }
 
@@ -65,8 +63,6 @@ std::string 	RsDirUtil::removeTopDir(std::string dir)
 	int len = dir.length();
 	for(j = len - 1; (j > 0) && (dir[j] == '/'); j--);
 	for(i = j; (i >= 0) && (dir[i] != '/'); i--);
-	if (i == j)
-		return rest; /* empty */
 
 	/* remove any more slashes */
 	for(; (i >= 0) && (dir[i] == '/'); i--);
@@ -76,7 +72,6 @@ std::string 	RsDirUtil::removeTopDir(std::string dir)
 		rest += dir[j];
 	}
 
-	//std::cerr << "removeTopDir(" << dir << ") -> " << rest << std::endl;
 	return rest;
 }
 
@@ -150,11 +145,4 @@ std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
 	return notroot;
 }
 
-std::string 	RsDirUtil::getRootDir2(std::string)
-{
-	/* too tired */
-	std::string notroot;
-	std::cerr << "remoteRootDir( TODO! )";
-	return notroot;
-}
 
