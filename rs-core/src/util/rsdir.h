@@ -29,6 +29,7 @@
 #define RSUTIL_DIRFNS_H
 
 #include <string>
+#include <list>
 
 class RsDirUtil
 {
@@ -37,13 +38,10 @@ static std::string 	getTopDir(std::string);
 static std::string 	getRootDir(std::string);
 static std::string 	removeRootDir(std::string path, std::string root);
 static std::string      removeTopDir(std::string dir);
-
-std::string 	getRootDir2(std::string);
+static int     		breakupDirList(std::string path,
+                        	std::list<std::string> &subdirs);
 
 };
-
-
-
 
 	
 #endif

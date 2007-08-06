@@ -146,3 +146,29 @@ std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
 }
 
 
+
+int	RsDirUtil::breakupDirList(std::string path, 
+			std::list<std::string> &subdirs)
+{
+	int start = 0;
+	unsigned int i;
+	for(i = 0; i < path.length(); i++)
+	{
+		if (path[i] == '/')
+		{
+			if (i - start > 0)
+			{
+				subdirs.push_back(path.substr(start, i-start));
+			}
+			start = i+1;
+		}
+	}
+	// get the final one.
+	if (i - start > 0)
+	{
+		subdirs.push_back(path.substr(start, i-start));
+	}
+	return 1;
+}
+
+

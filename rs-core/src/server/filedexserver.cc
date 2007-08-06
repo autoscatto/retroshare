@@ -46,12 +46,11 @@
 #include "pqi/pqiarchive.h"
 #include "pqi/pqidebug.h"
 
+#include "util/rsdir.h"
+
 #include <sstream>
 
 const int fldxsrvrzone = 47659;
-
-// This Fn is now exported..... (useful for all).
-int	breakupDirlist(std::string path, std::list<std::string> &subdirs);
 
 
 /* Another little hack ..... unique message Ids
@@ -1128,7 +1127,12 @@ int     filedexserver::save_config()
 	std::list<FileTransferItem *> ftlist = filer -> getStatus();
 	for(fit = ftlist.begin(); fit != ftlist.end(); fit++)
 	{
-		if (pa_out -> SendItem(*fit))
+		/* only write out the okay/uncompleted files */
+		if ((*fit)->state != FT_STATE_OKAY)
+		{
+			delete(*fit);
+		}
+		else if (pa_out -> SendItem(*fit))
 		{
 			written = true;
 		}
@@ -1347,7 +1351,7 @@ int     filedexserver::handleDirectoryResult(PQFileItem *item)
 		base -> lupdated = time(NULL);
 	}
 
-	breakupDirlist(item -> path, subdirs);
+	RsDirUtil::breakupDirList(item -> path, subdirs);
 
 	node = base;
 
@@ -1406,29 +1410,6 @@ int     filedexserver::handleDirectoryResult(PQFileItem *item)
 	}
 
 	printDirectoryListings();
-	return 1;
-}
-
-int	breakupDirlist(std::string path, std::list<std::string> &subdirs)
-{
-	int start = 0;
-	unsigned int i;
-	for(i = 0; i < path.length(); i++)
-	{
-		if (path[i] == '/')
-		{
-			if (i - start > 1)
-			{
-				subdirs.push_back(path.substr(start, i-start));
-			}
-			start = i+1;
-		}
-	}
-	// get the final one.
-	if (i - start > 1)
-	{
-		subdirs.push_back(path.substr(start, i-start));
-	}
 	return 1;
 }
 

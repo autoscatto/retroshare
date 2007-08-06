@@ -74,6 +74,9 @@ bool testRsDirUtils(std::string path)
 	std::string root = RsDirUtil::getRootDir(path);
 	std::string topdirs = RsDirUtil::removeRootDir(path, root);
 	std::string restdirs = RsDirUtil::removeTopDir(path);
+	std::list<std::string> split;
+	std::list<std::string>::iterator it;
+	RsDirUtil::breakupDirList(path, split);
 
 	std::cerr << "\tTop: [" << top << "]";
 	std::cerr << std::endl;
@@ -83,6 +86,12 @@ bool testRsDirUtils(std::string path)
 	std::cerr << "\tRoot: [" << root << "]";
 	std::cerr << std::endl;
 	std::cerr << "\tRemoveRoot: [" << topdirs << "]"; 
+	std::cerr << std::endl;
+	std::cerr << "\tSplit Up "; 
+	for(it = split.begin(); it != split.end(); it++)
+	{
+		std::cerr << ":" << (*it);
+	}
 	std::cerr << std::endl;
 	std::cerr << std::endl;
 	return true;

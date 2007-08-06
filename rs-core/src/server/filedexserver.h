@@ -290,9 +290,6 @@ void 	setUPnPEnabled(int i)
 
 };
 
-// Utility Functions... to split up a path into subdirs.
-int     breakupDirlist(std::string path, std::list<std::string> &subdirs);
-
 #endif // MRK_PQI_FILEDEX_SERVER_HEADER
 
 

@@ -27,7 +27,7 @@
 
 
 #include "rsiface/rsiface.h"
-#include "server/filedexserver.h"
+#include "util/rsdir.h"
 			
 const NeighbourInfo *RsIface::getFriend(std::string id)
 {
@@ -98,7 +98,7 @@ DirInfo *RsIface::getDirectoryMod(std::string uid, std::string path)
 	}
 
 	/* have the correct person now */
-	breakupDirlist(path, subdirs);
+	RsDirUtil::breakupDirList(path, subdirs);
 
 	DirInfo *node = &(pi -> rootdir);
 
