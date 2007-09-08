@@ -74,6 +74,11 @@ int main(int argc, char *argv[])
 		while(sd -> isVisible())
 		{
 			rshare.processEvents();
+#ifdef __LINUX__
+			usleep(10000);
+#else // WIN32
+			Sleep(10);
+#endif
 		}
 	}
 	else

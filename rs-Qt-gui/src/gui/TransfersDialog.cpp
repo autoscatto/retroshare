@@ -96,7 +96,7 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	//_header->resizeSection ( 8, 100 );
 	
 	// Set Upload list model
-    ULListModel = new QStandardItemModel(0,6);
+    ULListModel = new QStandardItemModel(0,7);
     ULListModel->setHeaderData(UNAME, Qt::Horizontal, tr("Name", "i.e: file name"));
     ULListModel->setHeaderData(USIZE, Qt::Horizontal, tr("Size", "i.e: file size"));
     ULListModel->setHeaderData(USERNAME, Qt::Horizontal, tr("User Name", "i.e: user name"));

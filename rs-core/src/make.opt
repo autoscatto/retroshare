@@ -45,7 +45,7 @@ else
     PTHREADS_DIR=$(CYGWIN_SRC_ROOT)/pthreads/pthreads.2
     KADC_DIR=$(CYGWIN_SRC_ROOT)/debug/KadC-2006-Oct-19
     ZLIB_DIR=$(CYGWIN_SRC_ROOT)/zlib-1.2.3
-    UPNPC_DIR=$(CYGWIN_SRC_ROOT)/miniupnpc-20070515
+    UPNPC_DIR=$(CYGWIN_SRC_ROOT)/libs/src/miniupnpc-20070515
 
   else
 
