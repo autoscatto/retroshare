@@ -1031,12 +1031,10 @@ int 	pqissl::Extract_Failed_SSL_Certificate()
 	//      (pqissl's case) sslcert->serveraddr or sslcert->localaddr.
 /**************** PQI_USE_XPGP ******************/
 #if defined(PQI_USE_XPGP)
-	//cert *npc = sslccr -> registerCertificateXPGP(peercert, sslcert -> serveraddr, false);
-	cert *npc = sslccr -> registerCertificateXPGP(peercert, remote_addr, false);
+	sslccr -> registerCertificateXPGP(peercert, remote_addr, false);
 #else /* X509 Certificates */
 /**************** PQI_USE_XPGP ******************/
-	//cert *npc = sslccr -> registerCertificate(peercert, sslcert -> serveraddr, false);
-	cert *npc = sslccr -> registerCertificate(peercert, remote_addr, false);
+	sslccr -> registerCertificate(peercert, remote_addr, false);
 #endif /* X509 Certificates */
 /**************** PQI_USE_XPGP ******************/
 

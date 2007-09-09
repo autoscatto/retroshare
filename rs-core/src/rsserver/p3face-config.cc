@@ -223,7 +223,7 @@ int     RsServer::ConfigSetExtName( std::string addr )
 	iface.lockData(); /* LOCK */
 
 	/* a little rough and ready, should be moved to the server! */
-	cert *c = sslr -> getOwnCert();
+	//cert *c = sslr -> getOwnCert();
 
 	/* set the Name here */
 		

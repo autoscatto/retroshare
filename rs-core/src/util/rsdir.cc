@@ -105,7 +105,7 @@ std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
 	std::string notroot;
 	//std::cerr << "remoteRootDir( TODO! )";
 
-	int i = 0, j = 0;
+	unsigned int i = 0, j = 0;
 
 	/* catch empty data */
 	if ((root.length() < 1) || (path.length() < 1))

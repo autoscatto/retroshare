@@ -778,7 +778,6 @@ int     filedexserver::removeSearchResults(SearchItem *si)
 int     filedexserver::removeMsgId(unsigned long mid)
 {
 	std::list<MsgItem *>::iterator it;
-	int i;
 
 	for(it = imsg.begin(); it != imsg.end(); it++)
 	{
@@ -813,7 +812,6 @@ int     filedexserver::removeMsgId(unsigned long mid)
 int     filedexserver::markMsgIdRead(unsigned long mid)
 {
 	std::list<MsgItem *>::iterator it;
-	int i;
 
 	for(it = imsg.begin(); it != imsg.end(); it++)
 	{

@@ -58,7 +58,7 @@ int	p3loopback::CancelSearch(SearchItem *item)
 	std::map<int, SearchItem *>::iterator it;
 	std::list<PQFileItem *>::iterator it2;
 
-	int sid = item -> sid;
+	unsigned int sid = item -> sid;
 
 	// Quick Sanity Check.
 	it = searches.find(sid);

@@ -553,7 +553,7 @@ struct in_addr getPreferredInterface() // returns best addr.
 
 	std::list<std::string> addrs =  getLocalInterfaces();
 	std::list<std::string>::iterator it;
-	struct in_addr addr_zero, addr_loop, addr_priv, addr_ext, addr;
+	struct in_addr addr_zero = {0}, addr_loop = {0}, addr_priv = {0}, addr_ext = {0}, addr = {0};
 
 	bool found_zero = false;
 	bool found_loopback = false;

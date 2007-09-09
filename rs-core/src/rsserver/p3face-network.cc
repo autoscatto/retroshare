@@ -191,7 +191,7 @@ int	RsServer::CheckDHT()
 	std::list<cert *> &certs = sslr -> getCertList();
 	
 	std::string emptystr("");
-	int online = 0;
+	//int online = 0;
 
 	for(it = certs.begin(), i = 0; it != certs.end(); it++, i++)
 	{
@@ -256,7 +256,6 @@ int	RsServer::CheckUPnP()
 {
 	lockRsCore(); /* LOCK */
 
-	int i;
 	int ret = 1;
 
 	/* set our internal address to it */

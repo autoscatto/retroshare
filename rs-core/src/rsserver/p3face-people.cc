@@ -286,8 +286,6 @@ int RsServer::FriendTrustSignature(std::string uid, bool trust)
  */
 int RsServer::FriendSetFirewall(std::string uid, bool firewalled, bool forwarded)
 {
-	struct sockaddr_in addr;
-
 	lockRsCore(); /* LOCK */
 	RsCertId id(uid);
 
@@ -555,7 +553,6 @@ int	RsServer::UpdateAllCerts()
 		std::list<cert *> &certs = sslr -> getCertList();
 	
 		std::string emptystr("");
-		int online = 0;
 
 		for(it = certs.begin(), i = 0; 
 				it != certs.end(); it++, i++)

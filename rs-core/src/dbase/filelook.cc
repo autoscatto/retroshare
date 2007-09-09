@@ -266,7 +266,7 @@ void	fileLook::loadDirectory(PQItem *dir)
 	if (err)
 	{
 		std::cerr << "Rejected: root_dir = " << root_dir << std::endl;
-		for(int i = 0; i < root_dir.length(); i++)
+		for(unsigned int i = 0; i < root_dir.length(); i++)
 		{
 			std::cerr << "[" << (int) root_dir[i] << "]:[" << (int) root_dir[i] << "]" << std::endl;
 		}

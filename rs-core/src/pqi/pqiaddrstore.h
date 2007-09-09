@@ -8,6 +8,7 @@
 class pqiAddrStore
 {
 	public:
+	virtual ~pqiAddrStore() { return; }
         /* pqiAddrStore ... called prior to connect */
 	virtual bool    addrFriend(std::string id, struct sockaddr_in &addr, unsigned int &flags) = 0;
 };

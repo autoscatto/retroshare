@@ -511,7 +511,8 @@ int RsServer::StartupRetroShare(RsInit *config)
 	InitNetworking(config->basedir + "/kadc.ini");
 
 	/* Startup this thread! */
-        pthread_t coreId = createThread(*this);
+        //pthread_t coreId = createThread(*this);
+        createThread(*this);
 
 	return 1;
 }

@@ -444,10 +444,10 @@ int 	pqissllistenbase::Extract_Failed_SSL_Certificate(SSL *ssl, struct sockaddr_
 	// false for outgoing....
 /**************** PQI_USE_XPGP ******************/
 #if defined(PQI_USE_XPGP)
-	cert *npc = sslccr -> registerCertificateXPGP(peercert, *inaddr, true);
+	sslccr -> registerCertificateXPGP(peercert, *inaddr, true);
 #else /* X509 Certificates */
 /**************** PQI_USE_XPGP ******************/
-	cert *npc = sslccr -> registerCertificate(peercert, *inaddr, true);
+	sslccr -> registerCertificate(peercert, *inaddr, true);
 #endif /* X509 Certificates */
 /**************** PQI_USE_XPGP ******************/
 

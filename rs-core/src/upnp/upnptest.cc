@@ -7,6 +7,7 @@ int main(int argc, char **argv)
 
 	int id = argc % 3;
 
+	/*********
 	char *fhash1 = "3509426505463458576487";
 	char *hash2 = "1549879882341985914515";
 	char *hash3 = "8743598543269526505434";
@@ -14,6 +15,7 @@ int main(int argc, char **argv)
 	int port1 = 8754;
 	int port2 = 2355;
 	int port3 = 6621;
+	**********/
 
 	std::cerr << "Starting dhttest Id: " << id <<  std::endl;
 /******************************** WINDOWS/UNIX SPECIFIC PART ******************/

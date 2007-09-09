@@ -282,7 +282,7 @@ int main(int argc, char **argv)
 	int bufsize = 1511;
 	char buffer[bufsize];
 	char data[bufsize];
-	int readsize;
+	int readsize = 0;
 
 	tounet_fcntl(0, F_SETFL, O_NONBLOCK);
 	tounet_fcntl(1,F_SETFL,O_NONBLOCK);

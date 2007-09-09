@@ -188,7 +188,7 @@ int pqioutput(unsigned int lvl, int zone, std::string msg)
 				if (0 < setDebugFile(crashfile.c_str()))
 				{
 					fprintf(ofd, "Debug CrashLog:");
-					fprintf(ofd, " retroShare uptime %d secs\n", 
+					fprintf(ofd, " retroShare uptime %ld secs\n", 
 						t-debugTS);
 
 					debugMode = PQI_DEBUG_LOGCRASH;

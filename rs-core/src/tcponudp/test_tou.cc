@@ -262,7 +262,7 @@ int main(int argc, char **argv)
 		/* send data */
 		int bufsize = 15011;
 		char buffer[bufsize];
-		int readsize;
+		int readsize = 0;
 
 		tounet_fcntl(0, F_SETFL, O_NONBLOCK);
 

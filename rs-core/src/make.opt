@@ -30,9 +30,9 @@ OS = Linux
 # My Versions
 ifeq ($(OS),Linux)
   #Linux.
-  SSL_DIR=/home/rmf24/prog/src/openssl/work/openssl-0.9.7g
-  KADC_DIR=/home/rmf24/prog/src/KadC/KadC-2007-Oct-19
-  UPNPC_DIR=/home/rmf24/prog/src/miniupnp/miniupnpc-20070515
+  SSL_DIR=../../../../../../src/openssl-0.9.7g-xpgp-0.1c
+  KADC_DIR=../../../../../../src/KadC
+  UPNPC_DIR=../../../../../../src/miniupnpc-20070515
 else
 ###########################################################################
   ifeq ($(OS),Cygwin)
@@ -117,11 +117,11 @@ else
   INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
 endif
 
-CFLAGS = -Wall -march=i486 -O2 $(INCLUDE) 
+CFLAGS = -Wall -O2 $(INCLUDE) 
 
 RANLIB = ranlib
 LIBRS = ../lib/libretroshare.a
-RSCFLAGS = -Wall -march=i486 -O2 $(INCLUDE) 
+RSCFLAGS = -Wall -O2 $(INCLUDE) 
 
 ifdef PQI_USE_XPGP
 	CFLAGS += -DPQI_USE_XPGP
@@ -158,10 +158,12 @@ ifeq ($(OS),Linux)
 
 	LIBDIR = $(RS_DIR)/lib
 	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto  
+        LIBS +=  -L$(KADC_DIR) -lKadC 
         LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
 	#-lfltk #only needed for old version.
 	
-	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread -lKadC
+	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread 
+        RSLIBS +=  -L$(KADC_DIR) -lKadC 
         RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
 
 	LIBS   += $(XLIB) -ldl -lz

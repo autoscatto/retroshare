@@ -137,7 +137,6 @@ bool upnphandler::initUPnPState()
 {
 	/* allocate memory */
 	uPnPConfigData *upcd = new uPnPConfigData;
-	int i;
 
 	upcd->devlist = upnpDiscover(2000);
 	if(upcd->devlist)
@@ -324,7 +323,6 @@ bool upnphandler::updateUPnP()
 		std::cerr << " eProt: " << eprot1;
 		std::cerr << std::endl;
 
-		bool ok = true;
 		if (!SetRedirectAndTest(&(config -> urls), &(config->data),
 				in_addr, in_port1, eport1, eprot1))
 		{

@@ -676,6 +676,7 @@ int 	pqifiler::requestData(PQFileStatus *item)
 			max_rate = TRANSFER_MODE_FAST_RATE;
 			break;
 		default:
+			max_rate = TRANSFER_MODE_NORMAL_RATE;
 			break;
 	}
 	out << "max rate: " << max_rate;
