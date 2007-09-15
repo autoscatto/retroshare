@@ -62,7 +62,9 @@
 #define IMAGE_CLOSE             ":/images/close_normal.png"
 
 /* uncomment this for release version */
+/****
 #define RS_RELEASE_VERSION    1
+****/
 
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)

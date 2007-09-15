@@ -700,7 +700,7 @@ p, li { white-space: pre-wrap; }
      <property name="orientation" >
       <enum>Qt::Horizontal</enum>
      </property>
-     <widget class="QTableWidget" name="searchtableWidget" >
+     <widget class="QTreeWidget" name="searchResultWidget" >
       <property name="sizePolicy" >
        <sizepolicy>
         <hsizetype>5</hsizetype>
@@ -717,21 +717,21 @@ p, li { white-space: pre-wrap; }
       </property>
       <column>
        <property name="text" >
-        <string>File Name</string>
+       <string>Filename</string>
        </property>
       </column>
       <column>
        <property name="text" >
-        <string>File Size</string>
+       <string>Hash</string>
        </property>
       </column>
       <column>
        <property name="text" >
-        <string>Sources</string>
+       <string>Source</string>
        </property>
       </column>
      </widget>
-     <widget class="QTableWidget" name="searchtableWidget2" >
+     <widget class="QTreeWidget" name="searchSummaryWidget" >
       <property name="sizeIncrement" >
        <size>
         <width>0</width>
@@ -747,20 +747,22 @@ p, li { white-space: pre-wrap; }
       <property name="contextMenuPolicy" >
        <enum>Qt::CustomContextMenu</enum>
       </property>
-      <property name="gridStyle" >
-       <enum>Qt::SolidLine</enum>
-      </property>
       <property name="sortingEnabled" >
        <bool>true</bool>
       </property>
       <column>
        <property name="text" >
-        <string>Search Pattern</string>
+       <string>KeyWords</string>
        </property>
       </column>
       <column>
        <property name="text" >
-        <string>Results</string>
+       <string>Results</string>
+       </property>
+      </column>
+      <column>
+       <property name="text" >
+       <string>Search Id</string>
        </property>
       </column>
      </widget>

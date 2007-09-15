@@ -76,7 +76,7 @@ int main(int argc, char *argv[])
 			rshare.processEvents();
 #ifdef WIN32
 			Sleep(10);
-#else // UNIX
+#else // __LINUX__
 			usleep(10000);
 #endif
 		}
@@ -116,12 +116,12 @@ int main(int argc, char *argv[])
         notify->setChannelsDialog(w.channelsDialog);
         notify->setMessengerWindow(w.messengerWindow);
 
-        rsServer -> StartupRetroShare(config);
-        CleanupRsConfig(config);
-
 	/* save to the global variables */
 	rsiface = iface;
 	rsicontrol = rsServer;
+
+        rsServer -> StartupRetroShare(config);
+        CleanupRsConfig(config);
 
 	/* Startup a Timer to keep the gui's updated */
 	QTimer *timer = new QTimer(&w);

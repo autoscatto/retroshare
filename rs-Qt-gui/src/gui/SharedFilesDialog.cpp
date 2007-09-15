@@ -60,19 +60,19 @@ SharedFilesDialog::SharedFilesDialog(QWidget *parent)
 
 
   model = new RemoteDirModel(true);
-  localModel = new RemoteDirModel(false);
+//  localModel = new RemoteDirModel(false);
   ui.remoteDirTreeView->setModel(model);
-  ui.localDirTreeView->setModel(localModel);
+//  ui.localDirTreeView->setModel(localModel);
 
   connect( ui.remoteDirTreeView, SIGNAL( collapsed(const QModelIndex & ) ),
   	model, SLOT(  collapsed(const QModelIndex & ) ) );
   connect( ui.remoteDirTreeView, SIGNAL( expanded(const QModelIndex & ) ),
   	model, SLOT(  expanded(const QModelIndex & ) ) );
 
-  connect( ui.localDirTreeView, SIGNAL( collapsed(const QModelIndex & ) ),
-  	localModel, SLOT(  collapsed(const QModelIndex & ) ) );
-  connect( ui.localDirTreeView, SIGNAL( expanded(const QModelIndex & ) ),
-  	localModel, SLOT(  expanded(const QModelIndex & ) ) );
+//  connect( ui.localDirTreeView, SIGNAL( collapsed(const QModelIndex & ) ),
+//  	localModel, SLOT(  collapsed(const QModelIndex & ) ) );
+//  connect( ui.localDirTreeView, SIGNAL( expanded(const QModelIndex & ) ),
+//  	localModel, SLOT(  expanded(const QModelIndex & ) ) );
 
   
   /* Set header resize modes and initial section sizes  */
@@ -161,7 +161,7 @@ void SharedFilesDialog::recommendfile()
   std::cerr << std::endl;
 
   QItemSelectionModel *qism = ui.localDirTreeView->selectionModel();
-  localModel -> recommendSelected(qism->selectedIndexes());
+  //localModel -> recommendSelected(qism->selectedIndexes());
 }
 
 
@@ -189,7 +189,7 @@ void  SharedFilesDialog::preModDirectories(bool update_local)
 {
 	if (update_local)
 	{
-		localModel->preMods();
+//		localModel->preMods();
 	}
 	else
 	{
@@ -202,7 +202,7 @@ void  SharedFilesDialog::ModDirectories(bool update_local)
 {
 	if (update_local)
 	{
-		localModel->postMods();
+//		localModel->postMods();
 	}
 	else
 	{

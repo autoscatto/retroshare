@@ -52,13 +52,18 @@ private slots:
   void broadcastonchannel();
   
   void recommendtofriends();
+ 
   
   
   void searchremove();
   
   void searchremoveall();
-  
+
+  void searchKeywords();
+  void selectSearchResults();
+
 private:
+
 
   /** Define the popup menus for the Context menu */
   QMenu* contextMnu;
@@ -73,9 +78,12 @@ private:
   QAction* searchremoveAct;
   QAction* searchremoveallAct;
   
-  QTableWidget *searchtableWidget;
-  QTableWidget *searchtablewidget2;
-  
+  /****
+  QTreeWidget *searchtableWidget;
+  QTreeWidget *searchtablewidget2;
+  ****/
+ 
+  int nextSearchId;
 
   /** Qt Designer generated object */
   Ui::SearchDialog ui;

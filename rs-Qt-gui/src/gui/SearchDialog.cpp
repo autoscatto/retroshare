@@ -24,6 +24,9 @@
 #include "SearchDialog.h"
 #include "rsiface/rsiface.h"
 
+#include <iostream>
+#include <sstream>
+
 #include <QContextMenuEvent>
 #include <QMenu>
 #include <QCursor>
@@ -36,15 +39,21 @@
 
 /** Constructor */
 SearchDialog::SearchDialog(QWidget *parent)
-: MainPage(parent)
+: MainPage(parent), nextSearchId(1)
 {
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
 
-  connect( ui.searchtableWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidgetCostumPopupMenu( QPoint ) ) );
+  connect( ui.searchResultWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidgetCostumPopupMenu( QPoint ) ) );
 
-  connect( ui.searchtableWidget2, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidget2CostumPopupMenu( QPoint ) ) );
+  connect( ui.searchSummaryWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidget2CostumPopupMenu( QPoint ) ) );
 
+  connect( ui.lineEdit, SIGNAL( returnPressed ( void ) ), this, SLOT( searchKeywords( void ) ) );
+  connect( ui.pushButtonsearch, SIGNAL( released ( void ) ), this, SLOT( searchKeywords( void ) ) );
+  //connect( ui.searchSummaryWidget, SIGNAL( itemSelectionChanged ( void ) ), this, SLOT( selectSearchResults( void ) ) );
+
+  connect ( ui.searchSummaryWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * ) ),
+  		this, SLOT( selectSearchResults( void ) ) );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
@@ -130,3 +139,98 @@ void SearchDialog::searchremoveall()
    
    
 }
+
+
+void SearchDialog::searchKeywords()
+{
+
+	std::string txt = (ui.lineEdit->text()).toStdString();
+
+	std::cerr << "SearchDialog::searchKeywords() : " << txt;
+	std::cerr << std::endl;
+
+	/* extract keywords from lineEdit */
+	std::list<std::string> words;
+	
+	words.push_back(txt);
+
+	if (words.size() < 1)
+	{
+		/* ignore */
+		return;
+	}
+
+	/* call to core */
+	std::list<FileDetail> results;
+	rsicontrol -> SearchKeywords(words, results);
+
+	/* translate search results */
+	int searchId = nextSearchId++;
+	std::ostringstream out;
+	out << searchId;
+
+	std::list<FileDetail>::iterator it;
+	for(it = results.begin(); it != results.end(); it++)
+	{
+		QTreeWidgetItem *item = new QTreeWidgetItem();
+		item->setText(0, QString::fromStdString(it->name));
+		item->setText(1, QString::fromStdString(it->hash));
+		item->setText(2, QString::fromStdString(it->id));
+		item->setText(3, QString::fromStdString(out.str()));
+		/*
+		 *
+		 */
+		ui.searchResultWidget->addTopLevelItem(item);
+	}
+
+	/* add to the summary as well */
+
+	QTreeWidgetItem *item = new QTreeWidgetItem();
+	item->setText(0, QString::fromStdString(txt));
+	std::ostringstream out2;
+	out2 << results.size();
+
+	item->setText(1, QString::fromStdString(out2.str()));
+	item->setText(2, QString::fromStdString(out.str()));
+
+	ui.searchSummaryWidget->addTopLevelItem(item);
+	ui.searchSummaryWidget->setCurrentItem(item);
+
+	/* select this search result */
+	selectSearchResults();
+}
+
+
+//void QTreeWidget::currentItemChanged ( QTreeWidgetItem * current, QTreeWidgetItem * previous )  [signal]
+
+
+void SearchDialog::selectSearchResults()
+{
+	/* highlight this search in summary window */
+	QTreeWidgetItem *ci = ui.searchSummaryWidget->currentItem();
+
+	/* get the searchId text */
+	QString searchId = ci->text(2);
+
+	std::cerr << "SearchDialog::selectSearchResults(): searchId: " << searchId.toStdString();
+	std::cerr << std::endl;
+
+	/* show only matching searchIds in main window */
+	int items = ui.searchResultWidget->topLevelItemCount();
+	for(int i = 0; i < items; i++)
+	{
+		/* get item */
+		QTreeWidgetItem *ti = ui.searchResultWidget->topLevelItem(i);
+		if (ti->text(3) == searchId)
+		{
+			ti->setHidden(false);
+		}
+		else
+		{
+			ti->setHidden(true);
+		}
+	}
+	ui.searchResultWidget->update();
+}
+
+

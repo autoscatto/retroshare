@@ -200,14 +200,14 @@ void NotifyQt::displayFriends()
 
 void NotifyQt::preDisplayDirectories()
 {
-	iface->lockData(); /* Lock Interface */
+	//iface->lockData(); /* Lock Interface */
 
 	std::ostringstream out;
 	out << "NotifyQt::preDisplayDirectories()" << std::endl;
 
 	std::cerr << out.str();
 
-	iface->unlockData(); /* UnLock Interface */
+	//iface->unlockData(); /* UnLock Interface */
 
 	dDialog->preModDirectories(false);  /* Remote */
 	dDialog->preModDirectories(true);   /* Local */
@@ -216,14 +216,14 @@ void NotifyQt::preDisplayDirectories()
 
 void NotifyQt::displayDirectories()
 {
-	iface->lockData(); /* Lock Interface */
+	//iface->lockData(); /* Lock Interface */
 
 	std::ostringstream out;
 	out << "NotifyQt::displayDirectories()" << std::endl;
 
 	std::cerr << out.str();
 
-	iface->unlockData(); /* UnLock Interface */
+	//iface->unlockData(); /* UnLock Interface */
 
 	//dDialog->insertFiles(true);  /* Local  */
 	//dDialog->insertFiles(false); /* Remote */

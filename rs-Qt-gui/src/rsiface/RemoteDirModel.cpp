@@ -6,68 +6,94 @@
 
 #include <iostream>
 #include <sstream>
+#include <math.h>
 
 
  bool RemoteDirModel::hasChildren(const QModelIndex &parent) const
  {
+
+#ifdef RDM_DEBUG
+     std::cerr << "RemoteDirModel::hasChildren() :" << parent.internalPointer();
+     std::cerr << ": ";
+#endif
+
      if (!parent.isValid())
-     	return true;
-
-     int idx = parent.internalId();
-     if ((idx < 0) || (idx > nIndex-1))
      {
-	return false;
+#ifdef RDM_DEBUG
+        std::cerr << "root -> true ";
+     	std::cerr << std::endl;
+#endif
+     	return true;
      }
-     if (indexSet[idx].type == 1) /* TODO */
-     	return false;
 
-     return true;
+     void *ref = parent.internalPointer();
+
+     DirDetails details;
+     if (!rsicontrol->RequestDirDetails(ref, details))
+     {
+     	/* error */
+#ifdef RDM_DEBUG
+        std::cerr << "lookup failed -> false";
+     	std::cerr << std::endl;
+#endif
+     	return false;
+     }
+     	
+     if (details.type == DIR_TYPE_FILE) 
+     {
+#ifdef RDM_DEBUG
+        std::cerr << "lookup FILE -> false";
+     	std::cerr << std::endl;
+#endif
+        return false;
+     }
+     /* PERSON/DIR*/
+#ifdef RDM_DEBUG
+     std::cerr << "lookup PER/DIR #" << details.count;
+     std::cerr << std::endl;
+#endif
+     return (details.count > 0); /* do we have children? */
  }
+
 
  int RemoteDirModel::rowCount(const QModelIndex &parent) const
  {
-     if (!parent.isValid())
-     	return 20;
+#ifdef RDM_DEBUG
+     std::cerr << "RemoteDirModel::rowCount(): " << parent.internalPointer();
+     std::cerr << ": ";
+#endif
 
-     int idx = parent.internalId();
-     if ((idx < 0) || (idx > nIndex-1))
+     void *ref = NULL;
+     if (parent.isValid())
      {
-	return 0;
+     	ref = parent.internalPointer();
      }
-     if (indexSet[idx].type == 1) /* TODO */
+
+     DirDetails details;
+     if (!rsicontrol->RequestDirDetails(ref, details))
+     {
+#ifdef RDM_DEBUG
+        std::cerr << "lookup failed -> 0";
+     	std::cerr << std::endl;
+#endif
      	return 0;
-
-     /* if it is a person, check the directory count each time...
-      * as this can change under our feet
-      */
-     if (indexSet[idx].type == 2) /* Person */
-     {
-	std::string person;
-	std::string path;
-
-	std::ostringstream out;
-	out << indexSet[idx].id;
-	person = out.str();
-	path = "";
-
-	std::cerr << "Checking Root Dir for: " << person << ":" << path;
-	std::cerr << std::endl;
-
-	rsiface->lockData();   /* Lock Interface */
-
-	const DirInfo *dir = rsiface->getDirectory(person, path);
-
-	if (dir)
-	{
-		std::cerr << "Updating dir count to: " << dir->nofiles;
-		std::cerr << std::endl;
-		indexSet[idx].size = dir->nofiles;
-	}
-
-	rsiface->unlockData();   /* Unlock Interface */
      }
+     if (details.type == DIR_TYPE_FILE)
+     {
+#ifdef RDM_DEBUG
+        std::cerr << "lookup FILE: 0";
+        std::cerr << std::endl;
+#endif
+     	return 0;
+     }
+	
+     /* else PERSON/DIR*/
+#ifdef RDM_DEBUG
+     std::cerr << "lookup PER/DIR #" << details.count;
+     std::cerr << std::endl;
+#endif
 
-     return indexSet[idx].size;
+     return details.count;
  }
 
  int RemoteDirModel::columnCount(const QModelIndex &parent) const
@@ -77,34 +103,91 @@
 
  QVariant RemoteDirModel::data(const QModelIndex &index, int role) const
  {
+#ifdef RDM_DEBUG
+     std::cerr << "RemoteDirModel::data(): " << index.internalPointer();
+     std::cerr << ": ";
+     std::cerr << std::endl;
+#endif
+
      if (!index.isValid())
          return QVariant();
 
-     /*
-     if (index.row() >= 10)
-         return QVariant();
-     */
+     /* get the data from the index */
+     void *ref = index.internalPointer();
+     int coln = index.column(); 
 
-    /* just get the data from the index */
-    int idx = index.internalId();
-    int coln = index.column(); 
-
-    if ((idx < 0) || (idx > nIndex-1))
-    {
-	return QVariant();
-    }
+     DirDetails details;
+     if (!rsicontrol->RequestDirDetails(ref, details))
+     {
+     	return QVariant();
+     }
 
      if (role == Qt::BackgroundRole)
      {
-     	int ts = time(NULL);
-     	if (indexSet[idx].timestamp + 30 > ts)
+     	/*** colour entries based on rank/age/count **/
+     	/*** rank (0-10) ***/
+	uint32_t r = details.rank;
+	if (r > 10) r = 10;
+	r = 200 + r * 5; /* 0->250 */
+
+     	/*** age: log2(age) ***
+	 *   1 hour = 3,600       -  250      
+	 *   1 day  = 86,400      -  200 
+	 *   1 week = 604,800     -  100
+	 *   1 month = 2,419,200  -   50
+	 *
+	 *
+	 *   250 - log2( 1 + (age / 100) ) * 10
+	 *   0       => 1     =>   0   =>  0   => 250
+	 *   900     => 10    =>   3.2 => 32   => 220
+	 *   3600    => 37    =>   5.2 => 52   => 200
+	 *   86400   => 865   =>   9.2 => 92   => 160
+	 *   604800  => 6049  =>  12.3 => 120  => 130
+	 *   2419200 => 24193 =>  14.4 => 140  => 110
+	 *
+	 *   value  log2
+	 *
+	 *   1       0
+	 *   2       1
+	 *   4       2
+	 *   8       3
+	 *   16      4
+	 *   32      5
+	 *   64      6
+	 *   128     7
+	 *   256     8
+	 *   512     9
+	 *   1024    10
+	 *   2048    11
+	 *   4096    12
+	 *   8192    13
+	 *  16384    14
+	 *  32K      15
+	 *
+	 */
+
+	uint32_t g =  (uint32_t) log2 ( 1.0 + ( details.age / 100 ) ) * 4;
+	if (g > 250) g = 250;
+	g = 250 - g;
+
+	if (details.type == DIR_TYPE_PERSON)
 	{
-		QBrush brush(QColor(200,250,200));
+		return QVariant();
+	}
+	else if (details.type == DIR_TYPE_DIR)
+	{
+		uint32_t b =  200 + details.count;
+		if (b > 250) b = 250;
+
+		QBrush brush(QColor(r,g,b));
 		return brush;
 	}
-	else if (indexSet[idx].timestamp + 300 > ts)
+	else if (details.type == DIR_TYPE_FILE)
 	{
-		QBrush brush(QColor(200,230,230));
+		uint32_t b =  (uint32_t) (200 + 2 * log2(details.count));
+		if (b > 250) b = 250;
+
+		QBrush brush(QColor(r,g,b));
 		return brush;
 	}
 	else
@@ -124,48 +207,55 @@
      if (role == Qt::DisplayRole)
      {
 
-	if (indexSet[idx].type == 2) /* Person */
+        /* 
+	 * Person:  name,  id, 0, 0;
+	 * File  :  name,  size, rank, (0) ts
+	 * Dir   :  name,  (0) count, (0) path, (0) ts
+	 */
+
+
+	if (details.type == DIR_TYPE_PERSON) /* Person */
 	{
 		switch(coln)
 		{
 			case 0:
-		return QString::fromStdString(indexSet[idx].name);
+		return QString::fromStdString(details.name);
 			break;
 			case 1:
-		return QString("");
-		return QString::fromStdString(indexSet[idx].id);
+		//return QString("");
+		return QString::fromStdString(details.id);
 			break;
 			default:
-		return QString("");
+		//return QString("");
 		return QString::fromStdString("P");
 			break;
 		}
 	}
-	else if (indexSet[idx].type == 1) /* File */
+	else if (details.type == DIR_TYPE_FILE) /* File */
 	{
 		switch(coln)
 		{
 			case 0:
-		return QString::fromStdString(indexSet[idx].name);
+		return QString::fromStdString(details.name);
 			break;
 			case 1:
 		{
 			std::ostringstream out;
-			out << indexSet[idx].size;
+			out << details.count;
 			return QString::fromStdString(out.str());
 		}
 			break;
 			case 2:
 		{
 			std::ostringstream out;
-			out << indexSet[idx].rank;
+			out << details.rank;
 			return QString::fromStdString(out.str());
 		}
 			break;
 			case 3:
 		{
 			std::ostringstream out;
-			out << indexSet[idx].timestamp;
+			out << details.age;
 			return QString::fromStdString(out.str());
 		}
 			break;
@@ -174,24 +264,24 @@
 			break;
 		}
 	}
-	else if (indexSet[idx].type == 0) /* Dir */
+	else if (details.type == DIR_TYPE_DIR) /* Dir */
 	{
 		switch(coln)
 		{
 			case 0:
-		return QString::fromStdString(indexSet[idx].name);
+		return QString::fromStdString(details.name);
 			break;
 			case 1:
-		return QString("");
+		//return QString("");
 		{
 			std::ostringstream out;
-			out << indexSet[idx].size;
+			out << details.count;
 			return QString::fromStdString(out.str());
 		}
 			break;
 			case 2:
-		//return QString::fromStdString(indexSet[idx].path);
-		return QString("");
+		//return QString("");
+		return QString::fromStdString(details.path);
 			break;
 
 			default:
@@ -253,298 +343,146 @@
  QModelIndex RemoteDirModel::index(int row, int column,        
                         const QModelIndex & parent) const
  {
-	/* create the index */
-	int pIdx = -1;
-	int itemIdx = 0; /* not allocated yet */
-	std::string person;
-	std::string path = "";
+#ifdef RDM_DEBUG
+	std::cerr << "RemoteDirModel::index(): " << parent.internalPointer();
+	std::cerr << ": row:" << row << " col:" << column << " ";
+#endif
 
-	/* info to fill in */
-	std::string idxName;
-	int idxType = 0;
-	int idxSize = 0;
-	int idxTs   = time(NULL);
-	int idxRank = 2; 
-
-	const BaseInfo *bi = NULL; /* for item Model reference. */
-
-	//std::cerr << "RemoteDirModel::index()" << std::endl;
-
-	/* grab data from the rsiface */
-	if (!rsiface)
-		return QModelIndex();
-
-        //std::cerr << "RemoteDirModel::index() rsiface->lockData()"<<std::endl;
-	rsiface->lockData();   /* Lock Interface */
-
-        if (!parent.isValid())
+	void *ref = NULL;
+	
+        if (parent.isValid())
 	{
-		//std::cerr << "RemoteDirModel::index() pIdx: " << pIdx;
-		//std::cerr << "(" << row << "," << column << ")" << std::endl;
-		/* must get the person */
-		std::ostringstream out;
-		out << "Person:" << row;
-		person = out.str();
+		ref = parent.internalPointer();
+	}
 
-		std::list<PersonInfo>::const_iterator it, eit;
-
-		const std::list<PersonInfo> *remote = 
-				&(rsiface->getRemoteDirectoryList());
-
-		/* Only bit to make it handle both! */
-
+	/********
 		if (!RemoteMode)
 		{
 			remote = &(rsiface->getLocalDirectoryList());
 		}
+	********/
 
+     	DirDetails details;
+     	if (!rsicontrol->RequestDirDetails(ref, details))
+     	{
+#ifdef RDM_DEBUG
+     		std::cerr << "lookup failed -> invalid";
+     		std::cerr << std::endl;
+#endif
+     		return QModelIndex();
+     	}
 
-		if ((row < 0) || (row >= (signed) remote->size()))
-		{
-			/* too big */
-			//std::cerr << "Return Invalid: Row too Big" << std::endl;
-        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 1"<<std::endl;
-			rsiface->unlockData();   /* Unlock Interface */
-			return QModelIndex();
-		}
-
-		it = remote->begin();
-		eit = remote->end();
-		for(int i = 0; i < row; i++, it++); /* iterate through people */
-		{
-			std::ostringstream out;
-			out << it -> id;
-			person = out.str();
-			idxName = it -> name;
-			idxSize = it -> rootdir.subdirs.size();
-			idxType = 2;
-
-			bi = &(*it); /* if indexed.. reuse */
-		//	std::cerr << "Found Person Entry:" << bi -> mId;
-		//	std::cerr << "/" << it -> name << std::endl;
-		}
-		/* have a pointer to person::baseinfo. */
-	}
-	else 
-	{
-		/* get the entry */
-		pIdx =  parent.internalId();
-
-		//std::cerr << "RemoteDirModel::index() pIdx: " << pIdx;
-		//std::cerr << "(" << row << "," << column << ")" << std::endl;
-
-		if ((pIdx < 0) || (pIdx > nIndex-1))
-		{
-			std::cerr << "Return Invalid: pIdx Invalid" << std::endl;
-        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 2"<<std::endl;
-			rsiface->unlockData();   /* Unlock Interface */
-			return QModelIndex();
-		}
-		else
-		{
-			person = indexSet[pIdx].id;
-			path   = indexSet[pIdx].path;
-		}
-		
-		/* so now look up the person+dir */
-/******************************* FILEY BIT **********************************************/
-
-		std::cerr << "Loading Dir: " << person << "/" << path;
-		std::cerr << std::endl;
-
-		const DirInfo *dir = rsiface->getDirectory(person, path);
-
-
-		if (!dir)
-		{
-			std::cerr << "Return Invalid: pIdx Invalid" << std::endl;
-        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 3"<<std::endl;
-			rsiface->unlockData();   /* Unlock Interface */
-			return QModelIndex();
-		}
-
-		/* find the sub entry -> subdirs, then files */
-		/* get the itemIdx if possible */
-		if ((row < 0) || (row >= dir->nofiles))
-		{
-			//error....
-			bi = NULL;
-			std::cerr << "Row > dir->nofiles. Invalid Index" << std::endl;
-        		//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 4"<<std::endl;
-			rsiface->unlockData();   /* Unlock Interface */
-			return QModelIndex();
-		}
-		if ((unsigned) row >=  dir->subdirs.size())
-		{
-			/* file */
-			unsigned int fno = row - dir->subdirs.size();
-			if (fno >= dir->files.size()) /* then nofiles was wrong */
-			{
-				std::cerr << "Row > dir-> correct nofiles. Invalid Index" << std::endl;
-        			//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 5"<<std::endl;
-				rsiface->unlockData();   /* Unlock Interface */
-				return QModelIndex();
-			}
-				
-			//std::cerr << "Retrieving File: " << fno << std::endl;
-			std::list<FileInfo>::const_iterator it = dir->files.begin();
-			for(int i = 0; i < fno; i++, it++);
-			bi = &(*it);
-
-			path += "/" + it -> fname;
-			//std::cerr << "Name: " << it->fname << std::endl;
-			idxName = it -> fname;
-			idxSize = it -> size;
-			idxType = 1;
-			idxRank = it -> rank;
-		}
-		else
-		{
-			/* dir */
-			//std::cerr << "Retrieving Dir: " << row << std::endl;
-			std::list<DirInfo>::const_iterator it = dir->subdirs.begin();
-			for(int i = 0; i < row; i++, it++);
-			bi = &(*it);
-
-			path += "/" + it -> dirname;
-			//std::cerr << "Name: " << it->dirname << std::endl;
-			idxName = it -> dirname;
-			idxSize = it -> nofiles;
-			idxType = 0;
-			idxRank = it -> rank;
-		}
-	}
-
-	/* have valid *bi at this point.
-	 * must check if mId valid, and indexed
-	 * and do so if not done.
+	/* now iterate through the details to 
+	 * get the reference number
 	 */
 
-/******************************* FILEY BIT **********************************************/
+	std::list<DirStub>::iterator it;
+	int i = 0;
+	for(it = details.children.begin();
+		(i < row) && (it != details.children.end()); it++, i++);
 
-	//std::cerr << "Checking Indexing for Entry:" << bi -> mId;
-	//std::cerr << std::endl;
-
-	if (bi -> mId > 0)
-	{
-		/* check old one, and return as good */
-		if ((bi -> mId < nIndex) && (indexSet[bi->mId].parent == pIdx))
-		{
-			//std::cerr << "Found Correct Old Index" << std::endl;
-		}
-
-		QModelIndex qmi = createIndex(row, column, bi->mId);
-		/* bi->mId); */
-
-        	//std::cerr << "RemoteDirModel::index() rsiface->unlockData() 6"<<std::endl;
-		rsiface->unlockData();   /* Unlock Interface */
-		return qmi;
-
-		/* else make a new one ... (fall through) should never happen! */
+	if (it == details.children.end()) 
+	{ 
+#ifdef RDM_DEBUG
+     		std::cerr << "wrong number of children -> invalid";
+     		std::cerr << std::endl;
+#endif
+		return QModelIndex(); 
 	}
 
-	/* save our index number */
-	bi -> mId = nIndex;
+#ifdef RDM_DEBUG
+     	std::cerr << "success index(" << row << "," << column << "," << it->ref << ")";
+     	std::cerr << std::endl;
+#endif
 
-	/* create a new one */
-	std::cerr << "Index(" << nIndex << ") Creation" << std::endl;
-	nIndex++;
-	indexSet.resize(nIndex);
-	indexSet[nIndex-1] = RemoteIndex(person, path, pIdx, row, column,
-                              idxName, idxSize, idxType, idxTs, idxRank);
-
-	std::cerr << "Person:" << person << std::endl;
-	std::cerr << "Path:" << path << std::endl;
-	std::cerr << "indexSet[].id:" << indexSet[nIndex-1].id << std::endl;
-
-        std::cerr << "RemoteDirModel::index() rsiface->unlockData() 7"<<std::endl;
-	rsiface->unlockData();   /* Unlock Interface */
-
-	/* look up parent in internal index */
-	std::cerr << "Index(" << nIndex-1 << ") Creation:";
-	std::cerr << row << ", " << column << ", " << nIndex-1;
- 	std::cerr << std::endl;
-
-	QModelIndex qmi = createIndex(row, column, nIndex-1);
-
-
-	std::cerr << "Internal Id: " << qmi.internalId();
-	std::cerr << std::endl;
-
+	/* we can just grab the reference now */
+	QModelIndex qmi = createIndex(row, column, it->ref);
 	return qmi;
  }
 
 
  QModelIndex RemoteDirModel::parent( const QModelIndex & index ) const
  {
-	//std::cerr << "RemoteDirModel::parent()";
-	//std::cerr << std::endl;
+#ifdef RDM_DEBUG
+	std::cerr << "RemoteDirModel::parent(): " << index.internalPointer();
+	std::cerr << ": ";
+#endif
 
 	/* create the index */
         if (!index.isValid())
 	{
+#ifdef RDM_DEBUG
+     		std::cerr << "Invalid Index -> invalid";
+     		std::cerr << std::endl;
+#endif
 		/* Parent is invalid too */
 		return QModelIndex();
 	}
-	else
+	void *ref = index.internalPointer();
+
+     	DirDetails details;
+     	if (!rsicontrol->RequestDirDetails(ref, details))
+     	{
+#ifdef RDM_DEBUG
+     		std::cerr << "Failed Lookup -> invalid";
+     		std::cerr << std::endl;
+#endif
+     		return QModelIndex();
+     	}
+
+	if (!(details.parent))
 	{
-
-	//std::cerr << "RemoteDirModel::parent() Idx: " << index.internalId();
-	//std::cerr << std::endl;
-
-		/* get the entry */
-		int idx  = index.internalId();
-
-		if ((idx < 0) || (idx > nIndex-1))
-		{
-	std::cerr << "RemoteDirModel::parent() Invalid Index";
-	std::cerr << std::endl;
-			/* Parent is Invalid */
-			return QModelIndex();
-		}
-		int pIdx = indexSet[idx].parent;
-
-	//std::cerr << "RemoteDirModel::parent() pIdx: " << pIdx;
-	//std::cerr << std::endl;
-
-		if ((pIdx < 0) || (pIdx > nIndex-1))
-		{
-	std::cerr << "RemoteDirModel::parent() Invalid Parent";
-	std::cerr << std::endl;
-			/* Parent is Invalid */
-			return QModelIndex();
-		}
-
-		int row     = indexSet[pIdx].row;
-		int column  = indexSet[pIdx].column;
-
-		return createIndex(row, column, pIdx);
+#ifdef RDM_DEBUG
+     		std::cerr << "success. parent is Root/NULL --> invalid";
+     		std::cerr << std::endl;
+#endif
+     		return QModelIndex();
 	}
+
+#ifdef RDM_DEBUG
+     	std::cerr << "success index(" << details.prow << ",0," << details.parent << ")";
+     	std::cerr << std::endl;
+
+#endif
+	return createIndex(details.prow, 0, details.parent);
  }
 
  Qt::ItemFlags RemoteDirModel::flags( const QModelIndex & index ) const
  {
-     if (!index.isValid())
-	return Qt::ItemIsSelectable; // Error.
+#ifdef RDM_DEBUG
+     	std::cerr << "RemoteDirModel::flags()";
+  	std::cerr << std::endl;
+#endif
 
-     int idx = index.internalId();
-     if ((idx < 0) || (idx > nIndex-1))
-     {
-	return Qt::ItemIsSelectable; // Error.
-     }
-     if (indexSet[idx].type == 1) /* MAKE INTO DEFINE */
-     {
-     	/* FILE (No Drop) */
-	return 
-		( Qt::ItemIsSelectable | 
-		Qt::ItemIsDragEnabled |
-		Qt::ItemIsEnabled);
-     }
-     return 
-		( Qt::ItemIsSelectable | 
-		Qt::ItemIsDragEnabled |
-		Qt::ItemIsDropEnabled |
-		Qt::ItemIsEnabled);
+     	if (!index.isValid())
+		return (Qt::ItemIsSelectable); // Error.
+
+	void *ref = index.internalPointer();
+
+     	DirDetails details;
+     	if (!rsicontrol->RequestDirDetails(ref, details))
+     	{
+		return (Qt::ItemIsSelectable); // Error.
+     	}
+
+     	if (details.type == DIR_TYPE_PERSON)
+	{
+     		return (Qt::ItemIsEnabled);
+	}
+     	else if (details.type == DIR_TYPE_DIR)
+	{
+     		return ( Qt::ItemIsSelectable | 
+			Qt::ItemIsDragEnabled |
+			Qt::ItemIsDropEnabled |
+			Qt::ItemIsEnabled);
+	}
+	else // (details.type == DIR_TYPE_FILE)
+	{
+     		return ( Qt::ItemIsSelectable | 
+			Qt::ItemIsDragEnabled |
+			Qt::ItemIsEnabled);
+	}
+}
 
 // The other flags...
 //Qt::ItemIsUserCheckable
@@ -552,27 +490,21 @@
 //Qt::ItemIsDropEnabled
 //Qt::ItemIsTristate
 
- }
+
 
 /* Callback from */
  void RemoteDirModel::preMods()
  {
 	std::cerr << "RemoteDirModel::preMods()" << std::endl;
 	//modelAboutToBeReset();
+	reset();
 	layoutAboutToBeChanged();
-
-	/* clear all indices */
-	// nIndex = 0;
-	// indexSet.resize(1);
  }
 
 /* Callback from */
  void RemoteDirModel::postMods()
  {
 	std::cerr << "RemoteDirModel::postMods()" << std::endl;
-	//nIndex = 0;
-	//indexSet.resize(1);
-
 	//modelReset();
 	layoutChanged();
 	//reset();
@@ -581,30 +513,9 @@
 
 void RemoteDirModel::update (const QModelIndex &index )
 {
-	/* grab the controller, 
-	 * and ask for update */
-
-	/* */
-
-	/* look up index */
-	int mIdx = index.internalId();
-
-	if ((mIdx < 1) || (mIdx >= nIndex))
-	{
-		std::cerr << "Directory Request() on unknown QMI";
-		std::cerr << std::endl;
-		return;
-	}
-
-	/* if valid */
-	/* get id/path */
-	std::string id   = indexSet[mIdx].id;
-	std::string path = indexSet[mIdx].path;
-
-	std::cerr << "Directory Request(" << id << ") : ";
-	std::cerr << path << std::endl;
-
-	rsicontrol -> RequestDirectories(id, path, 1);
+	//std::cerr << "Directory Request(" << id << ") : ";
+	//std::cerr << path << std::endl;
+	//rsicontrol -> RequestDirectories(id, path, 1);
 }
 
 void RemoteDirModel::downloadSelected(QModelIndexList list)
@@ -622,16 +533,15 @@ void RemoteDirModel::downloadSelected(QModelIndexList list)
 	QModelIndexList::iterator it;
 	for(it = list.begin(); it != list.end(); it++)
 	{
-		unsigned int mIdx = it -> internalId();
-		if ((mIdx > 0) && (mIdx < nIndex))
-		{
-		std::string path = indexSet[mIdx].path;
-		std::string id = indexSet[mIdx].id;
-		int size       = indexSet[mIdx].size;
-		/* only download files */
-		if (indexSet[mIdx].type == 1)
-			rsicontrol -> FileRequest(id, path, "", size);
-		}
+		void *ref = it -> internalPointer();
+
+     		DirDetails details;
+     		if (!rsicontrol->RequestDirDetails(ref, details))
+     		{
+			continue;
+     		}
+		rsicontrol -> FileRequest(details.id, details.path, 
+					details.hash, details.count);
 	}
 }
 
@@ -643,73 +553,33 @@ void RemoteDirModel::recommendSelected(QModelIndexList list)
 	{
 		std::cerr << "Cannot recommend remote! (should download)" << std::endl;
 	}
-
-	/* Print out debugging */
-	std::cerr << "Interfacing::::::::::::" << std::endl;
-	std::cerr << "RsIface: " << rsiface << std::endl;
-	std::cerr << "RsCntrl: " << rsicontrol << std::endl;
-
-	/* so for all the selected .... get the name out, 
-	 * make it into something the RsControl can understand
-	 */
-
-	std::cerr << "::::::::::::Trying FileRecommend List" << std::endl;
 	/* Fire off requests */
 	QModelIndexList::iterator it;
 	for(it = list.begin(); it != list.end(); it++)
 	{
-		unsigned int mIdx = it -> internalId();
-		std::cerr << "::::::::::::FileRecommend Lookup" << std::endl;
-		std::cerr << "mIdx:" << mIdx << std::endl;
-		std::cerr << "nIndex:" << nIndex << std::endl;
-		if ((mIdx > 0) && (mIdx < nIndex))
-		{
-		std::string path = indexSet[mIdx].path;
-		std::string id = indexSet[mIdx].id;
-		int size       = indexSet[mIdx].size;
-		std::cerr << "  Id: " << id << std::endl;
-		std::cerr << "Path: " << path << std::endl;
-		std::cerr << "makeId..." << std::endl;
+		void *ref = it -> internalPointer();
 
-		/* get the item */
-		/* only recommend files */
-		if (indexSet[mIdx].type == 1)
-		    rsicontrol -> FileRecommend(id, path, size);
-		}
+     		DirDetails details;
+     		if (!rsicontrol->RequestDirDetails(ref, details))
+     		{
+			continue;
+     		}
+
+		std::cerr << "::::::::::::FileRecommend Lookup" << std::endl;
+		std::cerr << "Path: " << details.path << std::endl;
+
+		/*** XXX TOFIX!
+		rsicontrol -> FileRecommend(details.id, details.name, 
+					details.hash, details.count);
+		***/
+		rsicontrol -> FileRecommend(details.id, details.name, 
+					 details.count);
 	}
 	std::cerr << "::::::::::::Done FileRecommend" << std::endl;
 }
 
-
-
 void RemoteDirModel::openSelected(QModelIndexList list)
 {
-	if (RemoteMode)
-	{
-		std::cerr << "Cannot open remote" << std::endl;
-		return;
-	}
-
-	/* so for all the selected .... get the name out, 
-	 * make it into something the RsControl can understand
-	 */
-
-	/* Fire off requests */
-	QModelIndexList::iterator it;
-	for(it = list.begin(); it != list.end(); it++)
-	{
-		unsigned int mIdx = it -> internalId();
-		if ((mIdx > 0) && (mIdx < nIndex))
-		{
-		std::string path = indexSet[mIdx].path;
-		std::string id = indexSet[mIdx].id;
-		int size       = indexSet[mIdx].size;
-
-		/* get the item */
-		rsicontrol -> FileRecommend(id, path, size);
-		}
-	}
+	recommendSelected(list);
 }
-
-
 
