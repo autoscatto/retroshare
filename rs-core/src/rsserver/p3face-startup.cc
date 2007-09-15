@@ -430,7 +430,7 @@ int RsServer::StartupRetroShare(RsInit *config)
 	filedex *fd = new filedex();
 	server->setFileDex(fd);
 #endif
-
+	server->setFileCallback(&(getNotify()));
 
 	server->setConfigDir(config->basedir.c_str());
 
@@ -511,8 +511,7 @@ int RsServer::StartupRetroShare(RsInit *config)
 	InitNetworking(config->basedir + "/kadc.ini");
 
 	/* Startup this thread! */
-        //pthread_t coreId = createThread(*this);
-        createThread(*this);
+        pthread_t coreId = createThread(*this);
 
 	return 1;
 }

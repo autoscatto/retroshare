@@ -154,7 +154,10 @@ int 	ensureExtension(std::string &name, std::string def_ext);
 	public:
 
 	/* Directory Actions */
-virtual int RequestDirectories(std::string uid, std::string path, int depth);
+virtual int RequestDirDetails(std::string uid, std::string path, 
+					DirDetails &details);
+virtual int RequestDirDetails(void *ref, DirDetails &details);
+virtual int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results);
 
 	/* Actions For Upload/Download */
 virtual int FileRecommend(std::string uId, std::string src, int size);
@@ -172,46 +175,10 @@ virtual int FileSetBandwidthTotals(float outkB, float inkB);
 
 	private:
 
-	/* this next is lower now (should be made private? */
-virtual int DirectoryRequestUpdate(RsCertId id, std::string dir);
-
 int 	UpdateAllTransfers();
 
 	/* send requests to people */
 int     UpdateRemotePeople();
-
-#if (0)
-	/****************** OLD DIR UPDATE SYSTEM *********/
-	/* Internal Update Iface Fns */
-int 	UpdateAllFiles();
-
-	/* Lock Fns */
-int     UpdateSubdir(DirNode * dir, DirInfo &di);
-
-int     initRsPi(DirBase *dir, PersonInfo &pi);
-int     initRsDi(DirNode *dir, DirInfo &di);
-int     initRsFi(PQFileItem *file, FileInfo &fi);
-	/****************** OLD DIR UPDATE SYSTEM *********/
-#endif
-
-
-	/* New Update Dir Systems */
-
-	/* Fn's that handle locking ..... */
-int 	UpdateDirectories(); /* Periodically Called. */
-
-
-
-	/* Either... Locked/Unlocked - dependent on the Data ***/
-bool 	DirectoryUpToDate(const DirInfo *dir);
-
-	/* Internal Data for updates ****/
-
-unsigned int	nextFileMId();
-unsigned int	lastFileMId; /* storage */
-
-	std::list<PendingDirectory> pendingDirs;
-
 
 /****************************************/
 /****************************************/

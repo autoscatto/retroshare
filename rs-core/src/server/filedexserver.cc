@@ -92,6 +92,7 @@ filedexserver::filedexserver()
 #ifdef PQI_USE_CHANNELS
 	p3chan = NULL;
 #endif
+	initialiseFileStore();
 
 }
 
@@ -253,6 +254,9 @@ int	filedexserver::tick()
 	pqioutput(PQL_DEBUG_BASIC, fldxsrvrzone, 
 		"filedexserver::tick()");
 
+	/* the new Cache Hack() */
+	FileStoreTick();
+
 	if (pqisi == NULL)
 	{
 		std::ostringstream out;
@@ -273,7 +277,6 @@ int	filedexserver::tick()
 	{
 		moreToTick = 1;
 	}
-
 
 	if (0 < handleInputQueues())
 	{
@@ -994,6 +997,7 @@ int     filedexserver::reScanDirs()
 #ifdef USE_FILELOOK
 
 	flook -> setSharedDirectories(dbase_dirs);
+	fimon->setSharedDirectories(dbase_dirs);
 
 #else
 	findex -> clear();
@@ -1569,4 +1573,95 @@ void filedexserver::loadWelcomeMsg()
 	imsg.push_back(msg);	
 }
 
+/*************************************** NEW File Cache Stuff ****************************/
+
+void filedexserver::initialiseFileStore()
+{
+
+}
+
+
+void    filedexserver::setFileCallback(NotifyBase *cb)
+{
+	//CacheTransfer  *ct = new CacheTransfer();
+	fiStore = new FileIndexStore(NULL, cb, "");
+
+	CacheData cd;
+	CacheId cid(CACHE_TYPE_FILE_INDEX, 0);
+        std::string testfile = "searchtest.index";
+	std::string fhash = "0aaf3f9e60eb950d51ff5955f57928ca431e07e2";
+	std::string pid = "ABCDEF";
+	std::string path = "/tmp";
+
+	cd.pid = pid;
+	cd.cid = cid;
+	cd.path = path;
+	cd.name = testfile;
+	cd.hash = fhash;
+	cd.recvd = 0;
+
+	fiStore->loadCache(cd);
+
+
+	/* now setup the FiMon */
+	fimon = new FileIndexMonitor("/tmp","us");
+
+	fimon->setPeriod(600); /* 10 minutes */
+	/* start it up */
+	fimon->setSharedDirectories(dbase_dirs);
+	fimon->start();
+
+}
+
+
+int filedexserver::RequestDirDetails(std::string uid, std::string path,
+                                        DirDetails &details)
+{
+	return fiStore->RequestDirDetails(uid, path, details);
+}
+
+int filedexserver::RequestDirDetails(void *ref, DirDetails &details)
+{
+	return fiStore->RequestDirDetails(ref, details);
+}
+
+int filedexserver::SearchKeywords(std::list<std::string> keywords, 
+					std::list<FileDetail> &results)
+{
+	return fiStore->SearchKeywords(keywords, results);
+}
+
+int filedexserver::FileStoreTick()
+{
+	/* hack to update file cache */
+	RsPeerId pid;
+	std::map<CacheId, CacheData> ids;
+	std::map<CacheId, CacheData>::iterator it;
+
+	std::cerr << "filedexserver::FileStoreTick() listCaches:" << std::endl;
+	fimon->listCaches(std::cerr);
+	fimon->cachesAvailable(pid, ids);
+
+	/*
+	 */
+
+	if (ids.size() == 0)
+	{
+		return 0;
+	}
+
+	if (ids.size() > 1)
+	{
+		/* error */
+		return 0;
+	}
+
+	it = ids.begin();
+
+	if (fiStore->fetchCache(it->second))
+	{
+		fiStore->loadCache(it->second);
+	}
+	return 1;
+}
 

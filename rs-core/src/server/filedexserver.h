@@ -57,7 +57,11 @@
 
 #include "dbase/filedex.h"
 #include "dbase/filelook.h"
+#include "dbase/fistore.h"
+#include "dbase/fimonitor.h"
+
 #include "server/pqifiler.h"
+
 
 
 #ifdef PQI_USE_CHANNELS
@@ -97,6 +101,8 @@ class DirBase: public DirNode
 	Person *p;
 	std::ostream& print(std::ostream &out);
 };
+
+
 
 class filedexserver
 {
@@ -259,6 +265,7 @@ channelMsg *getChannelMsg(channelSign s, MsgHash mh);
 	private:
 p3channel *p3chan;
 
+#endif
 
 	public:
 	/* some more switches (here for uniform saving) */
@@ -286,10 +293,24 @@ void 	setUPnPEnabled(int i)
 	int DHTState;
 	int UPnPState;
 
-#endif
 
+	/* new FileCache stuff */
+	public:
+
+int 	FileStoreTick();
+void 	initialiseFileStore();
+void    setFileCallback(NotifyBase *cb);
+
+int RequestDirDetails(std::string uid, std::string path, DirDetails &details);
+int RequestDirDetails(void *ref, DirDetails &details);
+
+int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results);
+
+	private:
+
+        FileIndexStore *fiStore;
+	FileIndexMonitor *fimon;
 };
 
+
 #endif // MRK_PQI_FILEDEX_SERVER_HEADER
-
-

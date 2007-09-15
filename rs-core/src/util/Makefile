@@ -4,10 +4,13 @@ include ../make.opt
 
 OBJ = rsthreads.o  rsdir.o
 
-all : $(OBJ) librs dirtest
+all : $(OBJ) librs dirtest dir2test
 
 dirtest: $(OBJ) dirtest.o
 	$(CC) $(CFLAGS) -o dirtest $(OBJ) dirtest.o $(RSLIBS)
+
+dir2test: $(OBJ) dir2test.o
+	$(CC) $(CFLAGS) -o dir2test $(OBJ) dir2test.o $(RSLIBS)
 
 librs:  $(OBJ)
 	$(AR) r $(LIBRS) $(OBJ)
@@ -17,8 +20,8 @@ librs:  $(OBJ)
 	$(CC) $(CFLAGS) -c $<
 
 clean:
-	-/bin/rm $(OBJ) dirtest.o
+	-/bin/rm $(OBJ) dirtest.o dir2test.o
 
 clobber: clean
-	-/bin/rm dirtest
+	-/bin/rm dirtest dir2test
 

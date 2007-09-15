@@ -31,15 +31,18 @@
 #include <string>
 #include <list>
 
-class RsDirUtil
-{
-	public:
-static std::string 	getTopDir(std::string);
-static std::string 	getRootDir(std::string);
-static std::string 	removeRootDir(std::string path, std::string root);
-static std::string      removeTopDir(std::string dir);
-static int     		breakupDirList(std::string path,
+namespace RsDirUtil {
+
+std::string 	getTopDir(std::string);
+std::string 	getRootDir(std::string);
+std::string 	removeRootDir(std::string path);
+std::string     removeTopDir(std::string dir);
+
+std::string 	removeRootDirs(std::string path, std::string root);
+
+int     	breakupDirList(std::string path,
                         	std::list<std::string> &subdirs);
+
 
 };
 

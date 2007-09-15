@@ -232,7 +232,7 @@ void	fileLook::loadDirectory(PQItem *dir)
 	/* we need the root directory, and the rest */
 	std::string req_dir = fi -> path;
 	std::string root_dir  = RsDirUtil::getRootDir(req_dir);
-	std::string rest_path  = RsDirUtil::removeRootDir(req_dir, root_dir);
+	std::string rest_path  = RsDirUtil::removeRootDirs(req_dir, root_dir);
 
 	/* get directory listing */
 	std::string full_root = "/dev/null";
@@ -503,7 +503,7 @@ PQFileItem *fileLook::findFileEntry(PQFileItem *fi)
 	/* we need the root directory, and the rest */
 	std::string req_dir = fi -> path;
 	std::string root_dir  = RsDirUtil::getRootDir(req_dir);
-	std::string rest_path  = RsDirUtil::removeRootDir(req_dir, root_dir);
+	std::string rest_path  = RsDirUtil::removeRootDirs(req_dir, root_dir);
 
 	/* get directory listing */
 	std::string full_root = "/dev/null";

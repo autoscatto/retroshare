@@ -157,7 +157,7 @@ ifeq ($(OS),Linux)
 	RM = /bin/rm
 
 	LIBDIR = $(RS_DIR)/lib
-	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto  
+	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto  -lpthread
         LIBS +=  -L$(KADC_DIR) -lKadC 
         LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
 	#-lfltk #only needed for old version.
@@ -166,7 +166,7 @@ ifeq ($(OS),Linux)
         RSLIBS +=  -L$(KADC_DIR) -lKadC 
         RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
 
-	LIBS   += $(XLIB) -ldl -lz
+	LIBS   += $(XLIB) -ldl -lz 
 	RSLIBS += $(XLIB) -ldl -lz
 
 else # windows (Cygwin or MinGW)

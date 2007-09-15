@@ -72,7 +72,8 @@ bool testRsDirUtils(std::string path)
 
 	std::string top = RsDirUtil::getTopDir(path);
 	std::string root = RsDirUtil::getRootDir(path);
-	std::string topdirs = RsDirUtil::removeRootDir(path, root);
+	std::string topdirs = RsDirUtil::removeRootDir(path);
+	std::string topdirs2 = RsDirUtil::removeRootDirs(path, root);
 	std::string restdirs = RsDirUtil::removeTopDir(path);
 	std::list<std::string> split;
 	std::list<std::string>::iterator it;

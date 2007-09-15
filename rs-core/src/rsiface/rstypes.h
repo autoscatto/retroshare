@@ -344,6 +344,52 @@ std::ostream &operator<<(std::ostream &out, const ChatInfo &info);
 std::ostream &operator<<(std::ostream &out, const PersonInfo &info);
 std::ostream &print(std::ostream &out, const DirInfo &info, int indentLvl);
 
+/********************** For FileCache Interface *****************/
+
+#define DIR_TYPE_ROOT		0x01
+#define DIR_TYPE_PERSON  	0x02
+#define DIR_TYPE_DIR  		0x04
+#define DIR_TYPE_FILE 		0x08
+
+class DirStub
+{
+	public:
+	uint8_t type;
+	std::string name;
+	void *ref;
+};
+
+class DirDetails
+{
+	public:
+	void *parent;
+	uint32_t prow; /* parent row */
+
+	void *ref;
+	uint8_t type;
+	std::string id;
+	std::string name;
+	std::string hash;
+	std::string path;
+	uint32_t count;
+	uint32_t age;
+	uint32_t rank;
+
+	std::list<DirStub> children;
+};
+
+class FileDetail
+{
+	public:
+	std::string id;
+	std::string name;
+	std::string hash;
+	std::string path;
+	uint32_t size;
+	uint32_t age;
+	uint32_t rank;
+};
+
 
 #endif
 

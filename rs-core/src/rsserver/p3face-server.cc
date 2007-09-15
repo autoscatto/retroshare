@@ -175,10 +175,6 @@ void 	RsServer::run()
 		{
 			lastSec = (int) ts;
 
-			/* Once a Second... */
-			//std::cerr << "RsServer::run() UpdateDirectories()" << std::endl;
-			UpdateDirectories();
-
 			/* Chat needs to be quick too! */
 			//std::cerr << "RsServer::run() UpdateAllChat()" << std::endl;
 			UpdateAllChat();
@@ -210,7 +206,7 @@ void 	RsServer::run()
 
 			        //std::cerr << "RsServer::run() ";
 				//std::cerr << "UpdateRemotePeople()"<<std::endl;
-				UpdateRemotePeople();
+				//UpdateRemotePeople();
 	
 				//std::cerr << "RsServer::run() UpdateAllFiles()" << std::endl;
 				//UpdateAllFiles();

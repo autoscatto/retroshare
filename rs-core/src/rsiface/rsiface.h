@@ -235,9 +235,15 @@ virtual	int FriendSetBandwidth(std::string id, float outkB, float inkB) = 0;
 
 /****************************************/
 	/* Directory Actions */
-virtual int RequestDirectories(std::string uid, std::string path, int depth) = 0;
-// Not sure this should be in the interface.
-//virtual	int DirectoryRequestUpdate(std::string id, std::string dir) = 0;
+virtual int RequestDirDetails(std::string uid, std::string path, DirDetails &details) = 0;
+virtual int RequestDirDetails(void *ref, DirDetails &details) = 0;
+
+/****************************************/
+	/* Search Actions */
+virtual int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results) = 0;
+
+	/*** Complicated search to be done!!! */
+
 
 /****************************************/
 	/* Actions For Upload/Download */

@@ -52,7 +52,6 @@ std::string 	RsDirUtil::getTopDir(std::string dir)
 	return top;
 }
 
-
 std::string 	RsDirUtil::removeTopDir(std::string dir)
 {
 	std::string rest;
@@ -75,7 +74,6 @@ std::string 	RsDirUtil::removeTopDir(std::string dir)
 	return rest;
 }
 
-
 std::string 	RsDirUtil::getRootDir(std::string dir)
 {
 	std::string root;
@@ -88,18 +86,36 @@ std::string 	RsDirUtil::getRootDir(std::string dir)
 	for(j = i; (j < len) && (dir[j] != '/'); j++);
 	if (i == j)
 		return root; /* empty */
-	if (dir[j] == '/')
-		j--;
-
-	for(; i <= j; i++)
+	for(; i < j; i++)
 	{
 		root += dir[i];
 	}
-
-	//std::cerr << "getRootDir(" << dir << ") -> " << root << std::endl;
 	return root;
 }
-std::string 	RsDirUtil::removeRootDir(std::string path, std::string root)
+
+std::string RsDirUtil::removeRootDir(std::string path)
+{
+	unsigned int i, j;
+	unsigned int len = path.length();
+	std::string output;
+
+	/* chew leading '/'s */
+	for(i = 0; (i < len) && (path[i] == '/'); i++);
+	if (i == len)
+			return output; /*  empty string */
+
+	for(j = i; (j < len) && (path[j] != '/'); j++); /* run to next '/' */
+	for(; (j < len) && (path[j] == '/'); j++); 	/* chew leading '/'s */
+
+	for(; j < len; j++)
+	{
+		output += path[j];
+	}
+
+	return output;
+}
+
+std::string RsDirUtil::removeRootDirs(std::string path, std::string root)
 {
 	/* too tired */
 	std::string notroot;
