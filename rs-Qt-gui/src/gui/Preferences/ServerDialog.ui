@@ -871,6 +871,22 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>DHTButton</tabstop>
+  <tabstop>noDHTButton</tabstop>
+  <tabstop>UPnPButton</tabstop>
+  <tabstop>ManualButton</tabstop>
+  <tabstop>dhtStatus</tabstop>
+  <tabstop>upnpStatus</tabstop>
+  <tabstop>localAddress</tabstop>
+  <tabstop>localPort</tabstop>
+  <tabstop>chkFirewall</tabstop>
+  <tabstop>chkForwarded</tabstop>
+  <tabstop>extAddress</tabstop>
+  <tabstop>extPort</tabstop>
+  <tabstop>totalRate</tabstop>
+  <tabstop>indivRate</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

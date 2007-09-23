@@ -803,6 +803,17 @@ p, li { white-space: pre-wrap; }
   </widget>
   <widget class="QStatusBar" name="statusbar" />
  </widget>
+ <tabstops>
+  <tabstop>trust</tabstop>
+  <tabstop>name</tabstop>
+  <tabstop>org</tabstop>
+  <tabstop>loc</tabstop>
+  <tabstop>country</tabstop>
+  <tabstop>signers</tabstop>
+  <tabstop>Ledit_name</tabstop>
+  <tabstop>okButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

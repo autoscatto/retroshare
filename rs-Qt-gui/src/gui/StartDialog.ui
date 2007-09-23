@@ -649,6 +649,13 @@ background-image: url(:/images/amsn.png);
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>loadName</tabstop>
+  <tabstop>loadPasswd</tabstop>
+  <tabstop>autoBox</tabstop>
+  <tabstop>loadButton</tabstop>
+  <tabstop>toolButton</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

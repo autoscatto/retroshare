@@ -798,10 +798,22 @@ p, li { white-space: pre-wrap; }
     <string/>
    </property>
    <property name="pixmap" >
-    <pixmap resource="../images.qrc" >:/images/retro3.png</pixmap>
+    <pixmap/>
    </property>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>backButton</tabstop>
+  <tabstop>nextButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>keyradioButton</tabstop>
+  <tabstop>pqipemradioButton</tabstop>
+  <tabstop>inviteradioButton</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>emailText</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

@@ -1172,6 +1172,18 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>genName</tabstop>
+  <tabstop>genPasswd</tabstop>
+  <tabstop>genPasswd2</tabstop>
+  <tabstop>genOrg</tabstop>
+  <tabstop>genLoc</tabstop>
+  <tabstop>genCountry</tabstop>
+  <tabstop>friendBox</tabstop>
+  <tabstop>genFriend</tabstop>
+  <tabstop>selectButton</tabstop>
+  <tabstop>genButton</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

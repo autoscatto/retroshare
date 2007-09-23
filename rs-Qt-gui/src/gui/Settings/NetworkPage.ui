@@ -581,6 +581,10 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>doubleSpinBox</tabstop>
+  <tabstop>doubleSpinBox_2</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

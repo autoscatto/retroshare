@@ -647,6 +647,14 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>statuscomboBox</tabstop>
+  <tabstop>messagecomboBox</tabstop>
+  <tabstop>searchlineEdit</tabstop>
+  <tabstop>addIMAccountButton</tabstop>
+  <tabstop>messengertreeWidget</tabstop>
+  <tabstop>avatarButton</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

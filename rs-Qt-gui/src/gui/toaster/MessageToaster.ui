@@ -157,6 +157,7 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>messageButton</tabstop>
   <tabstop>closeButton</tabstop>
  </tabstops>
  <resources>

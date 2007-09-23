@@ -827,6 +827,15 @@ border-image: url(:/images/folder-draft24-hover.png);
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>toolButtonnewmsg</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>listWidget</tabstop>
+  <tabstop>msgWidget</tabstop>
+  <tabstop>msgText</tabstop>
+  <tabstop>msgList</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

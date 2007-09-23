@@ -191,7 +191,7 @@ p, li { white-space: pre-wrap; }
      <x>0</x>
      <y>0</y>
      <width>543</width>
-     <height>24</height>
+     <height>29</height>
     </rect>
    </property>
   </widget>
@@ -223,6 +223,12 @@ p, li { white-space: pre-wrap; }
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>msgSendList</tabstop>
+  <tabstop>titleEdit</tabstop>
+  <tabstop>msgText</tabstop>
+  <tabstop>msgFileList</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

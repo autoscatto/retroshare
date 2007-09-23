@@ -644,6 +644,13 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>incomingDir</tabstop>
+  <tabstop>incomingButton</tabstop>
+  <tabstop>dirList</tabstop>
+  <tabstop>addButton</tabstop>
+  <tabstop>removeButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

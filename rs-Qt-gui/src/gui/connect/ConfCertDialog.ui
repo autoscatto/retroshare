@@ -917,6 +917,24 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>name</tabstop>
+  <tabstop>orgloc</tabstop>
+  <tabstop>country</tabstop>
+  <tabstop>localAddress</tabstop>
+  <tabstop>localPort</tabstop>
+  <tabstop>chkFirewall</tabstop>
+  <tabstop>chkForwarded</tabstop>
+  <tabstop>extAddress</tabstop>
+  <tabstop>extPort</tabstop>
+  <tabstop>extName</tabstop>
+  <tabstop>indivRate</tabstop>
+  <tabstop>trustLvl</tabstop>
+  <tabstop>signBox</tabstop>
+  <tabstop>trustBox</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>applyButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

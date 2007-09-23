@@ -39,7 +39,7 @@
       <x>10</x>
       <y>24</y>
       <width>351</width>
-      <height>23</height>
+      <height>24</height>
      </rect>
     </property>
     <layout class="QGridLayout" >
@@ -121,7 +121,7 @@
       <x>10</x>
       <y>44</y>
       <width>351</width>
-      <height>23</height>
+      <height>24</height>
      </rect>
     </property>
     <layout class="QGridLayout" >
@@ -173,6 +173,10 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>cmboLanguage</tabstop>
+  <tabstop>cmboStyle</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

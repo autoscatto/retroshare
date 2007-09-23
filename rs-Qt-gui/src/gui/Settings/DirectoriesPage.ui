@@ -616,6 +616,13 @@
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit_5</tabstop>
+  <tabstop>pushButton_6</tabstop>
+  <tabstop>listView</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

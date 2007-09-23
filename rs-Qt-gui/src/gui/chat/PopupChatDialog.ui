@@ -667,6 +667,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar" />
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>textboldButton</tabstop>
+  <tabstop>textunderlineButton</tabstop>
+  <tabstop>textitalicButton</tabstop>
+  <tabstop>colorButton</tabstop>
+  <tabstop>textBrowser</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

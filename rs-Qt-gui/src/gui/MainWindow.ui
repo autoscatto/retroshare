@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>700</width>
-    <height>467</height>
+    <width>724</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="palette" >
@@ -539,7 +539,7 @@
           <widget class="QFrame" name="toolboxframe" >
            <property name="maximumSize" >
             <size>
-             <width>64</width>
+             <width>70</width>
              <height>16777215</height>
             </size>
            </property>
@@ -574,7 +574,7 @@
               </property>
               <property name="maximumSize" >
                <size>
-                <width>64</width>
+                <width>70</width>
                 <height>16777215</height>
                </size>
               </property>
@@ -590,7 +590,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>68</width>
-                 <height>195</height>
+                 <height>233</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -777,8 +777,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>96</width>
+                 <height>26</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -1537,6 +1537,17 @@ QPushButton:pressed  {
    <header>gui/mainpagestack.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>addfriendButton</tabstop>
+  <tabstop>invitefriendButton</tabstop>
+  <tabstop>addshareButton</tabstop>
+  <tabstop>optionsButton</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>btnToggleConsole</tabstop>
+  <tabstop>btntoggletoolbox</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

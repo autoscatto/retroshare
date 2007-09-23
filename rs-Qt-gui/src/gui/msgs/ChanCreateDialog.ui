@@ -504,7 +504,7 @@
    <string>Create a  new Broadcast Channel</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="../images.qrc" >:/images/RShare16.png</iconset>
+   <iconset/>
   </property>
   <widget class="QLabel" name="label_2" >
    <property name="geometry" >
@@ -581,19 +581,6 @@
      <string>Type:</string>
     </property>
    </widget>
-   <widget class="QRadioButton" name="publicButton" >
-    <property name="geometry" >
-     <rect>
-      <x>120</x>
-      <y>50</y>
-      <width>271</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Public Channel  (Signed)</string>
-    </property>
-   </widget>
    <widget class="QLineEdit" name="channelName" >
     <property name="geometry" >
      <rect>
@@ -602,19 +589,6 @@
       <width>261</width>
       <height>23</height>
      </rect>
-    </property>
-   </widget>
-   <widget class="QRadioButton" name="privateButton" >
-    <property name="geometry" >
-     <rect>
-      <x>120</x>
-      <y>70</y>
-      <width>271</width>
-      <height>23</height>
-     </rect>
-    </property>
-    <property name="text" >
-     <string>Private Channel (Encrypted)</string>
     </property>
    </widget>
    <widget class="QPushButton" name="cancelButton" >
@@ -646,8 +620,41 @@
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QRadioButton" name="publicButton" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>50</y>
+      <width>271</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Public Channel  (Signed)</string>
+    </property>
+   </widget>
+   <widget class="QRadioButton" name="privateButton" >
+    <property name="geometry" >
+     <rect>
+      <x>120</x>
+      <y>70</y>
+      <width>271</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text" >
+     <string>Private Channel (Encrypted)</string>
+    </property>
+   </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>channelName</tabstop>
+  <tabstop>publicButton</tabstop>
+  <tabstop>privateButton</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>createButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

@@ -510,7 +510,7 @@
    <item row="1" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>4</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -729,6 +729,14 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>translation</tabstop>
+  <tabstop>authors</tabstop>
+  <tabstop>license</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>thanks</tabstop>
+  <tabstop>textBrowser</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>

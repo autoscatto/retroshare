@@ -667,13 +667,13 @@ p, li { white-space: pre-wrap; }
    <property name="title" >
     <string>Style Sheet</string>
    </property>
-   <widget class="QWidget" name="" >
+   <widget class="QWidget" name="layoutWidget" >
     <property name="geometry" >
      <rect>
       <x>11</x>
       <y>20</y>
       <width>341</width>
-      <height>23</height>
+      <height>25</height>
      </rect>
     </property>
     <layout class="QGridLayout" >
@@ -781,6 +781,12 @@ p, li { white-space: pre-wrap; }
    </widget>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>cmboLanguage</tabstop>
+  <tabstop>cmboStyle</tabstop>
+  <tabstop>styleSheetCombo</tabstop>
+  <tabstop>autoButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../images.qrc" />
  </resources>

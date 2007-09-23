@@ -266,6 +266,17 @@
    </attribute>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>textboldButton</tabstop>
+  <tabstop>textunderlineButton</tabstop>
+  <tabstop>textitalicButton</tabstop>
+  <tabstop>colorButton</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>textBrowser</tabstop>
+  <tabstop>avatarFrameButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

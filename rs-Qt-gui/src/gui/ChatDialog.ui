@@ -847,6 +847,15 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>textboldChatButton</tabstop>
+  <tabstop>textunderlineChatButton</tabstop>
+  <tabstop>textitalicChatButton</tabstop>
+  <tabstop>colorChatButton</tabstop>
+  <tabstop>msgText</tabstop>
+  <tabstop>msgSendList</tabstop>
+ </tabstops>
  <resources>
   <include location="images.qrc" />
  </resources>
