@@ -352,8 +352,9 @@ void 	FileIndexMonitor::updateCycle()
 #endif
 
 		std::string calchash;
+		uint32_t size;
 
-		fi.saveIndex(fname, calchash);
+		fi.saveIndex(fname, calchash, size);
 
 #ifdef FIM_DEBUG
 		std::cerr << "FileIndexMonitor::updateCycle() saved with hash:" << calchash;
@@ -370,6 +371,7 @@ void 	FileIndexMonitor::updateCycle()
 		data.path = path;
 		data.name = tmpname;
 		data.hash = calchash;
+		data.size = size;
 		data.recvd = time(NULL);
 
 		updateCache(data);

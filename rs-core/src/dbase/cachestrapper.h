@@ -88,6 +88,7 @@ class CacheData
 	std::string path; 
 	std::string name;
 	std::string hash;
+	uint32_t size;
 	time_t recvd;
 };
 
@@ -103,7 +104,7 @@ class CacheTransfer
 virtual ~CacheTransfer() {}
 
 	/* upload side of things .... searches through CacheStrapper. */
-bool    FindCacheFile(std::string hash, std::string &path);
+bool    FindCacheFile(std::string hash, std::string &path, uint32_t &size);
 
 
 	/* At the download side RequestCache() => overloaded RequestCacheFile()
@@ -114,7 +115,7 @@ bool RequestCache(CacheData &data, CacheStore *cbStore); /* request from CacheSt
 
 	protected:
 	/* to be overloaded */
-virtual bool RequestCacheFile(RsPeerId id, std::string path, std::string hash); 
+virtual bool RequestCacheFile(RsPeerId id, std::string path, std::string hash, uint32_t size); 
 
 bool CompletedCache(std::string hash);                   /* internal completion -> does cb */
 bool FailedCache(std::string hash);                      /* internal completion -> does cb */
@@ -161,6 +162,9 @@ uint16_t    getCacheType()   { return cacheType;  }
 
 	/* display */
 void 	listCaches(std::ostream &out);
+
+	/* search */
+bool    findCache(std::string hash, CacheData &data);
 
 	protected:
 
@@ -288,6 +292,8 @@ bool    sendCacheQuery(std::list<RsPeerId> &id, time_t ts);
 				/* handle a DirQuery */
 void    handleCacheQuery(RsPeerId id, std::map<CacheId, CacheData> &data); 
 
+	/* search through CacheSources. */
+bool    findCache(std::string hash, CacheData &data);
 
 	/* display */
 void 	listCaches(std::ostream &out);

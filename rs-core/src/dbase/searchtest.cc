@@ -35,7 +35,7 @@ int main()
 
 	// loading fileindex
 	std::cout << std::endl << "Test load" << std::endl;
-	fi->loadIndex(testfile, fhash);
+	fi->loadIndex(testfile, fhash, 1532);
 	fi->printFileIndex(std::cout);
 	std::cout << "FileIndex Loaded" << std::endl << std::endl;
 

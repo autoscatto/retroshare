@@ -33,11 +33,13 @@ int main()
 
 	fi1->printFileIndex(std::cout);
 	std::string fhash;
-	fi1->saveIndex("test.index", fhash);
+	uint32_t size;
+	fi1->saveIndex("test.index", fhash, size);
 
+	std::cout << " Saved Index: Size: " << size << " Hash: " << fhash << std::endl;
 	std::cout << " -- new file index -- " << std::endl;
 	
-	fi2->loadIndex("test.index", fhash);
+	fi2->loadIndex("test.index", fhash, size);
 	fi2->printFileIndex(std::cout);
 
 	delete fi1;

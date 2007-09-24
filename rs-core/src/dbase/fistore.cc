@@ -59,7 +59,7 @@ int FileIndexStore::loadCache(const CacheData &data)
 	FileIndex *finew = new FileIndex(data.pid);
 	finew->root->name = data.pid;
 
-	if (finew->loadIndex(data.path + '/' + data.name, data.hash))
+	if (finew->loadIndex(data.path + '/' + data.name, data.hash, data.size))
 	{
 		indices[data.pid] = finew;
 		delete fiold;

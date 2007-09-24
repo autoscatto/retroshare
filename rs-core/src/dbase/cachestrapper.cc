@@ -43,7 +43,8 @@ bool operator<(const CachePair &a, const CachePair &b)
 std::ostream &operator<<(std::ostream &out, const CacheData &d)
 {
 	out << "[ p: " << d.pid << " id: <" << d.cid.type << "," << d.cid.subid;
-	out << "> #" << d.hash << " \"" << d.name << "\"@\"" << d.path;
+	out << "> #" << d.hash << " size: " << d.size;
+	out << " \"" << d.name << "\"@\"" << d.path;
 	out << "\" ]";
 	return out;
 }
@@ -138,6 +139,28 @@ bool    CacheSource::cachesAvailable(RsPeerId pid, std::map<CacheId, CacheData> 
 	unlockData(); /* UNLOCK MUTEX */
 	return ret;
 
+}
+
+
+bool    CacheSource::findCache(std::string hash, CacheData &data)
+{
+	lockData(); /* LOCK MUTEX */
+
+	bool found = false;
+	CacheSet::iterator it;
+	for(it = caches.begin(); it != caches.end(); it++)
+	{
+		if (hash == (it->second).hash)
+		{
+			data = it->second;
+			found = true;
+			break;
+		}
+	}
+
+	unlockData(); /* UNLOCK MUTEX */
+
+	return found;
 }
 
 		
@@ -513,8 +536,6 @@ void    CacheStrapper::handleCacheQuery(RsPeerId id, std::map<CacheId,CacheData>
 	return;
 }
 
-
-		
 void    CacheStrapper::listCaches(std::ostream &out)
 {
 	/* can overwrite for more control! */
@@ -535,6 +556,20 @@ void    CacheStrapper::listCaches(std::ostream &out)
 }
 
 
+bool    CacheStrapper::findCache(std::string hash, CacheData &data)
+{
+	/* can overwrite for more control! */
+	std::map<uint16_t, CachePair>::iterator it;
+	for(it = caches.begin(); it != caches.end(); it++)
+	{
+		if ((it->second).source->findCache(hash, data))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 
 /********************************* CacheStrapper *********************************
  * This is the bit which handles queries
@@ -550,7 +585,7 @@ bool CacheTransfer::RequestCache(CacheData &data, CacheStore *cbStore)
 	cbStores[data.hash] = cbStore;
 
 	/* request data */
-	RequestCacheFile(data.pid, data.path, data.hash);
+	RequestCacheFile(data.pid, data.path, data.hash, data.size);
 
 	/* wait for answer */
 	return true;
@@ -558,10 +593,11 @@ bool CacheTransfer::RequestCache(CacheData &data, CacheStore *cbStore)
 
 
 /* to be overloaded */
-bool CacheTransfer::RequestCacheFile(RsPeerId id, std::string path, std::string hash)
+bool CacheTransfer::RequestCacheFile(RsPeerId id, std::string path, std::string hash, uint32_t size)
 {
 	std::cerr << "CacheTransfer::RequestCacheFile() : from:" << id << " #";
-	std::cerr << hash << " savepath: " << path << std::endl;
+	std::cerr << hash << " size: " << size;
+	std::cerr << " savepath: " << path << std::endl;
 	std::cerr << "CacheTransfer::RequestCacheFile() Dummy... saying completed";
 	std::cerr << std::endl;
 
@@ -621,11 +657,17 @@ bool CacheTransfer::FailedCache(std::string hash)
 	return true;
 }
 
-bool    CacheTransfer::FindCacheFile(std::string hash, std::string &path)
-{
-	/* todo */
 
-	/* should ask the cachestrapper about its sources */
+bool    CacheTransfer::FindCacheFile(std::string hash, std::string &path, uint32_t &size)
+{
+	CacheData data;
+	if (strapper->findCache(hash, data))
+	{
+		path = data.path + "/" + data.name;
+		size = data.size;
+		return true;
+	}
+
 	return false;
 }
 

@@ -211,8 +211,8 @@ int	cleanOldEntries(time_t old);  /* removes entries older than old */
 int	printFileIndex(std::ostream &out);
 
 	/* load/save to file */
-int 	loadIndex(std::string filename, std::string expectedHash);
-int 	saveIndex(std::string filename, std::string &fileHash);
+int 	loadIndex(std::string filename, std::string expectedHash, uint32_t size);
+int 	saveIndex(std::string filename, std::string &fileHash, uint32_t &size);
 
 	/* search through this index */
 int 	searchTerms(std::list<std::string> terms, std::list<FileEntry *> &results);
