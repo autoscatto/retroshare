@@ -188,6 +188,8 @@ DirEntry &operator=(DirEntry &src)
  * FileIndex
  *****************************************************************************************/
 
+class Expression;
+
 class FileIndex
 {
 	public:
@@ -217,6 +219,7 @@ int 	saveIndex(std::string filename, std::string &fileHash, uint32_t &size);
 	/* search through this index */
 int 	searchTerms(std::list<std::string> terms, std::list<FileEntry *> &results);
 int 	searchHash(std::string hash, std::list<FileEntry *> &results);
+int     searchBoolExp(Expression * exp, std::list<FileEntry *> &results);
 
 	PersonEntry *root;
 };

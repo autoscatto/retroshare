@@ -158,7 +158,7 @@ virtual int RequestDirDetails(std::string uid, std::string path,
 					DirDetails &details);
 virtual int RequestDirDetails(void *ref, DirDetails &details);
 virtual int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results);
-
+virtual int SearchBoolExp(Expression *exp, std::list<FileDetail> &results);
 	/* Actions For Upload/Download */
 virtual int FileRecommend(std::string uId, std::string src, int size);
 virtual int FileBroadcast(std::string uId, std::string src, int size);

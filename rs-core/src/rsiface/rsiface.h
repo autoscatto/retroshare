@@ -36,6 +36,7 @@ class RsIface;
 class RsControl;
 //class RsServer;
 class RsInit;
+class Expression;
 
 /* declare single RsIface for everyone to use! */
 
@@ -241,9 +242,7 @@ virtual int RequestDirDetails(void *ref, DirDetails &details) = 0;
 /****************************************/
 	/* Search Actions */
 virtual int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results) = 0;
-
-	/*** Complicated search to be done!!! */
-
+virtual int SearchBoolExp(Expression *exp, std::list<FileDetail> &results) = 0;
 
 /****************************************/
 	/* Actions For Upload/Download */

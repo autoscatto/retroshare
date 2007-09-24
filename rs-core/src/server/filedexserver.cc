@@ -1631,6 +1631,12 @@ int filedexserver::SearchKeywords(std::list<std::string> keywords,
 	return fiStore->SearchKeywords(keywords, results);
 }
 
+int filedexserver::SearchBoolExp(Expression * exp, std::list<FileDetail> &results)
+{
+	return fiStore->searchBoolExp(exp, results);
+}
+
+
 int filedexserver::FileStoreTick()
 {
 	/* hack to update file cache */

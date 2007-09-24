@@ -63,7 +63,6 @@
 #include "server/pqifiler.h"
 
 
-
 #ifdef PQI_USE_CHANNELS
 	#include "pqi/pqichannel.h"
 	#include "pqi/p3channel.h"
@@ -305,6 +304,7 @@ int RequestDirDetails(std::string uid, std::string path, DirDetails &details);
 int RequestDirDetails(void *ref, DirDetails &details);
 
 int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results);
+int SearchBoolExp(Expression * exp, std::list<FileDetail> &results);
 
 	private:
 

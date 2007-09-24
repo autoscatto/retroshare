@@ -394,4 +394,23 @@ int RsServer::SearchKeywords(std::list<std::string> keywords, std::list<FileDeta
 	return val;
 }
 
+int RsServer::SearchBoolExp(Expression *exp, std::list<FileDetail> &results)
+{
+        /* lock Mutexes */
+        RsIface &iface = getIface();
+
+        lockRsCore();     /* LOCK */
+        iface.lockData(); /* LOCK */
+
+	/* call to filedexserver */
+	int val = server->SearchBoolExp(exp, results);
+
+	/* done! */
+        /* unlock Mutexes */
+        iface.unlockData(); /* UNLOCK */
+        unlockRsCore();     /* UNLOCK */
+
+	return val;
+}
+
 

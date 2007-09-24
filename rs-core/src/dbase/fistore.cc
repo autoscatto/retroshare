@@ -22,6 +22,7 @@
  */
 
 #include "dbase/fistore.h"
+#include "rsiface/rsexpr.h"
 
 FileIndexStore::FileIndexStore(CacheTransfer *cft, 
 		NotifyBase *cb_in, std::string cachedir)
@@ -285,6 +286,46 @@ int FileIndexStore::SearchKeywords(std::list<std::string> keywords, std::list<Fi
 		firesults.clear();
 
 		(pit->second)->searchTerms(keywords, firesults);
+		/* translate results */
+		for(rit = firesults.begin(); rit != firesults.end(); rit++)
+		{
+			FileDetail fd;
+			fd.id = pit->first;
+			fd.name = (*rit)->name;
+			fd.hash = (*rit)->hash;
+			fd.path = ""; /* TODO */
+			fd.size = (*rit)->size;
+			fd.age  = now - (*rit)->modtime;
+			fd.age  = (*rit)->pop;
+
+			results.push_back(fd);
+		}
+
+	}
+
+	unlockData();
+	return results.size();
+}
+
+
+int FileIndexStore::searchBoolExp(Expression * exp, std::list<FileDetail> &results)
+{
+	lockData();
+	std::map<RsPeerId, FileIndex *>::iterator pit;
+	std::list<FileEntry *>::iterator rit; 
+	std::list<FileEntry *> firesults;
+
+	time_t now = time(NULL);
+
+#ifdef FIS_DEBUG
+	std::cerr << "FileIndexStore::searchBoolExp()" << std::endl;
+#endif
+	for(pit = indices.begin(); pit != indices.end(); pit++)
+	{
+		firesults.clear();
+
+		(pit->second)->searchBoolExp(exp, firesults);
+
 		/* translate results */
 		for(rit = firesults.begin(); rit != firesults.end(); rit++)
 		{

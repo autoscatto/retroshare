@@ -57,6 +57,7 @@ virtual void ModCompleted()     { return; }
 };
 
 
+class Expression;
 
 class FileIndexStore: public CacheStore
 {
@@ -74,6 +75,10 @@ virtual int loadCache(const CacheData &data);	  /* actual load, once data availa
 
 	/* Search Interface - For Search Interface */
 	int SearchKeywords(std::list<std::string> terms, std::list<FileDetail> &results);
+
+	/* Search Interface - for Adv Search Interface */
+	int searchBoolExp(Expression * exp, std::list<FileDetail> &results);
+
 
 	/* Search Interface - For Directory Access */
 	int RequestDirDetails(std::string uid, std::string path, DirDetails &details);

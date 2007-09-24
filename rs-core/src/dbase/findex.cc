@@ -23,7 +23,9 @@
 
 
 #include "dbase/findex.h"
+#include "rsiface/rsexpr.h"
 #include "util/rsdir.h"
+
 #include <iostream>
 #include <sstream>
 #include <iomanip>
@@ -1009,3 +1011,37 @@ int FileIndex::searchTerms(std::list<std::string> terms, std::list<FileEntry *> 
 
 	return 0;
 }
+
+int FileIndex::searchBoolExp(Expression * exp, std::list<FileEntry *> &results) 
+{
+	DirEntry *ndir = NULL;
+	std::list<DirEntry *> dirlist;
+	dirlist.push_back(root);
+
+	/* iterators */
+	std::map<std::string, DirEntry *>::iterator it;
+	std::map<std::string, FileEntry *>::iterator fit;
+	std::list<std::string>::const_iterator iter;
+
+	while(!dirlist.empty())
+	{
+		ndir = dirlist.back();
+		dirlist.pop_back();
+		for(it = ndir->subdirs.begin(); it != ndir->subdirs.end(); it++)
+		{
+			dirlist.push_back(it->second);
+		}
+
+		for(fit = ndir->files.begin(); fit != ndir->files.end(); fit++)
+		{
+			/*Evaluate the boolean expression and add it to the results if its true*/
+			bool ret = exp->eval(fit->second);
+			if (ret == true){
+				results.push_back(fit->second);	
+			}
+		}
+	} //while
+
+	return 0;
+}
+
