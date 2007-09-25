@@ -61,6 +61,8 @@
 #define IMAGE_RSM16             ":/images/rsmessenger16.png"
 #define IMAGE_CLOSE             ":/images/close_normal.png"
 
+/* Keys for UI Preferences */
+#define UI_PREF_PROMPT_ON_QUIT  "UIOptions/ConfirmOnQuit"
 /* uncomment this for release version */
 /****
 #define RS_RELEASE_VERSION    1
@@ -68,91 +70,85 @@
 
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
-: QMainWindow(parent, flags)
+    : QMainWindow(parent, flags)
 {
-  /* Invoke the Qt Designer generated QObject setup routine */
-  ui.setupUi(this);
+    /* Invoke the Qt Designer generated QObject setup routine */
+    ui.setupUi(this);
   
-  	/* Hide Console frame */
-	showConsoleFrame(false);
-	connect(ui.btnToggleConsole, SIGNAL(toggled(bool)), this, SLOT(showConsoleFrame(bool)));
+    /* Hide Console frame */
+    showConsoleFrame(false);
+    connect(ui.btnToggleConsole, SIGNAL(toggled(bool)), this, SLOT(showConsoleFrame(bool)));
 	
     /* Hide ToolBox frame */
-	showtoolboxFrame(true);
+    showToolboxFrame(true);
 	
-	// Setting icons
-	this->setWindowIcon(QIcon(QString::fromUtf8(":/images/RetroShare16.png")));
+    // Setting icons
+    this->setWindowIcon(QIcon(QString::fromUtf8(":/images/RetroShare16.png")));
 	
     /* Create all the dialogs of which we only want one instance */
-	_bandwidthGraph = new BandwidthGraph();
-	messengerWindow = new MessengerWindow();
-        messengerWindow->hide();
+    _bandwidthGraph = new BandwidthGraph();
+    messengerWindow = new MessengerWindow();
+    messengerWindow->hide();
 	
-	connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
-	connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
+    connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
+    connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
 
-	connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addSharedDirectory() ) );
-	connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
+    connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addSharedDirectory() ) );
+    connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
 	
-	ui.addfriendButton->setToolTip("Add a Friend");
-	ui.invitefriendButton->setToolTip("Invite a Friend");
-	ui.addshareButton->setToolTip("Add a Share");
-    ui.optionsButton->setToolTip("Options");
-
-
-  	QPushButton *closeButton = new QPushButton(QIcon(":/images/close_normal.png"), "", ui.tabWidget);
-	closeButton->setFixedSize(closeButton->iconSize());
-	closeButton->setMaximumSize(QSize(16, 16));
-	closeButton->setMinimumSize(QSize(16, 16));
-	closeButton->resize(QSize(16, 16));
-	closeButton->setToolTip(tr("Exit"));
-	ui.tabWidget->setCornerWidget(closeButton);
-	ui.tabWidget->cornerWidget()->show();
-	//connect(closeButton, SIGNAL(clicked()), this, SLOT(closeActiveTab()));
-	
+    ui.addfriendButton->setToolTip(tr("Add a Friend"));
+    ui.invitefriendButton->setToolTip(tr("Invite a Friend"));
+    ui.addshareButton->setToolTip(tr("Add a Share"));
+    ui.optionsButton->setToolTip(tr("Options"));
+        
+    /** adjusted quit behaviour: trigger a warning that can be switched off in the saved
+        config file RetroShare.conf */
+    ui.quitButton->setToolTip(tr("Quit"));
+    //connect(ui.quitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
+    connect(ui.quitButton, SIGNAL(clicked()), this, SLOT(doQuit()));
     loadStyleSheet("Default");
 
 
 
-  /* Create the config pages and actions */
-  QActionGroup *grp = new QActionGroup(this);
+    /* Create the config pages and actions */
+    QActionGroup *grp = new QActionGroup(this);
 
-  ui.stackPages->add(networkDialog = new NetworkDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_NETWORK), tr("Network"), grp));
+    ui.stackPages->add(networkDialog = new NetworkDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_NETWORK), tr("Network"), grp));
   
-  ui.stackPages->add(peersDialog = new PeersDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_PEERS), tr("Friends"), grp));
+    ui.stackPages->add(peersDialog = new PeersDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_PEERS), tr("Friends"), grp));
                                         
 #ifdef RS_RELEASE_VERSION    
-  searchDialog = new SearchDialog(ui.stackPages);
-  searchDialog -> hide();
+    searchDialog = new SearchDialog(ui.stackPages);
+    searchDialog -> hide();
 #else
-  ui.stackPages->add(searchDialog = new SearchDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_SEARCH), tr("Search"), grp));
+    ui.stackPages->add(searchDialog = new SearchDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_SEARCH), tr("Search"), grp));
 #endif
                      
-  ui.stackPages->add(transfersDialog = new TransfersDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_TRANSFERS), tr("Transfers"), grp));
+    ui.stackPages->add(transfersDialog = new TransfersDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_TRANSFERS), tr("Transfers"), grp));
                      
-  ui.stackPages->add(sharedfilesDialog = new SharedFilesDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_FILES), tr("Files"), grp));
+    ui.stackPages->add(sharedfilesDialog = new SharedFilesDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_FILES), tr("Files"), grp));
                      
-  ui.stackPages->add(chatDialog = new ChatDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_CHAT), tr("Chat"), grp));
+    ui.stackPages->add(chatDialog = new ChatDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_CHAT), tr("Chat"), grp));
 
-  ui.stackPages->add(messagesDialog = new MessagesDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_MESSAGES), tr("Messages"), grp));
+    ui.stackPages->add(messagesDialog = new MessagesDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_MESSAGES), tr("Messages"), grp));
                      
 #ifdef RS_RELEASE_VERSION    
-  channelsDialog = new ChannelsDialog(ui.stackPages);
-  channelsDialog->hide();
+    channelsDialog = new ChannelsDialog(ui.stackPages);
+    channelsDialog->hide();
 #else
-  ui.stackPages->add(channelsDialog = new ChannelsDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_CHANNELS), tr("Channels"), grp));
+    ui.stackPages->add(channelsDialog = new ChannelsDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_CHANNELS), tr("Channels"), grp));
 #endif
 
-  ui.stackPages->add(new HelpDialog(ui.stackPages),
-                     createPageAction(QIcon(IMAGE_ABOUT), tr("About/Help"), grp));
+    ui.stackPages->add(new HelpDialog(ui.stackPages),
+                       createPageAction(QIcon(IMAGE_ABOUT), tr("About/Help"), grp));
                      
   //ui.stackPages->add(groupsDialog = new GroupsDialog(ui.stackPages),
   //                   createPageAction(QIcon(), tr("Groups"), grp));
@@ -160,23 +156,23 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
   //ui.stackPages->add(new StatisticDialog(ui.stackPages),
   //                   createPageAction(QIcon(IMAGE_STATISTIC), tr("Statistics"), grp));
 
-  /* also an empty list of chat windows */
-  peersDialog->setChatDialog(chatDialog);
-  messengerWindow->setChatDialog(chatDialog);
+    /* also an empty list of chat windows */
+    peersDialog->setChatDialog(chatDialog);
+    messengerWindow->setChatDialog(chatDialog);
 
-  /* Create the toolbar */
-  ui.toolBar->addActions(grp->actions());
-  ui.toolBar->addSeparator();
-  connect(grp, SIGNAL(triggered(QAction *)), ui.stackPages, SLOT(showPage(QAction *)));
+    /* Create the toolbar */
+    ui.toolBar->addActions(grp->actions());
+    ui.toolBar->addSeparator();
+    connect(grp, SIGNAL(triggered(QAction *)), ui.stackPages, SLOT(showPage(QAction *)));
  
-  /* Create and bind the messenger button */
-  addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
+    /* Create and bind the messenger button */
+    addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
  
- #ifdef NO_MORE_OPTIONS_OR_SS
+#ifdef NO_MORE_OPTIONS_OR_SS
 
     /* Create and bind the Preferences button */  
-  addAction(new QAction(QIcon(IMAGE_PREFERENCES), tr("Options"), ui.toolBar),
-            SLOT(showSettings())); 
+    addAction(new QAction(QIcon(IMAGE_PREFERENCES), tr("Options"), ui.toolBar),
+              SLOT(showSettings())); 
             
 
             
@@ -185,31 +181,31 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 
  
 
-  /* Select the first action */
-  grp->actions()[0]->setChecked(true);
+    /* Select the first action */
+    grp->actions()[0]->setChecked(true);
   
-  /* Create the actions that will go in the tray menu */
-  createActions();
+    /* Create the actions that will go in the tray menu */
+    createActions();
   
     statusBar()->addWidget(new QLabel(tr("Users: 0  Files: 0 ")));
     statusBar()->addPermanentWidget(new QLabel(tr("Down: 0.0  Up: 0.0 ")));
     statusBar()->addPermanentWidget(new QLabel(tr("Connections: 0/45 ")));
   
 /******  
- * This is an annoying warning I get all the time...
- * (no help!)
- *
- *
-   if (!QSystemTrayIcon::isSystemTrayAvailable())
-            QMessageBox::warning(0, tr("System tray is unavailable"),
-                                   tr("System tray unavailable"));
+    * This is an annoying warning I get all the time...
+    * (no help!)
+    *
+    *
+    if (!QSystemTrayIcon::isSystemTrayAvailable())
+    QMessageBox::warning(0, tr("System tray is unavailable"),
+    tr("System tray unavailable"));
 ******/
 
     // Tray icon Menu
     menu = new QMenu(this);
     QObject::connect(menu, SIGNAL(aboutToShow()), this, SLOT(updateMenu()));
     toggleVisibilityAction = 
-    menu->addAction(QIcon(IMAGE_RETROSHARE), tr("Show/Hide"), this, SLOT(toggleVisibilitycontextmenu()));
+            menu->addAction(QIcon(IMAGE_RETROSHARE), tr("Show/Hide"), this, SLOT(toggleVisibilitycontextmenu()));
     menu->addSeparator();
     menu->addAction(_messengerwindowAct);
     /* bandwidth only in development version */
@@ -219,68 +215,65 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 #endif
     menu->addAction(_prefsAct);
     menu->addSeparator();
-    menu->addAction("Minimize", this, SLOT(showMinimized()));
-    menu->addAction("Maximize", this, SLOT(showMaximized()));
+    menu->addAction(tr("Minimize"), this, SLOT(showMinimized()));
+    menu->addAction(tr("Maximize"), this, SLOT(showMaximized()));
     menu->addSeparator();
-    menu->addAction(QIcon(IMAGE_CLOSE), tr("&Quit"), qApp, SLOT(quit()));
+    menu->addAction(QIcon(IMAGE_CLOSE), tr("&Quit"), this, SLOT(doQuit()));
     // End of Icon Menu
     
     // Create the tray icon
     trayIcon = new QSystemTrayIcon(this);
-    trayIcon->setToolTip("RetroShare");
+    trayIcon->setToolTip(tr("RetroShare"));
     trayIcon->setContextMenu(menu);
     trayIcon->setIcon(QIcon(IMAGE_RETROSHARE));
     
-    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(toggleVisibility(QSystemTrayIcon::ActivationReason)));
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, 
+            SLOT(toggleVisibility(QSystemTrayIcon::ActivationReason)));
     trayIcon->show();
 
 
 }
 
 /** Creates a new action associated with a config page. */
-QAction*
-MainWindow::createPageAction(QIcon img, QString text, QActionGroup *group)
+QAction* MainWindow::createPageAction(QIcon img, QString text, QActionGroup *group)
 {
-  QAction *action = new QAction(img, text, group);
-  action->setCheckable(true);
-  action->setFont(FONT);
-  return action;
+    QAction *action = new QAction(img, text, group);
+    action->setCheckable(true);
+    action->setFont(FONT);
+    return action;
 }
 
 /** Adds the given action to the toolbar and hooks its triggered() signal to
  * the specified slot (if given). */
-void
-MainWindow::addAction(QAction *action, const char *slot)
+void MainWindow::addAction(QAction *action, const char *slot)
 {
-  action->setFont(FONT);
-  ui.toolBar->addAction(action);
-  connect(action, SIGNAL(triggered()), this, slot);
+    action->setFont(FONT);
+    ui.toolBar->addAction(action);
+    connect(action, SIGNAL(triggered()), this, slot);
 }
 
 /** Overloads the default show so we can load settings */
-void
-MainWindow::show()
+void MainWindow::show()
 {
   
-  if (!this->isVisible()) {
-    QMainWindow::show();
-  } else {
-    QMainWindow::activateWindow();
-    setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
-    QMainWindow::raise();
-  }
+    if (!this->isVisible()) {
+        QMainWindow::show();
+    } else {
+        QMainWindow::activateWindow();
+        setWindowState(windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+        QMainWindow::raise();
+    }
 }
 
 
 /** Shows the config dialog with focus set to the given page. */
-void
-MainWindow::show(Page page)
+void MainWindow::show(Page page)
 {
-  /* Show the dialog. */
-  show();
+    /* Show the dialog. */
+    show();
 
-  /* Set the focus to the specified page. */
-  ui.stackPages->setCurrentIndex((int)page);
+    /* Set the focus to the specified page. */
+    ui.stackPages->setCurrentIndex((int)page);
 }
 
 
@@ -290,28 +283,28 @@ MainWindow::show(Page page)
 /** Add a Friend ShortCut */
 void MainWindow::addFriend()
 {
-	/* call load Certificate */
+    /* call load Certificate */
 #if 0
-	std::string id;
-	if (connectionsDialog)
-	{
-		id = connectionsDialog->loadneighbour();
-	}
+    std::string id;
+    if (connectionsDialog)
+    {
+        id = connectionsDialog->loadneighbour();
+    }
 
-	/* call make Friend */
-	if (id != "")
-	{
-		connectionsDialog->showpeerdetails(id);
-	}
-virtual int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
+    /* call make Friend */
+    if (id != "")
+    {
+        connectionsDialog->showpeerdetails(id);
+    }
+    virtual int NeighLoadPEMString(std::string pem, std::string &id)  = 0;
 #else
 
-static  AddFriendDialog *addDialog = 
-	new AddFriendDialog(networkDialog, this);
+    static  AddFriendDialog *addDialog = 
+    new AddFriendDialog(networkDialog, this);
 
-	std::string invite = "";
-	addDialog->setInfo(invite);
-	addDialog->show();
+    std::string invite = "";
+    addDialog->setInfo(invite);
+    addDialog->show();
 #endif
 }
 
@@ -319,11 +312,11 @@ static  AddFriendDialog *addDialog =
 /** Add a Friend ShortCut */
 void MainWindow::inviteFriend()
 {
-static  InviteDialog *inviteDialog = new InviteDialog(this);
+    static  InviteDialog *inviteDialog = new InviteDialog(this);
 
-	std::string invite = rsicontrol->NeighGetInvite();
-	inviteDialog->setInfo(invite);
-	inviteDialog->show();
+    std::string invite = rsicontrol->NeighGetInvite();
+    inviteDialog->setInfo(invite);
+    inviteDialog->show();
 
 
 }
@@ -331,18 +324,18 @@ static  InviteDialog *inviteDialog = new InviteDialog(this);
 /** Shows Preferences */
 void MainWindow::addSharedDirectory()
 {
-	/* Same Code as in Preferences Window (add Share) */
+    /* Same Code as in Preferences Window (add Share) */
 
-	QString qdir = QFileDialog::getExistingDirectory(this, tr("Add Shared Directory"), "",
-	QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+    QString qdir = QFileDialog::getExistingDirectory(this, tr("Add Shared Directory"), "",
+            QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
 						   
-	/* add it to the server */
-	std::string dir = qdir.toStdString();
-	if (dir != "")
-	{
-		rsicontrol -> ConfigAddSharedDir(dir);
-		rsicontrol -> ConfigSave();
-	}
+    /* add it to the server */
+    std::string dir = qdir.toStdString();
+    if (dir != "")
+    {
+        rsicontrol -> ConfigAddSharedDir(dir);
+        rsicontrol -> ConfigSave();
+    }
 
 }
 
@@ -372,33 +365,60 @@ void MainWindow::showMessengerWindow()
 /** Destructor. */
 MainWindow::~MainWindow()
 {
-   delete _prefsAct;
-   delete _bandwidthGraph;
-   delete _messengerwindowAct;
+    delete _prefsAct;
+    delete _bandwidthGraph;
+    delete _messengerwindowAct;
 }
 
 /** Create and bind actions to events. Setup for initial
  * tray menu configuration. */
-void 
-MainWindow::createActions()
+void MainWindow::createActions()
 {
 
-  _prefsAct = new QAction(QIcon(IMAGE_PREFERENCES), tr("Options"), this);
-  connect(_prefsAct, SIGNAL(triggered()), this, SLOT(showPreferencesWindow()));
+    _prefsAct = new QAction(QIcon(IMAGE_PREFERENCES), tr("Options"), this);
+    connect(_prefsAct, SIGNAL(triggered()), this, SLOT(showPreferencesWindow()));
     
-  _bandwidthAct = new QAction(QIcon(IMAGE_BWGRAPH), tr("Bandwidth Graph"), this);
-  connect(_bandwidthAct, SIGNAL(triggered()), 
-          _bandwidthGraph, SLOT(showWindow()));
+    _bandwidthAct = new QAction(QIcon(IMAGE_BWGRAPH), tr("Bandwidth Graph"), this);
+    connect(_bandwidthAct, SIGNAL(triggered()), 
+            _bandwidthGraph, SLOT(showWindow()));
           
-  _messengerwindowAct = new QAction(QIcon(IMAGE_RSM16), tr("Open Messenger"), this);
-  connect(_messengerwindowAct, SIGNAL(triggered()),this, SLOT(showMessengerWindow()));
+    _messengerwindowAct = new QAction(QIcon(IMAGE_RSM16), tr("Open Messenger"), this);
+    connect(_messengerwindowAct, SIGNAL(triggered()),this, SLOT(showMessengerWindow()));
          
           
-  connect(ui.btntoggletoolbox, SIGNAL(toggled(bool)), this, SLOT(showtoolboxFrame(bool)));
+    connect(ui.btntoggletoolbox, SIGNAL(toggled(bool)), this, SLOT(showToolboxFrame(bool)));
   
 }
 
-
+/** If the user attempts to quit the app, a check-warning is issued. This warning can be 
+    turned off for future quit events. 
+*/
+void MainWindow::doQuit()
+{
+    RshareSettings rsharesettings;
+    QString key (UI_PREF_PROMPT_ON_QUIT);
+    bool doConfirm = rsharesettings.value(key, QVariant(true)).toBool();
+    if (doConfirm)
+    {
+        ConfirmQuitDialog * confirm = new ConfirmQuitDialog;
+        confirm->exec();
+        // save configuration setting
+        if (confirm->reminderCheckBox->checkState() == Qt::Checked) 
+        {
+            rsharesettings.setValue(key, QVariant(false));
+        }
+        
+        if (confirm->result() == QDialog::Accepted) 
+        {
+            qApp->quit();
+        } else {
+            delete confirm;
+        }
+        
+    } else {
+        qApp->quit();
+    }
+}
 
 void MainWindow::closeEvent(QCloseEvent *e)
 {
@@ -406,18 +426,19 @@ void MainWindow::closeEvent(QCloseEvent *e)
 
     if (trayIcon->isVisible()) {
         if (firstTime)
-	{
+        {
 /*****
-          QMessageBox::information(this, tr("RetroShare System tray"),
-                    tr("Application will continue running. Quit using context menu in the system tray"));
+            QMessageBox::information(this, tr("RetroShare System tray"),
+            tr("Application will continue running. Quit using context menu in the system tray"));
 *****/
-	  firstTime = false;
-	}
+            firstTime = false;
+        }
         hide();
         e->ignore();
     }
 
 }
+
 
 void MainWindow::updateMenu()
 {
@@ -426,65 +447,65 @@ void MainWindow::updateMenu()
 
 void MainWindow::toggleVisibility(QSystemTrayIcon::ActivationReason e)
 {
-  if(e == QSystemTrayIcon::Trigger || e == QSystemTrayIcon::DoubleClick){
-    if(isHidden()){
-      show();
-      if(isMinimized()){
-        if(isMaximized()){
-          showMaximized();
+    if(e == QSystemTrayIcon::Trigger || e == QSystemTrayIcon::DoubleClick){
+        if(isHidden()){
+            show();
+            if(isMinimized()){
+                if(isMaximized()){
+                    showMaximized();
+                }else{
+                    showNormal();
+                }
+            }
+            raise();
+            activateWindow();
         }else{
-          showNormal();
+            hide();
         }
-      }
-      raise();
-      activateWindow();
-    }else{
-      hide();
     }
-  }
 }
 
 void MainWindow::toggleVisibilitycontextmenu()
 {
     if (isVisible())
-         hide();
-     else
-         show();
+        hide();
+    else
+        show();
 }
 
 
 /**
- Toggles the Console pane on and off, changes toggle button text
-*/
+Toggles the Console pane on and off, changes toggle button text
+ */
 void MainWindow::showConsoleFrame(bool show)
 {
-	if (show) {
-		ui.frmConsole->setVisible(true);
-		ui.btnToggleConsole->setChecked(true);
-		ui.btnToggleConsole->setToolTip("Hide Console");
-	} else {
-		ui.frmConsole->setVisible(false);
-		ui.btnToggleConsole->setChecked(false);
-		ui.btnToggleConsole->setToolTip("Show Console");
-	}
+    if (show) {
+        ui.frmConsole->setVisible(true);
+        ui.btnToggleConsole->setChecked(true);
+        ui.btnToggleConsole->setToolTip(tr("Hide Console"));
+    } else {
+        ui.frmConsole->setVisible(false);
+        ui.btnToggleConsole->setChecked(false);
+        ui.btnToggleConsole->setToolTip(tr("Show Console"));
+    }
 }
 
 /**
  Toggles the ToolBox on and off, changes toggle button text
-*/
-void MainWindow::showtoolboxFrame(bool show)
+ */
+void MainWindow::showToolboxFrame(bool show)
 {
-	if (show) {
-		ui.toolboxframe->setVisible(true);
-		ui.btntoggletoolbox->setChecked(true);
-		ui.btntoggletoolbox->setToolTip("Hide ToolBox");
-		ui.btntoggletoolbox->setIcon(QIcon(":images/hide_toolbox_frame.png"));
-	} else {
-		ui.toolboxframe->setVisible(false);
-		ui.btntoggletoolbox->setChecked(false);
-		ui.btntoggletoolbox->setToolTip("Show ToolBox");
-		ui.btntoggletoolbox->setIcon(QIcon(":images/show_toolbox_frame.png"));
-	}
+    if (show) {
+        ui.toolboxframe->setVisible(true);
+        ui.btntoggletoolbox->setChecked(true);
+        ui.btntoggletoolbox->setToolTip(tr("Hide ToolBox"));
+        ui.btntoggletoolbox->setIcon(QIcon(tr(":images/hide_toolbox_frame.png")));
+    } else {
+        ui.toolboxframe->setVisible(false);
+        ui.btntoggletoolbox->setChecked(false);
+        ui.btntoggletoolbox->setToolTip(tr("Show ToolBox"));
+        ui.btntoggletoolbox->setIcon(QIcon(tr(":images/show_toolbox_frame.png")));
+    }
 }
 
 

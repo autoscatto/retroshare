@@ -82,15 +82,13 @@ RshareSettings::RshareSettings()
 }
 
 /** Sets the default value of <b>key</b> to be <b>val</b>. */
-void
-RshareSettings::setDefault(QString key, QVariant val)
+void RshareSettings::setDefault(QString key, QVariant val)
 {
   _defaults.insert(key, val);
 }
 
 /** Returns the default value for <b>key</b>. */
-QVariant
-RshareSettings::defaultValue(QString key)
+QVariant RshareSettings::defaultValue(QString key)
 {
   if (_defaults.contains(key)) {
     return _defaults.value(key);
@@ -102,8 +100,7 @@ RshareSettings::defaultValue(QString key)
 
 /** Save <b>val</b> to the configuration file for the setting <b>key</b>, if
  * <b>val</b> is different than <b>key</b>'s current value. */
-void
-RshareSettings::setValue(QString key, QVariant val)
+void RshareSettings::setValue(QString key, QVariant val)
 {
   if (value(key) != val) {
     QSettings::setValue(key, val);
@@ -112,68 +109,59 @@ RshareSettings::setValue(QString key, QVariant val)
 
 /** Returns the value for <b>key</b>. If no value is currently saved, then the
  * default value for <b>key</b> will be returned. */
-QVariant
-RshareSettings::value(QString key)
+QVariant RshareSettings::value(QString key)
 {
   return value(key, defaultValue(key));
 }
 
 /** Returns the value for <b>key</b>. If no value is currently saved, then
  * <b>defaultValue</b> will be returned. */
-QVariant
-RshareSettings::value(QString key, QVariant defaultValue)
+QVariant RshareSettings::value(QString key, QVariant defaultValue)
 {
   return QSettings::value(key, defaultValue);
 }
 
 
 /** Resets all of RetroShare's settings. */
-void
-RshareSettings::reset()
+void RshareSettings::reset()
 {
   QSettings settings(SETTINGS_FILE, QSettings::IniFormat);
   settings.clear();
 }
 
 /** Gets the currently preferred language code for Rshare. */
-QString
-RshareSettings::getLanguageCode()
+QString RshareSettings::getLanguageCode()
 {
   return value(SETTING_LANGUAGE, DEFAULT_LANGUAGE).toString();
 }
 
 /** Sets the preferred language code. */
-void
-RshareSettings::setLanguageCode(QString languageCode)
+void RshareSettings::setLanguageCode(QString languageCode)
 {
   setValue(SETTING_LANGUAGE, languageCode);
 }
 
 /** Gets the interface style key (e.g., "windows", "motif", etc.) */
-QString
-RshareSettings::getInterfaceStyle()
+QString RshareSettings::getInterfaceStyle()
 {
   return value(SETTING_STYLE, DEFAULT_STYLE).toString();
 }
 
 /** Sets the interface style key. */
-void
-RshareSettings::setInterfaceStyle(QString styleKey)
+void RshareSettings::setInterfaceStyle(QString styleKey)
 {
   setValue(SETTING_STYLE, styleKey);
 }
 
 
 /** Returns the bandwidth line filter. */
-uint
-RshareSettings::getBWGraphFilter()
+uint RshareSettings::getBWGraphFilter()
 {
   return value(SETTING_BWGRAPH_FILTER, DEFAULT_BWGRAPH_FILTER).toUInt(); 
 }
 
 /** Saves the setting for whether or not the given line will be graphed */
-void
-RshareSettings::setBWGraphFilter(uint line, bool status)
+void RshareSettings::setBWGraphFilter(uint line, bool status)
 {
   uint filter = getBWGraphFilter();
   filter = (status ? (filter | line) : (filter & ~(line)));
@@ -181,30 +169,26 @@ RshareSettings::setBWGraphFilter(uint line, bool status)
 }
 
 /** Get the level of opacity for the BandwidthGraph window. */
-int
-RshareSettings::getBWGraphOpacity()
+int RshareSettings::getBWGraphOpacity()
 {
   return value(SETTING_BWGRAPH_OPACITY, DEFAULT_OPACITY).toInt();
 }
 
 /** Set the level of opacity for the BandwidthGraph window. */
-void
-RshareSettings::setBWGraphOpacity(int value)
+void RshareSettings::setBWGraphOpacity(int value)
 {
   setValue(SETTING_BWGRAPH_OPACITY, value);
 }
 
 /** Gets whether the bandwidth graph is always on top when displayed. */
-bool
-RshareSettings::getBWGraphAlwaysOnTop()
+bool RshareSettings::getBWGraphAlwaysOnTop()
 {
   return value(SETTING_BWGRAPH_ALWAYS_ON_TOP,
                DEFAULT_BWGRAPH_ALWAYS_ON_TOP).toBool();
 }
 
 /** Sets whether the bandwidth graph is always on top when displayed. */
-void
-RshareSettings::setBWGraphAlwaysOnTop(bool alwaysOnTop)
+void RshareSettings::setBWGraphAlwaysOnTop(bool alwaysOnTop)
 {
   setValue(SETTING_BWGRAPH_ALWAYS_ON_TOP, alwaysOnTop);
 }

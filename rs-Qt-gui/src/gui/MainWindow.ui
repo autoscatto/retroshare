@@ -590,7 +590,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>68</width>
-                 <height>233</height>
+                 <height>255</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -604,6 +604,45 @@
                  <number>6</number>
                 </property>
                 <item row="2" column="0" >
+                 <widget class="QPushButton" name="quitButton" >
+                  <property name="windowModality" >
+                   <enum>Qt::NonModal</enum>
+                  </property>
+                  <property name="sizePolicy" >
+                   <sizepolicy>
+                    <hsizetype>0</hsizetype>
+                    <vsizetype>0</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize" >
+                   <size>
+                    <width>48</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize" >
+                   <size>
+                    <width>32</width>
+                    <height>32</height>
+                   </size>
+                  </property>
+                  <property name="text" >
+                   <string/>
+                  </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/exit_24x24.png</iconset>
+                  </property>
+                  <property name="iconSize" >
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0" >
                  <spacer>
                   <property name="orientation" >
                    <enum>Qt::Vertical</enum>
@@ -769,6 +808,19 @@
                    </widget>
                   </item>
                  </layout>
+                </item>
+                <item row="1" column="0" >
+                 <spacer>
+                  <property name="orientation" >
+                   <enum>Qt::Vertical</enum>
+                  </property>
+                  <property name="sizeHint" >
+                   <size>
+                    <width>20</width>
+                    <height>40</height>
+                   </size>
+                  </property>
+                 </spacer>
                 </item>
                </layout>
               </widget>
@@ -1388,9 +1440,9 @@
           </property>
           <property name="styleSheet" >
            <string>QTextBrowser {
-    background-color: rgb(192,192,192);
-
-}</string>
+                                        background-color: rgb(192,192,192);
+                                        
+                                        }</string>
           </property>
          </widget>
         </item>
@@ -1425,19 +1477,19 @@
         </property>
         <property name="styleSheet" >
          <string>QPushButton
-{
-    border-image: url(:/images/console-small-up.png) 
-}
-
-QPushButton:hover {
-    border-image: url(:/images/console-small-hover.png) 
- 
-}
-
-QPushButton:pressed  {
-    border-image: url(:/images/console-small-down.png) 
-}
-</string>
+                                {
+                                border-image: url(:/images/console-small-up.png) 
+                                }
+                                
+                                QPushButton:hover {
+                                border-image: url(:/images/console-small-hover.png) 
+                                
+                                }
+                                
+                                QPushButton:pressed  {
+                                border-image: url(:/images/console-small-down.png) 
+                                }
+                            </string>
         </property>
         <property name="text" >
          <string/>
@@ -1543,6 +1595,7 @@ QPushButton:pressed  {
   <tabstop>invitefriendButton</tabstop>
   <tabstop>addshareButton</tabstop>
   <tabstop>optionsButton</tabstop>
+  <tabstop>quitButton</tabstop>
   <tabstop>textBrowser</tabstop>
   <tabstop>lineEdit</tabstop>
   <tabstop>btnToggleConsole</tabstop>

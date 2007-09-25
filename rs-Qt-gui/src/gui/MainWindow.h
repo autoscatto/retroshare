@@ -43,57 +43,60 @@
 #include "Settings/gsettingswin.h"
 #include "bwgraph/bwgraph.h"
 
+#include "Preferences/ConfirmQuitDialog.h"
+
 #include "ui_MainWindow.h"
 
+#include "../config/rsharesettings.h"
 
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
 
 public:
-   /** Main dialog pages. */
-  enum Page {
-    Network            = 0,  /** Network page. */
-    Friends            = 1,  /** Peers page. */
-    SharedDirectories  = 2,  /** Shared Directories page. */
-    Search 		       = 3,  /** Search page. */
-    Transfers          = 4,  /** Transfers page. */
-    Chat               = 5,  /** Chat page. */
-    Messages           = 6,  /** Messages page. */
-    Channels           = 7,  /** Channels page. */
-    Statistics         = 8  /** Statistic page. */
+    /** Main dialog pages. */
+    enum Page {
+        Network            = 0,  /** Network page. */
+        Friends            = 1,  /** Peers page. */
+        SharedDirectories  = 2,  /** Shared Directories page. */
+        Search 		       = 3,  /** Search page. */
+        Transfers          = 4,  /** Transfers page. */
+        Chat               = 5,  /** Chat page. */
+        Messages           = 6,  /** Messages page. */
+        Channels           = 7,  /** Channels page. */
+        Statistics         = 8  /** Statistic page. */
+        
+    };
+
+    /** Default Constructor */
+    MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
     
-  };
-
-  /** Default Constructor */
-  MainWindow(QWidget *parent = 0, Qt::WFlags flags = 0);
-  
     /** Destructor. */
-  ~MainWindow();
+    ~MainWindow();
 
-  /* A Bit of a Hack... but public variables for 
-   * the dialogs, so we can add them to the 
-   * Notify Class...
-   */
-
-  NetworkDialog *networkDialog;
-  PeersDialog       *peersDialog;
-  SearchDialog      *searchDialog;
-  TransfersDialog   *transfersDialog;
-  ChatDialog        *chatDialog;
-  MessagesDialog    *messagesDialog;
-  ChannelsDialog    *channelsDialog;
-  SharedFilesDialog *sharedfilesDialog;
-  //GroupsDialog      *groupsDialog;
-  //StatisticDialog   *statisticDialog;
-  MessengerWindow   *messengerWindow;
+    /* A Bit of a Hack... but public variables for 
+    * the dialogs, so we can add them to the 
+    * Notify Class...
+    */
+    
+    NetworkDialog *networkDialog;
+    PeersDialog       *peersDialog;
+    SearchDialog      *searchDialog;
+    TransfersDialog   *transfersDialog;
+    ChatDialog        *chatDialog;
+    MessagesDialog    *messagesDialog;
+    ChannelsDialog    *channelsDialog;
+    SharedFilesDialog *sharedfilesDialog;
+    //GroupsDialog      *groupsDialog;
+    //StatisticDialog   *statisticDialog;
+    MessengerWindow   *messengerWindow;
 
 
 public slots:
-  /** Called when this dialog is to be displayed */
-  void show();
-  /** Shows the config dialog with focus set to the given page. */
-  void show(Page page);
+    /** Called when this dialog is to be displayed */
+    void show();
+    /** Shows the config dialog with focus set to the given page. */
+    void show(Page page);
   
   
 
@@ -105,7 +108,7 @@ private slots:
     void toggleVisibilitycontextmenu();
 
 
-/** Toolbar fns. */
+    /** Toolbar fns. */
     void addFriend();
     void inviteFriend();
     void addSharedDirectory();
@@ -115,10 +118,13 @@ private slots:
     void showSettings();
     
     /** Called when console button is toggled */
-	void showConsoleFrame(bool show);
+    void showConsoleFrame(bool show);
 	
-	/** Called when console button is toggled */
-	void showtoolboxFrame(bool show);
+    /** Called when console button is toggled */
+    void showToolboxFrame(bool show);
+    
+    /** Called when user attempts to quit via quit button*/
+    void doQuit();
 
 
 protected:
@@ -131,35 +137,34 @@ private slots:
 
 private:
 
-  /** Create the actions on the tray menu or menubar */
-  void createActions();
- 
-
-  /** Defines the actions for the tray menu */
-  QAction* _prefsAct;
-  QAction* _bandwidthAct;
-  QAction* _messengerwindowAct;
-  
-  /** A BandwidthGraph object which handles monitoring RetroShare bandwidth usage */
-  BandwidthGraph* _bandwidthGraph;
-  
-  PreferencesWindow* _preferencesWindow;
-  
-
-  /** Creates a new action for a config page. */
-  QAction* createPageAction(QIcon img, QString text, QActionGroup *group);
-  /** Adds a new action to the toolbar. */
-  void addAction(QAction *action, const char *slot = 0);
-  
-  void loadStyleSheet(const QString &sheetName);
+    /** Create the actions on the tray menu or menubar */
+    void createActions();
+    
+    
+    /** Defines the actions for the tray menu */
+    QAction* _prefsAct;
+    QAction* _bandwidthAct;
+    QAction* _messengerwindowAct;
+    
+    /** A BandwidthGraph object which handles monitoring RetroShare bandwidth usage */
+    BandwidthGraph* _bandwidthGraph;
+    
+    PreferencesWindow* _preferencesWindow;
+    
+    
+    /** Creates a new action for a config page. */
+    QAction* createPageAction(QIcon img, QString text, QActionGroup *group);
+    /** Adds a new action to the toolbar. */
+    void addAction(QAction *action, const char *slot = 0);
+    
+    void loadStyleSheet(const QString &sheetName);
     
     QSystemTrayIcon *trayIcon;
     QAction *toggleVisibilityAction;
     QMenu *menu;
        
-
-  /** Qt Designer generated object */
-  Ui::MainWindow ui;
+    /** Qt Designer generated object */
+    Ui::MainWindow ui;
 };
 
 #endif
