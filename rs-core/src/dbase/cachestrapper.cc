@@ -445,6 +445,22 @@ void	CacheStrapper::addCachePair(CachePair set)
 	caches[set.id.type] = set;
 }
 
+
+        /* from pqimonclient */
+void    CacheStrapper::monUpdate(const std::list<pqipeer> &plist)
+{
+	std::list<pqipeer>::const_iterator it;
+	std::map<RsPeerId, CacheTS>::iterator mit;
+	for(it = plist.begin(); it != plist.end(); it++)
+	{
+		if (status.end() == (mit = status.find(it->id)))
+		{
+			addPeerId(it->id);
+		}
+	}
+}
+
+
 void	CacheStrapper::addPeerId(RsPeerId pid)
 {
 	std::map<RsPeerId, CacheTS>::iterator it;
@@ -550,6 +566,22 @@ void    CacheStrapper::listCaches(std::ostream &out)
 
 		(it->second).source->listCaches(out);
 		(it->second).store->listCaches(out);
+		out << std::endl;
+	}
+	return;
+}
+
+void    CacheStrapper::listPeerStatus(std::ostream &out)
+{
+	std::map<RsPeerId, CacheTS>::iterator it;
+	out << "CacheStrapper::listPeerStatus() [" << ownId;
+	out << "] Total Peers: " << status.size() << " Total Caches: " << caches.size();
+	out << std::endl;
+	for(it = status.begin(); it != status.end(); it++)
+	{
+		out << "Peer: " << it->first;
+		out << " Query: " << (it->second).query;
+		out << " Answer: " << (it->second).answer;
 		out << std::endl;
 	}
 	return;

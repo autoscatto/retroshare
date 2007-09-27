@@ -29,15 +29,16 @@
 #include "server/filedexserver.h"
 #include "pqi/pqipersongrp.h"
 #include "pqi/pqiloopback.h"
+#include "util/rsdir.h"
 
 #include <list>
 #include <string>
 #include <sstream>
 
 // Includes for directory creation.
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+//#include <unistd.h>
 // Conflicts with FLTK def - hope they are the same.
 //#include <dirent.h>
 
@@ -62,7 +63,6 @@ static const std::string configHelpName = "retro.htm";
 /* Helper Functions */
 void load_check_basedir(RsInit *config);
 int  create_configinit(RsInit *config);
-int  check_create_directory(std::string dir);
 
 RsControl *createRsControl(RsIface &iface, NotifyBase &notify)
 {
@@ -421,18 +421,9 @@ int RsServer::StartupRetroShare(RsInit *config)
 	// Create Classes.
 	// filedex server.
 	server = new filedexserver();
-
-#ifdef USE_FILELOOK
-        fileLook *fl = new fileLook();
-	fl -> start(); /* background look thread */
-	server->setFileLook(fl);
-#else   /*********************************************************************/
-	filedex *fd = new filedex();
-	server->setFileDex(fd);
-#endif
-	server->setFileCallback(&(getNotify()));
-
 	server->setConfigDir(config->basedir.c_str());
+
+	server->setFileCallback(&(getNotify()));
 
 	SecurityPolicy *none = secpolicy_create();
 
@@ -497,9 +488,6 @@ int RsServer::StartupRetroShare(RsInit *config)
 	server->setSaveDir(config->homePath.c_str());
 
         server->load_config();
-
-	// set the server to pass-through directory results.
-	server->enableDirPassThrough();
 
 	ad = pqih->getP3Disc();
 
@@ -751,7 +739,11 @@ void load_check_basedir(RsInit *config)
 			config->basedir = h;
 		}
 
-		check_create_directory(config->basedir);
+		if (!RsDirUtil::checkCreateDirectory(config->basedir))
+		{
+			std::cerr << "Cannot Create BaseConfig Dir" << std::endl;
+			exit(1);
+		}
 		config->basedir += "\\RetroShare";
 #endif
 /******************************** WINDOWS/UNIX SPECIFIC PART ******************/
@@ -763,11 +755,46 @@ void load_check_basedir(RsInit *config)
 	subdir1 += configKeyDir;
 	subdir2 += configCertDir;
 
+	std::string subdir3 = config->basedir + config->dirSeperator;
+	subdir3 += "cache";
+
+	std::string subdir4 = subdir3 + config->dirSeperator;
+	std::string subdir5 = subdir3 + config->dirSeperator;
+	subdir4 += "local";
+	subdir5 += "remote";
+
 	// fatal if cannot find/create.
 	std::cerr << "Checking For Directories" << std::endl;
-	check_create_directory(config->basedir);
-	check_create_directory(subdir1);
-	check_create_directory(subdir2);
+	if (!RsDirUtil::checkCreateDirectory(config->basedir))
+	{
+		std::cerr << "Cannot Create BaseConfig Dir" << std::endl;
+		exit(1);
+	}
+	if (!RsDirUtil::checkCreateDirectory(subdir1))
+	{
+		std::cerr << "Cannot Create Config/Key Dir" << std::endl;
+		exit(1);
+	}
+	if (!RsDirUtil::checkCreateDirectory(subdir2))
+	{
+		std::cerr << "Cannot Create Config/Cert Dir" << std::endl;
+		exit(1);
+	}
+	if (!RsDirUtil::checkCreateDirectory(subdir3))
+	{
+		std::cerr << "Cannot Create Config/Cache Dir" << std::endl;
+		exit(1);
+	}
+	if (!RsDirUtil::checkCreateDirectory(subdir4))
+	{
+		std::cerr << "Cannot Create Config/Cache/local Dir" << std::endl;
+		exit(1);
+	}
+	if (!RsDirUtil::checkCreateDirectory(subdir5))
+	{
+		std::cerr << "Cannot Create Config/Cache/remote Dir" << std::endl;
+		exit(1);
+	}
 
 	// have a config directories.
 	
@@ -828,6 +855,7 @@ int	create_configinit(RsInit *config)
 	return -1;
 }
 
+#if 0
 
 int	check_create_directory(std::string dir)
 {
@@ -864,6 +892,8 @@ int	check_create_directory(std::string dir)
 	std::cerr <<std::endl<< "\tDir Exists:" <<dir<<std::endl;
 	return 1;
 }
+
+#endif
 
 
 std::string getHomePath()

@@ -7,7 +7,7 @@ EXECS = # test_p3items
 
 BASE_OBJ = pqi_base.o pqi.o pqipacket.o \
 	pqidebug.o pqisecurity.o pqinetwork.o \
-	pqistreamer.o pqibin.o
+	pqistreamer.o pqibin.o pqimon.o
 	
 TUNN_OBJ = pqitunnel.o pqitunneltst.o
 LOOP_OBJ = pqiloopback.o p3loopback.o

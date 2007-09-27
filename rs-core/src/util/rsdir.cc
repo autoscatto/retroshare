@@ -24,7 +24,10 @@
  *
  */
 
-
+// Includes for directory creation.
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #include "util/rsdir.h"
 #include <string>
@@ -187,4 +190,41 @@ int	RsDirUtil::breakupDirList(std::string path,
 	return 1;
 }
 
+
+
+bool	RsDirUtil::checkCreateDirectory(std::string dir)
+{
+	struct stat buf;
+	int val = stat(dir.c_str(), &buf);
+	if (val == -1)
+	{
+		// directory don't exist. create.
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS // UNIX
+		if (-1 == mkdir(dir.c_str(), 0777))
+#else // WIN
+		if (-1 == mkdir(dir.c_str()))
+#endif
+/******************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+		{
+		  std::cerr << "check_create_directory() Fatal Error --";
+		  std::cerr <<std::endl<< "\tcannot create:" <<dir<<std::endl;
+		  return 0;
+		}
+
+		std::cerr << "check_create_directory()";
+		std::cerr <<std::endl<< "\tcreated:" <<dir<<std::endl;
+	} 
+	else if (!S_ISDIR(buf.st_mode))
+	{
+		// Some other type - error.
+		std::cerr<<"check_create_directory() Fatal Error --";
+		std::cerr<<std::endl<<"\t"<<dir<<" is nor Directory"<<std::endl;
+		return 0;
+	}
+	std::cerr << "check_create_directory()";
+	std::cerr <<std::endl<< "\tDir Exists:" <<dir<<std::endl;
+	return 1;
+}
 

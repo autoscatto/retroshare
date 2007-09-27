@@ -27,6 +27,7 @@
 
 
 #include "server/ftfiler.h"
+#include "util/rsdir.h"
 
 #include "pqi/pqidebug.h"
 #include <errno.h>
@@ -298,8 +299,13 @@ std::list<FileTransferItem *> ftfiler::getStatus()
 	for(it = recvFiles.begin(); it != recvFiles.end(); it++)
 	{
 		FileTransferItem *fti = new FileTransferItem();
-		/* XXX fillin the 
+
+		/* fill in the basics
 		 */
+
+		fti -> name = (*it)->name;
+		fti -> hash = (*it)->hash;
+		fti -> size = (*it)->size;
 
 		/* Fill in rate and State */
 		fti -> transferred = (*it)->recv_size;
@@ -1016,6 +1022,8 @@ int ftfiler::resetFileTransfer(ftFileStatus *state)
 	if (state->recv_size == state->total_size)
 	{
 		state->status = PQIFILE_COMPLETE;
+		/* if we're kicking it again for some reason? */
+		completeFileTransfer(state);
 	}
 	else if (state->ftMode != FT_MODE_CACHE)
 	{
@@ -1117,17 +1125,35 @@ int ftfiler::completeFileTransfer(ftFileStatus *s)
 		// re-open in read mode (for transfers?)
 		// don't bother ....
 		// s->fd = fopen(s->file_name.c_str(), "r+b");
+
 	}
 
 	/* so now we move it to the expected destination */
-	//rename(s->file_name)
+	/* determine where it should go! */
+	bool ok = true;
 
-
+	std::string dest = determineDestFilePath(s);
+	if (0 == rename(s->file_name.c_str(), dest.c_str()))
+	{
+		/* correct the file_name */
+		s->file_name = dest;
+	}
+	else
+	{
+		ok = false;
+	}
 
 	/* do callback if CACHE */
 	if (s->ftMode == FT_MODE_CACHE)
 	{
-		CompletedCache(s->hash);
+		if (ok) 
+		{
+			CompletedCache(s->hash);
+		}
+		else
+		{
+			FailedCache(s->hash);
+		}
 	}
 	return 1;
 }
@@ -1217,8 +1243,6 @@ ftFileStatus *ftfiler::createFileCache(std::string hash)
 
 
 
-
-
 /**** 
  * NOTE this should move all temporary and cache files.
  * TODO!
@@ -1227,6 +1251,15 @@ ftFileStatus *ftfiler::createFileCache(std::string hash)
 void    ftfiler::setSaveBasePath(std::string s)
 {
 	saveBasePath = s;
+	std::string partialpath = s + "/";
+	partialpath += PARTIAL_DIR;
+
+	if (!RsDirUtil::checkCreateDirectory(partialpath))
+	{
+		std::cerr << "ftfiler::setSaveBasePath() Cannot create: " << partialpath;
+		std::cerr << std::endl;
+		exit(1);
+	}
 
 	return;
 }

@@ -272,10 +272,16 @@ class CacheTS
 	time_t answer;
 };
 
-class CacheStrapper
+#include "pqi/pqimon.h"
+
+class CacheStrapper: public pqimonclient
 {
 	public:
 	CacheStrapper(RsPeerId id, time_t period);
+virtual ~CacheStrapper() { return; }
+
+	/* from pqimonclient */
+virtual void monUpdate(const std::list<pqipeer> &plist);
 
 void	addCachePair(CachePair pair);
 
@@ -297,6 +303,7 @@ bool    findCache(std::string hash, CacheData &data);
 
 	/* display */
 void 	listCaches(std::ostream &out);
+void 	listPeerStatus(std::ostream &out);
 	
 	private:
 

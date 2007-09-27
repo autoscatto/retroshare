@@ -91,10 +91,11 @@ virtual ~ftFileData()
 class ftManager: public CacheTransfer
 {
 	public:
-	ftManager(CacheStrapper *cs, FileHashSearch *hs)
-	:CacheTransfer(cs), fhs(hs) { return; }
+	ftManager(CacheStrapper *cs)
+	:CacheTransfer(cs), fhs(NULL) { return; }
 virtual ~ftManager() { return; }
 
+void    setFileHashSearch(FileHashSearch *hs) { fhs = hs; }
 
 /****************** PART to be IMPLEMENTE******************/
 	/* Functions to implement */

@@ -98,13 +98,17 @@ int main(int argc, char **argv)
 	FileHashSearch *fhs1 = NULL;
 	FileHashSearch *fhs2 = NULL;
 	FileHashSearch *fhs3 = NULL;
-	ftfiler ff1(&sc1, fhs1);
-	ftfiler ff2(&sc1, fhs2);
-	ftfiler ff3(&sc1, fhs3);
+	ftfiler ff1(&sc1);
+	ftfiler ff2(&sc2);
+	ftfiler ff3(&sc3);
 
 	ff1.setSaveBasePath(tmppath1);
 	ff2.setSaveBasePath(tmppath2);
 	ff3.setSaveBasePath(tmppath3);
+
+	ff1.setFileHashSearch(fhs1);
+	ff2.setFileHashSearch(fhs2);
+	ff3.setFileHashSearch(fhs3);
 
 	std::map<RsPeerId, CacheStrapper *> strappers;
 	strappers[pid1] = &sc1;

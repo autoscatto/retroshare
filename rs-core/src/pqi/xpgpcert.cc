@@ -2519,5 +2519,39 @@ std::string getX509CountryString(X509_NAME *name)
 {
 	return getX509TypeString(name, "C", 2);
 }
-	
+
+
+std::string convert_to_str(certsign &sign)
+{
+        std::ostringstream id;
+        for(int i = 0; i < CERTSIGNLEN; i++)
+        {
+		id << std::hex << std::setw(2) << std::setfill('0') << (uint16_t) (((uint8_t *) (sign.data))[i]);
+	}
+	return id.str();
+}
+
+bool convert_to_certsign(std::string id, certsign &sign)
+{
+	char num[3];
+	if (id.length() < CERTSIGNLEN * 2)
+	{
+		return false;
+	}
+
+	for(int i = 0; i < CERTSIGNLEN; i++)
+	{
+		num[0] = id[i * 2];
+		num[1] = id[i * 2 + 1];
+		num[2] = '\0';
+		int32_t val;
+		if (1 != sscanf(num, "%x", &val))
+		{
+			return false;
+		}
+		sign.data[i] = (uint8_t) val;
+	}
+	return true;
+}
+
 

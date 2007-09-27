@@ -43,6 +43,7 @@ std::string 	removeRootDirs(std::string path, std::string root);
 int     	breakupDirList(std::string path,
                         	std::list<std::string> &subdirs);
 
+bool    	checkCreateDirectory(std::string dir);
 
 };
 

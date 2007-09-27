@@ -37,9 +37,19 @@ FileIndexStore::~FileIndexStore()
 	return;
 }
 
+#define FIS_DEBUG2 1
+
 	  /* actual load, once data available */
 int FileIndexStore::loadCache(const CacheData &data)
 {
+
+#ifdef FIS_DEBUG2
+	std::cerr << "FileIndexStore::loadCache() hash: " << data.hash << std::endl;
+	std::cerr << "FileIndexStore::loadCache() path: " << data.path << std::endl;
+	std::cerr << "FileIndexStore::loadCache() name: " << data.name << std::endl;
+	std::cerr << "FileIndexStore::loadCache() size: " << data.size << std::endl;
+#endif
+
 	/* do Callback */
 	AboutToModify();
 
@@ -62,6 +72,9 @@ int FileIndexStore::loadCache(const CacheData &data)
 
 	if (finew->loadIndex(data.path + '/' + data.name, data.hash, data.size))
 	{
+#ifdef FIS_DEBUG2
+		std::cerr << "FileIndexStore::loadCache() Succeeded!" << std::endl;
+#endif
 		indices[data.pid] = finew;
 		delete fiold;
 
@@ -70,6 +83,9 @@ int FileIndexStore::loadCache(const CacheData &data)
 	}
 	else
 	{
+#ifdef FIS_DEBUG2
+		std::cerr << "FileIndexStore::loadCache() Failed!" << std::endl;
+#endif
 		/* reinstall the old one! */
 		delete finew;
 		if (fiold)

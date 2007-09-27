@@ -55,12 +55,12 @@
 #include <map>
 #include <iostream>
 
-#include "dbase/filedex.h"
-#include "dbase/filelook.h"
-#include "dbase/fistore.h"
-#include "dbase/fimonitor.h"
-
-#include "server/pqifiler.h"
+#include "rsiface/rsiface.h"
+class pqimonitor;
+class CacheStrapper;
+class ftfiler;
+class FileIndexStore;
+class FileIndexMonitor;
 
 
 #ifdef PQI_USE_CHANNELS
@@ -71,48 +71,10 @@
 #define MAX_RESULTS 100 // nice balance between results and traffic.
 
 
-/* So we want the FILEDEX server to also contain
- * a directory struct for the more freely available
- * data that is on other comps.
- *
- * To do this it needs to store a diectory tree.
- */
-
-class DirNode;
-
-class DirNode
-{
-	public:
-		
-	std::string name;
-	int lupdated;
-
-	std::list<PQFileItem *> files;
-	std::list<DirNode *> subdirs;
-	std::ostream& print(std::ostream &out, int lvl);
-};
-
-
-class DirBase: public DirNode
-{
-	public:
-	DirBase():p(NULL) {return;}
-	Person *p;
-	std::ostream& print(std::ostream &out);
-};
-
-
-
 class filedexserver
 {
 	public:
 	filedexserver();
-
-#ifdef USE_FILELOOK
-int 	setFileLook(fileLook*);
-#else /*************************************************/
-int	setFileDex(filedex *fd);
-#endif
 
 void    loadWelcomeMsg(); /* startup message */
 
@@ -133,32 +95,23 @@ std::list<ChatItem *> getChatQueue();
 std::list<MsgItem *> &getMsgList();
 std::list<MsgItem *> &getMsgOutList();
 std::list<MsgItem *> getNewMsgs();
-std::map<SearchItem *, std::list<PQFileItem *> > &getResults();
-std::map<SearchItem *, std::list<PQFileItem *> > getNewResults();
-std::list<DirBase *>  &getDirList() { return dirlist; }
 std::list<FileTransferItem *> getTransfers();
 
+	// get files (obsolete?)
+int     getSearchFile(PQFileItem *item);
+int     getSearchFile(MsgItem *item);
 
 	// cleaning up....
 int	removeMsgItem(int itemnum);
-int	removeSearchResults(int itemnum);
 	// alternative versions.
 int	removeMsgItem(MsgItem *mi);
-int	removeSearchResults(SearchItem *si);
 	// third versions.
 int     removeMsgId(unsigned long mid); /* id stored in sid */
 int     markMsgIdRead(unsigned long mid);
 
-
-// local commands.
-int     cancelSearch(SearchItem *item);
-int     doSearch(std::list<std::string> terms);
-int 	getSearchFile(PQFileItem *item);
-int 	getSearchFile(MsgItem *item);
-
 // access to search info is also required.
-void 	clear_old_transfers() { filer -> clearFailedTransfers(); }
-void 	cancelTransfer(PQFileItem *i) { filer -> cancelFile(i); }
+void 	clear_old_transfers() { /* filer -> clearFailedTransfers(); */ }
+void 	cancelTransfer(PQFileItem *i) { /* filer -> cancelFile(i); */ }
 
 std::list<std::string> &getSearchDirectories();
 int 	addSearchDirectory(std::string dir);
@@ -178,48 +131,20 @@ void		setSaveIncSearch(bool v);
 int	tick();
 int	status();
 
-int	handleDirectoryRequest(SearchItem *item);
-int     printDirectoryListings();
-
 	private:
-int	handleSearch(SearchItem *item); /* search for locally */
-PQFileItem* getLocalSearchResult(); /* returns answers to above */
-
-int	handleFileRequest(PQFileItem *item);
-int     saveSearchResult(PQFileItem *item);
-
-int	handleDirectoryResult(PQFileItem *item);
 
 int	handleInputQueues();
 int	handleOutputQueues();
-
-std::map<PQFileItem *, std::istream *> ofiles;
-std::map<PQFileItem *, std::ostream *> ifiles;
 
 std::list<ChatItem *> ichat;
 std::list<MsgItem *> imsg;
 std::list<MsgItem *> nmsg;
 std::list<MsgItem *> msgOutgoing; /* ones that haven't made it out yet! */
 
-std::map<SearchItem *, std::list<PQFileItem *> > searchResults;
-std::map<SearchItem *, std::list<PQFileItem *> > nresults;
-
-std::list<DirBase *>  dirlist;
-int dirLastPrune;
-
 std::list<std::string> dbase_dirs;
-
 
 P3Interface *pqisi;
 sslroot	*sslr;
-
-#ifdef USE_FILELOOK
-	fileLook *flook;
-#else /***********************************************************/
-	filedex *findex;
-#endif
-
-pqifiler *filer;
 
 std::string config_dir;
 std::string save_dir;
@@ -230,26 +155,7 @@ bool	save_inc; // is savedir include in share list.
 	Indicator msgChanged;
 	Indicator msgMajorChanged;
 	Indicator chatChanged;
-	Indicator searchChanged; // addition
-	Indicator searchMajorChanged; // removal
-	Indicator dirListChanged; // addition
-	Indicator dirListMajorChanged; // removal
 
-
-// for ReIndexing the dBase.
-int     lastUpdate;
-int     updatePeriod;
-
-
-// For Passing the Dir Results through to the RsIface. 
-	public:
-PQFileItem *getDirPassThrough();
-void   	enableDirPassThrough();
-
-	private:
-bool 	DirPassThrough;
-std::list<PQFileItem *> dirPassThroughList;
- 
 #ifdef PQI_USE_CHANNELS
 
 	public:
@@ -308,9 +214,11 @@ int SearchBoolExp(Expression * exp, std::list<FileDetail> &results);
 
 	private:
 
+	pqimonitor *peerMonitor;
+	CacheStrapper *cacheStrapper;
+	ftfiler 	*ftFiler;
         FileIndexStore *fiStore;
 	FileIndexMonitor *fimon;
 };
-
 
 #endif // MRK_PQI_FILEDEX_SERVER_HEADER

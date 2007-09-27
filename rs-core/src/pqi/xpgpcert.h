@@ -59,6 +59,9 @@ std::string getX509CountryString(X509_NAME *name);
 
 int     LoadCheckXPGPandGetName(const char *cert_file, std::string &userName);
 
+std::string convert_to_str(certsign &sign);
+bool convert_to_certsign(std::string id, certsign &sign);
+
 class sslroot;
 
 class cert: public Person

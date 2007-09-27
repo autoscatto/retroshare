@@ -152,8 +152,8 @@ class ftfiler: public ftManager
 {
 public:
 
-        ftfiler(CacheStrapper *cs, FileHashSearch *fhs)
-        :ftManager(cs, fhs) { return; }
+        ftfiler(CacheStrapper *cs)
+        :ftManager(cs) { return; }
 
 virtual ~ftfiler() { return; }
 
