@@ -34,6 +34,7 @@
 
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
+#include "util/rsversion.h"
 
 #include "rsiface/rsiface.h"
 
@@ -74,6 +75,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 {
     /* Invoke the Qt Designer generated QObject setup routine */
     ui.setupUi(this);
+    
+    setWindowTitle(tr("RetroShare %1").arg(retroshareVersion()));
   
     /* Hide Console frame */
     showConsoleFrame(false);

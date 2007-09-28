@@ -76,6 +76,7 @@ HEADERS +=  rshare.h \
             util/MouseEventFilter.h \
             util/EventFilter.h \
             util/Widget.h \
+            util/rsversion.h \
             gui/bwgraph/bwgraph.h \
             gui/chat/PopupChatDialog.h \
             gui/connect/ConnectDialog.h \
@@ -192,6 +193,7 @@ SOURCES += main.cpp \
             util/MouseEventFilter.cpp \
             util/EventFilter.cpp \
             util/Widget.cpp \
+            util/rsversion.cpp \
             gui/bwgraph/bwgraph.cpp \
             gui/chat/PopupChatDialog.cpp \
             gui/connect/ConnectDialog.cpp \
