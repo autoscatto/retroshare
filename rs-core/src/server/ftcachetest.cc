@@ -24,6 +24,7 @@
 #include "dbase/cachestrapper.h"
 #include "dbase/cachetest.h"
 #include "server/ftfiler.h"
+#include "util/rsdir.h"
 
 #include "pqi/pqidebug.h"
 
@@ -58,17 +59,17 @@ int main(int argc, char **argv)
 	std::string cachefile = "cachefile.txt";
 	std::string tmppathcachefile2 = tmppathcache2 + "/" + cachefile;
 
-	mkdir(tmppath1.c_str(), 0777);
-	mkdir(tmppath2.c_str(), 0777);
-	mkdir(tmppath3.c_str(), 0777);
-	mkdir(tmppathpart1.c_str(), 0777);
-	mkdir(tmppathpart2.c_str(), 0777);
-	mkdir(tmppathpart3.c_str(), 0777);
-	mkdir(tmppathcompleted1.c_str(), 0777);
-	mkdir(tmppathcompleted2.c_str(), 0777);
-	mkdir(tmppathcompleted3.c_str(), 0777);
+	RsDirUtil::checkCreateDirectory(tmppath1.c_str());
+	RsDirUtil::checkCreateDirectory(tmppath2.c_str());
+	RsDirUtil::checkCreateDirectory(tmppath3.c_str());
+	RsDirUtil::checkCreateDirectory(tmppathpart1.c_str());
+	RsDirUtil::checkCreateDirectory(tmppathpart2.c_str());
+	RsDirUtil::checkCreateDirectory(tmppathpart3.c_str());
+	RsDirUtil::checkCreateDirectory(tmppathcompleted1.c_str());
+	RsDirUtil::checkCreateDirectory(tmppathcompleted2.c_str());
+	RsDirUtil::checkCreateDirectory(tmppathcompleted3.c_str());
 
-	mkdir(tmppathcache2.c_str(), 0777);
+	RsDirUtil::checkCreateDirectory(tmppathcache2.c_str());
 
 
 	/* now create a file */
@@ -215,8 +216,13 @@ int main(int argc, char **argv)
 			cdata.hash += "X";
 			csrc2->refreshCache(cdata);
 		}
-			
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS
 		sleep(1);
+#else
+		Sleep(1000);
+#endif
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
 
 		/* tick the systems */
 		ff1.tick();

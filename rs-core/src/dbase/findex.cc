@@ -649,7 +649,7 @@ int     FileIndex::printFileIndex(std::ostream &out)
 
 int FileIndex::loadIndex(std::string filename, std::string expectedHash, uint32_t size)
 {
-	std::ifstream file (filename.c_str());
+	std::ifstream file (filename.c_str(), std::ifstream::binary);
 	if (!file)
 	{
 #ifdef FI_DEBUG
@@ -847,7 +847,7 @@ error:
 int FileIndex::saveIndex(std::string filename, std::string &fileHash, uint32_t &size)
 {
 	unsigned char sha_buf[SHA_DIGEST_LENGTH];
-	std::ofstream file (filename.c_str());
+	std::ofstream file (filename.c_str(), std::ofstream::binary);
 	std::ostringstream oss;
 	
 	if (!file)

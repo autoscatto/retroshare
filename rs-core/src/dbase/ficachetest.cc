@@ -25,6 +25,13 @@
 #include "cachetest.h"
 
 #include <iostream>
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS
+#else
+	#include <windows.h>
+#endif
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
 
 void handleQuery(CacheStrapper *csp, RsPeerId pid, 
 		std::map<RsPeerId, CacheStrapper *> &strappers);
@@ -151,8 +158,14 @@ int main(int argc, char **argv)
 			cdata.hash += "X";
 			csrc2->refreshCache(cdata);
 		}
-			
+
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS
 		sleep(1);
+#else
+		Sleep(1000);
+#endif
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
 
 		/* tick the systems */
 

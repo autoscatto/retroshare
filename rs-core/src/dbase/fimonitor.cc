@@ -118,7 +118,16 @@ void 	FileIndexMonitor::run()
 
 	while(1)
 	{
+
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS
 		sleep(updatePeriod);
+#else
+
+                Sleep(updatePeriod * 1000);
+#endif
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
 		updateCycle();
 	}
 }
@@ -136,7 +145,15 @@ void 	FileIndexMonitor::updateCycle()
 	while(moretodo)
 	{
 		/* sleep a bit for each loop */
-		usleep(100000);
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS
+		usleep(100000); /* 1/10 sec */
+#else
+
+                Sleep(100);
+#endif
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
 		
 		/* Handle a Single out-of-date directory */
 
@@ -357,7 +374,14 @@ void 	FileIndexMonitor::updateCycle()
 			}
 
 			/* don't hit the disk too hard! */
-			usleep(10000);
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+#ifndef WINDOWS_SYS
+			usleep(10000); /* 1/100 sec */
+#else
+
+       		        Sleep(10);
+#endif
+/********************************** WINDOWS/UNIX SPECIFIC PART ******************/
 
                 }
         }
@@ -491,7 +515,7 @@ void    FileIndexMonitor::setSharedDirectories(std::list<std::string> dirs)
 /* lookup directory function */
 std::string FileIndexMonitor::findRealRoot(std::string rootdir)
 {
-	/**** ALREADY LOCKED ****/ //fiMutex.lock(); /* LOCKED */
+	/**** MUST ALREADY BE LOCKED ****/ 
 	std::string realroot = "";
 
 	std::map<std::string, std::string>::const_iterator cit;
@@ -505,34 +529,37 @@ std::string FileIndexMonitor::findRealRoot(std::string rootdir)
 		realroot = cit->second;
 	}
 
-	//fiMutex.unlock(); /* UNLOCKED */
-
 	return realroot;
 }
-
-
-
-
 
 
 
 bool FileIndexMonitor::hashFile(std::string fullpath, FileEntry &fent)
 {
 	std::string f_hash = fullpath + "/" + fent.name;
-	int fd, len;
+	FILE *fd;
+	int  len;
 	SHA_CTX *sha_ctx = new SHA_CTX;
 	unsigned char sha_buf[SHA_DIGEST_LENGTH];
 	unsigned char gblBuf[512];
 
 	std::cerr << "File to hash = " << f_hash << std::endl;
-	if((fd = open(f_hash.c_str(), O_RDONLY)) == -1)		return false;
+	if (NULL == (fd = fopen(f_hash.c_str(), "rb")))	return false;
 
 	SHA1_Init(sha_ctx);
-	while((len = read(fd, gblBuf, 512)) > 0)
+	while((len = fread(gblBuf,1, 512, fd)) > 0)
 	{
-		if(len == -1)	return false;	/* reading failed for some reason */
 		SHA1_Update(sha_ctx, gblBuf, len);
 	}
+
+	/* reading failed for some reason */
+	if (ferror(fd)) 
+	{
+		delete sha_ctx;
+		fclose(fd);
+		return false;
+	}
+
 	SHA1_Final(&sha_buf[0], sha_ctx);
 
 	/* TODO: Actually we should store the hash data as binary ... 
@@ -546,9 +573,8 @@ bool FileIndexMonitor::hashFile(std::string fullpath, FileEntry &fent)
 	}
 	fent.hash = tmpout.str();
 
-
 	delete sha_ctx;
-	close(fd);
+	fclose(fd);
 	return true;
 }
 

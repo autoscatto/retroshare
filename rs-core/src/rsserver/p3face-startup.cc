@@ -24,6 +24,8 @@
  *
  */
 
+#include <unistd.h>
+//#include <getopt.h>
 
 #include "dbase/filedex.h"
 #include "server/filedexserver.h"

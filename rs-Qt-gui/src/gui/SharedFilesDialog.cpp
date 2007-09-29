@@ -99,6 +99,10 @@ SharedFilesDialog::SharedFilesDialog(QWidget *parent)
 	r_header->resizeSection ( 2, 100 );
 	r_header->resizeSection ( 3, 100 );
 
+  /* Set Multi Selection */
+  ui.remoteDirTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+  ui.localDirTreeView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
 

@@ -508,15 +508,19 @@
      	else if (details.type == DIR_TYPE_DIR)
 	{
      		return ( Qt::ItemIsSelectable | 
-			Qt::ItemIsDragEnabled |
-			Qt::ItemIsDropEnabled |
 			Qt::ItemIsEnabled);
+
+//			Qt::ItemIsDragEnabled |
+//			Qt::ItemIsDropEnabled |
+
 	}
 	else // (details.type == DIR_TYPE_FILE)
 	{
      		return ( Qt::ItemIsSelectable | 
-			Qt::ItemIsDragEnabled |
 			Qt::ItemIsEnabled);
+
+//			Qt::ItemIsDragEnabled |
+
 	}
 }
 
