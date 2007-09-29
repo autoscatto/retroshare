@@ -1,5 +1,5 @@
 /*
- * "$Id: hashsearch.h,v 1.5 2007-02-19 20:08:30 rmf24 Exp $"
+ * "$Id: hashsearch.cc,v 1.5 2007-02-19 20:08:30 rmf24 Exp $"
  *
  * Other Bits for RetroShare.
  *
@@ -23,39 +23,29 @@
  *
  */
 
-
-
-
-#ifndef MRK_FILE_HASH_SEARCH_H
-#define MRK_FILE_HASH_SEARCH_H
-
 /**********
  * SearchInterface for the FileTransfer
  */
 
-#include "rsiface/rstypes.h"
-class FileIndexStore;
-class FileIndexMonitor;
+#include "server/hashsearch.h"
 #include "dbase/fistore.h"
 #include "dbase/fimonitor.h"
 
-class FileHashSearch
-{
-	public:
-	FileHashSearch(FileIndexStore *s, FileIndexMonitor *m)
-	:store(s), monitor(m) { return; }
-
-	~FileHashSearch() { return; }
-
 	/* Search Interface - For FileTransfer Lookup */
-	int searchLocalHash(std::string hash, std::string &path, uint32_t &size);
+int FileHashSearch::searchLocalHash(std::string hash, std::string &path, uint32_t &size)
+{
+	if (monitor)
+	{
+		return monitor->findLocalFile(hash, path, size);
+	}
+	return 0;
+}
 
-	int searchRemoteHash(std::string hash, std::list<FileDetail> &results);
+int FileHashSearch::searchRemoteHash(std::string hash, std::list<FileDetail> &results)
+{
+	if (store)
+		store->SearchHash(hash, results);
+	return results.size();
+}
 
-	private:
 
-	FileIndexStore   *store;
-	FileIndexMonitor *monitor;
-};
-
-#endif

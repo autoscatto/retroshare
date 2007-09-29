@@ -29,7 +29,13 @@
      void *ref = parent.internalPointer();
 
      DirDetails details;
-     if (!rsicontrol->RequestDirDetails(ref, details))
+     uint32_t flags = DIR_FLAGS_CHILDREN;
+     if (RemoteMode)
+     	flags |= DIR_FLAGS_REMOTE;
+     else
+     	flags |= DIR_FLAGS_LOCAL;
+
+     if (!rsicontrol->RequestDirDetails(ref, details, flags))
      {
      	/* error */
 #ifdef RDM_DEBUG
@@ -70,7 +76,13 @@
      }
 
      DirDetails details;
-     if (!rsicontrol->RequestDirDetails(ref, details))
+     uint32_t flags = DIR_FLAGS_CHILDREN;
+     if (RemoteMode)
+     	flags |= DIR_FLAGS_REMOTE;
+     else
+     	flags |= DIR_FLAGS_LOCAL;
+
+     if (!rsicontrol->RequestDirDetails(ref, details, flags))
      {
 #ifdef RDM_DEBUG
         std::cerr << "lookup failed -> 0";
@@ -117,7 +129,13 @@
      int coln = index.column(); 
 
      DirDetails details;
-     if (!rsicontrol->RequestDirDetails(ref, details))
+     uint32_t flags = DIR_FLAGS_DETAILS;
+     if (RemoteMode)
+     	flags |= DIR_FLAGS_REMOTE;
+     else
+     	flags |= DIR_FLAGS_LOCAL;
+
+     if (!rsicontrol->RequestDirDetails(ref, details, flags))
      {
      	return QVariant();
      }
@@ -363,7 +381,13 @@
 	********/
 
      	DirDetails details;
-     	if (!rsicontrol->RequestDirDetails(ref, details))
+     	uint32_t flags = DIR_FLAGS_CHILDREN;
+     	if (RemoteMode)
+     		flags |= DIR_FLAGS_REMOTE;
+     	else
+     		flags |= DIR_FLAGS_LOCAL;
+
+     	if (!rsicontrol->RequestDirDetails(ref, details, flags))
      	{
 #ifdef RDM_DEBUG
      		std::cerr << "lookup failed -> invalid";
@@ -421,7 +445,13 @@
 	void *ref = index.internalPointer();
 
      	DirDetails details;
-     	if (!rsicontrol->RequestDirDetails(ref, details))
+     	uint32_t flags = DIR_FLAGS_PARENT;
+     	if (RemoteMode)
+     		flags |= DIR_FLAGS_REMOTE;
+     	else
+     		flags |= DIR_FLAGS_LOCAL;
+
+     	if (!rsicontrol->RequestDirDetails(ref, details, flags))
      	{
 #ifdef RDM_DEBUG
      		std::cerr << "Failed Lookup -> invalid";
@@ -460,7 +490,13 @@
 	void *ref = index.internalPointer();
 
      	DirDetails details;
-     	if (!rsicontrol->RequestDirDetails(ref, details))
+     	uint32_t flags = DIR_FLAGS_DETAILS;
+     	if (RemoteMode)
+     		flags |= DIR_FLAGS_REMOTE;
+     	else
+     		flags |= DIR_FLAGS_LOCAL;
+
+     	if (!rsicontrol->RequestDirDetails(ref, details, flags))
      	{
 		return (Qt::ItemIsSelectable); // Error.
      	}
@@ -536,12 +572,27 @@ void RemoteDirModel::downloadSelected(QModelIndexList list)
 		void *ref = it -> internalPointer();
 
      		DirDetails details;
-     		if (!rsicontrol->RequestDirDetails(ref, details))
+     		uint32_t flags = DIR_FLAGS_DETAILS;
+     		if (RemoteMode)
+		{
+     			flags |= DIR_FLAGS_REMOTE;
+		}
+     		else
+		{
+     			flags |= DIR_FLAGS_LOCAL;
+			continue; /* don't try to download local stuff */
+		}
+
+     		if (!rsicontrol->RequestDirDetails(ref, details, flags))
      		{
 			continue;
      		}
-		rsicontrol -> FileRequest(details.id, details.path, 
-					details.hash, details.count);
+		/* only request if it is a file */
+		if (details.type == DIR_TYPE_FILE)
+		{
+			rsicontrol -> FileRequest(details.name, details.hash, 
+						details.count, "");
+		}
 	}
 }
 
@@ -559,8 +610,15 @@ void RemoteDirModel::recommendSelected(QModelIndexList list)
 	{
 		void *ref = it -> internalPointer();
 
+		/*** XXX TOFIX!
      		DirDetails details;
-     		if (!rsicontrol->RequestDirDetails(ref, details))
+     		uint32_t flags = DIR_FLAGS_DETAILS;
+     		if (RemoteMode)
+     			flags |= DIR_FLAGS_REMOTE;
+     		else
+     			flags |= DIR_FLAGS_LOCAL;
+
+     		if (!rsicontrol->RequestDirDetails(ref, details, flags))
      		{
 			continue;
      		}
@@ -568,12 +626,11 @@ void RemoteDirModel::recommendSelected(QModelIndexList list)
 		std::cerr << "::::::::::::FileRecommend Lookup" << std::endl;
 		std::cerr << "Path: " << details.path << std::endl;
 
-		/*** XXX TOFIX!
 		rsicontrol -> FileRecommend(details.id, details.name, 
 					details.hash, details.count);
-		***/
 		rsicontrol -> FileRecommend(details.id, details.name, 
 					 details.count);
+		***/
 	}
 	std::cerr << "::::::::::::Done FileRecommend" << std::endl;
 }

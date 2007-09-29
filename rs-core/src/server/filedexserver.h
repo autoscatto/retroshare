@@ -62,6 +62,9 @@ class ftfiler;
 class FileIndexStore;
 class FileIndexMonitor;
 
+class ftFileRequest;
+class ftFileData;
+
 
 #ifdef PQI_USE_CHANNELS
 	#include "pqi/pqichannel.h"
@@ -98,8 +101,10 @@ std::list<MsgItem *> getNewMsgs();
 std::list<FileTransferItem *> getTransfers();
 
 	// get files (obsolete?)
-int     getSearchFile(PQFileItem *item);
-int     getSearchFile(MsgItem *item);
+int     getFile(std::string fname, std::string hash,
+                        uint32_t size, std::string dest);
+void 	clear_old_transfers();
+void 	cancelTransfer(std::string fname, std::string hash, uint32_t size);
 
 	// cleaning up....
 int	removeMsgItem(int itemnum);
@@ -110,8 +115,6 @@ int     removeMsgId(unsigned long mid); /* id stored in sid */
 int     markMsgIdRead(unsigned long mid);
 
 // access to search info is also required.
-void 	clear_old_transfers() { /* filer -> clearFailedTransfers(); */ }
-void 	cancelTransfer(PQFileItem *i) { /* filer -> cancelFile(i); */ }
 
 std::list<std::string> &getSearchDirectories();
 int 	addSearchDirectory(std::string dir);
@@ -207,12 +210,15 @@ void 	initialiseFileStore();
 void    setFileCallback(NotifyBase *cb);
 
 int RequestDirDetails(std::string uid, std::string path, DirDetails &details);
-int RequestDirDetails(void *ref, DirDetails &details);
+int RequestDirDetails(void *ref, DirDetails &details, uint32_t flags);
 
 int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results);
 int SearchBoolExp(Expression * exp, std::list<FileDetail> &results);
 
 	private:
+
+void 	SendFileRequest(ftFileRequest *ftr, cert *peer);
+void 	SendFileData(ftFileData *ftd, cert *peer);
 
 	pqimonitor *peerMonitor;
 	CacheStrapper *cacheStrapper;

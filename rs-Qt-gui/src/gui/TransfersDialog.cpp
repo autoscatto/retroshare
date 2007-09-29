@@ -325,7 +325,8 @@ void TransfersDialog::cancel()
 			 * but otherwise, not exact filename .... BUG
 			 */
 			std::string name = (qname.trimmed()).toStdString();
-			rsicontrol->FileCancel(id, name);
+			// TODO
+			//rsicontrol->FileCancel(name, id, name);
 			//delItem(i);
 		}
 	}

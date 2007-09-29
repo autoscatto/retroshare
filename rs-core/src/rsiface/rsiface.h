@@ -237,7 +237,7 @@ virtual	int FriendSetBandwidth(std::string id, float outkB, float inkB) = 0;
 /****************************************/
 	/* Directory Actions */
 virtual int RequestDirDetails(std::string uid, std::string path, DirDetails &details) = 0;
-virtual int RequestDirDetails(void *ref, DirDetails &details) = 0;
+virtual int RequestDirDetails(void *ref, DirDetails &details, uint32_t flags) = 0;
 
 /****************************************/
 	/* Search Actions */
@@ -247,19 +247,19 @@ virtual int SearchBoolExp(Expression *exp, std::list<FileDetail> &results) = 0;
 /****************************************/
 	/* Actions For Upload/Download */
 
-virtual	int FileRequest(std::string uId, std::string src, std::string dest, int size) = 0;
+// These three need redoing.
 virtual	int FileRecommend(std::string uId, std::string fname, int size) = 0;
-
-// Transfer control.
-virtual	int FileCancel(std::string uId, std::string fname)    = 0;
-virtual int FileClearCompleted()                              = 0;
-virtual	int FileSetBandwidthTotals(float outkB, float inkB)   = 0;
-
 // removing local files.
 virtual	int FileDelete(std::string uId, std::string fname)    = 0;
-
-
 //virtual int FileMove(std::string uId, std::string src, std::string dest) = 0;
+
+
+virtual int FileRequest(std::string fname, std::string hash, uint32_t size, std::string dest) = 0;
+
+// Transfer control.
+virtual int FileCancel(std::string fname, std::string hash, uint32_t size) = 0;
+virtual int FileClearCompleted()                              = 0;
+virtual	int FileSetBandwidthTotals(float outkB, float inkB)   = 0;
 
 /****************************************/
 	/* Message Items */

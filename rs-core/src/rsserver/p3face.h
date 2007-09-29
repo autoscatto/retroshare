@@ -156,18 +156,21 @@ int 	ensureExtension(std::string &name, std::string def_ext);
 	/* Directory Actions */
 virtual int RequestDirDetails(std::string uid, std::string path, 
 					DirDetails &details);
-virtual int RequestDirDetails(void *ref, DirDetails &details);
+virtual int RequestDirDetails(void *ref, DirDetails &details, uint32_t flags);
 virtual int SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results);
 virtual int SearchBoolExp(Expression *exp, std::list<FileDetail> &results);
+
+
 	/* Actions For Upload/Download */
+
+// REDO these three TODO XXX .
 virtual int FileRecommend(std::string uId, std::string src, int size);
 virtual int FileBroadcast(std::string uId, std::string src, int size);
-
-virtual int FileRequest(std::string uId, std::string src, std::string dest, int size);
 virtual int FileDelete(std::string, std::string);
 
+virtual int FileRequest(std::string fname, std::string hash, uint32_t size, std::string dest);
 
-virtual int FileCancel(std::string uId, std::string fname);
+virtual int FileCancel(std::string fname, std::string hash, uint32_t size);
 virtual int FileClearCompleted();
 
 

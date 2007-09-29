@@ -351,6 +351,20 @@ std::ostream &print(std::ostream &out, const DirInfo &info, int indentLvl);
 #define DIR_TYPE_DIR  		0x04
 #define DIR_TYPE_FILE 		0x08
 
+/* flags for Directry request -
+ * two types;
+ * (1) Local / Remote (top byte)
+ * (2) Request type: Parent / Child - allows reduction in workload.
+ *     (TODO)
+ */
+
+#define DIR_FLAGS_LOCAL         0x1000
+#define DIR_FLAGS_REMOTE        0x2000
+
+#define DIR_FLAGS_PARENT        0x0001
+#define DIR_FLAGS_DETAILS       0x0002
+#define DIR_FLAGS_CHILDREN      0x0004
+
 class DirStub
 {
 	public:

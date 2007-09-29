@@ -71,6 +71,10 @@ class FileIndexMonitor: public CacheSource, public RsThread
 	FileIndexMonitor(std::string cachedir, std::string pid);
 virtual ~FileIndexMonitor();
 
+	/* external interface for filetransfer */
+bool    findLocalFile(std::string hash, std::string &fullpath, uint32_t &size);
+
+
 	/* Interacting with CacheSource */
 	/* overloaded from CacheSource */
 virtual bool loadCache(const CacheData &data);  /* called with stored data */

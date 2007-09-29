@@ -121,45 +121,15 @@ int     RsServer::UpdateAllTransfers()
 }
 
 
-int RsServer::FileRequest(std::string id, std::string src, std::string dest, int size)
+int RsServer::FileRequest(std::string fname, std::string hash, 
+			uint32_t size, std::string dest)
 {
 	lockRsCore(); /* LOCKED */
-	RsCertId uId(id);
 
-	std::cerr << "RsServer::FileRequest(" << uId << ", ";
-	std::cerr << src << ", " << dest << ")" << std::endl;
+	std::cerr << "RsServer::FileRequest(" << fname << ", ";
+	std::cerr << hash << ", " << size << ", " << dest << ")" << std::endl;
 
-	int ret = 1;
-	cert *c = intFindCert(uId);
-	if ((c == NULL) || (c == sslr -> getOwnCert()))
-	{
-		ret = 0;
-		std::cerr << "RsServer::FileRequest() Bade Cert!" << std::endl;
-	}
-
-	if (ret)
-	{
-		// XXX Must construct this properly.
-		PQFileItem *result_item = new PQFileItem();
-
-		result_item -> p = c;
-		result_item -> cid = c -> cid;
-		result_item -> subtype = PQI_FI_SUBTYPE_REQUEST;
-
-		std::string basepath = RsDirUtil::removeTopDir(src);
-		std::string fname = RsDirUtil::getTopDir(src);
-
-		result_item -> path = basepath;
-		result_item -> name = fname;
-		result_item -> size = size;
-		/* what about the size....? */
-
-		// otherwise ... can get search item.
-		std::cerr << "RsServer::FileRequest() Requesting:" << std::endl;
-		result_item -> print(std::cerr);
-
-		server -> getSearchFile(result_item);
-	}
+	int ret = server -> getFile(fname, hash, size, dest);
 
 	unlockRsCore(); /* UNLOCKED */
 
@@ -252,30 +222,15 @@ int RsServer::FileBroadcast(std::string id, std::string src, int size)
 	return ret;
 }
 
-int RsServer::FileCancel(std::string id, std::string fname)
+int RsServer::FileCancel(std::string fname, std::string hash, uint32_t size)
 {
 	lockRsCore(); /* LOCKED */
-	RsCertId uId(id);
 
-	int ret = 1;
-	cert *c = intFindCert(uId);
-	if ((c == NULL) || (c == sslr -> getOwnCert()))
-	{
-		ret = 0;
-	}
-
-	if (ret)
-	{
-		/* TO DO */
-        	PQFileItem *cancelled = new PQFileItem();
-		cancelled -> name = fname;
-		cancelled -> hash = "";
-		server -> cancelTransfer(cancelled);
-	}
+	server -> cancelTransfer(fname, hash, size);
 
 	unlockRsCore(); /* UNLOCKED */
 
-	return ret;
+	return 1;
 }
 
 
@@ -354,7 +309,7 @@ int RsServer::RequestDirDetails(std::string uid, std::string path,
 
 }
 
-int RsServer::RequestDirDetails(void *ref, DirDetails &details)
+int RsServer::RequestDirDetails(void *ref, DirDetails &details, uint32_t flags)
 {
 
         /* lock Mutexes */
@@ -364,7 +319,7 @@ int RsServer::RequestDirDetails(void *ref, DirDetails &details)
         iface.lockData(); /* LOCK */
 
 	/* call to filedexserver */
-	int val = server->RequestDirDetails(ref, details);
+	int val = server->RequestDirDetails(ref, details, flags);
 
 	/* done! */
         /* unlock Mutexes */

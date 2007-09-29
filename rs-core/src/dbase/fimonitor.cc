@@ -49,6 +49,52 @@ FileIndexMonitor::~FileIndexMonitor()
 	return;
 }
 
+bool    FileIndexMonitor::findLocalFile(std::string hash, 
+				std::string &fullpath, uint32_t &size)
+{
+	std::list<FileEntry *> results;
+	bool ok = false;
+
+	fiMutex.lock(); { /* LOCKED DIRS */
+
+	std::cerr << "FileIndexMonitor::findLocalFile() Hash: " << hash << std::endl;
+	/* search through the fileIndex */
+	fi.searchHash(hash, results);
+	if (results.size() > 0)
+	{
+		/* find the full path for the first entry */
+		FileEntry *fe = results.front();
+		DirEntry  *de = fe->parent; /* all files must have a valid parent! */
+
+		std::cerr << "FileIndexMonitor::findLocalFile() Found Name: " << fe->name << std::endl;
+		std::string shpath =  RsDirUtil::removeRootDir(de->path);
+		std::string basedir = RsDirUtil::getRootDir(de->path);
+		std::string realroot = findRealRoot(basedir);
+
+		/* construct full name */
+		if (realroot.length() > 0)
+		{
+			fullpath = realroot + "/";
+			if (shpath != "")
+			{
+				fullpath += shpath + "/";
+			}
+			fullpath += fe->name;
+
+			size = fe->size;
+			ok = true;
+		}
+		std::cerr << "FileIndexMonitor::findLocalFile() Found Path: " << fullpath << std::endl;
+		std::cerr << "FileIndexMonitor::findLocalFile() Found Size: " << size << std::endl;
+	}
+
+
+	} fiMutex.unlock(); /* UNLOCKED DIRS */
+
+	return ok;
+}
+
+
 bool FileIndexMonitor::loadCache(const CacheData &data)  /* called with stored data */
 {
 	return refreshCache(data);
@@ -465,7 +511,10 @@ std::string FileIndexMonitor::findRealRoot(std::string rootdir)
 }
 
 
-unsigned char gblBuf[512];
+
+
+
+
 
 bool FileIndexMonitor::hashFile(std::string fullpath, FileEntry &fent)
 {
@@ -473,6 +522,7 @@ bool FileIndexMonitor::hashFile(std::string fullpath, FileEntry &fent)
 	int fd, len;
 	SHA_CTX *sha_ctx = new SHA_CTX;
 	unsigned char sha_buf[SHA_DIGEST_LENGTH];
+	unsigned char gblBuf[512];
 
 	std::cerr << "File to hash = " << f_hash << std::endl;
 	if((fd = open(f_hash.c_str(), O_RDONLY)) == -1)		return false;

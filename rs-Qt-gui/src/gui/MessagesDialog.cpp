@@ -161,25 +161,28 @@ void MessagesDialog::getallrecommended()
         const std::list<FileInfo> &recList = mi->files;
 	std::list<FileInfo>::const_iterator it;
 
-	std::list<std::string> paths;
+	std::list<std::string> fnames;
+	std::list<std::string> hashes;
 	std::list<int>         sizes;
 
 	for(it = recList.begin(); it != recList.end(); it++)
 	{
-		paths.push_back(it->path);
+		fnames.push_back(it->fname);
+		hashes.push_back(it->hash);
 		sizes.push_back(it->size);
 	}
 
 	rsiface->unlockData(); /* Unlock Interface */
 
 	/* now do requests */
-	std::list<std::string>::const_iterator pit;
+	std::list<std::string>::const_iterator fit;
+	std::list<std::string>::const_iterator hit;
 	std::list<int>::const_iterator sit;
 
-	for(pit = paths.begin(), sit = sizes.begin(); 
-		pit != paths.end(); pit++, sit++)
+	for(fit = fnames.begin(), hit = hashes.begin(), sit = sizes.begin(); 
+		fit != fnames.end(); fit++, hit++, sit++)
 	{
-        	rsicontrol -> FileRequest(mCurrCertId, *pit, "", *sit);
+        	rsicontrol -> FileRequest(*fit, *hit, *sit, "");
 	}
 }
 

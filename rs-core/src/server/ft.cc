@@ -40,28 +40,25 @@ bool	ftManager::lookupLocalHash(std::string hash, std::string &path, uint32_t &s
 
 		return true;
 	}
-	std::string id;
+
+	bool ok = false;
 	if (fhs)
 	{
-		fhs -> searchHash(id, hash, details);
+		ok = (0 != fhs -> searchLocalHash(hash, path, size));
 	}
 	else
 	{
 		std::cerr << "Warning FileHashSearch is Invalid" << std::endl;
 	}
 
-	if (details.size() == 0)
+	if (ok)
 	{
-		std::cerr << "ftManager::lookupLocalHash() Not Found!" << std::endl;
-		return false;
+		std::cerr << "ftManager::lookupLocalHash() Found in FileHashSearch:";
+		std::cerr << path << " size: " << size << std::endl;
+		return true;
 	}
-	/* else get the first one */
-	path = details.front().path;
-	size = details.front().size;
+	return ok;
 
-	std::cerr << "ftManager::lookupLocalHash() Found in FileHashSearch:";
-	std::cerr << path << " size: " << size << std::endl;
-	return true;
 }
 
 		
@@ -70,13 +67,12 @@ bool	ftManager::lookupRemoteHash(std::string hash, std::list<std::string> &ids)
 {
 	std::list<FileDetail> details;
 	std::list<FileDetail>::iterator it;
-	std::string id = "";
 
 	std::cerr << "ftManager::lookupRemoteHash() hash: " << hash << std::endl;
 
 	if (fhs)
 	{
-		fhs -> searchHash(id, hash, details);
+		fhs -> searchRemoteHash(hash, details);
 	}
 	else
 	{

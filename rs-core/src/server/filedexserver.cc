@@ -203,38 +203,6 @@ void	filedexserver::setSaveIncSearch(bool v)
 }
 
 
-// must not delete the item.
-int	filedexserver::getSearchFile(PQFileItem *item)
-{
-	// send to filer.
-	//filer -> getFile(item->clone());
-	return 1;
-}
-
-
-// must not delete the item.
-int	filedexserver::getSearchFile(MsgItem *item)
-{
-	std::list<MsgFileItem>::iterator it;
-	for(it = item -> files.begin(); it != item -> files.end(); it++)
-	{
-		PQFileItem *fi = new PQFileItem();
-
-		fi -> copyIDs(item);
-		fi -> sid = getPQIsearchId();
-		fi -> subtype = PQI_FI_SUBTYPE_REQUEST;
-		fi -> name = it -> name;
-		fi -> hash = it -> hash;
-		fi -> size = it -> size;
-
-		// getfile.
-		//filer->getFile(fi);
-	}
-
-	return 1;
-}
-
-
 /***************** Chat Stuff **********************/
 
 int     filedexserver::sendChat(std::string msg)
@@ -963,7 +931,7 @@ void    filedexserver::setFileCallback(NotifyBase *cb)
 	/* setup FiStore/Monitor */
 	std::string localcachedir = config_dir + "/cache/local";
 	std::string remotecachedir = config_dir + "/cache/remote";
-	fiStore = new FileIndexStore(ftFiler, cb, remotecachedir);
+	fiStore = new FileIndexStore(ftFiler, cb, ownId, remotecachedir);
 
 	/* now setup the FiMon */
 	fimon = new FileIndexMonitor(localcachedir, ownId);
@@ -971,8 +939,8 @@ void    filedexserver::setFileCallback(NotifyBase *cb)
 	/* setup ftFiler
 	 * to find peer info / savedir 
 	 */
-
-	ftFiler -> setFileHashSearch(NULL); //fiStore);
+	FileHashSearch *fhs = new FileHashSearch(fiStore, fimon);
+	ftFiler -> setFileHashSearch(fhs);
 	ftFiler -> setSaveBasePath(save_dir);
 
 	/* now add the set to the cachestrapper */
@@ -995,6 +963,25 @@ void    filedexserver::setFileCallback(NotifyBase *cb)
 
 }
 
+// Transfer control.
+int filedexserver::getFile(std::string fname, std::string hash,
+                        uint32_t size, std::string dest)
+
+{
+	// send to filer.
+	return ftFiler -> getFile(fname, hash, size, dest);
+}
+
+void filedexserver::clear_old_transfers()
+{
+	ftFiler -> clearFailedTransfers();
+}
+
+void filedexserver::cancelTransfer(std::string fname, std::string hash, uint32_t size)
+{
+	ftFiler -> cancelFile(hash);
+}
+
 
 int filedexserver::RequestDirDetails(std::string uid, std::string path,
                                         DirDetails &details)
@@ -1002,9 +989,9 @@ int filedexserver::RequestDirDetails(std::string uid, std::string path,
 	return fiStore->RequestDirDetails(uid, path, details);
 }
 
-int filedexserver::RequestDirDetails(void *ref, DirDetails &details)
+int filedexserver::RequestDirDetails(void *ref, DirDetails &details, uint32_t flags)
 {
-	return fiStore->RequestDirDetails(ref, details);
+	return fiStore->RequestDirDetails(ref, details, flags);
 }
 
 int filedexserver::SearchKeywords(std::list<std::string> keywords, 
@@ -1267,37 +1254,11 @@ int     filedexserver::handleOutputQueues()
 
 	/* now see if the filer has any data */
 	ftFileRequest *ftr;
-	PQFileItem *fi;
 	while((ftr = ftFiler -> sendFileInfo()) != NULL)
 	{
 		std::cerr << "filedexserver::handleOutputQueues() ftFiler Data for: " << ftr->id << std::endl;
-		/* decide if its data or request */
-		ftFileData *ftd = dynamic_cast<ftFileData *>(ftr);
-		if (ftd)
-		{
-			/* send data! */
-			PQFileData *fid = new PQFileData();
 
-			/* reuse malloc hack */
-			fid -> data = ftd -> data;
-			fid -> datalen = ftd -> chunk;
-
-			/* blank old one */
-			ftd -> data = NULL;
-
-			fi = fid;
-		}
-		else
-		{
-			/* send request */
-			fi = new PQFileItem();
-			fi -> subtype = PQI_FI_SUBTYPE_REQUEST;
-		}
-	
-		/* fill in common details */
-
-		/* PQItem ones (from id) */
-		/* set it up */
+		/* work out who its going to */
 		certsign sign;
 		if (!convert_to_certsign(ftr->id, sign))
 		{
@@ -1313,24 +1274,23 @@ int     filedexserver::handleOutputQueues()
 			exit(1);
 		}
 
-		fi -> p = c;
-		fi -> cid = c->cid;
-		/* type/subtype already done, flags/search id ignored */
-
-		fi -> hash = ftr -> hash;
-		/* name, path, ext are ignored */
-		fi -> size = ftr -> size;
-		fi -> fileoffset = ftr->offset;
-		fi -> chunksize = ftr->chunk;
+		/* decide if its data or request */
+		ftFileData *ftd = dynamic_cast<ftFileData *>(ftr);
+		if (ftd)
+		{
+			SendFileData(ftd, c);
+		}
+		else
+		{
+			SendFileRequest(ftr, c);
+		}
 
 		std::ostringstream out;
 		if (i++ == 0)
 		{
 			out << "Outgoing filer -> PQFileItem:" << std::endl;
 		}
-		fi -> print(out);
 		pqioutput(PQL_DEBUG_BASIC, fldxsrvrzone, out.str());
-		pqisi -> SendFileItem(fi);
 
 		/* clean up */
 		delete ftr;
@@ -1343,6 +1303,65 @@ int     filedexserver::handleOutputQueues()
 		return 1;
 	}
 	return 0;
+}
+
+void filedexserver::SendFileRequest(ftFileRequest *ftr, cert *peer)
+{
+	/* send request */
+	PQFileItem *fi = new PQFileItem();
+	fi -> subtype = PQI_FI_SUBTYPE_REQUEST;
+
+	fi -> p = peer;
+	fi -> cid = peer->cid;
+	/* type/subtype already done, flags/search id ignored */
+
+	fi -> hash = ftr -> hash;
+	/* name, path, ext are ignored */
+	fi -> size = ftr -> size;
+	fi -> fileoffset = ftr->offset;
+	fi -> chunksize = ftr->chunk;
+
+	pqisi -> SendFileItem(fi);
+}
+
+#define MAX_FT_CHUNK 4096
+
+void filedexserver::SendFileData(ftFileData *ftd, cert *peer)
+{
+	uint32_t tosend = ftd->chunk;
+	uint32_t baseoffset = ftd->offset;
+	uint32_t offset = 0;
+	uint32_t chunk;
+
+
+	while(tosend > 0)
+	{
+		/* workout size */
+		chunk = MAX_FT_CHUNK;
+		if (chunk > tosend)
+		{
+			chunk = tosend;
+		}
+
+		/* send data! */
+		PQFileData *fid = new PQFileData();
+
+		fid -> p = peer;
+		fid -> cid = peer->cid;
+		fid -> hash = ftd -> hash;
+		fid -> size = ftd -> size;
+
+		fid -> data = malloc(chunk);
+		memcpy(fid->data, &(((uint8_t *) ftd->data)[offset]), chunk);
+		fid -> datalen = chunk;
+		fid -> chunksize = chunk;
+		fid -> fileoffset = baseoffset + offset;
+
+		pqisi -> SendFileItem(fid);
+
+		offset += chunk;
+		tosend -= chunk;
+	}
 }
 
 

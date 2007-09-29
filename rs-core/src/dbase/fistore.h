@@ -64,14 +64,14 @@ class FileIndexStore: public CacheStore
 	public:
 
 	FileIndexStore(CacheTransfer *cft, NotifyBase *cb_in, 
-				std::string cachedir);
+			RsPeerId ownid, std::string cachedir);
 virtual ~FileIndexStore();
 
 	/* virtual functions overloaded by cache implementor */
 virtual int loadCache(const CacheData &data);	  /* actual load, once data available */
 
 	/* Search Interface - For FileTransfer Lookup */
-	int searchHash(std::string hash, std::list<FileStoreResult> &results);
+	int SearchHash(std::string hash, std::list<FileDetail> &results);
 
 	/* Search Interface - For Search Interface */
 	int SearchKeywords(std::list<std::string> terms, std::list<FileDetail> &results);
@@ -82,13 +82,17 @@ virtual int loadCache(const CacheData &data);	  /* actual load, once data availa
 
 	/* Search Interface - For Directory Access */
 	int RequestDirDetails(std::string uid, std::string path, DirDetails &details);
-	int RequestDirDetails(void *ref, DirDetails &details);
+	int RequestDirDetails(void *ref, DirDetails &details, uint32_t flags);
 
 	private:
 	int AboutToModify();
 	int ModCompleted();
 
 	std::map<RsPeerId, FileIndex *> indices;
+
+	RsPeerId   localId;
+	FileIndex *localindex;
+
 	NotifyBase *cb;
 };
 

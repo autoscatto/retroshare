@@ -3,7 +3,7 @@ RS_TOP_DIR = ..
 include ../make.opt
 
 OBJ = filedexserver.o pqifiler.o \
-	ft.o ftfiler.o
+	ft.o ftfiler.o hashsearch.o
 
 EXEC = ftcachetest 
 

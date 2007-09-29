@@ -109,7 +109,9 @@ int     ftfiler::getFile(std::string name, std::string hash,
 		return 1;
 	}
 
-	state = new ftFileStatus(name, hash, size, destpath, FT_MODE_STD);
+	// HANDLE destpath - TODO!
+	// state = new ftFileStatus(name, hash, size, destpath, FT_MODE_STD);
+	state = new ftFileStatus(name, hash, size, "", FT_MODE_STD);
 	if (initiateFileTransfer(state))
 	{
 		std::ostringstream out;
@@ -904,7 +906,7 @@ std::string ftfiler::determineTmpFilePath(ftFileStatus *s)
 	filePath += "/";
 	filePath += PARTIAL_DIR;
 	filePath += "/";
-	filePath += s->name;
+	filePath += s->hash;
 
 	return filePath;
 
@@ -916,8 +918,26 @@ std::string ftfiler::determineDestFilePath(ftFileStatus *s)
         pqioutput(PQL_DEBUG_BASIC, ftfilerzone,
 	              "ftfiler::determineDestFilePath()");
 
+	/* should be three different options here:
+	 * (1) relative to baseSavePath (default)
+	 * (2) Abs (for Cache Files)
+	 * (3) relative to shared dirs (TODO)
+	 *
+	 * XXX TODO.
+	 */
+
+	std::string filePath;
+	
+	if (s->destpath == "")
+	{
+		filePath = saveBasePath;
+	}
+	else
+	{
+		filePath = s->destpath;
+	}
+
 	/* get the download path */
-	std::string filePath = s->destpath;
 	filePath += "/";
 	filePath += s->name;
 

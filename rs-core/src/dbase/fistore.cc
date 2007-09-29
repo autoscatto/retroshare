@@ -25,8 +25,9 @@
 #include "rsiface/rsexpr.h"
 
 FileIndexStore::FileIndexStore(CacheTransfer *cft, 
-		NotifyBase *cb_in, std::string cachedir)
-	:CacheStore(CACHE_TYPE_FILE_INDEX, false, cft, cachedir), cb(cb_in)
+		NotifyBase *cb_in, RsPeerId ownid, std::string cachedir)
+	:CacheStore(CACHE_TYPE_FILE_INDEX, false, cft, cachedir), 
+		localId(ownid), localindex(NULL), cb(cb_in)
 { 
 	return;
 }
@@ -38,6 +39,7 @@ FileIndexStore::~FileIndexStore()
 }
 
 #define FIS_DEBUG2 1
+#define FIS_DEBUG 1
 
 	  /* actual load, once data available */
 int FileIndexStore::loadCache(const CacheData &data)
@@ -57,9 +59,16 @@ int FileIndexStore::loadCache(const CacheData &data)
 	lockData();
 
 	FileIndex *fiold = NULL;
+	bool local = (data.pid == localId);
+
 	std::map<RsPeerId, FileIndex *>::iterator it;
 	/* remove old cache */
-	if (indices.end() != (it = indices.find(data.pid)))
+	if (local)
+	{
+		fiold = localindex;
+		localindex = NULL;
+	}
+	else if (indices.end() != (it = indices.find(data.pid)))
 	{
 		fiold = it->second;
 		indices.erase(it);
@@ -75,7 +84,14 @@ int FileIndexStore::loadCache(const CacheData &data)
 #ifdef FIS_DEBUG2
 		std::cerr << "FileIndexStore::loadCache() Succeeded!" << std::endl;
 #endif
-		indices[data.pid] = finew;
+		if (local)
+		{
+			localindex = finew;
+		}
+		else
+		{
+			indices[data.pid] = finew;
+		}
 		delete fiold;
 
 		/* store in tale */
@@ -90,7 +106,14 @@ int FileIndexStore::loadCache(const CacheData &data)
 		delete finew;
 		if (fiold)
 		{
-			indices[data.pid] = fiold;
+			if (local)
+			{
+				localindex = fiold;
+			}
+			else
+			{
+				indices[data.pid] = fiold;
+			}
 		}
 	}
 
@@ -100,19 +123,16 @@ int FileIndexStore::loadCache(const CacheData &data)
 	{
 		(it->second)->root->row = i++;
 	}
+	if (localindex)
+	{
+		localindex->root->row = 0;
+	}
 
 	unlockData();
 
 	ModCompleted();
 	bool ret = false;
 	return ret;
-}
-
-	/* Search Interface - For FileTransfer Lookup */
-int FileIndexStore::searchHash(std::string hash, std::list<FileStoreResult> &results)
-{
-
-	return 1;
 }
 
 	/* Search Interface - For Directory Access */
@@ -140,7 +160,7 @@ int FileIndexStore::RequestDirDetails(std::string uid, std::string path, DirDeta
 	return found;
 }
 
-int FileIndexStore::RequestDirDetails(void *ref, DirDetails &details)
+int FileIndexStore::RequestDirDetails(void *ref, DirDetails &details, uint32_t flags)
 {
 	lockData();
 	bool found = true;
@@ -165,28 +185,58 @@ int FileIndexStore::RequestDirDetails(void *ref, DirDetails &details)
 #ifdef FIS_DEBUG
 		std::cerr << "FileIndexStore::RequestDirDetails() ref=NULL (root)" << std::endl;
 #endif
-		/* get root entries */
-		for(pit = indices.begin(); pit != indices.end(); pit++)
+		if (flags & DIR_FLAGS_LOCAL)
 		{
-			/* 
-			 */
-			DirStub stub;
-			stub.type = DIR_TYPE_PERSON;
-			stub.name = (pit->second)->root->name;
-			stub.ref =  (pit->second)->root;
+			/* local only */
+			if (localindex)
+			{
+				DirStub stub;
+				stub.type = DIR_TYPE_PERSON;
+				stub.name = localindex->root->name;
+				stub.ref  = localindex->root;
+				details.children.push_back(stub);
+				details.count = 1;
+			}
+			else
+			{
+				details.count = 0;
+			}
 
-			details.children.push_back(stub);
+			details.parent = NULL;
+			details.prow = 0;
+			details.ref = NULL;
+			details.type = DIR_TYPE_ROOT;
+			details.name = "";
+			details.hash = "";
+			details.path = "";
+			details.age = 0;
+			details.rank = 0;
 		}
-		details.parent = NULL;
-		details.prow = 0;
-		details.ref = NULL;
-		details.type = DIR_TYPE_ROOT;
-		details.name = "";
-		details.hash = "";
-		details.path = "";
-		details.count = indices.size();
-		details.age = 0;
-		details.rank = 0;
+		else
+		{
+			/* get remote root entries */
+			for(pit = indices.begin(); pit != indices.end(); pit++)
+			{
+				/* 
+				 */
+				DirStub stub;
+				stub.type = DIR_TYPE_PERSON;
+				stub.name = (pit->second)->root->name;
+				stub.ref =  (pit->second)->root;
+	
+				details.children.push_back(stub);
+			}
+			details.parent = NULL;
+			details.prow = 0;
+			details.ref = NULL;
+			details.type = DIR_TYPE_ROOT;
+			details.name = "";
+			details.hash = "";
+			details.path = "";
+			details.count = indices.size();
+			details.age = 0;
+			details.rank = 0;
+		}
 	}
 	else 
 	{
@@ -285,6 +335,45 @@ int FileIndexStore::RequestDirDetails(void *ref, DirDetails &details)
 }
 
 
+int FileIndexStore::SearchHash(std::string hash, std::list<FileDetail> &results)
+{
+	lockData();
+	std::map<RsPeerId, FileIndex *>::iterator pit;
+	std::list<FileEntry *>::iterator rit; 
+	std::list<FileEntry *> firesults;
+
+	time_t now = time(NULL);
+
+#ifdef FIS_DEBUG
+	std::cerr << "FileIndexStore::SearchHash()" << std::endl;
+#endif
+	for(pit = indices.begin(); pit != indices.end(); pit++)
+	{
+		firesults.clear();
+
+		(pit->second)->searchHash(hash, firesults);
+		/* translate results */
+		for(rit = firesults.begin(); rit != firesults.end(); rit++)
+		{
+			FileDetail fd;
+			fd.id = pit->first;
+			fd.name = (*rit)->name;
+			fd.hash = (*rit)->hash;
+			fd.path = ""; /* TODO */
+			fd.size = (*rit)->size;
+			fd.age  = now - (*rit)->modtime;
+			fd.rank = (*rit)->pop;
+
+			results.push_back(fd);
+		}
+
+	}
+
+	unlockData();
+	return results.size();
+}
+
+
 int FileIndexStore::SearchKeywords(std::list<std::string> keywords, std::list<FileDetail> &results)
 {
 	lockData();
@@ -295,7 +384,7 @@ int FileIndexStore::SearchKeywords(std::list<std::string> keywords, std::list<Fi
 	time_t now = time(NULL);
 
 #ifdef FIS_DEBUG
-	std::cerr << "FileIndexStore::RequestDirDetails() CHKS" << std::endl;
+	std::cerr << "FileIndexStore::SearchKeywords()" << std::endl;
 #endif
 	for(pit = indices.begin(); pit != indices.end(); pit++)
 	{
@@ -312,7 +401,7 @@ int FileIndexStore::SearchKeywords(std::list<std::string> keywords, std::list<Fi
 			fd.path = ""; /* TODO */
 			fd.size = (*rit)->size;
 			fd.age  = now - (*rit)->modtime;
-			fd.age  = (*rit)->pop;
+			fd.rank = (*rit)->pop;
 
 			results.push_back(fd);
 		}
@@ -352,7 +441,7 @@ int FileIndexStore::searchBoolExp(Expression * exp, std::list<FileDetail> &resul
 			fd.path = ""; /* TODO */
 			fd.size = (*rit)->size;
 			fd.age  = now - (*rit)->modtime;
-			fd.age  = (*rit)->pop;
+			fd.rank  = (*rit)->pop;
 
 			results.push_back(fd);
 		}
