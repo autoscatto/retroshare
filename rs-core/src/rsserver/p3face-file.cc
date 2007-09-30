@@ -99,6 +99,7 @@ int     RsServer::UpdateAllTransfers()
 	
 		ti.id = intGetCertId((cert *) (*it) -> p);
 		ti.fname = (*it) -> name;
+		ti.hash  = (*it) -> hash;
 		ti.path  = (*it) -> path;
 		ti.size  = (*it) -> size;
 		ti.transfered = (*it) -> transferred;
@@ -138,7 +139,7 @@ int RsServer::FileRequest(std::string fname, std::string hash,
 
 
         /* Actions For Upload/Download */
-int RsServer::FileRecommend(std::string id, std::string src, int size)
+int RsServer::FileRecommend(std::string fname, std::string hash, int size)
 {
 	/* check for new data */
         RsIface &iface = getIface();
@@ -146,47 +147,34 @@ int RsServer::FileRecommend(std::string id, std::string src, int size)
         /* lock Mutexes */
         lockRsCore();     /* LOCK */
         iface.lockData(); /* LOCK */
-	RsCertId uId(id);
 
-	int ret = 1;
-	cert *c = intFindCert(uId);
+	/* add the entry to FileRecommends.
+	 */
 
-	if (c == NULL) // || (c == sslr -> getOwnCert()))
+	std::list<FileInfo> &recList = iface.mRecommendList;
+	std::list<FileInfo>::iterator it;
+
+	FileInfo fi;
+	fi.path  = ""; /* this is not needed / wanted anymore */
+	fi.hash  = hash;
+	fi.fname = fname;
+	fi.size = size;
+	fi.rank = 1;
+	fi.inRecommend = false;
+
+	/* check if it exists already! */
+	bool found = false;
+	for(it = recList.begin(); (!found) && (it != recList.end()); it++)
 	{
-		ret = 0;
-		std::cerr << "RsServer::FileRecommend(Failed for bad Cert)";
-		std::cerr << std::endl;
+		if ((it->hash == fi.hash) && (it -> fname == fi.fname))
+		{
+			found = true;
+		}
 	}
 
-	if (ret)
+	if (!found)
 	{
-		/* add the entry to FileRecommends.
-		 */
-
-		std::list<FileInfo> &recList = iface.mRecommendList;
-		std::list<FileInfo>::iterator it;
-
-		FileInfo fi;
-		fi.path = src;
-		fi.fname = RsDirUtil::getTopDir(src);
-		fi.size = size;
-		fi.rank = 1;
-		fi.inRecommend = false;
-
-		/* check if it exists already! */
-		bool found = false;
-		for(it = recList.begin(); (!found) && (it != recList.end()); it++)
-		{
-			if ((it->path == fi.path) && (it -> fname == fi.fname))
-			{
-				found = true;
-			}
-		}
-
-		if (!found)
-		{
-			recList.push_back(fi);
-		}
+		recList.push_back(fi);
 	}
 
 	/* Notify of change */
@@ -196,30 +184,7 @@ int RsServer::FileRecommend(std::string id, std::string src, int size)
         iface.unlockData(); /* UNLOCK */
         unlockRsCore();     /* UNLOCK */
 
-	return ret;
-}
-
-
-int RsServer::FileBroadcast(std::string id, std::string src, int size)
-{
-	lockRsCore(); /* LOCKED */
-	RsCertId uId(id);
-
-	int ret = 1;
-	cert *c = intFindCert(uId);
-	if ((c == NULL) || (c == sslr -> getOwnCert()))
-	{
-		ret = 0;
-	}
-
-	if (ret)
-	{
-		/* TO DO */
-	}
-
-	unlockRsCore(); /* UNLOCKED */
-
-	return ret;
+	return true;
 }
 
 int RsServer::FileCancel(std::string fname, std::string hash, uint32_t size)
@@ -264,6 +229,32 @@ int RsServer::FileSetBandwidthTotals(float outkB, float inkB)
 	return ret;
 }
 
+
+/**************************************************************************/
+#if 0
+
+int RsServer::FileBroadcast(std::string id, std::string src, int size)
+{
+	lockRsCore(); /* LOCKED */
+	RsCertId uId(id);
+
+	int ret = 1;
+	cert *c = intFindCert(uId);
+	if ((c == NULL) || (c == sslr -> getOwnCert()))
+	{
+		ret = 0;
+	}
+
+	if (ret)
+	{
+		/* TO DO */
+	}
+
+	unlockRsCore(); /* UNLOCKED */
+
+	return ret;
+}
+
 int RsServer::FileDelete(std::string id, std::string fname)
 {
 	lockRsCore(); /* LOCKED */
@@ -285,6 +276,9 @@ int RsServer::FileDelete(std::string id, std::string fname)
 
 	return ret;
 }
+
+#endif
+/**************************************************************************/
 
 
 

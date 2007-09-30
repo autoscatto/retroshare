@@ -296,7 +296,7 @@ void  ChanMsgDialog::insertFileList()
 			item -> setText(2, QString::fromStdString(out.str()));
 		}
 			
-		item -> setText(3, QString::fromStdString(it->path));
+		item -> setText(3, QString::fromStdString(it->hash));
 			
 		item -> setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 

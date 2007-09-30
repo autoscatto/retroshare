@@ -164,10 +164,10 @@ virtual int SearchBoolExp(Expression *exp, std::list<FileDetail> &results);
 	/* Actions For Upload/Download */
 
 // REDO these three TODO XXX .
-virtual int FileRecommend(std::string uId, std::string src, int size);
-virtual int FileBroadcast(std::string uId, std::string src, int size);
-virtual int FileDelete(std::string, std::string);
+//virtual int FileBroadcast(std::string uId, std::string src, int size);
+//virtual int FileDelete(std::string, std::string);
 
+virtual int FileRecommend(std::string fname, std::string hash, int size);
 virtual int FileRequest(std::string fname, std::string hash, uint32_t size, std::string dest);
 
 virtual int FileCancel(std::string fname, std::string hash, uint32_t size);

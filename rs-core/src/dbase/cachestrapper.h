@@ -28,6 +28,7 @@
 #include <map>
 #include <string>
 #include <iostream>
+#include "util/rsthreads.h"
 
 /******************* CacheStrapper and Related Classes *******************
  * A generic Cache Update system.
@@ -84,6 +85,7 @@ class CacheData
 	public:
 
 	RsPeerId pid;
+	std::string pname; /* peer name (can be used by cachestore) */
 	CacheId  cid;
 	std::string path; 
 	std::string name;
@@ -181,7 +183,7 @@ void	unlockData();
 	bool   multiCache;   /* do we care about subid's */
 
 	std::string cacheDir;
-
+	RsMutex cMutex;
 };
 
 
@@ -228,6 +230,7 @@ void	unlockData();
 	 * It doesn't lock itself -> to avoid race conditions
 	 */
 void    locked_storeCacheEntry(const CacheData &data);
+bool    locked_getStoredCache(CacheData &data);
 
 	private:
 
@@ -239,6 +242,7 @@ void    locked_storeCacheEntry(const CacheData &data);
 
 	std::map<RsPeerId, CacheSet> caches;
 
+	RsMutex cMutex;
 };
 
 

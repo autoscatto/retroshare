@@ -27,6 +27,10 @@
 #include <sstream>
 #include <iomanip>
 
+/**
+ * #define CS_DEBUG 1
+ */
+
 bool operator<(const CacheId &a, const CacheId &b)
 {
         if (a.type == b.type)
@@ -67,6 +71,7 @@ void    CacheSource::lockData()
 #ifdef CS_DEBUG
 	std::cerr << "CacheSource::lockData()" << std::endl;
 #endif
+	cMutex.lock();
 }
 
 void    CacheSource::unlockData()
@@ -74,6 +79,7 @@ void    CacheSource::unlockData()
 #ifdef CS_DEBUG
 	std::cerr << "CacheSource::unlockData()" << std::endl;
 #endif
+	cMutex.unlock();
 }
 	
 	/* to be overloaded for inherited Classes */
@@ -196,6 +202,7 @@ void    CacheStore::lockData()
 #ifdef CS_DEBUG
 	std::cerr << "CacheStore::lockData()" << std::endl;
 #endif
+	cMutex.lock();
 }
 
 void    CacheStore::unlockData()
@@ -203,6 +210,7 @@ void    CacheStore::unlockData()
 #ifdef CS_DEBUG
 	std::cerr << "CacheStore::unlockData()" << std::endl;
 #endif
+	cMutex.unlock();
 }
 		
 void    CacheStore::listCaches(std::ostream &out)
@@ -237,16 +245,23 @@ bool	CacheStore::getStoredCache(CacheData &data)
 {
 	lockData(); /* LOCK MUTEX */
 
+	bool ok = locked_getStoredCache(data);
+
+	unlockData(); /* UNLOCK MUTEX */
+	return ok;
+}
+
+
+bool	CacheStore::locked_getStoredCache(CacheData &data)
+{
 	if (data.cid.type != getCacheType())
 	{
-		unlockData(); /* UNLOCK MUTEX */
 		return false;
 	}
 
 	std::map<RsPeerId, CacheSet>::iterator pit;
 	if (caches.end() == (pit = caches.find(data.pid)))
 	{
-		unlockData(); /* UNLOCK MUTEX */
 		return false;
 	}
 
@@ -257,7 +272,6 @@ bool	CacheStore::getStoredCache(CacheData &data)
 		if ((pit->second).end() == 
 			(cit = (pit->second).find(data.cid.subid)))
 		{
-			unlockData(); /* UNLOCK MUTEX */
 			return false;
 		}
 	}
@@ -266,7 +280,6 @@ bool	CacheStore::getStoredCache(CacheData &data)
 		if ((pit->second).end() == 
 			(cit = (pit->second).find(0)))
 		{
-			unlockData(); /* UNLOCK MUTEX */
 			return false;
 		}
 	}
@@ -274,9 +287,10 @@ bool	CacheStore::getStoredCache(CacheData &data)
 	/* we found it! (cit) */
 	data = cit->second;
 
-	unlockData(); /* UNLOCK MUTEX */
 	return true;
 }
+
+
 
 	/* input from CacheStrapper.
 	 * check if we want to download it...
@@ -350,7 +364,7 @@ bool    CacheStore::fetchCache(const CacheData &data)
 
 	lockData(); /* LOCK MUTEX */
 
-	bool haveCache = ((getStoredCache(incache)) && (data.hash == incache.hash));
+	bool haveCache = ((locked_getStoredCache(incache)) && (data.hash == incache.hash));
 
 	unlockData(); /* UNLOCK MUTEX */
 

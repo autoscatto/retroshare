@@ -130,7 +130,7 @@ static  int         lastChatTime = 0;
 	/* now spaces = (width - txt width) / (pixel / space)
 	 */
 
-	std::cerr << "Width is : " << n << std::endl;
+	//std::cerr << "Width is : " << n << std::endl;
 	n -= 256; /* 220 pixels for name */
 	if (n > 0)
 	{
@@ -141,7 +141,7 @@ static  int         lastChatTime = 0;
 		n = 1;
 	}
 
-	std::cerr << "Space count : " << n << std::endl;
+	//std::cerr << "Space count : " << n << std::endl;
 
 	std::string spaces(" ");
 
@@ -187,8 +187,8 @@ static  int         lastChatTime = 0;
 
 	msgWidget->setPlainText(currenttxt);
 
-	std::cerr << " Added Text: " << std::endl;
-	std::cerr << out.str() << std::endl;
+	//std::cerr << " Added Text: " << std::endl;
+	//std::cerr << out.str() << std::endl;
 	QScrollBar *qsb =  msgWidget->verticalScrollBar();
 	qsb -> setValue(qsb->maximum());
 

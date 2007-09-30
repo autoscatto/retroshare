@@ -104,6 +104,12 @@ bool 	hashFile(std::string path, FileEntry &fi); /* To Implement */
 
 	int updatePeriod;
 	std::map<std::string, std::string> directoryMap; /* used by findRealRoot */
+
+	/* flags to kick - if we were busy or sleeping */
+	bool pendingDirs;
+	std::list<std::string> pendingDirList;
+bool    internal_setSharedDirectories();
+
 };
 
 

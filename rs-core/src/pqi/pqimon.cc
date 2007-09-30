@@ -41,7 +41,7 @@ int     pqimonitor::tick()
 	std::list<pqipeer>::iterator pit;
 	std::list<pqimonclient *>::iterator cit;
 
-	std::cerr << "pqimonitor::tick() plist:" << plist.size() << " clist:" << certlist.size() << std::endl;
+	//std::cerr << "pqimonitor::tick() plist:" << plist.size() << " clist:" << certlist.size() << std::endl;
 
 	bool ok = true;
 	if (plist.size() != certlist.size())
@@ -70,7 +70,7 @@ int     pqimonitor::tick()
 
 	if (!ok)
 	{
-		std::cerr << "pqimonitor::tick() Updating plist" << std::endl;
+		//std::cerr << "pqimonitor::tick() Updating plist" << std::endl;
 		/* copy the list */
 		plist.clear();
 		for(it = certlist.begin(); it != certlist.end(); it++)
@@ -101,7 +101,7 @@ int     pqimonitor::tick()
 		/* now notify clients */
 		for(cit = clients.begin(); cit != clients.end(); cit++)
 		{
-			std::cerr << "pqimonitor::tick() Calling Client" << std::endl;
+			//std::cerr << "pqimonitor::tick() Calling Client" << std::endl;
 			(*cit)->monUpdate(plist);
 		}
 	}

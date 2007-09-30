@@ -89,8 +89,7 @@ int RsServer::MessageSend(MessageInfo &info)
 	{
 		MsgFileItem mfi;
 		mfi.hash = it -> hash;
-		//mfi.name = it -> fname;
-		mfi.name = it -> path;
+		mfi.name = it -> fname;
 		mfi.size = it -> size;
 		msg -> files.push_back(mfi);
 	}

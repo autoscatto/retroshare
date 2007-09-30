@@ -1847,7 +1847,7 @@ int 	p3proxy::status()
 	for(pmit = passivemap.begin(); pmit != passivemap.end(); ++pmit)
 	{
 		out << pmit->first->Name();	
-		out << " -> " << (int) ccit->second;
+		out << " -> " << (void *) ccit->second;
 		out << std::endl;
 	}
 

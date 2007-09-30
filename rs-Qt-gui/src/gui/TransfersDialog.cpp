@@ -73,27 +73,25 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	selection = ui.downloadList->selectionModel();
   
     /* Set header resize modes and initial section sizes Downloads TreeView*/
-	QHeaderView * _header = ui.downloadList->header () ;
-   	_header->setResizeMode (0, QHeaderView::Interactive); /*Name*/
-	_header->setResizeMode (1, QHeaderView::Interactive); /*Size*/
-	_header->setResizeMode (2, QHeaderView::Interactive); /*Progress*/
-	_header->setResizeMode (3, QHeaderView::Interactive); /*Speed*/
-	_header->setResizeMode (4, QHeaderView::Interactive); /*Sources*/
-	_header->setResizeMode (5, QHeaderView::Interactive); /*Status*/
-	_header->setResizeMode (6, QHeaderView::Interactive); /*Completed*/
-	_header->setResizeMode (7, QHeaderView::Interactive); /*Remaining */
-	//_header->setResizeMode (8, QHeaderView::Interactive);
-
-    
-	_header->resizeSection ( 0, 100 ); /*Name*/
-	_header->resizeSection ( 1, 100 ); /*Size*/
-	_header->resizeSection ( 2, 170 ); /*Progress*/
-	_header->resizeSection ( 3, 100 ); /*Speed*/
-	_header->resizeSection ( 4, 100 ); /*Sources*/
-	_header->resizeSection ( 5, 100 ); /*Status*/
-	_header->resizeSection ( 6, 100 ); /*Completed*/
-	_header->resizeSection ( 7, 100 ); /*Remaining */
-	//_header->resizeSection ( 8, 100 );
+//	QHeaderView * _header = ui.downloadList->header () ;
+//   	_header->setResizeMode (0, QHeaderView::Interactive); /*Name*/
+//	_header->setResizeMode (1, QHeaderView::Interactive); /*Size*/
+//	_header->setResizeMode (2, QHeaderView::Interactive); /*Progress*/
+//	_header->setResizeMode (3, QHeaderView::Interactive); /*Speed*/
+//	_header->setResizeMode (4, QHeaderView::Interactive); /*Sources*/
+//	_header->setResizeMode (5, QHeaderView::Interactive); /*Status*/
+//	_header->setResizeMode (6, QHeaderView::Interactive); /*Completed*/
+//	_header->setResizeMode (7, QHeaderView::Interactive); /*Remaining */
+//
+//    
+//	_header->resizeSection ( 0, 100 ); /*Name*/
+//	_header->resizeSection ( 1, 100 ); /*Size*/
+//	_header->resizeSection ( 2, 170 ); /*Progress*/
+//	_header->resizeSection ( 3, 100 ); /*Speed*/
+//	_header->resizeSection ( 4, 100 ); /*Sources*/
+//	_header->resizeSection ( 5, 100 ); /*Status*/
+//	_header->resizeSection ( 6, 100 ); /*Completed*/
+//	_header->resizeSection ( 7, 100 ); /*Remaining */
 	
 	// Set Upload list model
     ULListModel = new QStandardItemModel(0,7);
@@ -112,22 +110,22 @@ TransfersDialog::TransfersDialog(QWidget *parent)
 	//selection = ui.uploadsList->selectionModel();
 	
 	/* Set header resize modes and initial section sizes Uploads TreeView*/
-	QHeaderView * upheader = ui.uploadsList->header () ;
-	upheader->setResizeMode (0, QHeaderView::Interactive); /*Name */
-	upheader->setResizeMode (1, QHeaderView::Interactive); /*Size */
-	upheader->setResizeMode (2, QHeaderView::Interactive); /*User Name*/
-	upheader->setResizeMode (3, QHeaderView::Interactive); /*Progress*/
-	upheader->setResizeMode (4, QHeaderView::Interactive); /*Speed */
-	upheader->setResizeMode (5, QHeaderView::Interactive); /*Status*/
-	upheader->setResizeMode (6, QHeaderView::Interactive); /*Transferred*/
-    
-	upheader->resizeSection ( 0, 100 ); /*Name */
-	upheader->resizeSection ( 1, 100 ); /*Size */
-	upheader->resizeSection ( 2, 100 ); /*User Name*/
-	upheader->resizeSection ( 3, 100 ); /*Progress*/
-	upheader->resizeSection ( 4, 100 ); /*Speed */
-	upheader->resizeSection ( 5, 100 ); /*Status*/
-	upheader->resizeSection ( 6, 100 ); /*Transferred*/
+//	QHeaderView * upheader = ui.uploadsList->header () ;
+//	upheader->setResizeMode (0, QHeaderView::Interactive); /*Name */
+//	upheader->setResizeMode (1, QHeaderView::Interactive); /*Size */
+//	upheader->setResizeMode (2, QHeaderView::Interactive); /*User Name*/
+//	upheader->setResizeMode (3, QHeaderView::Interactive); /*Progress*/
+//	upheader->setResizeMode (4, QHeaderView::Interactive); /*Speed */
+//	upheader->setResizeMode (5, QHeaderView::Interactive); /*Status*/
+//	upheader->setResizeMode (6, QHeaderView::Interactive); /*Transferred*/
+//    
+//	upheader->resizeSection ( 0, 100 ); /*Name */
+//	upheader->resizeSection ( 1, 100 ); /*Size */
+//	upheader->resizeSection ( 2, 100 ); /*User Name*/
+//	upheader->resizeSection ( 3, 100 ); /*Progress*/
+//	upheader->resizeSection ( 4, 100 ); /*Speed */
+//	upheader->resizeSection ( 5, 100 ); /*Status*/
+//	upheader->resizeSection ( 6, 100 ); /*Transferred*/
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
@@ -276,9 +274,12 @@ void TransfersDialog::insertTransfers()
 		coreId		= "";
 		name    	= QString::fromStdString(it->fname);
 		sources  	= QString::fromStdString(it->source);
-		std::ostringstream out;
-		out << it->id;
-		coreId		= QString::fromStdString(out.str());
+
+		/* Replace ID with HASH -> as thats what we need to cancel! */
+		//std::ostringstream out;
+		//out << it->id;
+		//coreId		= QString::fromStdString(it->hashout.str());
+		coreId		= QString::fromStdString(it->hash);
 
 		switch(it->downloadStatus) 
 		{
@@ -326,8 +327,8 @@ void TransfersDialog::cancel()
 			 */
 			std::string name = (qname.trimmed()).toStdString();
 			// TODO
-			//rsicontrol->FileCancel(name, id, name);
-			//delItem(i);
+			rsicontrol->FileCancel(name, id, 0); /* name, *hash*, size */
+			//std::cerr << "TranfersDialog::cancel(): " << name << ":" << id << ":" << 0 << std::endl;
 		}
 	}
 }

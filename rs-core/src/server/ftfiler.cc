@@ -30,6 +30,7 @@
 #include "util/rsdir.h"
 
 #include "pqi/pqidebug.h"
+#include "pqi/xpgpcert.h"
 #include <errno.h>
 
 #include <sstream>
@@ -303,10 +304,18 @@ std::list<FileTransferItem *> ftfiler::getStatus()
 		FileTransferItem *fti = new FileTransferItem();
 
 		/* fill in the basics
+		 * HACK - note - current system cannot save without a cert! 
+		 * - so use ours!
 		 */
+		fti -> p = getSSLRoot()->getOwnCert();
 
 		fti -> name = (*it)->name;
-		fti -> hash = (*it)->hash;
+
+		/* hack to only store 'Real' Transfers (Cache have blank hash value)*/
+		if ((*it)->ftMode != FT_MODE_CACHE)
+		{
+			fti -> hash = (*it)->hash;
+		}
 		fti -> size = (*it)->size;
 
 		/* Fill in rate and State */
@@ -576,7 +585,7 @@ void	ftfiler::queryInactive()
 	/* iterate through all files to recv */
 	int ts = time(NULL);
 	std::list<ftFileStatus *>::iterator it;
-	for(it = recvFiles.begin(); it != recvFiles.end(); it++)
+	for(it = recvFiles.begin(); it != recvFiles.end();) /* increment at end of loop */
 	{
 		/* get inactive period */
 		switch((*it) -> status)
@@ -621,6 +630,20 @@ void	ftfiler::queryInactive()
 			/* nothing */
 			break;
 		}
+
+		/* remove/increment */
+		if (((*it) -> status == PQIFILE_COMPLETE) && ((*it)->ftMode == FT_MODE_CACHE))
+		{
+			std::cerr << "Clearing Completed Cache File: " << (*it)->name;
+			std::cerr << std::endl;
+			delete (*it);
+			it = recvFiles.erase(it);
+		}
+		else
+		{
+			it++;
+		}
+
 	}
         pqioutput(PQL_DEBUG_BASIC, ftfilerzone, out.str());
 }
@@ -642,8 +665,12 @@ int 	ftfiler::requestData(ftFileStatus *item)
 	int tm = time(NULL);
 	float delta = tm - item -> lastTS;
 
-
-
+	if (item->id == "") /* no possible source */
+	{
+		/* flag as handled for now so it doesn't repeat to fast */
+		item->lastTS = tm; 
+		return 0;
+	}
 
 	/* decide on transfer mode */
 	float max_rate = TRANSFER_MODE_NORMAL_RATE;
@@ -701,7 +728,7 @@ int 	ftfiler::requestData(ftFileStatus *item)
 	/* From this point - we will continue ... so handle rate now! */
 	/* calc rate */
 	float bytes_psec = item -> req_size / delta;
-	item -> rate = 0.9 * item -> rate + 0.1 * bytes_psec;
+	item -> rate = 0.7 * item -> rate + 0.3 * bytes_psec;
 	out << "delta: " << delta << " bytes: " << bytes_psec << " rate: " << item -> rate;
 	out << std::endl;
 
@@ -1019,11 +1046,6 @@ int ftfiler::initiateFileTransfer(ftFileStatus *s)
 	/* now determine the sources */
 	if (s->ftMode != FT_MODE_CACHE)
 	{
-		if (!lookupRemoteHash(s->hash, s->sources))
-		{
-        		pqioutput(PQL_WARNING, ftfilerzone,
-	              		"ftfiler::initiateFileTransfer() Failed to locate Peers");
-		}
 	}
 
 	resetFileTransfer(s);
@@ -1048,6 +1070,19 @@ int ftfiler::resetFileTransfer(ftFileStatus *state)
 	}
 	else if (state->ftMode != FT_MODE_CACHE)
 	{
+		/* lookup options */
+		state->sources.clear();
+		if (!lookupRemoteHash(state->hash, state->sources))
+		{
+        		pqioutput(PQL_WARNING, ftfilerzone,
+	              		"ftfiler::resetFileTransfer() Failed to locate Peers");
+		}
+		if (state->sources.size() == 0)
+		{
+			state->id = "";
+			return 0;
+		}
+
 		/* select a new source if possible */
 		int idno = state->resetCount % state->sources.size();
 		int i = 0;
@@ -1058,10 +1093,6 @@ int ftfiler::resetFileTransfer(ftFileStatus *state)
 		if (it != state->sources.end())
 		{
 			state->id = (*it);
-		}
-		else
-		{
-			state->status = (PQIFILE_FAIL | PQIFILE_FAIL_NOT_AVAIL);
 		}
 	}
 	state->resetCount++;

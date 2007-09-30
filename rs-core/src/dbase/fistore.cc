@@ -38,8 +38,10 @@ FileIndexStore::~FileIndexStore()
 	return;
 }
 
-#define FIS_DEBUG2 1
-#define FIS_DEBUG 1
+/***
+ * #define FIS_DEBUG2 1
+ * #define FIS_DEBUG 1
+ **/
 
 	  /* actual load, once data available */
 int FileIndexStore::loadCache(const CacheData &data)
@@ -77,13 +79,14 @@ int FileIndexStore::loadCache(const CacheData &data)
 
 	/* load Cache */
 	FileIndex *finew = new FileIndex(data.pid);
-	finew->root->name = data.pid;
 
 	if (finew->loadIndex(data.path + '/' + data.name, data.hash, data.size))
 	{
 #ifdef FIS_DEBUG2
 		std::cerr << "FileIndexStore::loadCache() Succeeded!" << std::endl;
 #endif
+		/* set the name */
+		finew->root->name = data.pname;
 		if (local)
 		{
 			localindex = finew;

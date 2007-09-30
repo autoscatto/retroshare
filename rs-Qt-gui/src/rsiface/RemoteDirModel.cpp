@@ -614,27 +614,30 @@ void RemoteDirModel::recommendSelected(QModelIndexList list)
 	{
 		void *ref = it -> internalPointer();
 
-		/*** XXX TOFIX!
      		DirDetails details;
      		uint32_t flags = DIR_FLAGS_DETAILS;
      		if (RemoteMode)
+		{
      			flags |= DIR_FLAGS_REMOTE;
+			continue; /* don't recommend remote stuff */
+		}
      		else
+		{
      			flags |= DIR_FLAGS_LOCAL;
+		}
 
      		if (!rsicontrol->RequestDirDetails(ref, details, flags))
      		{
 			continue;
      		}
 
-		std::cerr << "::::::::::::FileRecommend Lookup" << std::endl;
+		std::cerr << "::::::::::::FileRecommend:::: " << std::endl;
+		std::cerr << "Name: " << details.name << std::endl;
+		std::cerr << "Hash: " << details.hash << std::endl;
+		std::cerr << "Size: " << details.count << std::endl;
 		std::cerr << "Path: " << details.path << std::endl;
 
-		rsicontrol -> FileRecommend(details.id, details.name, 
-					details.hash, details.count);
-		rsicontrol -> FileRecommend(details.id, details.name, 
-					 details.count);
-		***/
+		rsicontrol -> FileRecommend(details.name, details.hash, details.count);
 	}
 	std::cerr << "::::::::::::Done FileRecommend" << std::endl;
 }

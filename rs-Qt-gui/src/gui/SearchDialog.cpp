@@ -151,9 +151,24 @@ void SearchDialog::searchKeywords()
 
 	/* extract keywords from lineEdit */
 	std::list<std::string> words;
-	
-	words.push_back(txt);
+	int i;
+	for(i = 0; i < txt.length(); i++)
+	{
+		/* chew initial spaces */
+		for(; (i < txt.length()) && (isspace(txt[i])); i++);
+		std::string newword;
+		for(; (i < txt.length()) && (!isspace(txt[i])); i++)
+		{
+			newword += txt[i];
+		}
 
+		std::cerr << "Search KeyWord: " << newword;
+		std::cerr << std::endl;
+		if (newword.length() > 0)
+		{
+			words.push_back(newword);
+		}
+	}
 	if (words.size() < 1)
 	{
 		/* ignore */

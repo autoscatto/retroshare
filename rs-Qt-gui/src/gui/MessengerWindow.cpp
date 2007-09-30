@@ -73,6 +73,8 @@ MessengerWindow::MessengerWindow(QWidget * parent)
    ui.messengertreeWidget->header()->hide(); 
  
     /* Set header resize modes and initial section sizes */
+	ui.messengertreeWidget->setColumnCount(4);
+
 	QHeaderView * _header = ui.messengertreeWidget->header () ;   
 	_header->setResizeMode (0, QHeaderView::Interactive);
 	_header->setResizeMode (1, QHeaderView::Interactive);

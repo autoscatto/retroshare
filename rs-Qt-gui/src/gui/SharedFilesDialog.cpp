@@ -165,7 +165,7 @@ void SharedFilesDialog::recommendfile()
   std::cerr << std::endl;
 
   QItemSelectionModel *qism = ui.localDirTreeView->selectionModel();
-  //localModel -> recommendSelected(qism->selectedIndexes());
+  localModel -> recommendSelected(qism->selectedIndexes());
 }
 
 

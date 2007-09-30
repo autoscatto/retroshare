@@ -144,19 +144,28 @@ void 	FileIndexMonitor::run()
 	while(1)
 	{
 
+		for(int i = 0; i < updatePeriod; i++)
+		{
+
 /********************************** WINDOWS/UNIX SPECIFIC PART ******************/
 #ifndef WINDOWS_SYS
-		sleep(updatePeriod);
+			sleep(1);
 #else
 
-                Sleep(updatePeriod * 1000);
+                	Sleep(1000);
 #endif
 /********************************** WINDOWS/UNIX SPECIFIC PART ******************/
+
+			/* check dirs if they've changed */
+			if (internal_setSharedDirectories())
+			{
+				break;
+			}
+		}
 
 		updateCycle();
 	}
 }
-
 
 
 void 	FileIndexMonitor::updateCycle()
@@ -179,6 +188,12 @@ void 	FileIndexMonitor::updateCycle()
 #endif
 /********************************** WINDOWS/UNIX SPECIFIC PART ******************/
 
+		/* check if directories have been updated */
+		if (internal_setSharedDirectories())
+		{
+			/* reset start time */
+			startstamp = time(NULL);
+		}
 		
 		/* Handle a Single out-of-date directory */
 
@@ -489,12 +504,30 @@ void 	FileIndexMonitor::updateCycle()
 		} fiMutex.unlock(); /* UNLOCKED DIRS */
 	}
 }
-	
+
 	/* interface */
 void    FileIndexMonitor::setSharedDirectories(std::list<std::string> dirs)
 {
-	int i;
 	fiMutex.lock(); { /* LOCKED DIRS */
+
+	pendingDirs = true;
+	pendingDirList = dirs;
+
+	} fiMutex.unlock(); /* UNLOCKED DIRS */
+}
+
+bool    FileIndexMonitor::internal_setSharedDirectories()
+{
+	int i;
+	fiMutex.lock(); /* LOCKED DIRS */
+
+	if (!pendingDirs)
+	{
+		fiMutex.unlock(); /* UNLOCKED DIRS */
+		return false;
+	}
+		
+	pendingDirs = false;
 	
 	/* clear old directories */
 	directoryMap.clear();
@@ -502,7 +535,7 @@ void    FileIndexMonitor::setSharedDirectories(std::list<std::string> dirs)
 	/* iterate through the directories */
 	std::list<std::string>::iterator it;
 	std::map<std::string, std::string>::const_iterator cit;
-	for(it = dirs.begin(); it != dirs.end(); it++)
+	for(it = pendingDirList.begin(); it != pendingDirList.end(); it++)
 	{
 		/* get the head directory */
 		std::string root_dir = *it;
@@ -540,8 +573,9 @@ void    FileIndexMonitor::setSharedDirectories(std::list<std::string> dirs)
 
 	fi.setRootDirectories(topdirs, 0);
 	
-	} fiMutex.unlock(); /* UNLOCKED DIRS */
+	fiMutex.unlock(); /* UNLOCKED DIRS */
 
+	return true;
 }
 	
 	

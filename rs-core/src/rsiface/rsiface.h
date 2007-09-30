@@ -247,17 +247,14 @@ virtual int SearchBoolExp(Expression *exp, std::list<FileDetail> &results) = 0;
 /****************************************/
 	/* Actions For Upload/Download */
 
-// These three need redoing.
-virtual	int FileRecommend(std::string uId, std::string fname, int size) = 0;
-// removing local files.
-virtual	int FileDelete(std::string uId, std::string fname)    = 0;
+//virtual int FileDelete(std::string uId, std::string fname)    = 0;
 //virtual int FileMove(std::string uId, std::string src, std::string dest) = 0;
 
-
+virtual	int FileRecommend(std::string fname, std::string hash, int size) = 0;
 virtual int FileRequest(std::string fname, std::string hash, uint32_t size, std::string dest) = 0;
+virtual int FileCancel(std::string fname, std::string hash, uint32_t size) = 0;
 
 // Transfer control.
-virtual int FileCancel(std::string fname, std::string hash, uint32_t size) = 0;
 virtual int FileClearCompleted()                              = 0;
 virtual	int FileSetBandwidthTotals(float outkB, float inkB)   = 0;
 

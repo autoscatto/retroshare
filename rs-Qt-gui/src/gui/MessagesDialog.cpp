@@ -125,7 +125,7 @@ void MessagesDialog::newmessage()
     static ChanMsgDialog *createMsgDialog = new ChanMsgDialog(true);
 
     /* fill it in */
-    std::cerr << "MessagesDialog::newmessage()" << std::endl;
+    //std::cerr << "MessagesDialog::newmessage()" << std::endl;
     createMsgDialog->newMsg();
     createMsgDialog->show();
 }
@@ -188,7 +188,7 @@ void MessagesDialog::getallrecommended()
 
 void MessagesDialog::changeBox( int newrow )
 {
-	std::cerr << "MessagesDialog::changeBox()" << std::endl;
+	//std::cerr << "MessagesDialog::changeBox()" << std::endl;
 	insertMessages();
 	insertMsgTxtAndFiles();
 }
@@ -207,8 +207,8 @@ void MessagesDialog::insertMessages()
 
 	int listrow = ui.listWidget -> currentRow();
 
-	std::cerr << "MessagesDialog::insertMessages()" << std::endl;
-	std::cerr << "Current Row: " << listrow << std::endl;
+	//std::cerr << "MessagesDialog::insertMessages()" << std::endl;
+	//std::cerr << "Current Row: " << listrow << std::endl;
 
 	/* check the mode we are in */
 	unsigned int msgbox = 0;
@@ -252,8 +252,8 @@ void MessagesDialog::insertMessages()
 
 		if ((it -> msgflags & RS_MSG_BOXMASK) != msgbox)
 		{
-			std::cerr << "Msg from other box: " << it->msgflags;
-			std::cerr << std::endl;
+			//std::cerr << "Msg from other box: " << it->msgflags;
+			//std::cerr << std::endl;
 			continue;
 		}
 		/* make a widget per friend */
@@ -362,7 +362,7 @@ void MessagesDialog::insertMessages()
 				qf.setBold(true);
 				item->setFont(i, qf);
 
-				std::cerr << "Setting Item BOLD!" << std::endl;
+				//std::cerr << "Setting Item BOLD!" << std::endl;
 			}
 		}
 
@@ -379,7 +379,7 @@ void MessagesDialog::insertMessages()
 
 void MessagesDialog::updateMessages( QTreeWidgetItem * item, int column )
 {
-	std::cerr << "MessagesDialog::insertMsgTxtAndFiles()" << std::endl;
+	//std::cerr << "MessagesDialog::insertMsgTxtAndFiles()" << std::endl;
 	insertMsgTxtAndFiles();
 }
 
@@ -389,7 +389,7 @@ void MessagesDialog::insertMsgTxtAndFiles()
 	/* Locate the current Message */
 	QTreeWidget *msglist = ui.msgWidget;
 
-	std::cerr << "MessagesDialog::insertMsgTxtAndFiles()" << std::endl;
+	//std::cerr << "MessagesDialog::insertMsgTxtAndFiles()" << std::endl;
 
 
 	/* get its Ids */
@@ -422,10 +422,10 @@ void MessagesDialog::insertMsgTxtAndFiles()
 			isMsg = false;
 		}
 	}
-	std::cerr << "IsMsg " << ( (isMsg) ? "True" : "False" ) << std::endl;
-	std::cerr << "chId: " << chid << std::endl;
-	std::cerr << "cId: " << cid << std::endl;
-	std::cerr << "mId: " << mid << std::endl;
+	//std::cerr << "IsMsg " << ( (isMsg) ? "True" : "False" ) << std::endl;
+	//std::cerr << "chId: " << chid << std::endl;
+	//std::cerr << "cId: " << cid << std::endl;
+	//std::cerr << "mId: " << mid << std::endl;
 
 	/* Save the Data.... for later */
 
@@ -468,6 +468,7 @@ void MessagesDialog::insertMsgTxtAndFiles()
            	QTreeWidgetItem *item = new QTreeWidgetItem((QTreeWidget*)0);
 		/* (0) Filename */
 		item -> setText(0, QString::fromStdString(it->fname));
+		//std::cerr << "Msg FileItem(" << it->fname.length() << ") :" << it->fname << std::endl;
 			
 		/* (1) Size */
 		{
@@ -482,7 +483,7 @@ void MessagesDialog::insertMsgTxtAndFiles()
 			item -> setText(2, QString::fromStdString(out.str()));
 		}
 			
-		item -> setText(3, QString::fromStdString(it->path));
+		item -> setText(3, QString::fromStdString(it->hash));
 			
 		/* add to the list */
 		items.append(item);
@@ -512,7 +513,7 @@ bool MessagesDialog::getCurrentMsg(std::string &cid, std::string &mid)
 	/* Locate the current Message */
 	QTreeWidget *msglist = ui.msgWidget;
 
-	std::cerr << "MessagesDialog::getCurrentMsg()" << std::endl;
+	//std::cerr << "MessagesDialog::getCurrentMsg()" << std::endl;
 
 	/* get its Ids */
 	QTreeWidgetItem *qtwi = msglist -> currentItem();
@@ -528,12 +529,12 @@ bool MessagesDialog::getCurrentMsg(std::string &cid, std::string &mid)
 
 void MessagesDialog::removemessage()
 {
-	std::cerr << "MessagesDialog::removemessage()" << std::endl;
+	//std::cerr << "MessagesDialog::removemessage()" << std::endl;
 	std::string cid, mid;
 	if (!getCurrentMsg(cid, mid))
 	{
-		std::cerr << "MessagesDialog::removemessage()";
-		std::cerr << " No Message selected" << std::endl;
+		//std::cerr << "MessagesDialog::removemessage()";
+		//std::cerr << " No Message selected" << std::endl;
 		return;
 	}
 
@@ -545,12 +546,12 @@ void MessagesDialog::removemessage()
 
 void MessagesDialog::markMsgAsRead()
 {
-	std::cerr << "MessagesDialog::markMsgAsRead()" << std::endl;
+	//std::cerr << "MessagesDialog::markMsgAsRead()" << std::endl;
 	std::string cid, mid;
 	if (!getCurrentMsg(cid, mid))
 	{
-		std::cerr << "MessagesDialog::markMsgAsRead()";
-		std::cerr << " No Message selected" << std::endl;
+		//std::cerr << "MessagesDialog::markMsgAsRead()";
+		//std::cerr << " No Message selected" << std::endl;
 		return;
 	}
 

@@ -659,8 +659,8 @@ int     filedexserver::save_config()
 	std::list<FileTransferItem *> ftlist = ftFiler -> getStatus();
 	for(fit = ftlist.begin(); fit != ftlist.end(); fit++)
 	{
-		/* only write out the okay/uncompleted files */
-		if ((*fit)->state != FT_STATE_OKAY)
+		/* only write out the okay/uncompleted (with hash) files */
+		if (((*fit)->state != FT_STATE_OKAY) || ((*fit)->hash == ""))
 		{
 			delete(*fit);
 		}
@@ -764,13 +764,14 @@ int     filedexserver::load_config()
 				/* add to ft queue */
 				if (NULL != (fitem = dynamic_cast<PQFileItem *>(item)))
 				{
-					/*** TODO ***/
-					//filer -> getFile(fitem);
+					/* only add in ones which have a hash (filters old versions) */
+					if (fitem->hash != "")
+					{
+						ftFiler -> getFile(fitem->name, fitem->hash, 
+								fitem->size, "");
+					}
 				}
-				else
-				{
-					delete item;
-				}
+				delete item;
 				break;
 			case PQI_ITEM_TYPE_CHATITEM:
 				if (NULL != (mitem = dynamic_cast<MsgItem *>(item)))
@@ -1086,40 +1087,6 @@ int filedexserver::FileStoreTick()
 {
 	peerMonitor -> tick();
 	ftFiler -> tick();
-
-#if 0 /* NOT NEEEDED! */
-	/* hack to update file cache */
-	RsPeerId pid;
-	std::map<CacheId, CacheData> ids;
-	std::map<CacheId, CacheData>::iterator it;
-
-	std::cerr << "filedexserver::FileStoreTick() listCaches:" << std::endl;
-	fimon->listCaches(std::cerr);
-	fimon->cachesAvailable(pid, ids);
-
-	/*
-	 */
-
-	/* tick things */
-
-	if (ids.size() == 0)
-	{
-		return 0;
-	}
-
-	if (ids.size() > 1)
-	{
-		/* error */
-		return 0;
-	}
-
-	it = ids.begin();
-
-	if (fiStore->fetchCache(it->second))
-	{
-		fiStore->loadCache(it->second);
-	}
-#endif
 	return 1;
 }
 
@@ -1135,10 +1102,10 @@ int     filedexserver::handleInputQueues()
 	int i = 0;
 	int i_init = 0;
 
-	std::cerr << "filedexserver::handleInputQueues()" << std::endl;
+	//std::cerr << "filedexserver::handleInputQueues()" << std::endl;
 	while((fi = pqisi -> GetSearchResult()) != NULL)
 	{
-		std::cerr << "filedexserver::handleInputQueues() Recvd SearchResult (CacheResponse!)" << std::endl;
+		//std::cerr << "filedexserver::handleInputQueues() Recvd SearchResult (CacheResponse!)" << std::endl;
 		std::ostringstream out;
 		if (i++ == i_init)
 		{
@@ -1160,6 +1127,7 @@ int     filedexserver::handleInputQueues()
 		if (getSSLRoot() -> getcertsign((cert *) fi->p, sign))
 		{
 			data.pid = convert_to_str(sign);
+			data.pname = fi->p->Name();
 			cacheStrapper->recvCacheResponse(data, time(NULL));
 		}
 		else
@@ -1175,7 +1143,7 @@ int     filedexserver::handleInputQueues()
 	i_init = i;
 	while((si = pqisi -> RequestedSearch()) != NULL)
 	{
-		std::cerr << "filedexserver::handleInputQueues() Recvd RequestedSearch (CacheQuery!)" << std::endl;
+		//std::cerr << "filedexserver::handleInputQueues() Recvd RequestedSearch (CacheQuery!)" << std::endl;
 		std::ostringstream out;
 		if (i++ == i_init)
 		{
@@ -1192,7 +1160,7 @@ int     filedexserver::handleInputQueues()
 		cacheStrapper->handleCacheQuery(id, answer);
 		for(it = answer.begin(); it != answer.end(); it++)
 		{
-			std::cerr << "filedexserver::handleInputQueues() Sending (CacheAnswer!)" << std::endl;
+			//std::cerr << "filedexserver::handleInputQueues() Sending (CacheAnswer!)" << std::endl;
 			/* construct reply */
 			PQFileItem *fi = new PQFileItem();
 	
@@ -1236,7 +1204,7 @@ int     filedexserver::handleInputQueues()
 	i_init = i;
 	while((pfi = pqisi -> GetFileItem()) != NULL )
 	{
-		std::cerr << "filedexserver::handleInputQueues() Recvd ftFiler Data" << std::endl;
+		//std::cerr << "filedexserver::handleInputQueues() Recvd ftFiler Data" << std::endl;
 		std::ostringstream out;
 		if (i++ == i_init)
 		{
@@ -1284,18 +1252,17 @@ int     filedexserver::handleInputQueues()
 int     filedexserver::handleOutputQueues()
 {
 	// get all the incoming results.. and print to the screen.
-	std::cerr << "filedexserver::handleOutputQueues()" << std::endl;
+	//std::cerr << "filedexserver::handleOutputQueues()" << std::endl;
 	int i = 0;
 
 	std::list<RsPeerId> ids;
         std::list<RsPeerId>::iterator pit;
 
-	cacheStrapper->listPeerStatus(std::cerr);
 	cacheStrapper->sendCacheQuery(ids, time(NULL));
 
 	for(pit = ids.begin(); pit != ids.end(); pit++)
 	{
-		std::cerr << "filedexserver::handleOutputQueues() Cache Query for: " << (*pit) << std::endl;
+		//std::cerr << "filedexserver::handleOutputQueues() Cache Query for: " << (*pit) << std::endl;
 
 		/* now create one! */
 		SearchItem *si = new SearchItem();
@@ -1335,7 +1302,7 @@ int     filedexserver::handleOutputQueues()
 	ftFileRequest *ftr;
 	while((ftr = ftFiler -> sendFileInfo()) != NULL)
 	{
-		std::cerr << "filedexserver::handleOutputQueues() ftFiler Data for: " << ftr->id << std::endl;
+		//std::cerr << "filedexserver::handleOutputQueues() ftFiler Data for: " << ftr->id << std::endl;
 
 		/* work out who its going to */
 		certsign sign;

@@ -91,7 +91,7 @@ int	pqihandler::status()
 	for(it = mods.begin(); it != mods.end(); it++)
 	{
 		out << "\tModule [" << it -> first << "] Pointer <";
-		out << (int) ((it -> second) -> pqi) << ">" << std::endl;
+		out << (void *) ((it -> second) -> pqi) << ">" << std::endl;
 	}
 
 		pqioutput(PQL_DEBUG_BASIC, pqihandlerzone, out.str());
