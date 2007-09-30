@@ -44,6 +44,7 @@ int     	breakupDirList(std::string path,
                         	std::list<std::string> &subdirs);
 
 bool    	checkCreateDirectory(std::string dir);
+bool    	cleanupDirectory(std::string dir, std::list<std::string> keepFiles);
 
 };
 

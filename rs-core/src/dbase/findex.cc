@@ -508,7 +508,7 @@ int	FileIndex::setRootDirectories(std::list<std::string> inlist, time_t updtime)
 	}
 
 	/* remove all dirs with zero time (non recursive) */
-	root->removeOldEntries(utime, false);
+	root->removeOldEntries(0, false);
 
 	/* now flag remaining directories with correct update time */
 	for(it = root->subdirs.begin(); it != root->subdirs.end(); it++)

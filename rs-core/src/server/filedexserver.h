@@ -206,6 +206,8 @@ void 	setUPnPEnabled(int i)
 	public:
 
 int 	FileStoreTick();
+int 	FileCacheSave();
+
 void 	initialiseFileStore();
 void    setFileCallback(NotifyBase *cb);
 

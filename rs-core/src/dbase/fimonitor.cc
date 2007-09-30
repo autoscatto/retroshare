@@ -97,7 +97,32 @@ bool    FileIndexMonitor::findLocalFile(std::string hash,
 
 bool FileIndexMonitor::loadCache(const CacheData &data)  /* called with stored data */
 {
-	return refreshCache(data);
+	bool ok = false;
+
+	fiMutex.lock(); { /* LOCKED DIRS */
+
+	//fi.root->name = data.pid;
+
+	/* More error checking needed here! */
+	if ((ok = fi.loadIndex(data.path + '/' + data.name, 
+				data.hash, data.size)))
+	{
+		std::cerr << "FileIndexMonitor::loadCache() Success!";
+		std::cerr << std::endl;
+	}
+	else
+	{
+		std::cerr << "FileIndexMonitor::loadCache() Failed!";
+		std::cerr << std::endl;
+	}
+		
+	} fiMutex.unlock(); /* UNLOCKED DIRS */
+
+	if (ok)
+	{
+		return updateCache(data);
+	}
+	return false;
 }
 
 bool FileIndexMonitor::updateCache(const CacheData &data)  /* we call this one */
@@ -259,7 +284,9 @@ void 	FileIndexMonitor::updateCycle()
 						continue; /* skipping links */
 					}
 
+#ifdef FIM_DEBUG
 	 				std::cerr << "Is Directory: " << fullname << std::endl;
+#endif
 
 					/* add in directory */
                         		fe.name = fname;
@@ -270,7 +297,9 @@ void 	FileIndexMonitor::updateCycle()
 				{
 					/* is file */
 					bool toadd = false;
+#ifdef FIM_DEBUG
 					std::cerr << "Is File: " << fullname << std::endl;
+#endif
 
                         		fe.name = fname;
 					fe.size = buf.st_size;
@@ -281,6 +310,9 @@ void 	FileIndexMonitor::updateCycle()
 					if (fit == olddir->files.end())
 					{
 						/* needs to be added */
+#ifdef FIM_DEBUG
+						std::cerr << "File Missing from List:" << fname << std::endl;
+#endif
 						toadd = true;
 					}
 					else
@@ -289,6 +321,9 @@ void 	FileIndexMonitor::updateCycle()
 						if ((fe.size != (fit->second)->size) ||
 						    (fe.modtime != (fit->second)->modtime))
 						{
+#ifdef FIM_DEBUG
+						std::cerr << "File ModTime/Size changed:" << fname << std::endl;
+#endif
 							toadd = true;
 						}
 						else

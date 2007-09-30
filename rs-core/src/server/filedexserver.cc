@@ -620,6 +620,8 @@ int     filedexserver::save_config()
 	}
 
 
+	/* save the local cache file name */
+	FileCacheSave();
 
 	/* now we create a pqiarchive, and stream all the msgs/fts
 	 * into it
@@ -910,6 +912,9 @@ void filedexserver::initialiseFileStore()
 
 }
 
+const std::string LOCAL_CACHE_FILE_KEY = "LCF_NAME";
+const std::string LOCAL_CACHE_HASH_KEY = "LCF_HASH";
+const std::string LOCAL_CACHE_SIZE_KEY = "LCF_SIZE";
 
 void    filedexserver::setFileCallback(NotifyBase *cb)
 {
@@ -919,7 +924,7 @@ void    filedexserver::setFileCallback(NotifyBase *cb)
 	getSSLRoot()->getcertsign(own, sign);
 	RsPeerId ownId = convert_to_str(sign);
 
-	uint32_t queryPeriod = 15; /* query every 10 minutes */
+	uint32_t queryPeriod = 60; /* query every 1 minutes -> change later to 600+ */
 
 	/* setup the pqimonitor */
 	peerMonitor = new pqimonitor();
@@ -948,12 +953,47 @@ void    filedexserver::setFileCallback(NotifyBase *cb)
 	CachePair cp(fimon, fiStore, CacheId(CACHE_TYPE_FILE_INDEX, 0));
 	cacheStrapper -> addCachePair(cp);
 
+	/* add to peermonitor */
+	peerMonitor -> addClient(cacheStrapper);
+
+
 	/* now we can load the cache configuration */
 	//std::string cacheconfig = config_dir + "/caches.cfg";
 	//cacheStrapper -> loadCaches(cacheconfig);
 
-	/* add to peermonitor */
-	peerMonitor -> addClient(cacheStrapper);
+	/************ TMP HACK LOAD until new serialiser is finished */
+	/* get filename and hash from configuration */
+	std::string localCacheFile = getSSLRoot()->getSetting(LOCAL_CACHE_FILE_KEY);
+	std::string localCacheHash = getSSLRoot()->getSetting(LOCAL_CACHE_HASH_KEY);
+	std::string localCacheSize = getSSLRoot()->getSetting(LOCAL_CACHE_SIZE_KEY);
+
+	std::list<std::string> saveLocalCaches;
+	std::list<std::string> saveRemoteCaches;
+
+	if ((localCacheFile != "") && 
+		(localCacheHash != "") && 
+		(localCacheSize != ""))
+	{
+		/* load it up! */
+		std::string loadCacheFile = localcachedir + "/" + localCacheFile;
+		CacheData cd;
+		cd.pid = ownId;
+		cd.cid = CacheId(CACHE_TYPE_FILE_INDEX, 0);
+		cd.name = localCacheFile;
+		cd.path = localcachedir;
+		cd.hash = localCacheHash;
+		cd.size = atoi(localCacheSize.c_str());
+		fimon -> loadCache(cd);
+
+		saveLocalCaches.push_back(cd.name);
+	}
+
+	/* cleanup cache directories */
+	RsDirUtil::cleanupDirectory(localcachedir, saveLocalCaches);
+	RsDirUtil::cleanupDirectory(remotecachedir, saveRemoteCaches); /* clean up all */
+
+	/************ TMP HACK LOAD until new serialiser is finished */
+
 
 	/* startup the FileMonitor (after cache load) */
 	fimon->setPeriod(600); /* 10 minutes */
@@ -962,6 +1002,42 @@ void    filedexserver::setFileCallback(NotifyBase *cb)
 	fimon->start();
 
 }
+
+int filedexserver::FileCacheSave()
+{
+	/************ TMP HACK SAVE until new serialiser is finished */
+
+	RsPeerId pid;
+	std::map<CacheId, CacheData> ids;
+	std::map<CacheId, CacheData>::iterator it;
+
+	std::cerr << "filedexserver::FileCacheSave() listCaches:" << std::endl;
+	fimon->listCaches(std::cerr);
+	fimon->cachesAvailable(pid, ids);
+
+	std::string localCacheFile;
+	std::string localCacheHash;
+	std::string localCacheSize;
+
+	if (ids.size() == 1)
+	{
+		it = ids.begin();
+		localCacheFile = (it->second).name;
+		localCacheHash = (it->second).hash;
+		std::ostringstream out;
+		out << (it->second).size;
+		localCacheSize = out.str();
+	}
+
+	/* extract the details of the local cache */
+	getSSLRoot()->setSetting(LOCAL_CACHE_FILE_KEY, localCacheFile);
+	getSSLRoot()->setSetting(LOCAL_CACHE_HASH_KEY, localCacheHash);
+	getSSLRoot()->setSetting(LOCAL_CACHE_SIZE_KEY, localCacheSize);
+
+	/************ TMP HACK SAVE until new serialiser is finished */
+	return 1;
+}
+
 
 // Transfer control.
 int filedexserver::getFile(std::string fname, std::string hash,
@@ -1008,6 +1084,10 @@ int filedexserver::SearchBoolExp(Expression * exp, std::list<FileDetail> &result
 
 int filedexserver::FileStoreTick()
 {
+	peerMonitor -> tick();
+	ftFiler -> tick();
+
+#if 0 /* NOT NEEEDED! */
 	/* hack to update file cache */
 	RsPeerId pid;
 	std::map<CacheId, CacheData> ids;
@@ -1021,8 +1101,6 @@ int filedexserver::FileStoreTick()
 	 */
 
 	/* tick things */
-	peerMonitor -> tick();
-	ftFiler -> tick();
 
 	if (ids.size() == 0)
 	{
@@ -1041,6 +1119,7 @@ int filedexserver::FileStoreTick()
 	{
 		fiStore->loadCache(it->second);
 	}
+#endif
 	return 1;
 }
 

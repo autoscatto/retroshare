@@ -228,3 +228,52 @@ bool	RsDirUtil::checkCreateDirectory(std::string dir)
 	return 1;
 }
 
+
+
+#include <dirent.h>
+//#include <sys/types.h>
+//#include <sys/stat.h>
+//#include <fcntl.h>
+//#include <unistd.h>
+
+bool 	RsDirUtil::cleanupDirectory(std::string cleandir, std::list<std::string> keepFiles)
+{
+
+	/* check for the dir existance */
+	DIR *dir = opendir(cleandir.c_str());
+	std::list<std::string>::const_iterator it;
+
+	if (!dir)
+	{
+		return false;
+	}
+
+	struct dirent *dent;
+	struct stat buf;
+
+	while(NULL != (dent = readdir(dir)))
+	{
+		/* check entry type */
+		std::string fname = dent -> d_name;
+		std::string fullname = cleandir + "/" + fname;
+
+	 	if (-1 != stat(fullname.c_str(), &buf))
+		{
+			/* only worry about files */
+			if (S_ISREG(buf.st_mode))
+			{
+				/* check if we should keep it */
+				if (keepFiles.end() == (it = std::find(keepFiles.begin(), keepFiles.end(), fname)))
+				{
+					/* can remove */
+					remove(fullname.c_str());
+				}
+			}
+		}
+	}
+	/* close directory */
+	closedir(dir);
+
+	return true;
+}
+	

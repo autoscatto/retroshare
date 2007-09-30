@@ -58,7 +58,7 @@ const float TRANSFER_MODE_NORMAL_RATE  = 500000; /* 500 kbyte limit - everyone u
 const float TRANSFER_MODE_FAST_RATE    = 500000; /* 500 kbyte limit */
 
 const int TRANSFER_START_MIN = 500;  /* 500 byte  min limit */
-const int TRANSFER_START_MAX = 2000; /* 2000 byte max limit */
+const int TRANSFER_START_MAX = 10000; /* 10000 byte max limit */
 
 /************* Local File Interface ****************************
  *
@@ -753,8 +753,9 @@ int 	ftfiler::requestData(ftFileStatus *item)
 	if (item->req_size < TRANSFER_START_MIN)
 	{
 		/* start again slowly 
-		 * added an extra limiter. */
-		item->req_size = (int) (0.01 * max_rate);
+		 * added an extra limiter. 
+		 * - make this dependent on number of transfers ... */
+		item->req_size = (int) (max_rate * (0.01 + 0.10 / recvFiles.size()));
 		if (item->req_size < TRANSFER_START_MIN)
 		{
 			item->req_size = TRANSFER_START_MIN;
