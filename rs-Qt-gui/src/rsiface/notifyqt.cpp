@@ -167,7 +167,8 @@ void NotifyQt::displayNeighbours()
 	iface->unlockData(); /* UnLock Interface */
 
 	/* Do the GUI */
-	cDialog->insertConnect();
+	if (cDialog)
+		cDialog->insertConnect();
 }
 
 void NotifyQt::displayFriends()
@@ -190,8 +191,10 @@ void NotifyQt::displayFriends()
 
 	iface->unlockData(); /* UnLock Interface */
 
-	pDialog->insertPeers();
-	mWindow->insertPeers();
+	if (pDialog)
+		pDialog->insertPeers();
+	if (mWindow)
+		mWindow->insertPeers();
 }
 
 
@@ -209,8 +212,11 @@ void NotifyQt::preDisplayDirectories()
 
 	//iface->unlockData(); /* UnLock Interface */
 
-	dDialog->preModDirectories(false);  /* Remote */
-	dDialog->preModDirectories(true);   /* Local */
+	if (dDialog)
+	{
+		dDialog->preModDirectories(false);  /* Remote */
+		dDialog->preModDirectories(true);   /* Local */
+	}
 }
 
 
@@ -225,13 +231,12 @@ void NotifyQt::displayDirectories()
 
 	//iface->unlockData(); /* UnLock Interface */
 
-	//dDialog->insertFiles(true);  /* Local  */
-	//dDialog->insertFiles(false); /* Remote */
-	//dDialog->syncDirectories(true);  /* Local  */
-	//dDialog->syncDirectories(false); /* Remote */
 
-	dDialog->ModDirectories(false);  /* Remote */
-	dDialog->ModDirectories(true);   /* Local */
+	if (dDialog)
+	{
+		dDialog->ModDirectories(false);  /* Remote */
+		dDialog->ModDirectories(true);   /* Local */
+	}
 }
 
 
@@ -275,7 +280,8 @@ void NotifyQt::displayMessages()
 	iface->unlockData(); /* UnLock Interface */
 
 
- 	mDialog -> insertMessages();
+	if (mDialog)
+ 		mDialog -> insertMessages();
 }
 
 void NotifyQt::displayChat()
@@ -287,7 +293,8 @@ void NotifyQt::displayChat()
 
 	iface->unlockData(); /* UnLock Interface */
 
- 	hDialog -> insertChat();
+	if (hDialog)
+ 		hDialog -> insertChat();
 }
 
 
@@ -300,7 +307,8 @@ void NotifyQt::displayChannels()
 
 	iface->unlockData(); /* UnLock Interface */
 
- 	sDialog -> insertChannels();
+	if (sDialog)
+ 		sDialog -> insertChannels();
 }
 
 
@@ -324,7 +332,8 @@ void NotifyQt::displayTransfers()
 	iface->unlockData(); /* UnLock Interface */
 	
 	/* Do the GUI */
-	tDialog->insertTransfers();
+	if (tDialog)
+		tDialog->insertTransfers();
 }
 
 

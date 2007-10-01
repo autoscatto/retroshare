@@ -93,18 +93,15 @@ int main(int argc, char *argv[])
 
         notify->setRsIface(iface);
 
+	/* save to the global variables */
+	rsiface = iface;
+	rsicontrol = rsServer;
+
+        rsServer -> StartupRetroShare(config);
+        CleanupRsConfig(config);
+
 
   	MainWindow w;
-
-	/* only show window, if not autologin */
-#if defined(Q_OS_WIN)
-  	if (!okStart)
-	{
-		w.show();
-	}
-#else
-	w.show();
-#endif
 
 	/* Attach the Dialogs, to the Notify Class */
         notify->setNetworkDialog(w.networkDialog);
@@ -116,12 +113,15 @@ int main(int argc, char *argv[])
         notify->setChannelsDialog(w.channelsDialog);
         notify->setMessengerWindow(w.messengerWindow);
 
-	/* save to the global variables */
-	rsiface = iface;
-	rsicontrol = rsServer;
-
-        rsServer -> StartupRetroShare(config);
-        CleanupRsConfig(config);
+	/* only show window, if not autologin */
+#if defined(Q_OS_WIN)
+  	if (!okStart)
+	{
+		w.show();
+	}
+#else
+	w.show();
+#endif
 
 	/* Startup a Timer to keep the gui's updated */
 	QTimer *timer = new QTimer(&w);

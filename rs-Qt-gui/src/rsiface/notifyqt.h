@@ -22,7 +22,10 @@ class NotifyQt: public QObject, public NotifyBase
 {
   Q_OBJECT
         public:
-        NotifyQt() : cDialog(NULL), pDialog(NULL)
+        NotifyQt() : cDialog(NULL), pDialog(NULL),
+	dDialog(NULL), tDialog(NULL),
+	hDialog(NULL), mDialog(NULL),
+	sDialog(NULL), mWindow(NULL)
 	{ return; }
 
         virtual ~NotifyQt() { return; }
