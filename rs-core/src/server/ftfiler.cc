@@ -990,6 +990,17 @@ int ftfiler::initiateFileTransfer(ftFileStatus *s)
         pqioutput(PQL_DEBUG_BASIC, ftfilerzone,
 	              "ftfiler::initiateFileTransfer()");
 
+
+	std::string partialpath = saveBasePath + "/";
+	partialpath += PARTIAL_DIR;
+	if (!RsDirUtil::checkCreateDirectory(partialpath))
+	{
+		std::ostringstream out;
+		out << "ftfiler::initiateFileTransfer() Cannot create partial directory: " << partialpath;
+        	pqioutput(PQL_ALERT, ftfilerzone, out.str());
+		exit(1);
+	}
+
 	/* check if the file exists */
 	s->file_name = determineTmpFilePath(s);
 
@@ -1303,16 +1314,6 @@ ftFileStatus *ftfiler::createFileCache(std::string hash)
 void    ftfiler::setSaveBasePath(std::string s)
 {
 	saveBasePath = s;
-	std::string partialpath = s + "/";
-	partialpath += PARTIAL_DIR;
-
-	if (!RsDirUtil::checkCreateDirectory(partialpath))
-	{
-		std::cerr << "ftfiler::setSaveBasePath() Cannot create: " << partialpath;
-		std::cerr << std::endl;
-		exit(1);
-	}
-
 	return;
 }
 

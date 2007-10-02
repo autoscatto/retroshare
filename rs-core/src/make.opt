@@ -117,11 +117,11 @@ else
   INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
 endif
 
-CFLAGS = -Wall -g $(INCLUDE) 
+CFLAGS = -Wall -O2 $(INCLUDE) 
 
 RANLIB = ranlib
 LIBRS = ../lib/libretroshare.a
-RSCFLAGS = -Wall -g $(INCLUDE) 
+RSCFLAGS = -Wall -O2 $(INCLUDE) 
 
 ifdef PQI_USE_XPGP
 	CFLAGS += -DPQI_USE_XPGP
