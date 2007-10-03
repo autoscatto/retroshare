@@ -404,7 +404,7 @@ void MessengerWindow::changeAvatarClicked()
 
 void MessengerWindow::updateAvatar() 
 {
-	std::string backgroundPixmapFilename = ":/images/mystatus_bg.png";
+	std::string backgroundPixmapFilename = ":/images/retrosharelogo1.png";
 	std::string foregroundPixmapData = ":/images/nopic.png";
 	//std::string foregroundPixmapData = _cUserProfile->getUserProfile().getIcon().getData();
 

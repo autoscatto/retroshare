@@ -559,12 +559,12 @@ background-image: url(:/images/amsn.png);
          <string/>
         </property>
         <property name="icon" >
-         <iconset resource="images.qrc" >:/images/amsn.png</iconset>
+         <iconset resource="images.qrc" >:/images/retrosharelogo1.png</iconset>
         </property>
         <property name="iconSize" >
          <size>
-          <width>70</width>
-          <height>70</height>
+          <width>96</width>
+          <height>96</height>
          </size>
         </property>
         <property name="autoRaise" >

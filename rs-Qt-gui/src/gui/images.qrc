@@ -2,6 +2,8 @@
     <qresource prefix="/" >
         <file>images/COPYING</file>
         <file>images/RetroShare16.png</file>
+	  <file>images/retrosharelogo1.png</file>
+        <file>images/retrosharelogo2.png</file>
         <file>images/add-friend24.png</file>
         <file>images/add-share24.png</file>
         <file>images/amsn.png</file>
@@ -34,12 +36,12 @@
         <file>images/chat/hide_avatar_frame.png</file>
         <file>images/chat/show_avatar_frame.png</file>
         <file>images/chats_24x24.png</file>
-        <file>images/checkbox_checked.png</file>
-        <file>images/checkbox_checked_hover.png</file>
-        <file>images/checkbox_checked_pressed.png</file>
-        <file>images/checkbox_unchecked.png</file>
-        <file>images/checkbox_unchecked_hover.png</file>
-        <file>images/checkbox_unchecked_pressed.png</file>
+        <file>images/pagefold/checkbox_checked.png</file>
+        <file>images/pagefold/checkbox_checked_hover.png</file>
+        <file>images/pagefold/checkbox_checked_pressed.png</file>
+        <file>images/pagefold/checkbox_unchecked.png</file>
+        <file>images/pagefold/checkbox_unchecked_hover.png</file>
+        <file>images/pagefold/checkbox_unchecked_pressed.png</file>
         <file>images/close-down.png</file>
         <file>images/close_normal.png</file>
         <file>images/console-small-down.png</file>
@@ -64,8 +66,8 @@
         <file>images/dlunch.png</file>
         <file>images/donline.png</file>
         <file>images/down.png</file>
-        <file>images/down_arrow.png</file>
-        <file>images/down_arrow_disabled.png</file>
+        <file>images/pagefold/down_arrow.png</file>
+        <file>images/pagefold/down_arrow_disabled.png</file>
         <file>images/dphone.png</file>
         <file>images/ed2k/button-down.png</file>
         <file>images/ed2k/button-hover.png</file>
@@ -107,7 +109,7 @@
         <file>images/folder_doments.png</file>
         <file>images/folder_green.png</file>
         <file>images/folder_green16.png</file>
-        <file>images/frame.png</file>
+        <file>images/pagefold/frame.png</file>
         <file>images/graph-area.png</file>
         <file>images/graph-line.png</file>
         <file>images/hide_toolbox_frame.png</file>
@@ -141,19 +143,19 @@
         <file>images/over/greenbot.png</file>
         <file>images/over/greenhover.png</file>
         <file>images/over/greentop.png</file>
-        <file>images/pagefold.png</file>
+        <file>images/pagefold/pagefold.png</file>
         <file>images/peerdetails_16x16.png</file>
         <file>images/peers_16x16.png</file>
         <file>images/peers_24x24.png</file>
-        <file>images/pushbutton.png</file>
-        <file>images/pushbutton_hover.png</file>
-        <file>images/pushbutton_pressed.png</file>
-        <file>images/radiobutton_checked.png</file>
-        <file>images/radiobutton_checked_hover.png</file>
-        <file>images/radiobutton_checked_pressed.png</file>
-        <file>images/radiobutton_unchecked.png</file>
-        <file>images/radiobutton_unchecked_hover.png</file>
-        <file>images/radiobutton_unchecked_pressed.png</file>
+        <file>images/pagefold/pushbutton.png</file>
+        <file>images/pagefold/pushbutton_hover.png</file>
+        <file>images/pagefold/pushbutton_pressed.png</file>
+        <file>images/pagefold/radiobutton_checked.png</file>
+        <file>images/pagefold/radiobutton_checked_hover.png</file>
+        <file>images/pagefold/radiobutton_checked_pressed.png</file>
+        <file>images/pagefold/radiobutton_unchecked.png</file>
+        <file>images/pagefold/radiobutton_unchecked_hover.png</file>
+        <file>images/pagefold/radiobutton_unchecked_pressed.png</file>
         <file>images/removefriend16.png</file>
         <file>images/replymail-hover.png</file>
         <file>images/replymail24.png</file>
@@ -166,15 +168,15 @@
         <file>images/settings16.png</file>
         <file>images/show_toolbox_frame.png</file>
         <file>images/silver.png</file>
-        <file>images/sizegrip.png</file>
-        <file>images/spindown.png</file>
-        <file>images/spindown_hover.png</file>
-        <file>images/spindown_off.png</file>
-        <file>images/spindown_pressed.png</file>
-        <file>images/spinup.png</file>
-        <file>images/spinup_hover.png</file>
-        <file>images/spinup_off.png</file>
-        <file>images/spinup_pressed.png</file>
+        <file>images/pagefold/sizegrip.png</file>
+        <file>images/pagefold/spindown.png</file>
+        <file>images/pagefold/spindown_hover.png</file>
+        <file>images/pagefold/spindown_off.png</file>
+        <file>images/pagefold/spindown_pressed.png</file>
+        <file>images/pagefold/spinup.png</file>
+        <file>images/pagefold/spinup_hover.png</file>
+        <file>images/pagefold/spinup_off.png</file>
+        <file>images/pagefold/spinup_pressed.png</file>
         <file>images/start.png</file>
         <file>images/startall.png</file>
         <file>images/toaster/chat.png</file>
@@ -184,8 +186,8 @@
         <file>images/toaster/toaster-backrs3.png</file>
         <file>images/toaster/toaster-backrs4.png</file>
         <file>images/up.png</file>
-        <file>images/up_arrow.png</file>
-        <file>images/up_arrow_disabled.png</file>
+        <file>images/pagefold/up_arrow.png</file>
+        <file>images/pagefold/up_arrow_disabled.png</file>
         <file>images/webcache_24x24.png</file>
         <file>layouts/arachnophobia.ui</file>
         <file>layouts/black.ui</file>
