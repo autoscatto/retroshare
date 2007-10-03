@@ -717,17 +717,17 @@ p, li { white-space: pre-wrap; }
       </property>
       <column>
        <property name="text" >
-       <string>Filename</string>
+        <string>Filename</string>
        </property>
       </column>
       <column>
        <property name="text" >
-       <string>Hash</string>
+        <string>Hash</string>
        </property>
       </column>
       <column>
        <property name="text" >
-       <string>Source</string>
+        <string>Sources</string>
        </property>
       </column>
      </widget>
@@ -752,17 +752,17 @@ p, li { white-space: pre-wrap; }
       </property>
       <column>
        <property name="text" >
-       <string>KeyWords</string>
+        <string>KeyWords</string>
        </property>
       </column>
       <column>
        <property name="text" >
-       <string>Results</string>
+        <string>Results</string>
        </property>
       </column>
       <column>
        <property name="text" >
-       <string>Search Id</string>
+        <string>Search Id</string>
        </property>
       </column>
      </widget>

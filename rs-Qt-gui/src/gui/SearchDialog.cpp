@@ -54,6 +54,11 @@ SearchDialog::SearchDialog(QWidget *parent)
 
   connect ( ui.searchSummaryWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * ) ),
   		this, SLOT( selectSearchResults( void ) ) );
+  		
+  	
+  /* hide the Tree +/- */
+  ui.searchResultWidget -> setRootIsDecorated( false );
+  ui.searchSummaryWidget -> setRootIsDecorated( false );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
