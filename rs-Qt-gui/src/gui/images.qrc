@@ -1,11 +1,13 @@
 <RCC>
     <qresource prefix="/" >
         <file>images/COPYING</file>
-        <file>images/RetroShare16.png</file>
-	  <file>images/retrosharelogo1.png</file>
+        <file>images/RetroShare16.png</file>	  
+        <file>images/retrosharelogo1.png</file>
         <file>images/retrosharelogo2.png</file>
         <file>images/add-friend24.png</file>
         <file>images/add-share24.png</file>
+        <file>images/add_24x24.png</file>
+        <file>images/advsearch_24x24.png</file>
         <file>images/amsn.png</file>
         <file>images/amsn16.png</file>
         <file>images/arachnophobia/background.png</file>
@@ -66,6 +68,7 @@
         <file>images/dlunch.png</file>
         <file>images/donline.png</file>
         <file>images/down.png</file>
+        <file>images/down_24x24.png</file>
         <file>images/pagefold/down_arrow.png</file>
         <file>images/pagefold/down_arrow_disabled.png</file>
         <file>images/dphone.png</file>
@@ -83,6 +86,7 @@
         <file>images/exportpeers_16x16.png</file>
         <file>images/filefind.png</file>
         <file>images/fileinfo.png</file>
+        <file>images/find.png</file>
         <file>images/flags/af.png</file>
         <file>images/flags/cn.png</file>
         <file>images/flags/de.png</file>
@@ -159,6 +163,7 @@
         <file>images/removefriend16.png</file>
         <file>images/replymail-hover.png</file>
         <file>images/replymail24.png</file>
+        <file>images/reset.png</file>
         <file>images/retro4.png</file>
         <file>images/retrotoolbar.png</file>
         <file>images/rsmessenger16.png</file>

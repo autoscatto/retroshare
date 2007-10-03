@@ -112,8 +112,10 @@ HEADERS +=  rshare.h \
             gui/Settings/DirectoriesPage.h \
             gui/Settings/ServerPage.h \
             gui/Settings/NetworkPage.h \
-            gui/authdlg/AuthorizationDialog.h 
-
+            gui/authdlg/AuthorizationDialog.h \
+            gui/advsearch/advancedsearchdialog.h \
+            gui/advsearch/expressionwidget.h \
+            gui/advsearch/guiexprelement.h
 
 FORMS +=    gui/ChatDialog.ui \
             gui/StartDialog.ui \
@@ -155,7 +157,9 @@ FORMS +=    gui/ChatDialog.ui \
             gui/Settings/DirectoriesPage.ui \
             gui/Settings/ServerPage.ui \
             gui/Settings/NetworkPage.ui \
-            gui/authdlg/AuthorizationDialog.ui
+            gui/authdlg/AuthorizationDialog.ui \
+            gui/advsearch/advancedsearchdialog.ui \
+            gui/advsearch/expressionwidget.ui
 
 SOURCES += main.cpp \
             rshare.cpp \
@@ -224,9 +228,11 @@ SOURCES += main.cpp \
             gui/toaster/MessageToaster.cpp \
             gui/toaster/CallToaster.cpp \
             gui/toaster/QtToaster.cpp \
-            gui/authdlg/AuthorizationDialog.cpp
-
-
+            gui/authdlg/AuthorizationDialog.cpp \
+            gui/advsearch/advancedsearchdialog.cpp \
+            gui/advsearch/expressionwidget.cpp \
+            gui/advsearch/guiexprelement.cpp
+            
 RESOURCES += gui/images.qrc lang/lang.qrc
 TRANSLATIONS +=  \
             lang/retroshare_en.ts \

@@ -35,44 +35,61 @@
 #include <QPixmap>
 #include <QHeaderView>
 
-
 /* Images for context menu icons */
 #define IMAGE_START       ":/images/start.png"
 
+/* Key for UI Preferences */
+#define UI_PREF_ADVANCED_SEARCH  "UIOptions/AdvancedSearch"
+ 
 /** Constructor */
 SearchDialog::SearchDialog(QWidget *parent)
 : MainPage(parent), nextSearchId(1)
 {
-  /* Invoke the Qt Designer generated object setup routine */
-  ui.setupUi(this);
+    /* Invoke the Qt Designer generated object setup routine */
+    ui.setupUi(this);
 
-  connect( ui.searchResultWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidgetCostumPopupMenu( QPoint ) ) );
+    /* Advanced search panel specifica */
+    RshareSettings rsharesettings;
+    QString key (UI_PREF_ADVANCED_SEARCH);
+    bool useAdvanced = rsharesettings.value(key, QVariant(false)).toBool();
+    if (useAdvanced)
+    {
+        ui.toggleAdvancedSearchBtn->setChecked(true);
+        ui.SimpleSearchPanel->hide();
+    } else {
+        ui.AdvancedSearchPanel->hide();
+    }
+    
+    connect(ui.toggleAdvancedSearchBtn, SIGNAL(toggled(bool)), this, SLOT(toggleAdvancedSearchDialog(bool)));
+    connect(ui.focusAdvSearchDialogBtn, SIGNAL(clicked()), this, SLOT(showAdvSearchDialog())); 
+    
+    connect( ui.searchResultWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidgetCostumPopupMenu( QPoint ) ) );
+    
+    connect( ui.searchSummaryWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidget2CostumPopupMenu( QPoint ) ) );
+    
+    connect( ui.lineEdit, SIGNAL( returnPressed ( void ) ), this, SLOT( searchKeywords( void ) ) );
+    connect( ui.pushButtonsearch, SIGNAL( released ( void ) ), this, SLOT( searchKeywords( void ) ) );
+    //connect( ui.searchSummaryWidget, SIGNAL( itemSelectionChanged ( void ) ), this, SLOT( selectSearchResults( void ) ) );
+    
+    connect ( ui.searchSummaryWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * ) ),
+                    this, SLOT( selectSearchResults( void ) ) );
+    
+    /* hide the Tree +/- */
+    ui.searchResultWidget -> setRootIsDecorated( false );
+    ui.searchSummaryWidget -> setRootIsDecorated( false );
 
-  connect( ui.searchSummaryWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidget2CostumPopupMenu( QPoint ) ) );
+     /* Set header resize modes and initial section sizes */
+    QHeaderView * _smheader = ui.searchSummaryWidget->header () ;   
+    _smheader->setResizeMode (0, QHeaderView::Interactive);
+    _smheader->setResizeMode (1, QHeaderView::Interactive);
+    _smheader->setResizeMode (2, QHeaderView::Interactive);
+    
+    _smheader->resizeSection ( 0, 80 );
+    _smheader->resizeSection ( 1, 75 );
+    _smheader->resizeSection ( 2, 75 );
 
-  connect( ui.lineEdit, SIGNAL( returnPressed ( void ) ), this, SLOT( searchKeywords( void ) ) );
-  connect( ui.pushButtonsearch, SIGNAL( released ( void ) ), this, SLOT( searchKeywords( void ) ) );
-  //connect( ui.searchSummaryWidget, SIGNAL( itemSelectionChanged ( void ) ), this, SLOT( selectSearchResults( void ) ) );
 
-  connect ( ui.searchSummaryWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * ) ),
-  		this, SLOT( selectSearchResults( void ) ) );
-  		
-  	
-  /* hide the Tree +/- */
-  ui.searchResultWidget -> setRootIsDecorated( false );
-  ui.searchSummaryWidget -> setRootIsDecorated( false );
-  
-    /* Set header resize modes and initial section sizes */
-	QHeaderView * _smheader = ui.searchSummaryWidget->header () ;   
-	_smheader->setResizeMode (0, QHeaderView::Interactive);
-	_smheader->setResizeMode (1, QHeaderView::Interactive);
-	_smheader->setResizeMode (2, QHeaderView::Interactive);
-	
-	_smheader->resizeSection ( 0, 80 );
-	_smheader->resizeSection ( 1, 75 );
-	_smheader->resizeSection ( 2, 75 );
-
-  /* Hide platform specific features */
+/* Hide platform specific features */
 #ifdef Q_WS_WIN
 
 #endif
@@ -157,6 +174,87 @@ void SearchDialog::searchremoveall()
    
 }
 
+/* *****************************************************************
+        Advanced search implementation
+*******************************************************************/
+// Event handlers for hide and show events
+void SearchDialog::hideEvent(QHideEvent * event)
+{
+    showAdvSearchDialog(false);
+    MainPage::hideEvent(event);
+}
+
+void SearchDialog::toggleAdvancedSearchDialog(bool toggled)
+{
+    // record the users preference for future reference
+    RshareSettings rsharesettings;
+    QString key (UI_PREF_ADVANCED_SEARCH);
+    rsharesettings.setValue(key, QVariant(toggled));
+     
+    showAdvSearchDialog(toggled);
+}
+
+void SearchDialog::showAdvSearchDialog(bool show)
+{
+    // temp block for upload to svn
+    return;
+    // instantiate if about to show for the first time
+    if (advSearchDialog == 0 && show)
+    {
+        advSearchDialog = new AdvancedSearchDialog();
+    }
+    if (show) {
+        advSearchDialog->show();
+        advSearchDialog->raise();
+        advSearchDialog->setFocus();
+    } else if (advSearchDialog != 0){
+        advSearchDialog->hide();
+    }
+}
+
+void SearchDialog::advancedSearch()
+{
+        // TODO implement the advanced search extraction and call
+	std::string txt = (ui.lineEdit->text()).toStdString();
+
+	std::cerr << "SearchDialog::searchKeywords() : " << txt;
+	std::cerr << std::endl;
+
+	/* extract keywords from lineEdit */
+	std::list<std::string> words;
+	int i;
+	for(i = 0; i < txt.length(); i++)
+	{
+		/* chew initial spaces */
+		for(; (i < txt.length()) && (isspace(txt[i])); i++);
+		std::string newword;
+		for(; (i < txt.length()) && (!isspace(txt[i])); i++)
+		{
+			newword += txt[i];
+		}
+
+		std::cerr << "Search KeyWord: " << newword;
+		std::cerr << std::endl;
+		if (newword.length() > 0)
+		{
+			words.push_back(newword);
+		}
+	}
+	if (words.size() < 1)
+	{
+		/* ignore */
+		return;
+	}
+
+	/* call to core */
+	std::list<FileDetail> results;
+	rsicontrol -> SearchKeywords(words, results);
+
+        /* abstraction to allow reusee of tree rendering code */
+        resultsToTree(txt, results);
+}
+
+
 
 void SearchDialog::searchKeywords()
 {
@@ -196,6 +294,12 @@ void SearchDialog::searchKeywords()
 	std::list<FileDetail> results;
 	rsicontrol -> SearchKeywords(words, results);
 
+        /* abstraction to allow reusee of tree rendering code */
+        resultsToTree(txt, results);
+}
+ 
+void SearchDialog::resultsToTree(std::string txt, std::list<FileDetail> results)
+{
 	/* translate search results */
 	int searchId = nextSearchId++;
 	std::ostringstream out;

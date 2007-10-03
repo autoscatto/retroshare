@@ -1,23 +1,23 @@
 /****************************************************************
- *  RShare is distributed under the following license:
- *
- *  Copyright (C) 2006, crypton
- *
- *  This program is free software; you can redistribute it and/or
- *  modify it under the terms of the GNU General Public License
- *  as published by the Free Software Foundation; either version 2
- *  of the License, or (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
- *  Boston, MA  02110-1301, USA.
- ****************************************************************/
+*  RShare is distributed under the following license:
+*
+*  Copyright (C) 2006, crypton
+*
+*  This program is free software; you can redistribute it and/or
+*  modify it under the terms of the GNU General Public License
+*  as published by the Free Software Foundation; either version 2
+*  of the License, or (at your option) any later version.
+*
+*  This program is distributed in the hope that it will be useful,
+*  but WITHOUT ANY WARRANTY; without even the implied warranty of
+*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*  GNU General Public License for more details.
+*
+*  You should have received a copy of the GNU General Public License
+*  along with this program; if not, write to the Free Software
+*  Foundation, Inc., 51 Franklin Street, Fifth Floor, 
+*  Boston, MA  02110-1301, USA.
+****************************************************************/
 
 #ifndef _SEARCHDIALOG_H
 #define _SEARCHDIALOG_H
@@ -28,65 +28,84 @@
 
 #include "mainpage.h"
 #include "ui_SearchDialog.h"
+#include "advsearch/advancedsearchdialog.h"
+#include "../config/rsharesettings.h"
+
+class FileDetail;
 
 class SearchDialog : public MainPage 
 {
-  Q_OBJECT
-
-public:
-  /** Default Constructor */
-  SearchDialog(QWidget *parent = 0);
-  /** Default Destructor */
-
-
-
+    Q_OBJECT
+        
+        public:
+/** Default Constructor */
+    SearchDialog(QWidget *parent = 0);
+/** Default Destructor */
+    
+    
+    
 private slots:
+    
+/** Create the context popup menu and it's submenus */
+    void searchtableWidgetCostumPopupMenu( QPoint point );
+    
+    void searchtableWidget2CostumPopupMenu( QPoint point );
+    
+    void download();
+    
+    void broadcastonchannel();
+    
+    void recommendtofriends();
+    
+    
+    
+    void searchremove();
+    
+    void searchremoveall();
+    
+    void searchKeywords();
 
-  /** Create the context popup menu and it's submenus */
-  void searchtableWidgetCostumPopupMenu( QPoint point );
-  
-  void searchtableWidget2CostumPopupMenu( QPoint point );
-  
-  void download();
+/** management of the adv search dialog object when switching search modes */
+    void toggleAdvancedSearchDialog(bool);
+    void hideEvent(QHideEvent * event);
 
-  void broadcastonchannel();
-  
-  void recommendtofriends();
- 
-  
-  
-  void searchremove();
-  
-  void searchremoveall();
+/** raises (and if necessary instantiates) the advanced search dialog */
+    void showAdvSearchDialog(bool=true);
 
-  void searchKeywords();
-  void selectSearchResults();
+/** perform the advanced search */
+    void advancedSearch();
 
+    void selectSearchResults();
+    
 private:
+/** render the results to the tree widget display */
+    void resultsToTree(std::string, std::list<FileDetail>);
 
-
-  /** Define the popup menus for the Context menu */
-  QMenu* contextMnu;
-  
-  QMenu* contextMnu2;
-  
-  /** Defines the actions for the context menu */
-  QAction* downloadAct;
-  QAction* broadcastonchannelAct;
-  QAction* recommendtofriendsAct;
-  
-  QAction* searchremoveAct;
-  QAction* searchremoveallAct;
-  
-  /****
-  QTreeWidget *searchtableWidget;
-  QTreeWidget *searchtablewidget2;
-  ****/
- 
-  int nextSearchId;
-
-  /** Qt Designer generated object */
-  Ui::SearchDialog ui;
+/** the advanced search dialog instance */
+    AdvancedSearchDialog * advSearchDialog;
+    
+/** Define the popup menus for the Context menu */
+    QMenu* contextMnu;
+    
+    QMenu* contextMnu2;
+    
+/** Defines the actions for the context menu */
+    QAction* downloadAct;
+    QAction* broadcastonchannelAct;
+    QAction* recommendtofriendsAct;
+    
+    QAction* searchremoveAct;
+    QAction* searchremoveallAct;
+    
+/****
+QTreeWidget *searchtableWidget;
+QTreeWidget *searchtablewidget2;
+****/
+    
+    int nextSearchId;
+    
+/** Qt Designer generated object */
+    Ui::SearchDialog ui;
 };
 
 #endif
