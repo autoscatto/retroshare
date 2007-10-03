@@ -33,6 +33,8 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QHeaderView>
+
 
 /* Images for context menu icons */
 #define IMAGE_START       ":/images/start.png"
@@ -59,6 +61,16 @@ SearchDialog::SearchDialog(QWidget *parent)
   /* hide the Tree +/- */
   ui.searchResultWidget -> setRootIsDecorated( false );
   ui.searchSummaryWidget -> setRootIsDecorated( false );
+  
+    /* Set header resize modes and initial section sizes */
+	QHeaderView * _smheader = ui.searchSummaryWidget->header () ;   
+	_smheader->setResizeMode (0, QHeaderView::Interactive);
+	_smheader->setResizeMode (1, QHeaderView::Interactive);
+	_smheader->setResizeMode (2, QHeaderView::Interactive);
+	
+	_smheader->resizeSection ( 0, 80 );
+	_smheader->resizeSection ( 1, 75 );
+	_smheader->resizeSection ( 2, 75 );
 
   /* Hide platform specific features */
 #ifdef Q_WS_WIN
