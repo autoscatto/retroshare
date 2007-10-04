@@ -77,8 +77,12 @@ SearchDialog::SearchDialog(QWidget *parent)
     /* hide the Tree +/- */
     ui.searchResultWidget -> setRootIsDecorated( false );
     ui.searchSummaryWidget -> setRootIsDecorated( false );
+    
+    
 
-     /* Set header resize modes and initial section sizes */
+    /* Set header resize modes and initial section sizes */
+    ui.searchSummaryWidget->setColumnCount(3);
+     
     QHeaderView * _smheader = ui.searchSummaryWidget->header () ;   
     _smheader->setResizeMode (0, QHeaderView::Interactive);
     _smheader->setResizeMode (1, QHeaderView::Interactive);
