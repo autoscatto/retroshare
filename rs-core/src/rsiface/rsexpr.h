@@ -70,7 +70,6 @@ classes:
 	RelExpression: 		A Relational Expression where > < >= <= == make sense. 
 							e.g. size date etc
 
-All of the above are abstract classes
 ******************************************************************************************/
 
 class FileEntry;
@@ -85,7 +84,7 @@ public:
 class CompoundExpression : public Expression {
 public:	
 	CompoundExpression( enum LogicalOperator op, Expression * exp1, Expression *exp2)
-						: Lexp(exp1), Rexp(exp2), Op(op){}
+						: Lexp(exp1), Rexp(exp2), Op(op){ }
 							
 	bool eval (FileEntry *file) {
 		if (Lexp == NULL or Rexp == NULL) {
@@ -102,7 +101,10 @@ public:
 				return false;
 		}
 	}
-	
+	virtual ~CompoundExpression(){
+		delete Lexp;
+		delete Rexp;
+	}	
 private:
 	Expression *Lexp;
 	Expression *Rexp;
@@ -112,18 +114,21 @@ private:
 
 class StringExpression: public Expression {
 public:
-	StringExpression(enum StringOperator op, std::list<std::string> &t): Op(op),terms(t) {}
+	StringExpression(enum StringOperator op, std::list<std::string> &t, 
+					 bool ic): Op(op),terms(t), IgnoreCase(ic){}
 protected:
 	bool evalStr(std::string &str);
 private:
 	enum StringOperator Op;
 	std::list<std::string> terms;
+	bool IgnoreCase;
 };
 
 template <class T>
 class RelExpression: public Expression {
 public:	
-	RelExpression(enum RelOperator op, T lv, T hv): Op(op),LowerValue(lv),HigherValue(hv) {}
+	RelExpression(enum RelOperator op, T lv, T hv): 
+				  Op(op), LowerValue(lv), HigherValue(hv) {}
 protected:
 	bool evalRel(T val);
 private:
@@ -159,19 +164,22 @@ Some implementations of StringExpressions.
 
 class NameExpression: public StringExpression {
 public:
-	NameExpression(enum StringOperator op, std::list<std::string> &t): StringExpression(op,t) {}
+	NameExpression(enum StringOperator op, std::list<std::string> &t, bool ic): 
+					StringExpression(op,t,ic) {}
 	bool eval(FileEntry *file);
 };
 
 class PathExpression: public StringExpression {
 public:
-	PathExpression(enum StringOperator op, std::list<std::string> &t): StringExpression(op,t) {}
+	PathExpression(enum StringOperator op, std::list<std::string> &t, bool ic): 
+					StringExpression(op,t,ic) {}
 	bool eval(FileEntry *file);
 };
 
 class ExtExpression: public StringExpression {
 public:
-	ExtExpression(enum StringOperator op, std::list<std::string> &t): StringExpression(op,t) {}
+	ExtExpression(enum StringOperator op, std::list<std::string> &t, bool ic): 
+					StringExpression(op,t,ic) {}
 	bool eval(FileEntry *file);
 };
 
@@ -183,21 +191,24 @@ Some implementations of Relational Expressions.
 class DateExpression: public RelExpression<int> {
 public:
 	DateExpression(enum RelOperator op, int v): RelExpression<int>(op,v,v){}
-	DateExpression(enum RelOperator op, int lv, int hv): RelExpression<int>(op,lv,hv) {}
+	DateExpression(enum RelOperator op, int lv, int hv): 
+					RelExpression<int>(op,lv,hv) {}
 	bool eval(FileEntry *file);
 };
 
 class SizeExpression: public RelExpression<int> {
 public:
 	SizeExpression(enum RelOperator op, int v): RelExpression<int>(op,v,v){}
-	SizeExpression(enum RelOperator op, int lv, int hv): RelExpression<int>(op,lv,hv) {}
+	SizeExpression(enum RelOperator op, int lv, int hv): 
+					RelExpression<int>(op,lv,hv) {}
 	bool eval(FileEntry *file);
 };
 
 class PopExpression: public RelExpression<int> {
 public:
 	PopExpression(enum RelOperator op, int v): RelExpression<int>(op,v,v){}
-	PopExpression(enum RelOperator op, int lv, int hv): RelExpression<int>(op,lv,hv) {}
+	PopExpression(enum RelOperator op, int lv, int hv): 
+					RelExpression<int>(op,lv,hv) {}
 	bool eval(FileEntry *file);
 };
 
