@@ -1,29 +1,36 @@
+/*
+ * rs-core/src/dbase: rsexpr.cc
+ *
+ * RetroShare C++ Interface.
+ *
+ * Copyright 2007-2008 by Kashif Kaleem.
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License Version 2 as published by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA.
+ *
+ * Please report all bugs and problems to "retroshare@lunamutt.com".
+ *
+ */
+
 
 #include "dbase/findex.h"
 #include "rsiface/rsexpr.h"
+#include <functional>
 
 
 /******************************************************************************************
-Boolean Search Expression
-classes:
-
-	Expression: 		The base class of all expression typest
-	CompoundExpression: The expression which uses a logical operator to combine
-							the results of two expressions
-	StringExpression: 	An expression which uses some sort of string comparison.
-	RelExpression: 		A Relational Expression where > < >= <= == make sense. 
-							e.g. size date etc
-
-All of the above are abstract classes
-******************************************************************************************/
-
-bool NameExpression::eval(FileEntry *file) 
-{
-	return evalStr(file->name);
-}
-
-/******************************************************************************************
-Some implementations of Relational Expressions.
+eval functions of relational expressions. 
 
 ******************************************************************************************/
 
@@ -42,34 +49,14 @@ bool PopExpression::eval(FileEntry *file)
 	return evalRel(file->pop);
 }
 
-bool StringExpression::evalStr(std::string &str){
-	std::list<std::string>::const_iterator iter;
-	switch (Op) {
-		case ContainsAllStrings:
-			for (iter = terms.begin(); iter != terms.end(); iter++) {	
-				if (str.find(*iter)== std::string::npos) {
-					return false;	
-				} 
-			}
-			return true;
-		break;
-		case ContainsAnyStrings:
-			for (iter = terms.begin(); iter != terms.end(); iter++) {
-				if (str.find(*iter)!= std::string::npos) {
-					return true;
-				}
-			}
-		break;
-		case EqualsString:
-			iter = find(terms.begin(),terms.end(),str);
-			if (iter != terms.end()) {
-				return true;	
-			}
-		break;
-		default:
-			return false;
-	}
-	return false;
+/******************************************************************************************
+Code for evaluating string expressions
+
+******************************************************************************************/
+
+bool NameExpression::eval(FileEntry *file) 
+{
+	return evalStr(file->name);
 }
 
 bool PathExpression::eval(FileEntry *file){
@@ -92,6 +79,81 @@ bool ExtExpression::eval(FileEntry *file){
 		if (ext != "" ){
 			return evalStr(ext);	
 		}
+	}
+	return false;
+}
+
+/*Binary predicate for case insensitive character comparison.*/
+/*TODOS:
+ *Factor locales in the comparison
+ */
+struct CompareCharIC : 
+		public std::binary_function< char , char , bool> {
+	
+	bool operator () ( char ch1 , char ch2 ) const {
+		return tolower( static_cast < unsigned char > (ch1) )
+			== tolower( static_cast < unsigned char > (ch2) );
+	}
+	
+};
+
+/*Check whether two strings are 'equal' to each other*/
+static bool StrEquals(const std::string & str1, const std::string & str2, 
+			   bool IgnoreCase ){
+	if ( str1.size() != str2.size() ){
+		return false;
+	} else if (IgnoreCase) {
+		std::equal( str1.begin(), str1.end(), 
+						   str2.begin(), CompareCharIC() );
+	}
+	return std::equal( str1.begin(), str1.end(), 
+						   str2.begin());
+}
+
+/*Check whether one string contains the other*/
+static bool StrContains( std::string & str1, std::string & str2, 
+				  bool IgnoreCase){
+
+	std::string::const_iterator iter ;
+	if (IgnoreCase) {
+		iter = std::search( str1.begin(), str1.end(),
+					   		str2.begin(), str2.end(), CompareCharIC() );		
+	} else {
+		iter = std::search( str1.begin(), str1.end(),
+					   		str2.begin(), str2.end());		
+	}
+	
+	return ( iter != str1.end() );
+}
+
+
+bool StringExpression :: evalStr ( std::string &str ){
+	std::list<std::string>::iterator iter;
+	switch (Op) {
+		case ContainsAllStrings:
+			for ( iter = terms.begin(); iter != terms.end(); iter++ ) {	
+				if ( StrContains (str, *iter, IgnoreCase) == false ){
+					return false;	
+				}
+			}
+			return true;
+		break;
+		case ContainsAnyStrings:
+			for ( iter = terms.begin(); iter != terms.end(); iter++ ) {
+				if ( StrContains (str,*iter, IgnoreCase) == true ) {
+					return true;	
+				}
+			}
+		break;
+		case EqualsString:
+			for ( iter = terms.begin(); iter != terms.end(); iter++ ) {
+				if ( StrEquals (str,*iter, IgnoreCase) == true ) {
+					return true;	
+				}
+			}
+		break;
+		default:
+			return false;
 	}
 	return false;
 }
