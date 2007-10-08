@@ -30,7 +30,21 @@
 #include "util/rsdir.h"
 
 #include "pqi/pqidebug.h"
+
+/**** SHOULDN@T HAVE THIS DEPENDANCY ****/
+/**************** PQI_USE_XPGP ******************/
+#if defined(PQI_USE_XPGP)
+
 #include "pqi/xpgpcert.h"
+
+#else /* X509 Certificates */
+/**************** PQI_USE_XPGP ******************/
+
+#include "pqi/sslcert.h"
+
+#endif /* X509 Certificates */
+/**************** PQI_USE_XPGP ******************/
+
 #include <errno.h>
 
 #include <sstream>

@@ -111,10 +111,16 @@ USE_FILELOOK = 1
 
 ifeq ($(OS),Win)
   # MinGw
-  INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)\include -I$(KADC_DIR)
+  INCLUDE = -I $(RS_DIR) -I$(KADC_DIR)
+  ifdef PQI_USE_XPGP
+	INCLUDE += -I $(SSL_DIR)\include 
+  endif
 else
   # Unix: Linux/Cygwin
-  INCLUDE = -I $(RS_DIR) -I $(SSL_DIR)/include -I$(KADC_DIR)
+  INCLUDE = -I $(RS_DIR) -I$(KADC_DIR)
+  ifdef PQI_USE_XPGP
+	INCLUDE += -I $(SSL_DIR)/include 
+  endif
 endif
 
 CFLAGS = -Wall -O2 $(INCLUDE) 
@@ -157,17 +163,16 @@ ifeq ($(OS),Linux)
 	RM = /bin/rm
 
 	LIBDIR = $(RS_DIR)/lib
-	LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto  -lpthread
+	LIBS =  -L$(LIBDIR) -lretroshare 
+  	ifdef PQI_USE_XPGP
+		LIBS +=  -L$(SSL_DIR) 
+  	endif
+	LIBS +=  -lssl -lcrypto  -lpthread
         LIBS +=  -L$(KADC_DIR) -lKadC 
         LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
-	#-lfltk #only needed for old version.
+	LIBS +=  $(XLIB) -ldl -lz 
 	
-	RSLIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lpthread 
-        RSLIBS +=  -L$(KADC_DIR) -lKadC 
-        RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
-
-	LIBS   += $(XLIB) -ldl -lz 
-	RSLIBS += $(XLIB) -ldl -lz
+	RSLIBS = $(LIBS)
 
 else # windows (Cygwin or MinGW)
 
@@ -186,19 +191,20 @@ WINLIB = -lws2_32 -luuid -lole32 -liphlpapi
         CFLAGS += -I$(ZLIB_DIR)
 
         LIBDIR = $(RS_DIR)/lib
-        LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto -lfltk
+        LIBS =  -L$(LIBDIR) -lretroshare 
+  	ifdef PQI_USE_XPGP
+		LIBS +=  -L$(SSL_DIR) 
+  	endif
+        LIBS +=  -lssl -lcrypto 
         LIBS +=  -L$(KADC_DIR) -lKadC 
         LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
-        LIBS += -L$(ZLIB_DIR) -lz $(WINLIB)
+        LIBS += -L$(ZLIB_DIR) -lz 
 
-        #RSLIBS += -L$(FLTK_DIR)/lib  
-	RSLIBS +=  $(WINLIB)
-        RSLIBS +=  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
-        RSLIBS +=  -L$(KADC_DIR) -lKadC 
-        RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
+        RSLIBS += $(LIBS)
+	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d 
 
-        RSLIBS += -L$(ZLIB_DIR) -lz
-	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
+	RSLIBS += $(WINLIB)
+	LIBS += $(WINLIB)
 
 
         RSCFLAGS += $(WININC)
@@ -217,19 +223,20 @@ WINLIB = -lws2_32 -luuid -lole32 -liphlpapi
         #CFLAGS += -I$(FLTK_DIR)\include 
 
         LIBDIR = $(RS_DIR)\lib
-        LIBS =  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
+        LIBS =  -L$(LIBDIR) -lretroshare 
+  	ifdef PQI_USE_XPGP
+		LIBS +=  -L$(SSL_DIR) 
+  	endif
+        LIBS +=  -lssl -lcrypto 
         LIBS +=  -L$(KADC_DIR) -lKadC 
         LIBS +=  -L$(UPNPC_DIR) -lminiupnpc
-        LIBS += -L$(ZLIB_DIR) -lz $(WINLIB)
-	#LIBS += -lfltk
+        LIBS += -L$(ZLIB_DIR) -lz 
 
-	RSLIBS +=  $(WINLIB)
-        RSLIBS +=  -L$(LIBDIR) -lretroshare -L$(SSL_DIR) -lssl -lcrypto 
-        RSLIBS +=  -L$(KADC_DIR) -lKadC 
-        RSLIBS +=  -L$(UPNPC_DIR) -lminiupnpc
-        RSLIBS += -L$(ZLIB_DIR) -lz
-	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d $(WINLIB)
-        #RSLIBS += -L$(FLTK_DIR)\lib  
+	RSLIBS =  $(LIBS)
+	RSLIBS += -L$(PTHREADS_DIR) -lpthreadGC2d 
+
+        LIBS += $(WINLIB)
+        RSLIBS += $(WINLIB)
 
 
         RSCFLAGS += $(WININC)

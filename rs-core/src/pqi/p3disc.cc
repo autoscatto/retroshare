@@ -1403,7 +1403,7 @@ int	p3disc::handleDiscoveryData(DiscReplyItem *di)
 /**************** PQI_USE_XPGP ******************/
 
 	X509 *tmp = NULL;
-	X509 *x509 = d2i_X509(&tmp, (unsigned char **) &certptr, di -> certLen);
+	X509 *x509 = d2i_X509(&tmp, &certptr, di -> certLen);
 	if (x509 == NULL)
 		return -1;
 	{
