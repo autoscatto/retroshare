@@ -18,7 +18,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt; To add a new Friend, cut and paste their email &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;&quot;&gt;invitation into the box below, and click done.&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt; Lisätäksesi ystävän, leikkaa ja liitä hänen sähköposti- &lt;/span&gt;&lt;/p&gt;
@@ -37,27 +37,27 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendDialog.ui" line="86"/>
+        <location filename="../gui/connect/AddFriendDialog.ui" line="60"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendDialog.ui" line="79"/>
+        <location filename="../gui/connect/AddFriendDialog.ui" line="73"/>
         <source>Done</source>
         <translation>Valmis</translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendDialog.ui" line="93"/>
+        <location filename="../gui/connect/AddFriendDialog.ui" line="47"/>
         <source>Load From File</source>
         <translation>Lataa tiedostosta</translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendDialog.cpp" line="95"/>
+        <location filename="../gui/connect/AddFriendDialog.cpp" line="99"/>
         <source>RetroShare</source>
         <translation>RetroShare</translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendDialog.cpp" line="96"/>
+        <location filename="../gui/connect/AddFriendDialog.cpp" line="100"/>
         <source>Certificate Load Failed</source>
         <translation>Varmenteen lataus epäonnistui</translation>
     </message>
@@ -70,35 +70,39 @@ p, li { white-space: pre-wrap; }
         <location filename="../gui/connect/AddFriendDialog.ui" line="28"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/connect/AddFriendDialog.ui" line="575"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Add a new Friend&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;To add a new Friend, cut and paste their email &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:10pt;&quot;&gt;invitation into the box below, and click done.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AddFriendWizard</name>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="504"/>
-        <source>Add Friend to my netowork Wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="532"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="530"/>
         <source>&lt; Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="545"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="543"/>
         <source>Next &gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="558"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="556"/>
         <source>Cancel</source>
         <translation type="unfinished">Peru</translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="584"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="582"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -106,22 +110,22 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="600"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="598"/>
         <source>I have a .pqi/.pem file received from a Friend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="613"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="611"/>
         <source>I have Key received from a Friend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="626"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="624"/>
         <source>I want to invite a friend to my RetroShare network</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="651"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="649"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -131,7 +135,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="669"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="667"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -139,7 +143,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="687"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="685"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -147,7 +151,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="716"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="714"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -156,7 +160,7 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="735"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="733"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -164,17 +168,70 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="763"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="773"/>
         <source>Browse</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/AddFriendWizard.ui" line="779"/>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="789"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;When you press next RetroShare will attempt to&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;connect using the .pqi/.pem file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/connect/AddFriendWizard.ui" line="502"/>
+        <source>Add Friend to my network Wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AdvancedSearchDialog</name>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="21"/>
+        <source>RetrosShare: Advanced Search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="44"/>
+        <source>Add a further search criterion.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="47"/>
+        <source> Add a selection criterion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="79"/>
+        <source> Reset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="108"/>
+        <source>Cancels the search.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="111"/>
+        <source>Cancel</source>
+        <translation type="unfinished">Peru</translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="118"/>
+        <source>Perform the advanced search.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="121"/>
+        <source>Search</source>
+        <translation type="unfinished">Etsi</translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/advancedsearchdialog.ui" line="138"/>
+        <source>Search Criteria</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -316,22 +373,22 @@ p, li { white-space: pre-wrap; }
         <translation>Tyyppi:</translation>
     </message>
     <message>
-        <location filename="../gui/msgs/ChanCreateDialog.ui" line="594"/>
+        <location filename="../gui/msgs/ChanCreateDialog.ui" line="633"/>
         <source>Public Channel  (Signed)</source>
         <translation>Julkinen kanava(sp)(sp)(allekirjoitettu)</translation>
     </message>
     <message>
-        <location filename="../gui/msgs/ChanCreateDialog.ui" line="617"/>
+        <location filename="../gui/msgs/ChanCreateDialog.ui" line="646"/>
         <source>Private Channel (Encrypted)</source>
         <translation>Yksityiskanava (salattu)</translation>
     </message>
     <message>
-        <location filename="../gui/msgs/ChanCreateDialog.ui" line="630"/>
+        <location filename="../gui/msgs/ChanCreateDialog.ui" line="604"/>
         <source>Cancel Channel</source>
         <translation>Peru kanava</translation>
     </message>
     <message>
-        <location filename="../gui/msgs/ChanCreateDialog.ui" line="643"/>
+        <location filename="../gui/msgs/ChanCreateDialog.ui" line="617"/>
         <source>Create Channel</source>
         <translation>Luo kanava</translation>
     </message>
@@ -370,12 +427,12 @@ p, li { white-space: pre-wrap; }
         <translation>Lähetä</translation>
     </message>
     <message>
-        <location filename="../gui/msgs/ChanMsgDialog.cpp" line="84"/>
+        <location filename="../gui/msgs/ChanMsgDialog.cpp" line="80"/>
         <source>Delete Channel</source>
         <translation>Poista kanava</translation>
     </message>
     <message>
-        <location filename="../gui/msgs/ChanMsgDialog.cpp" line="87"/>
+        <location filename="../gui/msgs/ChanMsgDialog.cpp" line="83"/>
         <source>Create Channel MSG</source>
         <translation>Luo kanavaviesti</translation>
     </message>
@@ -522,12 +579,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ChatDialog.ui" line="665"/>
         <source>Chat With:</source>
-        <translation>Keskustelu:</translation>
+        <translation type="obsolete">Keskustelu:</translation>
     </message>
     <message>
-        <location filename="../gui/ChatDialog.cpp" line="82"/>
+        <location filename="../gui/ChatDialog.cpp" line="86"/>
         <source>Chat</source>
         <translation>Keskustelu</translation>
+    </message>
+    <message>
+        <location filename="../gui/ChatDialog.ui" line="665"/>
+        <source>Users:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -710,6 +772,24 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ConfirmQuitDialog</name>
+    <message>
+        <location filename="../gui/Preferences/ConfirmQuitDialog.ui" line="27"/>
+        <source>Exit RetroShare</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ConfirmQuitDialog.ui" line="130"/>
+        <source>You are about to exit the RetroShare application and therefore stop all transfers. &lt;br&gt;&lt;br&gt;Are you sure you want to stop and exit RetroShare?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ConfirmQuitDialog.ui" line="168"/>
+        <source>Do not show this message again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ConnectDialog</name>
     <message>
         <location filename="../gui/connect/ConnectDialog.ui" line="628"/>
@@ -811,92 +891,92 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="112"/>
         <source>Load Certificate</source>
-        <translation>Lataa varmenne</translation>
+        <translation type="obsolete">Lataa varmenne</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="171"/>
         <source>Select a pem/pqi File</source>
-        <translation>Valitse pem/pqi-tiedosto</translation>
+        <translation type="obsolete">Valitse pem/pqi-tiedosto</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="188"/>
         <source>File Not Found</source>
-        <translation>Tiedostoa ei löytynyt</translation>
+        <translation type="obsolete">Tiedostoa ei löytynyt</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="190"/>
         <source>%1 does not exist. Would you like to create it?</source>
-        <translation>%1 ei ole olemassa. Luodaanko se?</translation>
+        <translation type="obsolete">%1 ei ole olemassa. Luodaanko se?</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="200"/>
         <source>Failed to Create File</source>
-        <translation>Tiedostoa ei voitu luoda</translation>
+        <translation type="obsolete">Tiedostoa ei voitu luoda</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="201"/>
         <source>Unable to create %1 [%2]</source>
-        <translation>Ei voitu luoda kohdetta %1 [%2]</translation>
+        <translation type="obsolete">Ei voitu luoda kohdetta %1 [%2]</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="376"/>
         <source>Select Certificate</source>
-        <translation>Valitse varmenne</translation>
+        <translation type="obsolete">Valitse varmenne</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="377"/>
         <source>Certificates (*.pqi *.pem)</source>
-        <translation>Varmenteet (*.pqi *.pem)</translation>
+        <translation type="obsolete">Varmenteet (*.pqi *.pem)</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="613"/>
         <source>Accept</source>
-        <translation>Hyväksy</translation>
+        <translation type="obsolete">Hyväksy</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="618"/>
         <source>Trust</source>
-        <translation>Luottamus</translation>
+        <translation type="obsolete">Luottamus</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="623"/>
         <source>Last Contact</source>
-        <translation>Viimeisin kontakti</translation>
+        <translation type="obsolete">Viimeisin kontakti</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="628"/>
         <source>Name</source>
-        <translation>Nimi</translation>
+        <translation type="obsolete">Nimi</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="638"/>
         <source>Organisation</source>
-        <translation>Organisaatio</translation>
+        <translation type="obsolete">Organisaatio</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="643"/>
         <source>Location</source>
-        <translation>Sijainti</translation>
+        <translation type="obsolete">Sijainti</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="648"/>
         <source>Country</source>
-        <translation>Maa</translation>
+        <translation type="obsolete">Maa</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="633"/>
         <source>Peer Address</source>
-        <translation>Vertaisen osoite</translation>
+        <translation type="obsolete">Vertaisen osoite</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="653"/>
         <source>Cert Id</source>
-        <translation>Varmenne-ID</translation>
+        <translation type="obsolete">Varmenne-ID</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="658"/>
         <source>Auth Code</source>
-        <translation>Varmennekoodi</translation>
+        <translation type="obsolete">Varmennekoodi</translation>
     </message>
     <message>
         <location filename="../gui/ConnectionsDialog.ui" line="542"/>
@@ -904,7 +984,7 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Network:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Verkko:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
@@ -912,120 +992,138 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/ConnectionsDialog.cpp" line="106"/>
         <source>Peer Details / Authenticate </source>
-        <translation>Vertaisen yksityiskohdat / Varmenna </translation>
-    </message>
-    <message>
-        <location filename="../gui/ConnectionsDialog.ui" line="608"/>
-        <source>#</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Vertaisen yksityiskohdat / Varmenna </translation>
     </message>
 </context>
 <context>
     <name>CryptographyDialog</name>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="312"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="513"/>
         <source>RSA Key Size</source>
         <translation>RSA-avainkoko</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="357"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="766"/>
         <source>Rijndael Block size</source>
         <translation>Rijndael-lohkokoko</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="590"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="869"/>
         <source>128 Bits</source>
         <translation>128 bittiä</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="616"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="895"/>
         <source>192 Bits</source>
         <translation>192 bittiä</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="603"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="882"/>
         <source>256 Bits</source>
         <translation>256 bittiä</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="578"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="857"/>
         <source>Rijndael Key Size</source>
         <translation>Rijndael-avaimen koko</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="513"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="558"/>
         <source>Rijndael Mode</source>
         <translation>Rijndael-tila</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="525"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="570"/>
         <source>CBC</source>
         <translation>CBC</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="538"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="583"/>
         <source>ECB</source>
         <translation>ECB</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="551"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="596"/>
         <source>CFB</source>
         <translation>CFB</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="643"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="623"/>
         <source>Rijndael Padding</source>
         <translation>Rijndael-täyte</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="655"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="635"/>
         <source>PKCS7</source>
         <translation>PKCS7</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="668"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="648"/>
         <source>Zeros</source>
         <translation>Zeros</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="681"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="661"/>
         <source>ANSIX923</source>
         <translation>ANSIX923</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="694"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="674"/>
         <source>ISO10126</source>
         <translation>ISO10126</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="448"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="701"/>
         <source>Rijndael Feedback Size</source>
         <translation>Rijndael-palautteen koko</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="629"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="908"/>
         <source>Key Size:</source>
         <translation>Avaimen koko:</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="434"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="843"/>
         <source>Block Size:</source>
         <translation>Lohkon koko:</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="499"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="752"/>
         <source>Feedback Size:</source>
         <translation>Palautteen koko:</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="564"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="609"/>
         <source>Mode:</source>
         <translation>Tila:</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/CryptographyDialog.ui" line="707"/>
+        <location filename="../gui/Preferences/CryptographyDialog.ui" line="687"/>
         <source>Padding:</source>
         <translation>Täyte:</translation>
+    </message>
+</context>
+<context>
+    <name>DLListDelegate</name>
+    <message>
+        <location filename="../gui/DLListDelegate.cpp" line="42"/>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/DLListDelegate.cpp" line="42"/>
+        <source>KB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/DLListDelegate.cpp" line="42"/>
+        <source>MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/DLListDelegate.cpp" line="42"/>
+        <source>GB</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1065,6 +1163,19 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>ExpressionWidget</name>
+    <message>
+        <location filename="../gui/advsearch/expressionwidget.ui" line="33"/>
+        <source>Expression Widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/expressionwidget.ui" line="161"/>
+        <source>Delete this expression</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>FileHashDialog</name>
     <message>
         <location filename="../gui/filehash/FileHashDialog.ui" line="311"/>
@@ -1075,27 +1186,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>GSettingsWin</name>
     <message>
-        <location filename="../gui/Settings/gsettingswin.cpp" line="79"/>
+        <location filename="../gui/Settings/gsettingswin.cpp" line="74"/>
         <source>General</source>
         <translation>Yleiset</translation>
     </message>
     <message>
-        <location filename="../gui/Settings/gsettingswin.cpp" line="81"/>
+        <location filename="../gui/Settings/gsettingswin.cpp" line="76"/>
         <source>Network</source>
         <translation>Verkko</translation>
     </message>
     <message>
-        <location filename="../gui/Settings/gsettingswin.cpp" line="83"/>
+        <location filename="../gui/Settings/gsettingswin.cpp" line="78"/>
         <source>Directories</source>
         <translation>Hakemistot</translation>
     </message>
     <message>
-        <location filename="../gui/Settings/gsettingswin.cpp" line="85"/>
+        <location filename="../gui/Settings/gsettingswin.cpp" line="80"/>
         <source>Server</source>
         <translation>Palvelin</translation>
     </message>
     <message>
-        <location filename="../gui/Settings/gsettingswin.cpp" line="87"/>
+        <location filename="../gui/Settings/gsettingswin.cpp" line="82"/>
         <source>%1</source>
         <translation>%1</translation>
     </message>
@@ -1182,12 +1293,12 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished">Luo uusi varmenne</translation>
     </message>
     <message>
-        <location filename="../gui/GenCertDialog.cpp" line="159"/>
+        <location filename="../gui/GenCertDialog.cpp" line="153"/>
         <source>Select Trusted Friend</source>
         <translation type="unfinished">Valitse luotettu ystävä</translation>
     </message>
     <message>
-        <location filename="../gui/GenCertDialog.cpp" line="160"/>
+        <location filename="../gui/GenCertDialog.cpp" line="154"/>
         <source>Certificates (*.pqi *.pem)</source>
         <translation type="unfinished">Varmenteet (*.pqi *.pem)</translation>
     </message>
@@ -1258,7 +1369,7 @@ p, li { white-space: pre-wrap; }
         <translation>%1 GB</translation>
     </message>
 </context>
-<context>
+<context encoding="UTF-8">
     <name>HelpDialog</name>
     <message>
         <location filename="../gui/HelpDialog.ui" line="517"/>
@@ -1285,26 +1396,34 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/HelpDialog.ui" line="581"/>
+        <location filename="../gui/HelpDialog.ui" line="587"/>
         <source>Thanks to</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/HelpDialog.ui" line="613"/>
+        <location filename="../gui/HelpDialog.ui" line="619"/>
         <source>Translation</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/HelpDialog.ui" line="642"/>
+        <location filename="../gui/HelpDialog.ui" line="648"/>
         <source>License Agreement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/HelpDialog.ui" line="713"/>
+        <location filename="../gui/HelpDialog.ui" line="719"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;About/Help&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message encoding="UTF-8">
+        <location filename="../gui/HelpDialog.ui" line="570"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;We&apos;ve had a number of new people join the Retroshare &lt;br /&gt;project over the last couple of months. &lt;br /&gt;A quick introduction: &lt;/span&gt;&lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;defnax&lt;/span&gt;: Lead GUI developer &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;drbob7&lt;/span&gt;: Lead Core developer. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;bmeck&lt;/span&gt; : Our new web-developer. Joined retroshare a couple &lt;br /&gt;of weeks ago, and already starting on an exciting new &lt;br /&gt;design for the web-page. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;noragen&lt;/span&gt; : Developer from the SIM-IM project. Working on a retroshare plugin to SIM-IM. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;linuxsmarre&lt;/span&gt; : Helping out defnax with GUI development. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;agent725&lt;/span&gt;: Manages the &apos;local&apos; Retroshare release, &lt;br /&gt;and beta-testing retroshare on a large scale. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;the_mgt&lt;/span&gt;: Maintains the Gentoo and generic linux &lt;br /&gt;installation/compilation scripts. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;lindisfarne&lt;/span&gt;: Helping out with retroshare web-page. &lt;br /&gt; &lt;br /&gt;&lt;span style=&quot; color:#0000ff;&quot;&gt;dolfcao&lt;/span&gt;: Developer from TStone VOIP project &lt;br /&gt;leonwangcn: Developer from TStone VOIP project. &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1318,7 +1437,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;To &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Invite your friends to join you with Retroshare: &lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;&quot;&gt;Cut and paste the text below into an email.&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:10pt; font-weight:600;&quot;&gt;and send it to all your friends!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;To &lt;/span&gt;&lt;span style=&quot; font-size:10pt; font-weight:600;&quot;&gt;Kutsu ihmisiä liittymään kanssasi RetroShareen: &lt;/span&gt;&lt;/p&gt;
@@ -1337,17 +1456,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/connect/InviteDialog.ui" line="25"/>
+        <location filename="../gui/connect/InviteDialog.ui" line="586"/>
         <source>Done</source>
         <translation>Valmis</translation>
     </message>
     <message>
-        <location filename="../gui/connect/InviteDialog.ui" line="68"/>
+        <location filename="../gui/connect/InviteDialog.ui" line="560"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../gui/connect/InviteDialog.ui" line="61"/>
+        <location filename="../gui/connect/InviteDialog.ui" line="31"/>
         <source>Launch Email</source>
         <translation>Käynnistä sähköposti</translation>
     </message>
@@ -1357,11 +1476,21 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/connect/InviteDialog.ui" line="48"/>
+        <location filename="../gui/connect/InviteDialog.ui" line="41"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:9pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/connect/InviteDialog.ui" line="523"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:8pt;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-size:16pt;&quot;&gt;Invite a Friend&lt;/span&gt;&lt;br /&gt;&lt;br /&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;To Invite your friends to join you with Retroshare: &lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:10pt;&quot;&gt;Cut and paste the text below into an email.&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;Arial&apos;; font-size:10pt;&quot;&gt;and send it to all your friends!&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1813,47 +1942,47 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Asetukset</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="113"/>
+        <location filename="../gui/MainWindow.cpp" line="120"/>
         <source>Network</source>
         <translation>Verkko</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="116"/>
+        <location filename="../gui/MainWindow.cpp" line="123"/>
         <source>Friends</source>
         <translation>Ystävät</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="122"/>
+        <location filename="../gui/MainWindow.cpp" line="134"/>
         <source>Transfers</source>
         <translation>Siirrot</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="131"/>
+        <location filename="../gui/MainWindow.cpp" line="143"/>
         <source>Messages</source>
         <translation>Viestit</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="134"/>
+        <location filename="../gui/MainWindow.cpp" line="150"/>
         <source>Channels</source>
         <translation>Kanavat</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.ui" line="751"/>
+        <location filename="../gui/MainWindow.cpp" line="381"/>
         <source>Options</source>
         <translation>Valinnat</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="176"/>
+        <location filename="../gui/MainWindow.cpp" line="193"/>
         <source>Users: 0  Files: 0 </source>
         <translation>Käyttäjiä: 0  Tiedostoja: 0 </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="177"/>
+        <location filename="../gui/MainWindow.cpp" line="194"/>
         <source>Down: 0.0  Up: 0.0 </source>
         <translation>Vast: 0,0  Läh: 0,0 </translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="178"/>
+        <location filename="../gui/MainWindow.cpp" line="195"/>
         <source>Connections: 0/45 </source>
         <translation>Yhteyksiä: 0/45 </translation>
     </message>
@@ -1870,20 +1999,20 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/MainWindow.cpp" line="388"/>
         <source>RetroShare System tray</source>
-        <translation>RetroShare-ilmoitusalue</translation>
+        <translation type="obsolete">RetroShare-ilmoitusalue</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.cpp" line="389"/>
         <source>Application will continue running. Quit using context menu in the system tray</source>
-        <translation>Sovellus pysyy käynnissä. Poistu sovelluksesta ilmoitusalueen kuvakkeen valikosta</translation>
+        <translation type="obsolete">Sovellus pysyy käynnissä. Poistu sovelluksesta ilmoitusalueen kuvakkeen valikosta</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="400"/>
+        <location filename="../gui/MainWindow.cpp" line="448"/>
         <source>Hide</source>
         <translation>Piilota</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="400"/>
+        <location filename="../gui/MainWindow.cpp" line="448"/>
         <source>Show</source>
         <translation>Näytä</translation>
     </message>
@@ -1893,32 +2022,32 @@ p, li { white-space: pre-wrap; }
         <translation>RetroShare</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.ui" line="532"/>
+        <location filename="../gui/MainWindow.ui" line="529"/>
         <source>Home</source>
         <translation>Koti</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.ui" line="600"/>
+        <location filename="../gui/MainWindow.ui" line="597"/>
         <source>General</source>
         <translation>Yleiset</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="713"/>
         <source>Invite Friend</source>
-        <translation>Kutsu ystävä</translation>
+        <translation type="obsolete">Kutsu ystävä</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="732"/>
         <source>Add Friend</source>
-        <translation>Lisää ystävä</translation>
+        <translation type="obsolete">Lisää ystävä</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="770"/>
         <source>Add Share</source>
-        <translation>Lisää jako</translation>
+        <translation type="obsolete">Lisää jako</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.ui" line="788"/>
+        <location filename="../gui/MainWindow.ui" line="837"/>
         <source>Advanced</source>
         <translation>Lisäasetukset</translation>
     </message>
@@ -1928,7 +2057,7 @@ p, li { white-space: pre-wrap; }
     background-color: rgb(192,192,192);
 
 }</source>
-        <translation>QTextBrowser {
+        <translation type="obsolete">QTextBrowser {
     background-color: rgb(192,192,192);
 
 }</translation>
@@ -1949,7 +2078,7 @@ QPushButton:pressed  {
     border-image: url(:/images/console-small-down.png) 
 }
 </source>
-        <translation>QPushButton
+        <translation type="obsolete">QPushButton
 {
     border-image: url(:/images/console-small-up.png) 
 }
@@ -1967,109 +2096,192 @@ QPushButton:pressed  {
     <message>
         <location filename="../gui/MainWindow.cpp" line="99"/>
         <source>Exit</source>
-        <translation>Poistu</translation>
+        <translation type="obsolete">Poistu</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="119"/>
+        <location filename="../gui/MainWindow.cpp" line="130"/>
         <source>Search</source>
         <translation>Etsi</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="125"/>
+        <location filename="../gui/MainWindow.cpp" line="137"/>
         <source>Files</source>
         <translation>Tiedostot</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="128"/>
+        <location filename="../gui/MainWindow.cpp" line="140"/>
         <source>Chat</source>
         <translation>Keskustelu</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="314"/>
+        <location filename="../gui/MainWindow.cpp" line="332"/>
         <source>Add Shared Directory</source>
         <translation>Lisää jaettu hakemisto</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.ui" line="612"/>
-        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Select StyleSheet&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../gui/MainWindow.ui" line="619"/>
         <source>Default</source>
-        <translation type="unfinished">Oletus</translation>
+        <translation type="obsolete">Oletus</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="624"/>
         <source>blue</source>
-        <translation type="unfinished">sininen</translation>
+        <translation type="obsolete">sininen</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="629"/>
         <source>silver</source>
-        <translation type="unfinished">hopea</translation>
+        <translation type="obsolete">hopea</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="634"/>
         <source>ed2k</source>
-        <translation type="unfinished">ed2k</translation>
+        <translation type="obsolete">ed2k</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="639"/>
         <source>over</source>
-        <translation type="unfinished">over</translation>
+        <translation type="obsolete">over</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="644"/>
         <source>black</source>
-        <translation type="unfinished">musta</translation>
+        <translation type="obsolete">musta</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="649"/>
         <source>arachnophobia</source>
-        <translation type="unfinished">araknofobia</translation>
+        <translation type="obsolete">araknofobia</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="654"/>
         <source>Skin2</source>
-        <translation type="unfinished">Skin2</translation>
+        <translation type="obsolete">Skin2</translation>
     </message>
     <message>
         <location filename="../gui/MainWindow.ui" line="659"/>
         <source>Pagefold</source>
-        <translation type="unfinished">Sivutaitto</translation>
+        <translation type="obsolete">Sivutaitto</translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="137"/>
+        <location filename="../gui/MainWindow.cpp" line="154"/>
         <source>About/Help</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="155"/>
+        <location filename="../gui/MainWindow.cpp" line="172"/>
         <source>Messenger</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="194"/>
+        <location filename="../gui/MainWindow.cpp" line="211"/>
         <source>Show/Hide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="203"/>
+        <location filename="../gui/MainWindow.cpp" line="224"/>
         <source>&amp;Quit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="367"/>
+        <location filename="../gui/MainWindow.cpp" line="384"/>
         <source>Bandwidth Graph</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MainWindow.cpp" line="371"/>
+        <location filename="../gui/MainWindow.cpp" line="388"/>
         <source>Open Messenger</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="79"/>
+        <source>RetroShare %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="102"/>
+        <source>Add a Friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="103"/>
+        <source>Invite a Friend</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="104"/>
+        <source>Add a Share</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="109"/>
+        <source>Quit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="221"/>
+        <source>Minimize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="222"/>
+        <source>Maximize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="488"/>
+        <source>Hide Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="492"/>
+        <source>Show Console</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="504"/>
+        <source>Hide ToolBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="505"/>
+        <source>:images/hide_toolbox_frame.png</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="509"/>
+        <source>Show ToolBox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.cpp" line="510"/>
+        <source>:images/show_toolbox_frame.png</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.ui" line="1442"/>
+        <source>QTextBrowser {
+                                        background-color: rgb(192,192,192);
+                                        
+                                        }</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/MainWindow.ui" line="1479"/>
+        <source>QPushButton
+                                {
+                                border-image: url(:/images/console-small-up.png) 
+                                }
+                                
+                                QPushButton:hover {
+                                border-image: url(:/images/console-small-hover.png) 
+                                
+                                }
+                                
+                                QPushButton:pressed  {
+                                border-image: url(:/images/console-small-down.png) 
+                                }
+                            </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2354,14 +2566,128 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/MessengerWindow.cpp" line="99"/>
+        <location filename="../gui/MessengerWindow.cpp" line="109"/>
         <source>Chat</source>
         <translation type="unfinished">Keskustelu</translation>
     </message>
     <message>
-        <location filename="../gui/MessengerWindow.cpp" line="102"/>
+        <location filename="../gui/MessengerWindow.cpp" line="112"/>
         <source>Connect To Friend</source>
         <translation type="unfinished">Yhdistä ystävään</translation>
+    </message>
+</context>
+<context>
+    <name>NetworkDialog</name>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="106"/>
+        <source>Peer Details / Authenticate </source>
+        <translation type="unfinished">Vertaisen yksityiskohdat / Varmenna </translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="112"/>
+        <source>Load Certificate</source>
+        <translation type="unfinished">Lataa varmenne</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="171"/>
+        <source>Select a pem/pqi File</source>
+        <translation type="unfinished">Valitse pem/pqi-tiedosto</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="188"/>
+        <source>File Not Found</source>
+        <translation type="unfinished">Tiedostoa ei löytynyt</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="190"/>
+        <source>%1 does not exist. Would you like to create it?</source>
+        <translation type="unfinished">%1 ei ole olemassa. Luodaanko se?</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="200"/>
+        <source>Failed to Create File</source>
+        <translation type="unfinished">Tiedostoa ei voitu luoda</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="201"/>
+        <source>Unable to create %1 [%2]</source>
+        <translation type="unfinished">Ei voitu luoda kohdetta %1 [%2]</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="376"/>
+        <source>Select Certificate</source>
+        <translation type="unfinished">Valitse varmenne</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.cpp" line="377"/>
+        <source>Certificates (*.pqi *.pem)</source>
+        <translation type="unfinished">Varmenteet (*.pqi *.pem)</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="542"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Network:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:10pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Verkko:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="608"/>
+        <source>#</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="613"/>
+        <source>Accept</source>
+        <translation type="unfinished">Hyväksy</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="618"/>
+        <source>Trust</source>
+        <translation type="unfinished">Luottamus</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="623"/>
+        <source>Last Contact</source>
+        <translation type="unfinished">Viimeisin kontakti</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="628"/>
+        <source>Name</source>
+        <translation type="unfinished">Nimi</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="633"/>
+        <source>Peer Address</source>
+        <translation type="unfinished">Vertaisen osoite</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="638"/>
+        <source>Organisation</source>
+        <translation type="unfinished">Organisaatio</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="643"/>
+        <source>Location</source>
+        <translation type="unfinished">Sijainti</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="648"/>
+        <source>Country</source>
+        <translation type="unfinished">Maa</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="653"/>
+        <source>Cert Id</source>
+        <translation type="unfinished">Varmenne-ID</translation>
+    </message>
+    <message>
+        <location filename="../gui/NetworkDialog.ui" line="658"/>
+        <source>Auth Code</source>
+        <translation type="unfinished">Varmennekoodi</translation>
     </message>
 </context>
 <context>
@@ -2533,12 +2859,12 @@ p, li { white-space: pre-wrap; }
         <translation>Tyylitiedosto</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="681"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="709"/>
         <source>Default</source>
         <translation>Oletus</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="721"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="749"/>
         <source>Pagefold</source>
         <translation>Sivutaitto</translation>
     </message>
@@ -2565,47 +2891,47 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Valitse RetroSharessa käytetty kieli&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="686"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="714"/>
         <source>blue</source>
         <translation>sininen</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="691"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="719"/>
         <source>silver</source>
         <translation>hopea</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="696"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="724"/>
         <source>ed2k</source>
         <translation>ed2k</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="701"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="729"/>
         <source>over</source>
         <translation>over</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="706"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="734"/>
         <source>black</source>
         <translation>musta</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="711"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="739"/>
         <source>arachnophobia</source>
         <translation>araknofobia</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="716"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="744"/>
         <source>Skin2</source>
         <translation>Skin2</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="736"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="767"/>
         <source>Login</source>
         <translation>Kirjautuminen</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/PreferencesDialog.ui" line="748"/>
+        <location filename="../gui/Preferences/PreferencesDialog.ui" line="779"/>
         <source>Remove Auto Login</source>
         <translation>Poista automaattinen kirjautuminen</translation>
     </message>
@@ -2654,14 +2980,122 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
+    <name>QObject</name>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="24"/>
+        <source>And</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="25"/>
+        <source>Or</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="26"/>
+        <source>And / or</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="28"/>
+        <source>Name</source>
+        <translation type="unfinished">Nimi</translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="29"/>
+        <source>Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="30"/>
+        <source>Extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="31"/>
+        <source>Keywords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="32"/>
+        <source>Comments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="33"/>
+        <source>Meta</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="34"/>
+        <source>Date</source>
+        <translation type="unfinished">Päiväys</translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="35"/>
+        <source>Size</source>
+        <translation type="unfinished">Koko</translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="36"/>
+        <source>Popularity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="38"/>
+        <source>contains</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="39"/>
+        <source>contains all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="40"/>
+        <source>is</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="41"/>
+        <source>less than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="42"/>
+        <source>less than or equal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="43"/>
+        <source>equal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="44"/>
+        <source>greater than or equal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="45"/>
+        <source>greater than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/advsearch/guiexprelement.cpp" line="46"/>
+        <source>is in range</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Rshare</name>
     <message>
-        <location filename="../rshare.cpp" line="166"/>
+        <location filename="../rshare.cpp" line="174"/>
         <source>Invalid language code specified: </source>
         <translation>Määritelty kielikoodi on virheellinen: </translation>
     </message>
     <message>
-        <location filename="../rshare.cpp" line="173"/>
+        <location filename="../rshare.cpp" line="181"/>
         <source>Invalid GUI style specified: </source>
         <translation>Määritelty käyttöliittymän tyyli on virheellinen: </translation>
     </message>
@@ -2671,50 +3105,50 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/SearchDialog.ui" line="720"/>
         <source>File Name</source>
-        <translation>Tiedoston nimi</translation>
+        <translation type="obsolete">Tiedoston nimi</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="730"/>
+        <location filename="../gui/SearchDialog.ui" line="1011"/>
         <source>Sources</source>
         <translation>Lähteet</translation>
     </message>
     <message>
         <location filename="../gui/SearchDialog.ui" line="758"/>
         <source>Search Pattern</source>
-        <translation>Hakulauseke</translation>
+        <translation type="obsolete">Hakulauseke</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="763"/>
+        <location filename="../gui/SearchDialog.ui" line="1052"/>
         <source>Results</source>
         <translation>Tulokset</translation>
     </message>
     <message>
         <location filename="../gui/SearchDialog.ui" line="725"/>
         <source>File Size</source>
-        <translation>Tiedoston koko</translation>
+        <translation type="obsolete">Tiedoston koko</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.cpp" line="61"/>
+        <location filename="../gui/SearchDialog.ui" line="938"/>
         <source>Download</source>
         <translation>Lataa</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.cpp" line="64"/>
+        <location filename="../gui/SearchDialog.cpp" line="111"/>
         <source>Broadcast on Channel</source>
         <translation>Yleislähetä kanavalla</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.cpp" line="67"/>
+        <location filename="../gui/SearchDialog.cpp" line="114"/>
         <source>Recommend to Friends</source>
         <translation>Suosittele kavereille</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.cpp" line="107"/>
+        <location filename="../gui/SearchDialog.cpp" line="154"/>
         <source>Remove</source>
         <translation>Poista</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.cpp" line="110"/>
+        <location filename="../gui/SearchDialog.cpp" line="157"/>
         <source>Remove All</source>
         <translation>Poista kaikki</translation>
     </message>
@@ -2724,13 +3158,13 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Keywords&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Avainsanat&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="583"/>
+        <location filename="../gui/SearchDialog.ui" line="729"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2741,60 +3175,110 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Muoto&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="594"/>
+        <location filename="../gui/SearchDialog.ui" line="740"/>
         <source>Any</source>
         <translation>Mikä tahansa</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="599"/>
+        <location filename="../gui/SearchDialog.ui" line="745"/>
         <source>Audio</source>
         <translation>Ääni</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="604"/>
+        <location filename="../gui/SearchDialog.ui" line="750"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="609"/>
+        <location filename="../gui/SearchDialog.ui" line="755"/>
         <source>Images</source>
         <translation>Kuvat</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="614"/>
+        <location filename="../gui/SearchDialog.ui" line="760"/>
         <source>Programs</source>
         <translation>Ohjelmat</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="619"/>
+        <location filename="../gui/SearchDialog.ui" line="765"/>
         <source>Archives</source>
         <translation>Pakatut tiedostot</translation>
     </message>
     <message>
-        <location filename="../gui/SearchDialog.ui" line="624"/>
+        <location filename="../gui/SearchDialog.ui" line="770"/>
         <source>Documents</source>
         <translation>Asiakirjat</translation>
     </message>
     <message>
         <location filename="../gui/SearchDialog.ui" line="670"/>
         <source>search</source>
-        <translation>etsi</translation>
+        <translation type="obsolete">etsi</translation>
     </message>
     <message>
         <location filename="../gui/SearchDialog.ui" line="692"/>
         <source>download</source>
-        <translation>lataa</translation>
+        <translation type="obsolete">lataa</translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="557"/>
+        <source>Toggle advanced searching on and off.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="660"/>
+        <source>&lt;h3&gt;Simple Search:&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="688"/>
+        <source>Keywords </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="803"/>
+        <source>Perform simple search</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="861"/>
+        <source>&lt;h3&gt;Advanced Search: &lt;i&gt;disabled&lt;/i&gt;&lt;/h3&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="895"/>
+        <source>Show Advanced Search Tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="1001"/>
+        <source>Filename</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="1006"/>
+        <source>Hash</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="1047"/>
+        <source>KeyWords</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/SearchDialog.ui" line="1057"/>
+        <source>Search Id</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ServerDialog</name>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="772"/>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="513"/>
         <source>Transfer Rates</source>
         <translation>Siirtonopeudet</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="793"/>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="534"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2805,7 +3289,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Kokonaisnopeus (kB/s) &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="834"/>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="575"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2818,7 +3302,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/Preferences/ServerDialog.ui" line="597"/>
         <source>Server Settings</source>
-        <translation>Palvelimen asetukset</translation>
+        <translation type="obsolete">Palvelimen asetukset</translation>
     </message>
     <message>
         <location filename="../gui/Preferences/ServerDialog.ui" line="609"/>
@@ -2826,28 +3310,28 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Lokal Adress:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Paikallinen osoite:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="655"/>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="743"/>
         <source>Port:</source>
         <translation>Portti:</translation>
     </message>
     <message>
         <location filename="../gui/Preferences/ServerDialog.ui" line="675"/>
         <source>behind zee Firewall</source>
-        <translation>Palomuurin takana</translation>
+        <translation type="obsolete">Palomuurin takana</translation>
     </message>
     <message>
         <location filename="../gui/Preferences/ServerDialog.ui" line="682"/>
         <source>Forwarded External Port</source>
-        <translation>Edelleenvälitetty ulkoinen portti</translation>
+        <translation type="obsolete">Edelleenvälitetty ulkoinen portti</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="715"/>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="800"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2863,13 +3347,13 @@ p, li { white-space: pre-wrap; }
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;External Name&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ulkoinen nimi&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="739"/>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="821"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -2885,33 +3369,69 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Tarjusta asetukset</translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="513"/>
-        <source>DHT</source>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="608"/>
+        <source>Firewall/Router Configuration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="525"/>
-        <source>DHT Enabled (requires restart)</source>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="620"/>
+        <source>Manual router setup.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="542"/>
-        <source>Network Configuration:</source>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="633"/>
+        <source>Use uPnP to configure router</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="554"/>
-        <source>I&apos;m a Noobie, and will hide behind my firewall.</source>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="650"/>
+        <source>Network Address Configuration (takes effect after restart)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="567"/>
-        <source>I&apos;m a real man, let me do it myself: Manual settings.</source>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="662"/>
+        <source>Use DHT to locate friends </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/Preferences/ServerDialog.ui" line="580"/>
-        <source>Use uPnP to configure my router. (default)</source>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="678"/>
+        <source>Manual IP Addresses</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="692"/>
+        <source>Server Status And Network Settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="760"/>
+        <source>Firewalled</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="767"/>
+        <source>Forwarded Port</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="837"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;DHT Status&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="853"/>
+        <source>uPnP Status</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/Preferences/ServerDialog.ui" line="866"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Local Address:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3027,7 +3547,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>SharedFilesDialog</name>
     <message>
-        <location filename="../gui/SharedFilesDialog.cpp" line="114"/>
+        <location filename="../gui/SharedFilesDialog.cpp" line="118"/>
         <source>Download</source>
         <translation>Lataa</translation>
     </message>
@@ -3048,17 +3568,17 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Tiedostot&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/SharedFilesDialog.cpp" line="220"/>
+        <location filename="../gui/SharedFilesDialog.cpp" line="224"/>
         <source>Add to Recommend List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/SharedFilesDialog.cpp" line="239"/>
+        <location filename="../gui/SharedFilesDialog.cpp" line="243"/>
         <source>Recommend To </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/SharedFilesDialog.cpp" line="240"/>
+        <location filename="../gui/SharedFilesDialog.cpp" line="244"/>
         <source>Message Friend </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3237,11 +3757,6 @@ p, li { white-space: pre-wrap; }
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/StartDialog.ui" line="509"/>
-        <source>Pasword:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../gui/StartDialog.ui" line="552"/>
         <source>QToolButton{
 border-image: url(:/images/mystatus_bg.png);
@@ -3253,6 +3768,11 @@ background-image: url(:/images/amsn.png);
     <message>
         <location filename="../gui/StartDialog.ui" line="627"/>
         <source>Log In</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/StartDialog.ui" line="509"/>
+        <source>Password:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3427,47 +3947,47 @@ background-image: url(:/images/amsn.png);
 <context>
     <name>TransfersDialog</name>
     <message>
-        <location filename="../gui/TransfersDialog.cpp" line="118"/>
+        <location filename="../gui/TransfersDialog.cpp" line="145"/>
         <source>Cancel</source>
         <translation>Peru</translation>
     </message>
     <message>
-        <location filename="../gui/TransfersDialog.cpp" line="121"/>
+        <location filename="../gui/TransfersDialog.cpp" line="148"/>
         <source>Clear Completed</source>
         <translation>Poista valmistuneet</translation>
     </message>
     <message>
         <location filename="../gui/TransfersDialog.ui" line="669"/>
         <source>File Name</source>
-        <translation>Tiedoston nimi</translation>
+        <translation type="obsolete">Tiedoston nimi</translation>
     </message>
     <message>
         <location filename="../gui/TransfersDialog.ui" line="617"/>
         <source>Sources</source>
-        <translation>Lähteet</translation>
+        <translation type="obsolete">Lähteet</translation>
     </message>
     <message>
-        <location filename="../gui/TransfersDialog.ui" line="689"/>
+        <location filename="../gui/TransfersDialog.cpp" line="103"/>
         <source>Status</source>
         <translation>Tila</translation>
     </message>
     <message>
         <location filename="../gui/TransfersDialog.ui" line="694"/>
         <source>File Size</source>
-        <translation>Tiedoston koko</translation>
+        <translation type="obsolete">Tiedoston koko</translation>
     </message>
     <message>
         <location filename="../gui/TransfersDialog.ui" line="679"/>
         <source>Speed</source>
-        <translation>Nopeus</translation>
+        <translation type="obsolete">Nopeus</translation>
     </message>
     <message>
         <location filename="../gui/TransfersDialog.ui" line="684"/>
         <source>Progress</source>
-        <translation>Edistyminen</translation>
+        <translation type="obsolete">Edistyminen</translation>
     </message>
     <message>
-        <location filename="../gui/TransfersDialog.ui" line="699"/>
+        <location filename="../gui/TransfersDialog.cpp" line="63"/>
         <source>Completed</source>
         <translation>Valmis</translation>
     </message>
@@ -3485,10 +4005,10 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../gui/TransfersDialog.ui" line="674"/>
         <source>Peer Name</source>
-        <translation>Vertaisen nimi</translation>
+        <translation type="obsolete">Vertaisen nimi</translation>
     </message>
     <message>
-        <location filename="../gui/TransfersDialog.ui" line="738"/>
+        <location filename="../gui/TransfersDialog.ui" line="663"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Arial&apos;; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;&quot;&gt;
@@ -3499,8 +4019,90 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt; font-weight:600;&quot;&gt;Lähetykset:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../gui/TransfersDialog.ui" line="637"/>
-        <source>%</source>
+        <location filename="../gui/TransfersDialog.cpp" line="98"/>
+        <source>Name</source>
+        <comment>i.e: file name</comment>
+        <translation type="unfinished">Nimi</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="99"/>
+        <source>Size</source>
+        <comment>i.e: file size</comment>
+        <translation type="unfinished">Koko</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="59"/>
+        <source>Progress</source>
+        <comment>i.e: % downloaded</comment>
+        <translation type="unfinished">Edistyminen</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="60"/>
+        <source>Speed</source>
+        <comment>i.e: Download speed</comment>
+        <translation type="unfinished">Nopeus</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="61"/>
+        <source>Sources</source>
+        <comment>i.e: Sources</comment>
+        <translation type="unfinished">Lähteet</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="64"/>
+        <source>Remaining</source>
+        <comment>i.e: Estimated Time of Arrival / Time left</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="65"/>
+        <source>Core-ID</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="100"/>
+        <source>User Name</source>
+        <comment>i.e: user name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="101"/>
+        <source>Progress</source>
+        <comment>i.e: % uploaded</comment>
+        <translation type="unfinished">Edistyminen</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="102"/>
+        <source>Speed</source>
+        <comment>i.e: upload speed</comment>
+        <translation type="unfinished">Nopeus</translation>
+    </message>
+    <message>
+        <location filename="../gui/TransfersDialog.cpp" line="104"/>
+        <source>Transferred</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ULListDelegate</name>
+    <message>
+        <location filename="../gui/ULListDelegate.cpp" line="42"/>
+        <source>B</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/ULListDelegate.cpp" line="42"/>
+        <source>KB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/ULListDelegate.cpp" line="42"/>
+        <source>MB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/ULListDelegate.cpp" line="42"/>
+        <source>GB</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
