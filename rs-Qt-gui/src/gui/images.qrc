@@ -104,6 +104,8 @@
         <file>images/flags/ru.png</file>
         <file>images/flags/sl.png</file>
         <file>images/flags/tr.png</file>
+	  <file>images/flags/cn_trad.png</file>
+	  <file>images/flags/cn_simp.png</file>
         <file>images/folder-draft.png</file>
         <file>images/folder-draft24-hover.png</file>
         <file>images/folder-draft24.png</file>

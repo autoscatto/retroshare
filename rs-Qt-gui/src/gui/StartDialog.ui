@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>238</width>
-    <height>469</height>
+    <width>218</width>
+    <height>401</height>
    </rect>
   </property>
   <property name="palette" >
@@ -443,18 +443,42 @@
   </property>
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" >
-    <property name="margin" >
+    <property name="leftMargin" >
      <number>0</number>
     </property>
-    <property name="spacing" >
+    <property name="topMargin" >
+     <number>0</number>
+    </property>
+    <property name="rightMargin" >
+     <number>0</number>
+    </property>
+    <property name="bottomMargin" >
+     <number>0</number>
+    </property>
+    <property name="horizontalSpacing" >
+     <number>0</number>
+    </property>
+    <property name="verticalSpacing" >
      <number>0</number>
     </property>
     <item row="1" column="0" >
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>0</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>0</number>
       </property>
       <item row="1" column="0" >
@@ -512,7 +536,7 @@
       </item>
      </layout>
     </item>
-    <item row="3" column="0" >
+    <item row="4" column="0" >
      <spacer>
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
@@ -527,10 +551,22 @@
     </item>
     <item row="0" column="0" >
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>9</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>9</number>
+      </property>
+      <property name="rightMargin" >
+       <number>9</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>9</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="0" column="0" >
@@ -550,8 +586,8 @@
        <widget class="QToolButton" name="toolButton" >
         <property name="styleSheet" >
          <string>QToolButton{
-border-image: url(:/images/mystatus_bg.png);
-background-image: url(:/images/amsn.png);
+border-image: url(:/images/avatar_background.png);
+
 }
 </string>
         </property>
@@ -589,10 +625,22 @@ background-image: url(:/images/amsn.png);
     </item>
     <item row="2" column="0" >
      <layout class="QGridLayout" >
-      <property name="margin" >
+      <property name="leftMargin" >
        <number>0</number>
       </property>
-      <property name="spacing" >
+      <property name="topMargin" >
+       <number>0</number>
+      </property>
+      <property name="rightMargin" >
+       <number>0</number>
+      </property>
+      <property name="bottomMargin" >
+       <number>0</number>
+      </property>
+      <property name="horizontalSpacing" >
+       <number>6</number>
+      </property>
+      <property name="verticalSpacing" >
        <number>6</number>
       </property>
       <item row="0" column="2" >
@@ -630,7 +678,7 @@ background-image: url(:/images/amsn.png);
       </item>
      </layout>
     </item>
-    <item row="4" column="0" >
+    <item row="5" column="0" >
      <widget class="QFrame" name="callBarFrame" >
       <property name="minimumSize" >
        <size>
