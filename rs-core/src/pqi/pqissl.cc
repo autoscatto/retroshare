@@ -1156,9 +1156,9 @@ int	pqissl::accept(SSL *ssl, int fd, struct sockaddr_in foreign_addr) // initiat
 		// outgoing connection in progress.
 		// shut this baby down.
 		//
-		// actually should should shut down
-		// one in progress, and continue this one!
-
+		// Thought I should shut down one in progress, and continue existing one!
+		// But the existing one might be broke.... take second.
+		// all we need is to never stop listening.
 		
 		switch(waiting)
 		{
@@ -1209,22 +1209,25 @@ int	pqissl::accept(SSL *ssl, int fd, struct sockaddr_in foreign_addr) // initiat
 			break;
 		}
 
-		if (ssl_connection)
-		{
-  	  		pqioutput(PQL_DEBUG_BASIC, pqisslzone, 
-			  "pqissl::accept() closing ssl_connection");
-			SSL_shutdown(ssl_connection);
-		}
-		if (sockfd > -1)
-		{
-  	  		pqioutput(PQL_DEBUG_BASIC, pqisslzone, 
-			  "pqissl::accept() closing sockfd");
-			net_internal_close(sockfd);
-		}
-
 		//waiting = WAITING_FAIL_INTERFACE;
 		//return -1;
 	}
+
+	/* shutdown existing - in all cases use the new one */
+	if ((ssl_connection) && (ssl_connection != ssl))
+	{
+  	 	pqioutput(PQL_DEBUG_BASIC, pqisslzone, 
+		  "pqissl::accept() closing Previous/Existing ssl_connection");
+		SSL_shutdown(ssl_connection);
+	}
+
+	if ((sockfd > -1) && (sockfd != fd))
+	{
+  	 	pqioutput(PQL_DEBUG_BASIC, pqisslzone, 
+		  "pqissl::accept() closing Previous/Existing sockfd");
+		net_internal_close(sockfd);
+	}
+
 
 	// save ssl + sock.
 	
@@ -1294,7 +1297,8 @@ int	pqissl::accept(SSL *ssl, int fd, struct sockaddr_in foreign_addr) // initiat
 	}
 
 	// remove form listening set.
-	stoplistening();
+	// no - we want to continue listening - incase this socket is crap, and they try again.
+	//stoplistening();
 
 	active = true;
 	waiting = WAITING_NOT;

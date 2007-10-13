@@ -614,7 +614,8 @@ int pqissllistener::completeConnection(int fd, SSL *ssl, struct sockaddr_in &rem
 	bool found = false;
 	std::map<cert *, pqissl *>::iterator it;
 
-	if ((npc == NULL) || (npc -> Connected()))
+	// Let connected one through as well! if ((npc == NULL) || (npc -> Connected()))
+	if (npc == NULL)
 	{
   	        pqioutput(PQL_WARNING, pqissllistenzone, 
 		 "pqissllistener::completeConnection() registerCertificate Failed!");
@@ -660,8 +661,9 @@ int pqissllistener::completeConnection(int fd, SSL *ssl, struct sockaddr_in &rem
 
 	pqissl *pqis = it -> second;
 
-	// remove from the list of certificates.
-	listenaddr.erase(it);
+	// dont remove from the list of certificates.
+	// want to allow a new connection to replace a faulty one!
+	// listenaddr.erase(it);
 
 	// timestamp
 	// done in sslroot... npc -> lr_timestamp = time(NULL);

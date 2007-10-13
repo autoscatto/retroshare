@@ -753,6 +753,7 @@ int unix_fcntl_nonblock(int fd)
 /******************* WINDOWS SPECIFIC PART ******************/
 #ifndef WINDOWS_SYS // ie UNIX
 	ret = fcntl(fd, F_SETFL, O_NONBLOCK);
+	std::cerr << "unix_fcntl_nonblock():" << ret << " errno:" << errno << std::endl;
 #else
 	unsigned long int on = 1;
 	ret = ioctlsocket(fd, FIONBIO, &on);

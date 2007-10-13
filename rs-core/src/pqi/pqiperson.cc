@@ -257,19 +257,23 @@ int 	pqiperson::notifyEvent(NetInterface *ni, int newState)
 	{
 	case CONNECT_RECEIVED:
 	case CONNECT_SUCCESS:
-		if (active) // already connected - trouble
+		if ((active) && (activepqi != pqi)) // already connected - trouble
 		{
 	  		pqioutput(PQL_WARNING, pqipersonzone, 
-				"CONNECT_SUCCESS+active->trouble: shutdown");
+				"CONNECT_SUCCESS+active->trouble: shutdown EXISTING->switch to new one!");
 
-			pqi -> stoplistening();
-			// This is the RESET that's killing the
-			// connections.....
-			pqi -> reset();
-			return -1;
+			//pqi -> stoplistening();
+
+			// This is the RESET that's killing the connections.....
+			activepqi -> reset();
+			// this causes a recursive call back into this fn.
+			// which cleans up state.
+			// we only do this if its not going to mess with new conn.
 		}
-		else
+
+		/* now install a new one. */
 		{
+
 	  		pqioutput(PQL_WARNING, pqipersonzone, 
 				"CONNECT_SUCCESS->marking so!");
 			// mark as active.
@@ -281,8 +285,8 @@ int 	pqiperson::notifyEvent(NetInterface *ni, int newState)
 			connectSuccess();
 
 	  		inConnectAttempt = false;
-			// stop listening.
-			stoplistening();
+			// dont stop listening.
+			//stoplistening();
 			return 1;
 		}
 		break;
@@ -341,6 +345,8 @@ int 	pqiperson::reset()
 		(*it) -> reset();
 	}		
 
+	activepqi = NULL;
+	active = false;
 	sslcert -> Listening(false);
 	sslcert -> Connected(false);
 	sroot -> IndicateCertsChanged();
@@ -501,16 +507,20 @@ int	pqiperson::connectattempt(pqiconnect *last)
 // returns (in secs) the time til next connect attempt
 // this is based on the 
 //
-#define SEC_PER_LOG_UNIT   600
+#define SEC_PER_LOG_UNIT   600 /* ten minutes? */
+#define MAX_WAITTIMES      10  /* ten minutes? */
 
 int	pqiperson::connectWait()
 {
-	int log_weight = (1 << waittimes++);
+	int log_weight = (1 << waittimes);
 	// max wait of 2^10 = 1024  * X min (over a month)
 	// 			10240 min = 1 day
-	if (waittimes > 10)
-		waittimes = 10;
-	return log_weight * SEC_PER_LOG_UNIT;
+	waittimes++;
+	if (waittimes > MAX_WAITTIMES)
+		waittimes = MAX_WAITTIMES;
+	// make it linear instead!.
+	return waittimes * SEC_PER_LOG_UNIT;
+	//return log_weight * SEC_PER_LOG_UNIT;
 }
 
 // called to reduce the waittimes, next time.

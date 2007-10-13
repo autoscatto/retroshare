@@ -106,7 +106,7 @@ CC = g++
 # flags for components....
 PQI_USE_XPGP = 1
 PQI_USE_PROXY = 1
-PQI_USE_CHANNELS = 1
+#PQI_USE_CHANNELS = 1
 USE_FILELOOK = 1
 
 ifeq ($(OS),Win)
@@ -123,11 +123,11 @@ else
   endif
 endif
 
-CFLAGS = -Wall -O2 $(INCLUDE) 
+CFLAGS = -Wall -g $(INCLUDE) 
 
 RANLIB = ranlib
 LIBRS = ../lib/libretroshare.a
-RSCFLAGS = -Wall -O2 $(INCLUDE) 
+RSCFLAGS = -Wall -g $(INCLUDE) 
 
 ifdef PQI_USE_XPGP
 	CFLAGS += -DPQI_USE_XPGP
