@@ -216,17 +216,24 @@ int 	UpdateAllChat();
 int 	UpdateAllMsgs();
 int 	UpdateAllChannels();
 
+void initRsChatInfo(ChatItem *c, ChatInfo &i);
+
+
+#ifdef PQI_USE_CHANNELS
 	/* Internal Helper Fns */
 RsChanId signToChanId(const channelSign &cs) const;
-void initRsChatInfo(ChatItem *c, ChatInfo &i);
+
 
 int intAddChannel(ChannelInfo &info);
 int intAddChannelMsg(RsChanId id, MessageInfo &msg);
+
 
 void initRsCI(pqichannel *in, ChannelInfo &out);
 void initRsCMI(pqichannel *chan, channelMsg *cm, MessageInfo &msg);
 void initRsCMFI(pqichannel *chan, chanMsgSummary *msg,
       const PQChanItem::FileItem *cfdi, FileInfo &file);
+
+#endif
 
 void intCheckFileStatus(FileInfo &file);
 

@@ -548,7 +548,7 @@ public:
 virtual ~NetBinInterface() { return; }
 };
 
-
+#define CHAN_SIGN_SIZE 16
 #define CERTSIGNLEN 16
 
 class certsign

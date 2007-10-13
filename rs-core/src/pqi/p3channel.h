@@ -88,7 +88,7 @@
 
 /* Size of these should match the RsInterface (for ease of use ) - 16 bytes */
 
-#define CHAN_SIGN_SIZE 16
+//#define CHAN_SIGN_SIZE 16
 
 class channelSign
 {

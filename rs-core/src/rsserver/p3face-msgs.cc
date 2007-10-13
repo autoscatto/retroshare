@@ -284,6 +284,8 @@ int     RsServer::UpdateAllMsgs()
 int RsServer::UpdateAllChannels()
 {
 
+#ifdef PQI_USE_CHANNELS
+
   std::list<pqichannel *> chanlist;
   std::list<pqichannel *>::iterator cit;
 
@@ -364,6 +366,7 @@ int RsServer::UpdateAllChannels()
   unlockRsCore();     /* UNLOCK */
 
   cb.notifyListChange(NOTIFY_LIST_CHANNELLIST, NOTIFY_TYPE_MOD);
+#endif
 
   return 1;
 }
@@ -395,6 +398,8 @@ void RsServer::initRsChatInfo(ChatItem *c, ChatInfo &i)
 	}
 	std::cerr << std::endl;
 }
+
+#ifdef PQI_USE_CHANNELS
 
 int RsServer::intAddChannel(ChannelInfo &info)
 {
@@ -492,6 +497,9 @@ void RsServer::initRsCMFI(pqichannel *chan, chanMsgSummary *msg,
     file.rank = 0;
   }
 }
+
+#endif
+
 
 void RsServer::intCheckFileStatus(FileInfo &file)
 {
