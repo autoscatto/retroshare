@@ -65,10 +65,15 @@
 /* Keys for UI Preferences */
 #define UI_PREF_PROMPT_ON_QUIT  "UIOptions/ConfirmOnQuit"
 /* uncomment this for release version */
-/****
 #define RS_RELEASE_VERSION    1
-****/
 
+/* TEST (1) * friends/neighbours: okay for 16 hours! */
+/* TEST (2) * all but transfer/sharedfiles: crashed in under 8 hours! */
+/* TEST (3) * friends/neighbour/msg/channels: crashed in under 8 hours */
+/* TEST (4) * friends/neighbour/channels: crashes */
+/* TEST (5) * all but msg/channels:  short term okay*/
+/* TEST (5) * all but channels: stable longterm!  */
+ 
 /** Constructor */
 MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     : QMainWindow(parent, flags)
@@ -122,13 +127,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     ui.stackPages->add(peersDialog = new PeersDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_PEERS), tr("Friends"), grp));
                                         
-#ifdef RS_RELEASE_VERSION    
-    searchDialog = new SearchDialog(ui.stackPages);
-    searchDialog -> hide();
-#else
+
     ui.stackPages->add(searchDialog = new SearchDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_SEARCH), tr("Search"), grp));
-#endif
                      
     ui.stackPages->add(transfersDialog = new TransfersDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_TRANSFERS), tr("Transfers"), grp));
@@ -141,10 +142,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 
     ui.stackPages->add(messagesDialog = new MessagesDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_MESSAGES), tr("Messages"), grp));
-                     
+
 #ifdef RS_RELEASE_VERSION    
-    channelsDialog = new ChannelsDialog(ui.stackPages);
-    channelsDialog->hide();
+    channelsDialog = NULL;
 #else
     ui.stackPages->add(channelsDialog = new ChannelsDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_CHANNELS), tr("Channels"), grp));
@@ -170,7 +170,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
  
     /* Create and bind the messenger button */
     addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
- 
+
 #ifdef NO_MORE_OPTIONS_OR_SS
 
     /* Create and bind the Preferences button */  
