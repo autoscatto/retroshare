@@ -38,7 +38,10 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
-
+  
+  skinobject = new QSkinObject(this);
+  skinobject->startSkinning();
+  
   RshareSettings config;
   config.loadWidgetInformation(this);
  

@@ -57,10 +57,8 @@ private:
   RshareSettings* _settings;
   
   void loadStyleSheet(const QString &sheetName);
+  void loadqss();
   
-
-
-
   /** Qt Designer generated object */
   Ui::PreferencesDialog ui;
 };

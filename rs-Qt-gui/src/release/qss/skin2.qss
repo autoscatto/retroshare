@@ -1,0 +1,9 @@
+
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(qss/skin2/background.png);
+
+}
+
+

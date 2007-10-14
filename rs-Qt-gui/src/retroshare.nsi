@@ -52,7 +52,8 @@ Section "RetroShare Core" Section1
   ; Set Section Files and Shortcuts
   SetOutPath "$INSTDIR\"
   File /r "release\*"
-	
+  
+
 SectionEnd
 
 Section "RetroShare Data" Section1b
@@ -61,8 +62,16 @@ Section "RetroShare Data" Section1b
   SetOverwrite on
 
   ; Set Section Files and Shortcuts
-  SetOutPath "$APPDATA\RetroShare\"
-  File /r "data\*"
+  ;SetOutPath "$APPDATA\RetroShare\"
+  ;File /r "data\*"
+  
+  ; Set Section qss
+  SetOutPath "$INSTDIR\qss\"
+  File /r release\qss\*.*   
+  
+  ; Set Section skin
+  SetOutPath "$INSTDIR\skin\"
+  File /r release\skin\*.* 
 	
 SectionEnd
 

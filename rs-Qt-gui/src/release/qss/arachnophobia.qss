@@ -1,0 +1,15 @@
+
+
+/* Customize the toolbar. */
+QToolBar {
+
+	min-height: 89px;
+}
+
+QToolBar {
+    
+    border-image: url(qss/arachnophobia/background.png);
+
+}
+
+

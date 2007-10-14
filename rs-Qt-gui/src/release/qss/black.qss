@@ -1,0 +1,62 @@
+.QWidget {
+   background-color: #F9F9F9;
+}
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(:/images/black/backgroundblack.png);
+
+}
+
+QToolButton {
+      color: white;
+}
+
+QPushButton {
+      color: white;
+	min-height: 22px;
+}
+
+
+QPushButton
+{
+border-image: url(:/images/black/button.png) ;
+}
+
+QPushButton:hover 
+{
+border-image: url(:/images/black/button_hover.png);
+}
+
+QPushButton:pressed 
+{
+border-image: url(:/images/black/button_pressed.png) ;
+} 
+
+
+QSplitter
+{
+background-color: #F9F9F9;
+}
+
+QLineEdit
+{
+border-image: url(:/images/black/border.png) 4;
+border-width: 3;
+}
+
+QLabel
+{
+color: #306090;
+}
+
+
+QGroupBox
+{
+color: #306090;
+font: bold;
+}
+
+
+
+

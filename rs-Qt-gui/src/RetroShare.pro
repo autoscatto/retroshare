@@ -5,7 +5,7 @@ OBJECTS_DIR = temp/obj
 RCC_DIR = temp/qrc
 UI_DIR  = temp/ui
 MOC_DIR = temp/moc
-CONFIG += qt 
+CONFIG += qt release
 QT     += network xml
 TEMPLATE = app
 TARGET += 
@@ -255,6 +255,9 @@ TRANSLATIONS +=  \
             lang/retroshare_dk.ts \
             lang/retroshare_sl.ts 
 
+#LIBS += -L gui/lib/ -lskin
+#win32:LIBS += -lgdi32
+
 !macx {
     # On non-Mac, make the binary all lowercase
     TARGET = RetroShare
@@ -264,7 +267,7 @@ win32 {
 
     RC_FILE = gui/images/retroshare_win.rc
 
-    "LIBS += -L"D:\Development\retroshare\winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin
+    "LIBS += -L"D:\Development\retroshare\winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lgdi32
     CONFIG += qt release"
 
 }
@@ -272,4 +275,3 @@ win32 {
 !win32 {
     LIBS += -L../../../../../lib -lretroshare -lKadC -lminiupnpc -lssl -lcrypto 
 }
-

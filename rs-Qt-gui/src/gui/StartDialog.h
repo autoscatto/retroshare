@@ -25,7 +25,7 @@
 
 #include <config/rsharesettings.h>
 #include "rsiface/rsiface.h"
-
+#include "qskinobject/qskinobject.h"
 #include "ui_StartDialog.h"
 
 class LogoBar;
@@ -69,7 +69,7 @@ private:
   
   /** Qt Designer generated object */
   Ui::StartDialog ui;
-
+  QSkinObject *skinobject;
   RsInit *rsConfig;
 };
 
