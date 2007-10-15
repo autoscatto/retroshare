@@ -505,12 +505,12 @@
     <number>0</number>
    </property>
    <property name="spacing" >
-    <number>0</number>
+    <number>1</number>
    </property>
    <item row="1" column="0" >
     <widget class="QTabWidget" name="tabWidget" >
      <property name="currentIndex" >
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="tab" >
       <attribute name="title" >
@@ -523,15 +523,14 @@
        <property name="spacing" >
         <number>6</number>
        </property>
-       <item row="0" column="0" >
+       <item rowspan="2" row="0" column="1" >
         <widget class="QTextBrowser" name="textBrowser" >
          <property name="html" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:large; font-weight:600; text-decoration: underline; color:#0000ff;">&lt;span style=" font-size:xx-large; text-decoration:none;">About RetroShare.&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />Retroshare is a private and secure decentralised commmunication platform.&lt;br />You can use it chat, send messages and share files with your friends.&lt;br />&lt;br />This is just a placeholder page for the moment. You can&lt;br />improve retroshare's in-built help (this text) by&lt;br />updating the retroshare wiki: &lt;a href="http://retroshare.wiki.sourceforge.net/help_tab">&lt;span style=" text-decoration: underline; color:#0000ff;">This Page in the retroshare Wiki&lt;/span>&lt;/a>&lt;br />&lt;br />The About/Help Tab is regularly updated from the Wiki page.&lt;br />&lt;br />External Links to more information:&lt;br />&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:xx-large; font-weight:600; color:#0000ff;">About RetroShare.&lt;/span>&lt;/p>
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;br />&lt;span style=" font-weight:600;">Retroshare is a private and secure decentralised commmunication platform.&lt;br />You can use it chat, send messages and share files with your friends.&lt;/span>&lt;br />&lt;br />This is just a placeholder page for the moment. You can&lt;br />improve retroshare's in-built help (this text) by&lt;br />updating the retroshare wiki: &lt;a href="http://retroshare.wiki.sourceforge.net/help_tab">&lt;span style=" text-decoration: underline; color:#0000ff;">This Page in the retroshare Wiki&lt;/span>&lt;/a>&lt;br />&lt;br />The About/Help Tab is regularly updated from the Wiki page.&lt;br />&lt;br />External Links to more information:&lt;br />&lt;/p>
 &lt;ul style="-qt-list-indent: 1;">&lt;li style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://retroshare.sourceforge.net">&lt;span style=" text-decoration: underline; color:#0000ff;">Retroshare Webpage&lt;/span>&lt;/a>&lt;/li>
 &lt;li style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://retroshare.wiki.sourceforge.net/">&lt;span style=" text-decoration: underline; color:#0000ff;">Retroshare Wiki&lt;/span>&lt;/a>&lt;/li>
 &lt;li style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;a href="http://sourceforge.net/projects/retroshare/">&lt;span style=" text-decoration: underline; color:#0000ff;">Retroshare Project Page&lt;/span>&lt;/a>&lt;/li>
@@ -539,6 +538,29 @@ p, li { white-space: pre-wrap; }
          </property>
          <property name="openExternalLinks" >
           <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" >
+        <spacer>
+         <property name="orientation" >
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" >
+          <size>
+           <width>61</width>
+           <height>161</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label_3" >
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="pixmap" >
+          <pixmap resource="images.qrc" >:/images/retrosharelogo1.png</pixmap>
          </property>
         </widget>
        </item>

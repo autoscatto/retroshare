@@ -5,7 +5,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>510</width>
+    <width>516</width>
     <height>289</height>
    </rect>
   </property>
@@ -502,10 +502,10 @@
   </property>
   <layout class="QGridLayout" >
    <property name="margin" >
-    <number>9</number>
+    <number>0</number>
    </property>
    <property name="spacing" >
-    <number>6</number>
+    <number>1</number>
    </property>
    <item row="0" column="0" >
     <layout class="QVBoxLayout" >
@@ -789,14 +789,14 @@ p, li { white-space: pre-wrap; }
                 <widget class="QPushButton" name="pushButtonsearch" >
                  <property name="minimumSize" >
                   <size>
-                   <width>0</width>
-                   <height>0</height>
+                   <width>34</width>
+                   <height>34</height>
                   </size>
                  </property>
                  <property name="maximumSize" >
                   <size>
-                   <width>175</width>
-                   <height>175</height>
+                   <width>34</width>
+                   <height>34</height>
                   </size>
                  </property>
                  <property name="toolTip" >
