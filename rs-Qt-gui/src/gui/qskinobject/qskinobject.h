@@ -60,11 +60,11 @@ protected:
 	void timerEvent ( QTimerEvent * event );
 private:
 	QRect saveRect;
+	QRect skinGeometry;
 	QPixmap widgetMask;//the pixmap, in which the ready frame is stored on pressed? 
 	QString skinPath;
 	QFont titleFont;
 	QColor titleColor;
-	QColor backgroundColor;
 	bool milchglas;
     bool gotMousePress;	
 	QRegion quitButton;

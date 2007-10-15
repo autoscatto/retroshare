@@ -25,6 +25,7 @@
 #include <gui/MainWindow.h>
 #include <gui/StartDialog.h>
 #include <gui/GenCertDialog.h>
+#include <gui/qskinobject/qskinobject.h>
 
 #include <util/process.h>
 #include <util/string.h>
@@ -100,31 +101,40 @@ int main(int argc, char *argv[])
         rsServer -> StartupRetroShare(config);
         CleanupRsConfig(config);
 
-
-  	MainWindow w;
-
+  	MainWindow *w = new MainWindow;
+	//QMainWindow *skinWindow = new QMainWindow();
+	
+	//skinWindow->resize(w->size().width()+15,w->size().width()+15);
+	//skinWindow->setWindowTitle(w->windowTitle());
+	//skinWindow->setCentralWidget(w);
+	
 	/* Attach the Dialogs, to the Notify Class */
-        notify->setNetworkDialog(w.networkDialog);
-        notify->setPeersDialog(w.peersDialog);
-        notify->setDirDialog(w.sharedfilesDialog);
-        notify->setTransfersDialog(w.transfersDialog);
-        notify->setChatDialog(w.chatDialog);
-        notify->setMessagesDialog(w.messagesDialog);
-        notify->setChannelsDialog(w.channelsDialog);
-        notify->setMessengerWindow(w.messengerWindow);
+        notify->setNetworkDialog(w->networkDialog);
+        notify->setPeersDialog(w->peersDialog);
+        notify->setDirDialog(w->sharedfilesDialog);
+        notify->setTransfersDialog(w->transfersDialog);
+        notify->setChatDialog(w->chatDialog);
+        notify->setMessagesDialog(w->messagesDialog);
+        notify->setChannelsDialog(w->channelsDialog);
+        notify->setMessengerWindow(w->messengerWindow);
 
 	/* only show window, if not autologin */
 #if defined(Q_OS_WIN)
   	if (!okStart)
 	{
-		w.show();
+		
+		w->show();
+		
 	}
 #else
-	w.show();
+	
+	w->show();
+	
+	//skinWindow->show();
 #endif
 
 	/* Startup a Timer to keep the gui's updated */
-	QTimer *timer = new QTimer(&w);
+	QTimer *timer = new QTimer(w);
 	timer -> connect(timer, SIGNAL(timeout()), notify, SLOT(UpdateGUI()));
         timer->start(1000);
 	
