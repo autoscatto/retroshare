@@ -42,11 +42,9 @@ ChanMsgDialog::ChanMsgDialog(bool msg, QWidget *parent, Qt::WFlags flags)
   //connect( ui.channelstreeView, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( channelstreeViewCostumPopupMenu( QPoint ) ) );
   //
  
-  // connect up the buttons.
-  //connect( ui.cancelButton, SIGNAL( clicked ( bool ) ), this, SLOT( cancelMessage( ) ) );
-  //connect( ui.sendButton, SIGNAL( clicked ( bool ) ), this, SLOT( sendMessage( ) ) );
-  
+  // connect up the buttons. 
   connect( ui.actionSend, SIGNAL( triggered (bool)), this, SLOT( sendMessage( ) ) );
+  //connect( ui.actionReply, SIGNAL( triggered (bool)), this, SLOT( replyMessage( ) ) );
 
   /* if Msg */
   if (mIsMsg)
@@ -62,6 +60,9 @@ ChanMsgDialog::ChanMsgDialog(bool msg, QWidget *parent, Qt::WFlags flags)
 
   connect(ui.msgFileList, SIGNAL(itemChanged( QTreeWidgetItem *, int ) ),
     this, SLOT(toggleRecommendItem( QTreeWidgetItem *, int ) ));
+    
+  /* hide the Tree +/- */
+  ui.msgSendList -> setRootIsDecorated( false );
 
 
   /* Hide platform specific features */
