@@ -207,6 +207,11 @@ virtual int     SetInMsg(std::string id, bool in);          /* friend : msg rece
 virtual int     SetInBroadcast(std::string id, bool in);    /* channel : channel broadcast */
 virtual int     SetInSubscribe(std::string id, bool in);    /* channel : subscribed channels */
 virtual int     SetInRecommend(std::string id, bool in);    /* file : recommended file */
+virtual int     ClearInChat();
+virtual int     ClearInMsg();
+virtual int     ClearInBroadcast();
+virtual int     ClearInSubscribe();
+virtual int     ClearInRecommend();
 
 
 	private:

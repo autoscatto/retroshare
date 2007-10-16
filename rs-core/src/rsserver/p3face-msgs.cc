@@ -576,6 +576,26 @@ void RsServer::initRsMI(MsgItem *msg, MessageInfo &mi)
 
 }
 
+        /* Flagging Persons / Channels / Files in or out of a set (CheckLists) */
+int     RsServer::ClearInChat()
+{
+	lockRsCore(); /* LOCK */
+
+	std::list<cert *>::iterator it;
+	std::list<cert *> &certs = sslr -> getCertList();
+	
+	for(it = certs.begin(); it != certs.end(); it++)
+	{
+		(*it)->InChat(false);
+	}
+
+	sslr->IndicateCertsChanged();
+
+	unlockRsCore();   /* UNLOCK */
+
+	return 1;
+}
+
 
         /* Flagging Persons / Channels / Files in or out of a set (CheckLists) */
 int     RsServer::SetInChat(std::string id, bool in)             /* friend : chat msgs */
@@ -596,11 +616,32 @@ int     RsServer::SetInChat(std::string id, bool in)             /* friend : cha
 	{
 		std::cerr << "FAILED TO Set InChat(" << id << ") to " << (in ? "True" : "False") << std::endl;
 	}
+
 	unlockRsCore();   /* UNLOCK */
 
 	UpdateAllCerts();
 	return 1;
 }
+
+
+int     RsServer::ClearInMsg()
+{
+	lockRsCore(); /* LOCK */
+
+	std::list<cert *>::iterator it;
+	std::list<cert *> &certs = sslr -> getCertList();
+	
+	for(it = certs.begin(); it != certs.end(); it++)
+	{
+		(*it)->InMessage(false);
+	}
+	sslr->IndicateCertsChanged();
+
+	unlockRsCore();   /* UNLOCK */
+
+	return 1;
+}
+
 
 int     RsServer::SetInMsg(std::string id, bool in)             /* friend : msgs */
 {
@@ -627,6 +668,17 @@ int     RsServer::SetInMsg(std::string id, bool in)             /* friend : msgs
 	return 1;
 }
 
+
+int     RsServer::ClearInBroadcast()
+{
+	return 1;
+}
+
+int     RsServer::ClearInSubscribe()
+{
+	return 1;
+}
+
 int     RsServer::SetInBroadcast(std::string id, bool in)        /* channel : channel broadcast */
 {
 	return 1;
@@ -636,6 +688,26 @@ int     RsServer::SetInSubscribe(std::string id, bool in)        /* channel : su
 {
 	return 1;
 }
+
+int     RsServer::ClearInRecommend()
+{
+	/* find in people ... set chat flag */
+	RsIface &iface = getIface();
+	iface.lockData(); /* LOCK IFACE */
+
+	std::list<FileInfo> &recs = iface.mRecommendList;
+	std::list<FileInfo>::iterator it;
+
+	for(it = recs.begin(); it != recs.end(); it++)
+	{
+	  it -> inRecommend = false;
+	}
+	
+	iface.unlockData(); /* UNLOCK IFACE */
+
+	return 1;
+}
+
 
 int     RsServer::SetInRecommend(std::string id, bool in)        /* file : recommended file */
 {
@@ -660,6 +732,7 @@ int     RsServer::SetInRecommend(std::string id, bool in)        /* file : recom
 
 	return 1;
 }
+
 
 
 

@@ -280,6 +280,11 @@ virtual int 	SetInMsg(std::string id, bool in)  = 0;		/* friend : msg receipient
 virtual int 	SetInBroadcast(std::string id, bool in) = 0;	/* channel : channel broadcast */
 virtual int 	SetInSubscribe(std::string id, bool in) = 0;	/* channel : subscribed channels */
 virtual int 	SetInRecommend(std::string id, bool in) = 0;	/* file : recommended file */
+virtual int 	ClearInChat() = 0;
+virtual int 	ClearInMsg() = 0;
+virtual int 	ClearInBroadcast() = 0;
+virtual int 	ClearInSubscribe() = 0;
+virtual int 	ClearInRecommend() = 0;
 
 /****************************************/
         /* RsIface Networking */
