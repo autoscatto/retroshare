@@ -213,8 +213,14 @@ QStringList* GuiExprElement::getConditionOptions(ExprSearchType t)
 
 QLayout * GuiExprElement::createLayout(QWidget * parent)
 {
-    QHBoxLayout * hboxLayout = new QHBoxLayout(parent);
-    hboxLayout->setContentsMargins(0,0,0,0);
+    QHBoxLayout * hboxLayout;
+    if (parent == 0) 
+    {
+        hboxLayout = new QHBoxLayout();
+    } else {
+        hboxLayout = new QHBoxLayout(parent);
+    }
+    hboxLayout->setMargin(0);
     hboxLayout->setSpacing(3);
     return hboxLayout;
 }
@@ -381,13 +387,17 @@ void ExprParamElement::adjustForSearchType(ExprSearchType type)
     // remove all elements
     QList<QWidget*> children = qFindChildren<QWidget*>(internalframe);
     QWidget* child;
+    QLayout * lay_out = internalframe->layout();
      while (!children.isEmpty())
     {
         child = children.takeLast();
         child->hide();
-        internalframe->layout()->removeWidget(child);
+        lay_out->removeWidget(child);
         delete child;
     }
+    delete lay_out;
+
+    internalframe->setLayout(createLayout());
 
     if (isStringSearchExpression())
     {
