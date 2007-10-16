@@ -108,7 +108,7 @@ void PreferencesDialog::loadqss()
  foreach(QFileInfo st, slist)
  {
   if(st.fileName() != "." && st.fileName() != ".." && st.isFile())
-  ui.styleSheetCombo->addItem(QIcon(":/images/style.png"),st.fileName().remove(".qss"));
+  ui.styleSheetCombo->addItem(st.fileName().remove(".qss"));
  }
  
 }

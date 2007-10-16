@@ -57,8 +57,9 @@ MessagesDialog::MessagesDialog(QWidget *parent)
   connect( ui.listWidget, SIGNAL( currentRowChanged ( int) ), this, SLOT( changeBox ( int) ) );
   
   
-  connect(ui.toolButtonnewmsg, SIGNAL(clicked()), this, SLOT(newmessage()));
-  //connect(ui.eventsButton, SIGNAL(clicked()), SLOT(eventsButtonClicked()));
+  connect(ui.newmessageButton, SIGNAL(clicked()), this, SLOT(newmessage()));
+  connect(ui.removemessageButton, SIGNAL(clicked()), this, SLOT(removemessage()));
+  
 
   mCurrCertId = "";
   mCurrMsgId  = "";
@@ -88,15 +89,12 @@ void MessagesDialog::messageslistWidgetCostumPopupMenu( QPoint point )
       removemsgAct = new QAction(QIcon(IMAGE_MESSAGEREMOVE), tr( "Remove Message" ), this );
       connect( removemsgAct , SIGNAL( triggered() ), this, SLOT( removemessage() ) );
       
-      yougetmsgAct = new QAction(QIcon(), tr( "You get Message testing" ), this );
-      connect( yougetmsgAct , SIGNAL( triggered() ), this, SLOT( eventsButtonClicked() ) );
 
 
       contextMnu.clear();
       contextMnu.addAction( newmsgAct);
       contextMnu.addAction( replytomsgAct);
       contextMnu.addAction( removemsgAct);
-      contextMnu.addAction( yougetmsgAct);
       contextMnu.exec( mevent->globalPos() );
 }
 
@@ -560,8 +558,4 @@ void MessagesDialog::markMsgAsRead()
 	return;
 }
 
-void MessagesDialog::eventsButtonClicked()
-{
-//
-//
-}
+

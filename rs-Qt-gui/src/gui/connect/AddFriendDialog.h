@@ -44,7 +44,7 @@ protected:
 private slots:
 
 	void donebutton();
-	void cancelbutton();
+	void afcancelbutton();
 	void filebutton();
   
 private:

@@ -79,7 +79,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WFlags flags)
   setFixedSize(QSize(480, 450));
   
    connect(ui.okButton, SIGNAL(clicked( bool )), this, SLOT( saveChanges()) );
-   connect(ui.cancelButton, SIGNAL(clicked( bool )), this, SLOT( cancelpreferences()) );
+   connect(ui.cancelprefButton, SIGNAL(clicked( bool )), this, SLOT( cancelpreferences()) );
 
 }
 

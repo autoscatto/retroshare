@@ -588,14 +588,36 @@
    <property name="title" >
     <string>Shared Directories</string>
    </property>
+   <widget class="QListWidget" name="dirList" >
+    <property name="geometry" >
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>381</width>
+      <height>171</height>
+     </rect>
+    </property>
+   </widget>
    <widget class="QPushButton" name="addButton" >
     <property name="geometry" >
      <rect>
       <x>400</x>
       <y>20</y>
-      <width>31</width>
-      <height>31</height>
+      <width>34</width>
+      <height>34</height>
      </rect>
+    </property>
+    <property name="minimumSize" >
+     <size>
+      <width>34</width>
+      <height>34</height>
+     </size>
+    </property>
+    <property name="maximumSize" >
+     <size>
+      <width>34</width>
+      <height>34</height>
+     </size>
     </property>
     <property name="text" >
      <string/>
@@ -610,24 +632,26 @@
      </size>
     </property>
    </widget>
-   <widget class="QListWidget" name="dirList" >
-    <property name="geometry" >
-     <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>381</width>
-      <height>171</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="removeButton" >
     <property name="geometry" >
      <rect>
       <x>400</x>
       <y>60</y>
-      <width>31</width>
-      <height>31</height>
+      <width>34</width>
+      <height>34</height>
      </rect>
+    </property>
+    <property name="minimumSize" >
+     <size>
+      <width>34</width>
+      <height>34</height>
+     </size>
+    </property>
+    <property name="maximumSize" >
+     <size>
+      <width>34</width>
+      <height>34</height>
+     </size>
     </property>
     <property name="text" >
      <string/>

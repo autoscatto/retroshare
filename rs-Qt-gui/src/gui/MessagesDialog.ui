@@ -508,8 +508,14 @@
     <number>1</number>
    </property>
    <item row="0" column="2" >
-    <widget class="QPushButton" name="pushButton_3" >
+    <widget class="QPushButton" name="removemessageButton" >
      <property name="minimumSize" >
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
       <size>
        <width>24</width>
        <height>24</height>
@@ -527,9 +533,14 @@ p, li { white-space: pre-wrap; }
 border-image: url(:/images/deletemail24.png);
 }
 
-QPushButton:pressed
+QPushButton:hover
 {
 border-image: url(:/images/deletemail-hover.png);
+}
+
+QPushButton:pressed
+{
+border-image: url(:/images/deletemail-pressed.png);
 }</string>
      </property>
      <property name="text" >
@@ -738,8 +749,14 @@ p, li { white-space: pre-wrap; }
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="QPushButton" name="pushButton_2" >
+    <widget class="QPushButton" name="replymessageButton" >
      <property name="minimumSize" >
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
       <size>
        <width>24</width>
        <height>24</height>
@@ -758,9 +775,14 @@ QPushButton
 border-image: url(:/images/replymail24.png);
 }
 
+QPushButton:hover
+{
+border-image: url(:/images/replymail24-hover.png);
+}
+
 QPushButton:pressed
 {
-border-image: url(:/images/replymail-hover.png);
+border-image: url(:/images/replymail-pressed.png);
 }
 </string>
      </property>
@@ -776,8 +798,14 @@ border-image: url(:/images/replymail-hover.png);
     </widget>
    </item>
    <item row="0" column="0" >
-    <widget class="QPushButton" name="toolButtonnewmsg" >
+    <widget class="QPushButton" name="newmessageButton" >
      <property name="minimumSize" >
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
+     </property>
+     <property name="maximumSize" >
       <size>
        <width>24</width>
        <height>24</height>
@@ -794,10 +822,14 @@ p, li { white-space: pre-wrap; }
 {
 border-image: url(:/images/folder-draft24.png);
 }
+QPushButton:hover 
+{
+border-image: url(:/images/folder-draft24-hover.png);
+}
 
 QPushButton:pressed 
 {
-border-image: url(:/images/folder-draft24-hover.png);
+border-image: url(:/images/folder-draft24-pressed.png);
 }
 </string>
      </property>
@@ -809,6 +841,9 @@ border-image: url(:/images/folder-draft24-hover.png);
        <width>24</width>
        <height>24</height>
       </size>
+     </property>
+     <property name="default" >
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -828,9 +863,9 @@ border-image: url(:/images/folder-draft24-hover.png);
   </layout>
  </widget>
  <tabstops>
-  <tabstop>toolButtonnewmsg</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_3</tabstop>
+  <tabstop>newmessageButton</tabstop>
+  <tabstop>replymessageButton</tabstop>
+  <tabstop>removemessageButton</tabstop>
   <tabstop>listWidget</tabstop>
   <tabstop>msgWidget</tabstop>
   <tabstop>msgText</tabstop>

@@ -55,9 +55,7 @@ void updateMessages ( QTreeWidgetItem * item, int column );
   void replytomessage();
   
   void removemessage();
-  void markMsgAsRead();
-  
-  void eventsButtonClicked();
+  void markMsgAsRead();  
   
   void getcurrentrecommended();
   void getallrecommended();
@@ -76,7 +74,6 @@ private:
   QAction* newmsgAct;
   QAction* replytomsgAct;
   QAction* removemsgAct;
-  QAction* yougetmsgAct;
 
   QAction* getRecAct;
   QAction* getAllRecAct;

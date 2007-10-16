@@ -4,7 +4,7 @@
 
 /* Customize the toolbar. */
 QToolBar {
-    border-image: url(:/images/black/backgroundblack.png);
+    border-image: url(qss/black/backgroundblack.png);
 
 }
 
@@ -15,22 +15,86 @@ QToolButton {
 QPushButton {
       color: white;
 	min-height: 22px;
+
 }
 
+QPushButton#addfriendButton {
+      color: white;
+	min-height: 34px;
+      min-width: 48px;
+}
+
+QPushButton#invitefriendButton {
+      color: white;
+	min-height: 34px;
+      min-width: 48px;
+}
+
+QPushButton#addshareButton {
+      color: white;
+	min-height: 34px;
+      min-width: 48px;
+}
+
+QPushButton#optionsButton {
+      color: white;
+	min-height: 34px;
+      min-width: 48px;
+}
+
+QPushButton#quitButton {
+      color: white;
+	min-height: 34px;
+      min-width: 48px;
+}
+
+QPushButton#okButton {
+      color: white;
+	min-height: 27px;
+      min-width: 77px;
+}
+
+QPushButton#cancelButton#afcancelButton#doneButton {
+      color: white;
+	min-height: 25px;
+      min-width: 75px;
+}
+
+QPushButton#fileButton#emailButton {
+      color: white;
+	min-height: 27px;
+      min-width: 77px;
+}
+
+QPushButton#cancelprefButton {
+      color: white;
+	min-height: 25px;
+      min-width: 75px;
+}
+
+QPushButton#toggleAdvancedSearchBtn{
+	min-height: 34px;
+      min-width: 34px;
+}
+
+QPushButton#pushButtonDownload{
+	min-height: 34px;
+      min-width: 34px;
+}
 
 QPushButton
 {
-border-image: url(:/images/black/button.png) ;
+border-image: url(qss/black/button.png) ;
 }
 
 QPushButton:hover 
 {
-border-image: url(:/images/black/button_hover.png);
+border-image: url(qss/black/button_hover.png);
 }
 
 QPushButton:pressed 
 {
-border-image: url(:/images/black/button_pressed.png) ;
+border-image: url(qss/black/button_pressed.png) ;
 } 
 
 
@@ -41,7 +105,7 @@ background-color: #F9F9F9;
 
 QLineEdit
 {
-border-image: url(:/images/black/border.png) 4;
+border-image: url(qss/black/border.png) 4;
 border-width: 3;
 }
 
