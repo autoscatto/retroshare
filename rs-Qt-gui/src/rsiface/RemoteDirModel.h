@@ -37,6 +37,7 @@ class RemoteDirModel : public QAbstractItemModel
 	/* Callback from GUI */
      void downloadSelected(QModelIndexList list);
      void recommendSelected(QModelIndexList list);
+     void recommendSelectedOnly(QModelIndexList list);
      void openSelected(QModelIndexList list);
 
   public slots:

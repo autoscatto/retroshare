@@ -43,16 +43,16 @@ void  newMsg();
 void  insertSendList(); /* for Msgs */
 void  insertChannelSendList(); /* for Channels */
 void  insertFileList(); /* for Both */
+void  insertTitleText(std::string title);
+void  insertMsgText(std::string msg);
 
-protected:
-  void closeEvent (QCloseEvent * event);
-
-
-private slots:
+public slots:
 
 	/* actions to take.... */
 void  sendMessage();
 void  cancelMessage();
+
+private slots:
 
   /** Create the context popup menu and it's submenus */
   void channelstreeViewCostumPopupMenu( QPoint point );
@@ -66,6 +66,7 @@ void  cancelMessage();
   void togglePersonItem( QTreeWidgetItem *item, int col );
   void toggleChannelItem( QTreeWidgetItem *item, int col );
   void toggleRecommendItem( QTreeWidgetItem *item, int col );
+
  
 private:
 

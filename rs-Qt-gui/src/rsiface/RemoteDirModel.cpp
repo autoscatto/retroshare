@@ -642,6 +642,51 @@ void RemoteDirModel::recommendSelected(QModelIndexList list)
 	std::cerr << "::::::::::::Done FileRecommend" << std::endl;
 }
 
+
+void RemoteDirModel::recommendSelectedOnly(QModelIndexList list)
+{
+	std::cerr << "recommendSelectedOnly()" << std::endl;
+	if (RemoteMode)
+	{
+		std::cerr << "Cannot recommend remote! (should download)" << std::endl;
+	}
+     	rsicontrol->ClearInRecommend();
+
+	/* Fire off requests */
+	QModelIndexList::iterator it;
+	for(it = list.begin(); it != list.end(); it++)
+	{
+		void *ref = it -> internalPointer();
+
+     		DirDetails details;
+     		uint32_t flags = DIR_FLAGS_DETAILS;
+     		if (RemoteMode)
+		{
+     			flags |= DIR_FLAGS_REMOTE;
+			continue; /* don't recommend remote stuff */
+		}
+     		else
+		{
+     			flags |= DIR_FLAGS_LOCAL;
+		}
+
+     		if (!rsicontrol->RequestDirDetails(ref, details, flags))
+     		{
+			continue;
+     		}
+
+		std::cerr << "::::::::::::FileRecommend:::: " << std::endl;
+		std::cerr << "Name: " << details.name << std::endl;
+		std::cerr << "Hash: " << details.hash << std::endl;
+		std::cerr << "Size: " << details.count << std::endl;
+		std::cerr << "Path: " << details.path << std::endl;
+
+		rsicontrol -> FileRecommend(details.name, details.hash, details.count);
+     		rsicontrol -> SetInRecommend(details.name, true);
+	}
+	std::cerr << "::::::::::::Done FileRecommend" << std::endl;
+}
+
 void RemoteDirModel::openSelected(QModelIndexList list)
 {
 	recommendSelected(list);

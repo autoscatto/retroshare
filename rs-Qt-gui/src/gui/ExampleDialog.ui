@@ -1,21 +1,13 @@
 <ui version="4.0" >
- <class>AddFriendWizard</class>
- <widget class="QDialog" name="AddFriendWizard" >
+ <class>ExampleDialog</class>
+ <widget class="QWidget" name="ExampleDialog" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>508</width>
-    <height>312</height>
+    <width>436</width>
+    <height>261</height>
    </rect>
-  </property>
-  <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>7</hsizetype>
-    <vsizetype>7</vsizetype>
-    <horstretch>0</horstretch>
-    <verstretch>0</verstretch>
-   </sizepolicy>
   </property>
   <property name="palette" >
    <palette>
@@ -500,322 +492,152 @@
   <property name="contextMenuPolicy" >
    <enum>Qt::NoContextMenu</enum>
   </property>
-  <property name="windowTitle" >
-   <string>Add Friend to my netowork Wizard</string>
-  </property>
-  <property name="windowIcon" >
-   <iconset/>
-  </property>
-  <widget class="Line" name="line" >
-   <property name="geometry" >
-    <rect>
-     <x>0</x>
-     <y>260</y>
-     <width>511</width>
-     <height>20</height>
-    </rect>
+  <layout class="QGridLayout" >
+   <property name="margin" >
+    <number>1</number>
    </property>
-   <property name="orientation" >
-    <enum>Qt::Horizontal</enum>
+   <property name="spacing" >
+    <number>1</number>
    </property>
-  </widget>
-  <widget class="QPushButton" name="backButton" >
-   <property name="geometry" >
-    <rect>
-     <x>270</x>
-     <y>280</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>&lt; Back</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="nextButton" >
-   <property name="geometry" >
-    <rect>
-     <x>350</x>
-     <y>280</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Next ></string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="cancelButton" >
-   <property name="geometry" >
-    <rect>
-     <x>430</x>
-     <y>280</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string>Cancel</string>
-   </property>
-  </widget>
-  <widget class="QStackedWidget" name="textstackedWidget" >
-   <property name="geometry" >
-    <rect>
-     <x>160</x>
-     <y>10</y>
-     <width>341</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <property name="currentIndex" >
-    <number>0</number>
-   </property>
-   <widget class="QWidget" name="page" >
-    <widget class="QLabel" name="label_2" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>261</width>
-       <height>16</height>
-      </rect>
+   <item row="0" column="0" >
+    <layout class="QGridLayout" >
+     <property name="margin" >
+      <number>0</number>
      </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+     <property name="spacing" >
+      <number>0</number>
+     </property>
+     <item row="0" column="1" >
+      <spacer>
+       <property name="orientation" >
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" >
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="0" column="0" >
+      <layout class="QGridLayout" >
+       <property name="margin" >
+        <number>0</number>
+       </property>
+       <property name="spacing" >
+        <number>6</number>
+       </property>
+       <item row="0" column="0" >
+        <widget class="QLabel" name="label" >
+         <property name="text" >
+          <string/>
+         </property>
+         <property name="pixmap" >
+          <pixmap resource="images.qrc" >:/images/peers_16x16.png</pixmap>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" >
+        <widget class="QLabel" name="label_2" >
+         <property name="text" >
+          <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
 &lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">This Wizard helps to Connect to your Friends&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="pqipemradioButton" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>100</y>
-       <width>311</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>I have a .pqi/.pem file received from a Friend</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="keyradioButton" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>80</y>
-       <width>311</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>I have Key received from a Friend</string>
-     </property>
-    </widget>
-    <widget class="QRadioButton" name="inviteradioButton" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>120</y>
-       <width>321</width>
-       <height>18</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>I want to invite a friend to my RetroShare network</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="invitepage" >
-    <widget class="QTextEdit" name="emailText" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>331</width>
-       <height>161</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_8" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>190</y>
-       <width>401</width>
-       <height>60</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Cut and paste the text below into an email.&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;"> and send it to all your friends!&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;">When you press next RetroShare will attempt to launch a Email client.&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>241</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Invite your Friends to join with RetroShare&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="keypage" >
-    <widget class="QLabel" name="label_3" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>271</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Enter the Key code you got from your friend:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-    <widget class="QTextBrowser" name="textBrowser" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>331</width>
-       <height>161</height>
-      </rect>
-     </property>
-     <property name="readOnly" >
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_4" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>200</y>
-       <width>331</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">When you press next RetroShare will attempt to&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;">connect using the key.&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QWidget" name="pqipempage" >
-    <widget class="QLabel" name="label_5" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>211</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">Select a pqi/pem file:&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-    <widget class="QWidget" name="layoutWidget" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>50</y>
-       <width>321</width>
-       <height>27</height>
-      </rect>
-     </property>
-     <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>0</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
-      <item row="0" column="0" >
-       <widget class="QLineEdit" name="lineEdit" />
-      </item>
-      <item row="0" column="1" >
-       <widget class="QPushButton" name="pushButton_4" >
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-size:9pt; font-weight:600;">Friends&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0" colspan="2" >
+      <widget class="QTreeWidget" name="peertreeWidget" >
+       <property name="contextMenuPolicy" >
+        <enum>Qt::CustomContextMenu</enum>
+       </property>
+       <property name="acceptDrops" >
+        <bool>false</bool>
+       </property>
+       <property name="iconSize" >
+        <size>
+         <width>16</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="itemsExpandable" >
+        <bool>true</bool>
+       </property>
+       <property name="sortingEnabled" >
+        <bool>true</bool>
+       </property>
+       <column>
         <property name="text" >
-         <string>Browse</string>
+         <string>#</string>
         </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QLabel" name="label_6" >
-     <property name="geometry" >
-      <rect>
-       <x>10</x>
-       <y>90</y>
-       <width>331</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text" >
-      <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
-p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Arial'; font-size:8pt; font-weight:400; font-style:normal; text-decoration:none;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">When you press next RetroShare will attempt to&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;">connect using the .pqi/.pem file.&lt;/p>&lt;/body>&lt;/html></string>
-     </property>
-    </widget>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="label" >
-   <property name="geometry" >
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>151</width>
-     <height>251</height>
-    </rect>
-   </property>
-   <property name="text" >
-    <string/>
-   </property>
-   <property name="pixmap" >
-    <pixmap/>
-   </property>
-  </widget>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Status</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Person</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Auto Connect</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Trust Level</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Peer Address</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Last Contact</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Organisation</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Location</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Country</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Person Id</string>
+        </property>
+       </column>
+       <column>
+        <property name="text" >
+         <string>Auth Code</string>
+        </property>
+       </column>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
- <tabstops>
-  <tabstop>backButton</tabstop>
-  <tabstop>nextButton</tabstop>
-  <tabstop>cancelButton</tabstop>
-  <tabstop>keyradioButton</tabstop>
-  <tabstop>pqipemradioButton</tabstop>
-  <tabstop>inviteradioButton</tabstop>
-  <tabstop>textBrowser</tabstop>
-  <tabstop>lineEdit</tabstop>
-  <tabstop>pushButton_4</tabstop>
-  <tabstop>emailText</tabstop>
- </tabstops>
  <resources>
-  <include location="../images.qrc" />
+  <include location="images.qrc" />
  </resources>
  <connections/>
 </ui>

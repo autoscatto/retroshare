@@ -120,12 +120,14 @@ void MessagesDialog::msgfilelistWidgetCostumPopupMenu( QPoint point )
 
 void MessagesDialog::newmessage()
 {
-    static ChanMsgDialog *createMsgDialog = new ChanMsgDialog(true);
+    ChanMsgDialog *nMsgDialog = new ChanMsgDialog(true);
 
     /* fill it in */
     //std::cerr << "MessagesDialog::newmessage()" << std::endl;
-    createMsgDialog->newMsg();
-    createMsgDialog->show();
+    nMsgDialog->newMsg();
+    nMsgDialog->show();
+
+    /* window will destroy itself! */
 }
 
 void MessagesDialog::replytomessage()

@@ -24,6 +24,8 @@
 #include "SharedFilesDialog.h"
 #include "rsiface/rsiface.h"
 #include "rsiface/RemoteDirModel.h"
+#include "util/RsAction.h"
+#include "msgs/ChanMsgDialog.h"
 
 #include <iostream>
 #include <sstream>
@@ -161,11 +163,74 @@ void SharedFilesDialog::recommendfile()
 {
   /* call back to the model (which does all the interfacing? */
 
-  std::cerr << "Downloading Files";
+  std::cerr << "Recommending Files";
   std::cerr << std::endl;
 
   QItemSelectionModel *qism = ui.localDirTreeView->selectionModel();
   localModel -> recommendSelected(qism->selectedIndexes());
+}
+
+
+
+
+void SharedFilesDialog::recommendFileSetOnly()
+{
+  /* call back to the model (which does all the interfacing? */
+
+  std::cerr << "Recommending File Set (clearing old selection)";
+  std::cerr << std::endl;
+
+  /* clear current recommend Selection done by model */
+
+  QItemSelectionModel *qism = ui.localDirTreeView->selectionModel();
+  localModel -> recommendSelectedOnly(qism->selectedIndexes());
+}
+
+
+void SharedFilesDialog::recommendFilesTo( std::string rsid )
+{
+  recommendFileSetOnly();
+  rsicontrol -> ClearInMsg();
+  rsicontrol -> SetInMsg(rsid, true);
+ 
+  /* create a message */
+  ChanMsgDialog *nMsgDialog = new ChanMsgDialog(true);
+
+  /* fill it in 
+   * files are receommended already
+   * just need to set peers
+   */
+  std::cerr << "SharedFilesDialog::recommendFilesTo()" << std::endl;
+  nMsgDialog->newMsg();
+  nMsgDialog->insertTitleText("Recommendation(s)");
+  nMsgDialog->insertMsgText("Recommendation(s)");
+
+  nMsgDialog->sendMessage();
+  nMsgDialog->close();
+}
+
+
+
+void SharedFilesDialog::recommendFilesToMsg( std::string rsid )
+{
+  recommendFileSetOnly();
+
+  rsicontrol -> ClearInMsg();
+  rsicontrol -> SetInMsg(rsid, true);
+
+  /* create a message */
+  ChanMsgDialog *nMsgDialog = new ChanMsgDialog(true);
+
+  /* fill it in 
+   * files are receommended already
+   * just need to set peers
+   */
+  std::cerr << "SharedFilesDialog::recommendFilesToMsg()" << std::endl;
+  nMsgDialog->newMsg();
+  nMsgDialog->insertTitleText("Recommendation(s)");
+  nMsgDialog->insertMsgText("Recommendation(s)");
+
+  nMsgDialog->show();
 }
 
 
@@ -256,16 +321,22 @@ void SharedFilesDialog::shareddirtreeWidgetCostumPopupMenu( QPoint point )
 		 * 	recMenu
 		 * 	msgMenu
 		 */
+		std::string rsid;
+		{
+			std::ostringstream out;
+		        out << it -> second.id;
+			rsid = out.str();
+		}
 
-      		QAction *qaf1 = new QAction( QString::fromStdString( it->second.name ), recMenu );
-      		//connect( qaf1 , SIGNAL( triggered() ), this, SLOT( recommendFileTo() ) );
-      		connect( qaf1 , SIGNAL( triggered() ), this, SLOT( recommendFile() ) );
+      		RsAction *qaf1 = new RsAction( QString::fromStdString( it->second.name ), recMenu, rsid );
+      		connect( qaf1 , SIGNAL( triggeredId( std::string ) ), this, SLOT( recommendFilesTo( std::string ) ) );
         	recMenu->addAction(qaf1);
 
-      		QAction *qaf2 = new QAction( QString::fromStdString( it->second.name ), msgMenu );
-      		//connect( qaf2 , SIGNAL( triggered() ), this, SLOT( recommendFileToMsg() ) );
-      		connect( qaf2 , SIGNAL( triggered() ), this, SLOT( recommendFile() ) );
+      		RsAction *qaf2 = new RsAction( QString::fromStdString( it->second.name ), msgMenu, rsid );
+      		connect( qaf2 , SIGNAL( triggeredId( std::string ) ), this, SLOT( recommendFilesToMsg( std::string ) ) );
         	msgMenu->addAction(qaf2);
+
+		/* create list of ids */
 
 	}
 

@@ -51,6 +51,8 @@ HEADERS +=  rshare.h \
             gui/mainpage.h \
             gui/mainpagestack.h \
             gui/MainWindow.h \
+            gui/ApplicationWindow.h \
+            gui/ExampleDialog.h \
             gui/MessengerWindow.h \
             gui/PeersDialog.h \
             gui/SearchDialog.h \
@@ -77,6 +79,7 @@ HEADERS +=  rshare.h \
             util/EventFilter.h \
             util/Widget.h \
             util/rsversion.h \
+            util/RsAction.h \
             gui/bwgraph/bwgraph.h \
             gui/chat/PopupChatDialog.h \
             gui/connect/ConnectDialog.h \
@@ -123,6 +126,8 @@ FORMS +=    gui/ChatDialog.ui \
             gui/NetworkDialog.ui \
             gui/TransfersDialog.ui \
             gui/MainWindow.ui \
+            gui/ApplicationWindow.ui \
+            gui/ExampleDialog.ui \
             gui/MessengerWindow.ui \
             gui/PeersDialog.ui \
             gui/SearchDialog.ui \
@@ -176,6 +181,8 @@ SOURCES += main.cpp \
             gui/graphframe.cpp \
             gui/mainpagestack.cpp \
             gui/MainWindow.cpp \
+            gui/ApplicationWindow.cpp \
+            gui/ExampleDialog.cpp \
             gui/MessengerWindow.cpp \
             gui/PeersDialog.cpp \
             gui/SearchDialog.cpp \
@@ -198,6 +205,7 @@ SOURCES += main.cpp \
             util/EventFilter.cpp \
             util/Widget.cpp \
             util/rsversion.cpp \
+            util/RsAction.cpp \
             gui/bwgraph/bwgraph.cpp \
             gui/chat/PopupChatDialog.cpp \
             gui/connect/ConnectDialog.cpp \

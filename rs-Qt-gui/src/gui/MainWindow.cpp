@@ -65,6 +65,7 @@
 /* Keys for UI Preferences */
 #define UI_PREF_PROMPT_ON_QUIT  "UIOptions/ConfirmOnQuit"
 /* uncomment this for release version */
+
 #define RS_RELEASE_VERSION    1
 
 /* TEST (1) * friends/neighbours: okay for 16 hours! */
@@ -97,6 +98,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     _bandwidthGraph = new BandwidthGraph();
     messengerWindow = new MessengerWindow();
     messengerWindow->hide();
+    applicationWindow = new ApplicationWindow();
+    applicationWindow->hide();
 	
     connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
     connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
@@ -127,7 +130,6 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     ui.stackPages->add(peersDialog = new PeersDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_PEERS), tr("Friends"), grp));
                                         
-
     ui.stackPages->add(searchDialog = new SearchDialog(ui.stackPages),
                        createPageAction(QIcon(IMAGE_SEARCH), tr("Search"), grp));
                      
@@ -171,6 +173,11 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     /* Create and bind the messenger button */
     addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
 
+#ifdef RS_RELEASE_VERSION    
+#else
+    addAction(new QAction(QIcon(IMAGE_PEERS), tr("Apps"), ui.toolBar), SLOT(showApplWindow()));
+#endif
+ 
 #ifdef NO_MORE_OPTIONS_OR_SS
 
     /* Create and bind the Preferences button */  
@@ -363,6 +370,13 @@ void MainWindow::showSettings()
 void MainWindow::showMessengerWindow()
 {
     messengerWindow->show();
+}
+
+
+/** Shows Application window */
+void MainWindow::showApplWindow()
+{
+    applicationWindow->show();
 }
 
 /** Destructor. */

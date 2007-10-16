@@ -19,76 +19,53 @@
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
 
-#ifndef _SHAREDFILESDIALOG_H
-#define _SHAREDFILESDIALOG_H
+#ifndef _EXAMPLEDIALOG_H
+#define _EXAMPLEDIALOG_H
 
 #include <QFileDialog>
 
 //#include <config/rsharesettings.h>
 
 #include "mainpage.h"
-#include "ui_SharedFilesDialog.h"
+#include "ui_ExampleDialog.h"
 
-#include "rsiface/rstypes.h"
-#include "rsiface/RemoteDirModel.h"
 
-class SharedFilesDialog : public MainPage 
+class ExampleDialog : public MainPage 
 {
   Q_OBJECT
 
 public:
   /** Default Constructor */
-  SharedFilesDialog(QWidget *parent = 0);
+  ExampleDialog(QWidget *parent = 0);
   /** Default Destructor */
 
-	/* For handling the model updates */
-void  preModDirectories(bool update_local);
-void     ModDirectories(bool update_local);
-
-
+  void  insertExample();
 
 private slots:
-
   /** Create the context popup menu and it's submenus */
-  void shareddirtreeviewCostumPopupMenu( QPoint point );
+  void peertreeWidgetCostumPopupMenu( QPoint point );
+
+  void voteup();
+  void votedown();
   
-  void shareddirtreeWidgetCostumPopupMenu( QPoint point );
-  
-  void downloadRemoteSelected();
-  void addMsgRemoteSelected();
-
-  void recommendfile();
-  void openfile();
-  void openfolder();
-
-  void recommendFileSetOnly();
-  void recommendFilesTo( std::string rsid );
-  void recommendFilesToMsg( std::string rsid );
-
 private:
+
+  /* Worker Functions */
+  /* (1) Update Display */
+
+  /* (2) Utility Fns */
+  QTreeWidgetItem *getCurrentLine();
+
   /** Define the popup menus for the Context menu */
   QMenu* contextMnu;
-  
-  QMenu* contextMnu2;
-  
-  /** Defines the actions for the context menu for QTreeView */
-  QAction* downloadAct;
-  QAction* addMsgAct;
-  
-  /** Defines the actions for the context menu for QTreeWidget */
-  QAction* openfileAct;
-  QAction* openfolderAct;
-  
-  
-  QTreeView *shareddirtreeview;
-  
+    /** Defines the actions for the context menu */
+  QAction* voteupAct;
+  QAction* votedownAct;
+
+  QTreeWidget *exampletreeWidget;
 
   /** Qt Designer generated object */
-  Ui::SharedFilesDialog ui;
-
-  /* RemoteDirModel */
-  RemoteDirModel *model;
-  RemoteDirModel *localModel;
+  Ui::ExampleDialog ui;
 };
 
 #endif

@@ -38,6 +38,8 @@ ChanMsgDialog::ChanMsgDialog(bool msg, QWidget *parent, Qt::WFlags flags)
 {
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
+
+  setAttribute ( Qt::WA_DeleteOnClose, true );
   
   //connect( ui.channelstreeView, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( channelstreeViewCostumPopupMenu( QPoint ) ) );
   //
@@ -90,13 +92,6 @@ void ChanMsgDialog::channelstreeViewCostumPopupMenu( QPoint point )
       contextMnu.addAction( createchannelmsgAct);
       contextMnu.exec( mevent->globalPos() );
 }
-
-void ChanMsgDialog::closeEvent (QCloseEvent * event)
-{
-    hide();
-    event->ignore();
-}
-
 
 
 void ChanMsgDialog::deletechannel()
@@ -342,6 +337,16 @@ void  ChanMsgDialog::newMsg()
 	insertFileList();
 }
 
+void  ChanMsgDialog::insertTitleText(std::string title)
+{
+	ui.titleEdit->setText(QString::fromStdString(title));
+}
+
+
+void  ChanMsgDialog::insertMsgText(std::string msg)
+{
+	ui.msgText->setText(QString::fromStdString(msg));
+}
 
 
 void  ChanMsgDialog::sendMessage()
@@ -396,14 +401,14 @@ void  ChanMsgDialog::sendMessage()
 		rsicontrol -> MessageSend(mi);
 	}
 
-	hide();
+	close();
 	return;
 }
 
 
 void  ChanMsgDialog::cancelMessage()
 {
-	hide();
+	close();
 	return;
 }
 
