@@ -25,9 +25,9 @@
 
 #include <config/rsharesettings.h>
 #include "rsiface/rsiface.h"
-/*******
+#if (QT_VERSION >= 040300)
 #include "qskinobject/qskinobject.h"
-*******/
+#endif
 #include "ui_StartDialog.h"
 
 class LogoBar;
@@ -71,9 +71,10 @@ private:
   
   /** Qt Designer generated object */
   Ui::StartDialog ui;
-  /***********
+  
+#if (QT_VERSION >= 040300)
   QSkinObject *skinobject;
-  ***********/
+#endif
   RsInit *rsConfig;
 };
 
