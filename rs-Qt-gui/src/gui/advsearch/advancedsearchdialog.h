@@ -27,6 +27,7 @@
 #include <QSizePolicy>
 #include "ui_AdvancedSearchDialog.h"
 #include "expressionwidget.h"
+#include "rsiface/rsexpr.h"
 
 class AdvancedSearchDialog : public QDialog, public Ui::AdvancedSearchDialog 
 {
@@ -34,11 +35,16 @@ class AdvancedSearchDialog : public QDialog, public Ui::AdvancedSearchDialog
         
 public:
     AdvancedSearchDialog(QWidget * parent = 0 );
+    Expression * getRsExpr();
+    QString getSearchAsString();
+signals:
+    void search(Expression*);
     
 private slots:
     void deleteExpression(ExpressionWidget*);
     void addNewExpression();
     void reset();
+    void prepareSearch();
     
 private:
     QLayout * dialogLayout;

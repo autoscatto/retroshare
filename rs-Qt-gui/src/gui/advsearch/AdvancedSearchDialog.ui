@@ -5,17 +5,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>792</width>
-    <height>116</height>
+    <width>818</width>
+    <height>136</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy>
-    <hsizetype>7</hsizetype>
-    <vsizetype>7</vsizetype>
+   <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize" >
+   <size>
+    <width>800</width>
+    <height>130</height>
+   </size>
+  </property>
+  <property name="sizeIncrement" >
+   <size>
+    <width>0</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle" >
    <string>RetrosShare: Advanced Search</string>
@@ -24,19 +34,37 @@
    <iconset resource="../images.qrc" >:/images/advsearch_24x24.png</iconset>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>9</number>
-   </property>
    <property name="spacing" >
     <number>6</number>
    </property>
+   <property name="leftMargin" >
+    <number>9</number>
+   </property>
+   <property name="topMargin" >
+    <number>9</number>
+   </property>
+   <property name="rightMargin" >
+    <number>9</number>
+   </property>
+   <property name="bottomMargin" >
+    <number>9</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" >
-     <property name="margin" >
-      <number>5</number>
-     </property>
      <property name="spacing" >
       <number>6</number>
+     </property>
+     <property name="leftMargin" >
+      <number>5</number>
+     </property>
+     <property name="topMargin" >
+      <number>5</number>
+     </property>
+     <property name="rightMargin" >
+      <number>5</number>
+     </property>
+     <property name="bottomMargin" >
+      <number>5</number>
      </property>
      <item>
       <widget class="QPushButton" name="addExprButton" >
@@ -127,29 +155,36 @@
    <item>
     <widget class="QGroupBox" name="searchCriteriaBox" >
      <property name="sizePolicy" >
-      <sizepolicy>
-       <hsizetype>7</hsizetype>
-       <vsizetype>7</vsizetype>
+      <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
        <horstretch>1</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
      </property>
+     <property name="minimumSize" >
+      <size>
+       <width>800</width>
+       <height>70</height>
+      </size>
+     </property>
      <property name="title" >
       <string>Search Criteria</string>
      </property>
+     <property name="alignment" >
+      <set>Qt::AlignJustify|Qt::AlignTop</set>
+     </property>
      <layout class="QGridLayout" >
-      <property name="margin" >
-       <number>9</number>
-      </property>
-      <property name="spacing" >
-       <number>6</number>
-      </property>
       <item row="0" column="0" >
        <widget class="QFrame" name="expressionsFrame" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+          <horstretch>1</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize" >
          <size>
-          <width>810</width>
-          <height>55</height>
+          <width>600</width>
+          <height>35</height>
          </size>
         </property>
         <property name="frameShape" >

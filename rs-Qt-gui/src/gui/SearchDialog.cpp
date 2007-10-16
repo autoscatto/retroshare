@@ -23,6 +23,7 @@
 #include "rshare.h"
 #include "SearchDialog.h"
 #include "rsiface/rsiface.h"
+#include "rsiface/rsexpr.h"
 
 #include <iostream>
 #include <sstream>
@@ -63,6 +64,9 @@ SearchDialog::SearchDialog(QWidget *parent)
     connect(ui.toggleAdvancedSearchBtn, SIGNAL(toggled(bool)), this, SLOT(toggleAdvancedSearchDialog(bool)));
     connect(ui.focusAdvSearchDialogBtn, SIGNAL(clicked()), this, SLOT(showAdvSearchDialog())); 
     
+    /* End Advanced Search Panel specifics */
+
+
     connect( ui.searchResultWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidgetCostumPopupMenu( QPoint ) ) );
     
     connect( ui.searchSummaryWidget, SIGNAL( customContextMenuRequested( QPoint ) ), this, SLOT( searchtableWidget2CostumPopupMenu( QPoint ) ) );
@@ -200,12 +204,12 @@ void SearchDialog::toggleAdvancedSearchDialog(bool toggled)
 
 void SearchDialog::showAdvSearchDialog(bool show)
 {
-    // temp block for upload to svn
-    return;
     // instantiate if about to show for the first time
     if (advSearchDialog == 0 && show)
     {
         advSearchDialog = new AdvancedSearchDialog();
+        connect(advSearchDialog, SIGNAL(search(Expression*)),
+                this, SLOT(advancedSearch(Expression*)));
     }
     if (show) {
         advSearchDialog->show();
@@ -216,46 +220,16 @@ void SearchDialog::showAdvSearchDialog(bool show)
     }
 }
 
-void SearchDialog::advancedSearch()
+void SearchDialog::advancedSearch(Expression* expression)
 {
-        // TODO implement the advanced search extraction and call
-	std::string txt = (ui.lineEdit->text()).toStdString();
-
-	std::cerr << "SearchDialog::searchKeywords() : " << txt;
-	std::cerr << std::endl;
-
-	/* extract keywords from lineEdit */
-	std::list<std::string> words;
-	int i;
-	for(i = 0; i < txt.length(); i++)
-	{
-		/* chew initial spaces */
-		for(; (i < txt.length()) && (isspace(txt[i])); i++);
-		std::string newword;
-		for(; (i < txt.length()) && (!isspace(txt[i])); i++)
-		{
-			newword += txt[i];
-		}
-
-		std::cerr << "Search KeyWord: " << newword;
-		std::cerr << std::endl;
-		if (newword.length() > 0)
-		{
-			words.push_back(newword);
-		}
-	}
-	if (words.size() < 1)
-	{
-		/* ignore */
-		return;
-	}
+        advSearchDialog->hide();
 
 	/* call to core */
 	std::list<FileDetail> results;
-	rsicontrol -> SearchKeywords(words, results);
+	rsicontrol -> SearchBoolExp(expression, results);
 
         /* abstraction to allow reusee of tree rendering code */
-        resultsToTree(txt, results);
+        resultsToTree((advSearchDialog->getSearchAsString()).toStdString(), results);
 }
 
 
@@ -270,7 +244,7 @@ void SearchDialog::searchKeywords()
 
 	/* extract keywords from lineEdit */
 	std::list<std::string> words;
-	int i;
+	uint i;
 	for(i = 0; i < txt.length(); i++)
 	{
 		/* chew initial spaces */

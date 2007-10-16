@@ -73,7 +73,7 @@ private slots:
     void showAdvSearchDialog(bool=true);
 
 /** perform the advanced search */
-    void advancedSearch();
+    void advancedSearch(Expression*);
 
     void selectSearchResults();
     

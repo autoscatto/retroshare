@@ -20,12 +20,14 @@
 ****************************************************************/
 #ifndef _ExpressionWidget_h_
 #define _ExpressionWidget_h_
-
+#include <iostream>
 #include <QWidget>
+#include <QLabel>
 
 #include "rsiface/rsexpr.h"
 #include "guiexprelement.h"
 #include "ui_expressionwidget.h"
+
 
 /**
     Represents an Advanced Search GUI Expression object which acts as a container
@@ -39,7 +41,17 @@ class ExpressionWidget : public QWidget, public Ui::ExpressionWidget
 
 public:
     ExpressionWidget( QWidget * parent = 0, bool initial=false );
+    
+    /** delivers the expression represented by this widget
+     the operator to join this expression with any previous 
+     expressions is provided by the getOperator method */
     Expression* getRsExpression();
+
+    /** supplies the operator to be used when joining this expression
+        to the whole query */
+    LogicalOperator getOperator();
+    
+    QString toString();
 
 signals:
     /** associates an expression object with the delete event */
@@ -50,8 +62,32 @@ private slots:
         for use by listeners */
     void deleteExpression();
 
+    /** dynbamically changes the structure of the expression based on
+        the terms combobox changes */
+    void adjustExprForTermType(int);
+    
+    /** dynamically adjusts the expression dependant on the choices 
+        made in the condition combobox e.g. inRange and equals
+        have different parameter fields */
+    void adjustExprForConditionType(int);
+
+
 private:
+    QLayout * createLayout(QWidget* parent = 0);
+    
+    bool isStringSearchExpression();
+    
     QList <GuiExprElement *> * elements;
+    QLayout * exprLayout;
+
+    ExprOpElement *        exprOpElem;
+    ExprTermsElement *     exprTermElem;
+    ExprConditionElement * exprCondElem;
+    ExprParamElement*      exprParamElem;
+    
+    bool inRangedConfig;
+    bool isFirst;
+    ExprSearchType searchType;
 };
 
 #endif // _ExpressionWidget_h_

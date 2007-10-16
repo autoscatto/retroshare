@@ -24,27 +24,30 @@
 AdvancedSearchDialog::AdvancedSearchDialog(QWidget * parent) : QDialog (parent) 
 {
     setupUi(this);
-    
+    dialogLayout = this->layout();
+
     // the list of expressions
     expressions = new QList<ExpressionWidget*>();
 
-    // a scrollable area for holding the objects
+    // a area for holding the objects
     expressionsLayout = new QVBoxLayout();
-    expressionsLayout->setSpacing(6);
-    expressionsLayout->setMargin(9);
+    expressionsLayout->setSpacing(5);
+    expressionsLayout->setMargin(3);
     expressionsLayout->setObjectName(QString::fromUtf8("expressionsLayout"));
-
+    expressionsFrame->setSizePolicy(QSizePolicy::MinimumExpanding, 
+                                  QSizePolicy::MinimumExpanding);
     expressionsFrame->setLayout(expressionsLayout);
     
     // we now add the first expression widgets to the dialog via a vertical
     // layout 
-    addNewExpression();
+    reset();//addNewExpression();
 
     connect (this->addExprButton, SIGNAL(clicked()),
              this, SLOT(addNewExpression()));
     connect (this->resetButton, SIGNAL(clicked()),
              this, SLOT(reset()));
-    this->adjustSize();
+    connect(this->executeButton, SIGNAL(clicked()),
+            this, SLOT(prepareSearch()));
 }
 
 
@@ -61,19 +64,29 @@ void AdvancedSearchDialog::addNewExpression()
     
     expressions->append(expr);
     expressionsLayout->addWidget(expr, 1, Qt::AlignLeft);
-
+    
+    
     connect(expr, SIGNAL(signalDelete(ExpressionWidget*)),
             this, SLOT(deleteExpression(ExpressionWidget*)));
-    expr->show();
+    
+    expressionsLayout->invalidate();
+    searchCriteriaBox->setMinimumSize(searchCriteriaBox->minimumWidth(), 
+                                      searchCriteriaBox->minimumHeight() +30);
+    this->adjustSize();
+
 }
 
 void AdvancedSearchDialog::deleteExpression(ExpressionWidget* expr)
 {
     expressions->removeAll(expr);
+    expr->hide();
     expressionsLayout->removeWidget(expr);
-    expressionsLayout->invalidate();
-    this->adjustSize();
     delete expr;
+    
+    expressionsLayout->invalidate();
+    searchCriteriaBox->setMinimumSize(searchCriteriaBox->minimumWidth(), 
+                                      searchCriteriaBox->minimumHeight() - 30);
+    this->adjustSize();
 }
 
 void AdvancedSearchDialog::reset()
@@ -82,14 +95,49 @@ void AdvancedSearchDialog::reset()
     while (!expressions->isEmpty())
     {
         expr = expressions->takeLast();
-        expr->hide();
-        expressionsLayout->removeWidget(expr);
-        delete expr;
+        deleteExpression(expr);
     }
-    expressionsLayout->invalidate();
-    this->adjustSize();
-
+    
     // now add a new default expressions
     addNewExpression();
+}
+
+void AdvancedSearchDialog::prepareSearch()
+{
+    emit search(getRsExpr());
+}
+
+
+Expression * AdvancedSearchDialog::getRsExpr()
+{
+    Expression * wholeExpression;
+
+    // process the special case: first expression
+    wholeExpression = expressions->at(0)->getRsExpression();
+    
+
+    // iterate through the items in elements and
+    for (int i = 1; i < expressions->size(); ++i) {
+        // extract the expression information and compound it with the
+        // first expression
+        wholeExpression = new CompoundExpression(expressions->at(i)->getOperator(),
+                                                 wholeExpression,
+                                                 expressions->at(i)->getRsExpression());
+    } 
+    return wholeExpression;
+}
+
+QString AdvancedSearchDialog::getSearchAsString()
+{
+    QString str = expressions->at(0)->toString();
+    
+
+    // iterate through the items in elements and
+    for (int i = 1; i < expressions->size(); ++i) {
+        // extract the expression information and compound it with the
+        // first expression
+        str += QString(" ") + expressions->at(i)->toString();
+    } 
+    return str;
 }
 
