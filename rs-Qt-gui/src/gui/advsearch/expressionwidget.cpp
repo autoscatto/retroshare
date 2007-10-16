@@ -79,8 +79,14 @@ ExpressionWidget::ExpressionWidget(QWidget * parent, bool initial) : QWidget(par
 
 QLayout * ExpressionWidget::createLayout(QWidget * parent)
 {
-    QHBoxLayout * hboxLayout = new QHBoxLayout(parent);
-    hboxLayout->setContentsMargins(0,0,0,0);
+    QHBoxLayout * hboxLayout;
+    if (parent == 0) 
+    {
+        QHBoxLayout * hboxLayout = new QHBoxLayout();
+    } else {
+        QHBoxLayout * hboxLayout = new QHBoxLayout(parent);
+    }
+    //hboxLayout->setContentsMargins(0,0,0,0);
     hboxLayout->setSpacing(0);
     return hboxLayout;
 }

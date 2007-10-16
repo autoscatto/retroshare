@@ -204,6 +204,7 @@ void SearchDialog::toggleAdvancedSearchDialog(bool toggled)
 
 void SearchDialog::showAdvSearchDialog(bool show)
 {
+    return;
     // instantiate if about to show for the first time
     if (advSearchDialog == 0 && show)
     {

@@ -858,7 +858,7 @@ p, li { white-space: pre-wrap; }
                <item>
                 <widget class="QLabel" name="label_4" >
                  <property name="text" >
-                  <string>&lt;h3>Advanced Search:&lt;/h3></string>
+                  <string>&lt;h3>Advanced Search: disabled&lt;/h3></string>
                  </property>
                 </widget>
                </item>
@@ -881,7 +881,7 @@ p, li { white-space: pre-wrap; }
                <item>
                 <widget class="QPushButton" name="focusAdvSearchDialogBtn" >
                  <property name="enabled" >
-                  <bool>true</bool> 
+                  <bool>false</bool> 
                  </property>
                  <property name="sizePolicy" >
                   <sizepolicy>
