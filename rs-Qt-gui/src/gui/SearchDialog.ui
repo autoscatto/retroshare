@@ -739,35 +739,56 @@ p, li { white-space: pre-wrap; }
                   <property name="text" >
                    <string>Any</string>
                   </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypeAny.png</iconset>
+                  </property>
                  </item>
                  <item>
                   <property name="text" >
                    <string>Audio</string>
+                  </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypeAudio.png</iconset>
                   </property>
                  </item>
                  <item>
                   <property name="text" >
                    <string>Video</string>
                   </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypeVideo.png</iconset>
+                  </property>
                  </item>
                  <item>
                   <property name="text" >
                    <string>Images</string>
+                  </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypePicture.png</iconset>
                   </property>
                  </item>
                  <item>
                   <property name="text" >
                    <string>Programs</string>
                   </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypeProgram.png</iconset>
+                  </property>
                  </item>
                  <item>
                   <property name="text" >
                    <string>Archives</string>
                   </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypeArchive.png</iconset>
+                  </property>
                  </item>
                  <item>
                   <property name="text" >
                    <string>Documents</string>
+                  </property>
+                  <property name="icon" >
+                   <iconset resource="images.qrc" >:/images/FileTypeDocument.png</iconset>
                   </property>
                  </item>
                 </widget>
@@ -881,7 +902,7 @@ p, li { white-space: pre-wrap; }
                <item>
                 <widget class="QPushButton" name="focusAdvSearchDialogBtn" >
                  <property name="enabled" >
-                  <bool>true</bool> 
+                  <bool>true</bool>
                  </property>
                  <property name="sizePolicy" >
                   <sizepolicy>
