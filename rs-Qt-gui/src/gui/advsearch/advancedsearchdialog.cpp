@@ -25,14 +25,15 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget * parent) : QDialog (parent)
 {
     setupUi(this);
     dialogLayout = this->layout();
+    metrics = new QFontMetrics(this->font());
 
     // the list of expressions
     expressions = new QList<ExpressionWidget*>();
 
     // a area for holding the objects
     expressionsLayout = new QVBoxLayout();
-    expressionsLayout->setSpacing(5);
-    expressionsLayout->setMargin(3);
+    expressionsLayout->setSpacing(0);
+    expressionsLayout->setMargin(0);
     expressionsLayout->setObjectName(QString::fromUtf8("expressionsLayout"));
     expressionsFrame->setSizePolicy(QSizePolicy::MinimumExpanding, 
                                   QSizePolicy::MinimumExpanding);
@@ -53,6 +54,8 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget * parent) : QDialog (parent)
 
 void AdvancedSearchDialog::addNewExpression()
 {
+    int sizeChange = metrics->height() + 35;
+
     ExpressionWidget *expr;
     if (expressions->size() == 0)
     {
@@ -69,23 +72,31 @@ void AdvancedSearchDialog::addNewExpression()
     connect(expr, SIGNAL(signalDelete(ExpressionWidget*)),
             this, SLOT(deleteExpression(ExpressionWidget*)));
     
-    expressionsLayout->invalidate();
-    searchCriteriaBox->setMinimumSize(searchCriteriaBox->minimumWidth(), 
-                                      searchCriteriaBox->minimumHeight() +30);
+    //expressionsLayout->invalidate();
+    //searchCriteriaBox->setMinimumSize(searchCriteriaBox->minimumWidth(), 
+     //                                 searchCriteriaBox->minimumHeight() + sizeChange);
+    //searchCriteriaBox->adjustSize();
+    expressionsFrame->adjustSize();
+    this->setMinimumSize(this->minimumWidth(), this->minimumHeight()+sizeChange);
     this->adjustSize();
 
 }
 
 void AdvancedSearchDialog::deleteExpression(ExpressionWidget* expr)
 {
+    int sizeChange = metrics->height() + 35;
+    
     expressions->removeAll(expr);
     expr->hide();
     expressionsLayout->removeWidget(expr);
     delete expr;
     
     expressionsLayout->invalidate();
-    searchCriteriaBox->setMinimumSize(searchCriteriaBox->minimumWidth(), 
-                                      searchCriteriaBox->minimumHeight() - 30);
+    //searchCriteriaBox->setMinimumSize(searchCriteriaBox->minimumWidth(), 
+      //                                searchCriteriaBox->minimumHeight() - sizeChange);
+    //searchCriteriaBox->adjustSize();
+    expressionsFrame->adjustSize();
+    this->setMinimumSize(this->minimumWidth(), this->minimumHeight()-sizeChange);
     this->adjustSize();
 }
 

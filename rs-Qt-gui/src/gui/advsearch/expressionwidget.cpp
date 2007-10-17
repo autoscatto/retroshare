@@ -82,12 +82,12 @@ QLayout * ExpressionWidget::createLayout(QWidget * parent)
     QHBoxLayout * hboxLayout;
     if (parent == 0) 
     {
-        QHBoxLayout * hboxLayout = new QHBoxLayout();
+        hboxLayout = new QHBoxLayout();
     } else {
-        QHBoxLayout * hboxLayout = new QHBoxLayout(parent);
+        hboxLayout = new QHBoxLayout(parent);
     }
-    //hboxLayout->setContentsMargins(0,0,0,0);
     hboxLayout->setSpacing(0);
+    hboxLayout->setMargin(0);
     return hboxLayout;
 }
 

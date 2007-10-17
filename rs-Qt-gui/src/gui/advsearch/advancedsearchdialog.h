@@ -21,6 +21,7 @@
 #ifndef _AdvancedSearch_h_
 #define _AdvancedSearch_h_
 
+#include <QFontMetrics>
 #include <QDialog>
 #include <QList>
 #include <QScrollArea>
@@ -50,6 +51,7 @@ private:
     QLayout * dialogLayout;
     QVBoxLayout * expressionsLayout;
     QList<ExpressionWidget*> * expressions;
+    QFontMetrics * metrics;
 };
 
 #endif // _AdvancedSearch_h_

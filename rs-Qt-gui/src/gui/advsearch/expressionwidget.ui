@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
-    <height>40</height>
+    <width>800</width>
+    <height>30</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -17,8 +17,8 @@
   </property>
   <property name="minimumSize" >
    <size>
-    <width>799</width>
-    <height>40</height>
+    <width>800</width>
+    <height>30</height>
    </size>
   </property>
   <property name="maximumSize" >
@@ -47,8 +47,8 @@
      </property>
      <property name="minimumSize" >
       <size>
-       <width>100</width>
-       <height>25</height>
+       <width>90</width>
+       <height>30</height>
       </size>
      </property>
      <property name="frameShape" >
@@ -70,7 +70,7 @@
      <property name="minimumSize" >
       <size>
        <width>100</width>
-       <height>25</height>
+       <height>30</height>
       </size>
      </property>
      <property name="frameShape" >
@@ -91,8 +91,8 @@
      </property>
      <property name="minimumSize" >
       <size>
-       <width>150</width>
-       <height>25</height>
+       <width>180</width>
+       <height>30</height>
       </size>
      </property>
      <property name="frameShape" >
@@ -106,15 +106,15 @@
    <item>
     <widget class="QFrame" name="exprParamFrame" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+      <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
        <horstretch>1</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
      <property name="minimumSize" >
       <size>
-       <width>400</width>
-       <height>25</height>
+       <width>350</width>
+       <height>30</height>
       </size>
      </property>
      <property name="frameShape" >
@@ -157,8 +157,8 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>16</width>
-       <height>37</height>
+       <width>0</width>
+       <height>30</height>
       </size>
      </property>
     </spacer>

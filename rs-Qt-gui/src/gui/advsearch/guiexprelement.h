@@ -125,7 +125,7 @@ protected:
         condition combobox */
     QStringList* getConditionOptions(ExprSearchType t);
     
-    QLayout* createLayout(QWidget* parent = 0);
+    QHBoxLayout* createLayout(QWidget* parent = 0);
     QFrame * internalframe;
 
     ExprSearchType searchType;

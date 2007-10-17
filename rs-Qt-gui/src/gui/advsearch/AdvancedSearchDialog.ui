@@ -5,19 +5,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>882</width>
-    <height>140</height>
+    <width>820</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="sizePolicy" >
-   <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+   <sizepolicy>
+    <hsizetype>0</hsizetype>
+    <vsizetype>0</vsizetype>
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
   <property name="minimumSize" >
    <size>
-    <width>800</width>
+    <width>820</width>
     <height>130</height>
    </size>
   </property>
@@ -34,22 +36,19 @@
    <iconset resource="../images.qrc" >:/images/advsearch_24x24.png</iconset>
   </property>
   <layout class="QVBoxLayout" >
+   <property name="margin" >
+    <number>9</number>
+   </property>
+   <property name="spacing" >
+    <number>6</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" >
+     <property name="margin" >
+      <number>0</number>
+     </property>
      <property name="spacing" >
       <number>6</number>
-     </property>
-     <property name="leftMargin" >
-      <number>5</number>
-     </property>
-     <property name="topMargin" >
-      <number>5</number>
-     </property>
-     <property name="rightMargin" >
-      <number>5</number>
-     </property>
-     <property name="bottomMargin" >
-      <number>5</number>
      </property>
      <item>
       <widget class="QPushButton" name="addExprButton" >
@@ -88,6 +87,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="resetButton" >
+       <property name="toolTip" >
+        <string>Reset the search criteria.</string>
+       </property>
        <property name="text" >
         <string> Reset</string>
        </property>
@@ -140,7 +142,9 @@
    <item>
     <widget class="QGroupBox" name="searchCriteriaBox" >
      <property name="sizePolicy" >
-      <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+      <sizepolicy>
+       <hsizetype>3</hsizetype>
+       <vsizetype>3</vsizetype>
        <horstretch>1</horstretch>
        <verstretch>1</verstretch>
       </sizepolicy>
@@ -148,8 +152,11 @@
      <property name="minimumSize" >
       <size>
        <width>800</width>
-       <height>70</height>
+       <height>60</height>
       </size>
+     </property>
+     <property name="autoFillBackground" >
+      <bool>true</bool>
      </property>
      <property name="title" >
       <string>Search Criteria</string>
@@ -157,11 +164,19 @@
      <property name="alignment" >
       <set>Qt::AlignJustify|Qt::AlignTop</set>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
+     <layout class="QVBoxLayout" >
+      <property name="margin" >
+       <number>9</number>
+      </property>
+      <property name="spacing" >
+       <number>0</number>
+      </property>
+      <item>
        <widget class="QFrame" name="expressionsFrame" >
         <property name="sizePolicy" >
-         <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+         <sizepolicy>
+          <hsizetype>3</hsizetype>
+          <vsizetype>3</vsizetype>
           <horstretch>1</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
@@ -171,6 +186,9 @@
           <width>600</width>
           <height>35</height>
          </size>
+        </property>
+        <property name="autoFillBackground" >
+         <bool>true</bool>
         </property>
         <property name="frameShape" >
          <enum>QFrame::NoFrame</enum>

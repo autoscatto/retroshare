@@ -20,10 +20,14 @@
 ****************************************************************/
 
 #include "guiexprelement.h"
-#define FIELDS_MIN_WIDTH    150
-#define FIELDS_MIN_HEIGHT    25
-#define SIZE_FIELDS_MIN_WIDTH  100
-#define STD_CB_WIDTH        100
+#define STR_FIELDS_MIN_WIDTH  200
+#define SIZE_FIELDS_MIN_WIDTH  80
+#define DATE_FIELDS_MIN_WIDTH  100
+#define FIELDS_MIN_HEIGHT    30
+
+#define LOGICAL_OP_CB_WIDTH 70
+#define STD_CB_WIDTH        90
+#define CONDITION_CB_WIDTH 170
 
 const QString GuiExprElement::AND     = QObject::tr("and");
 const QString GuiExprElement::OR      = QObject::tr("and / or");
@@ -211,7 +215,7 @@ QStringList* GuiExprElement::getConditionOptions(ExprSearchType t)
     return list;
 }
 
-QLayout * GuiExprElement::createLayout(QWidget * parent)
+QHBoxLayout * GuiExprElement::createLayout(QWidget * parent)
 {
     QHBoxLayout * hboxLayout;
     if (parent == 0) 
@@ -221,7 +225,7 @@ QLayout * GuiExprElement::createLayout(QWidget * parent)
         hboxLayout = new QHBoxLayout(parent);
     }
     hboxLayout->setMargin(0);
-    hboxLayout->setSpacing(3);
+    hboxLayout->setSpacing(0);
     return hboxLayout;
 }
 
@@ -240,7 +244,7 @@ ExprOpElement::ExprOpElement(QWidget * parent)
     internalframe = new QFrame(this);
     internalframe->setLayout(createLayout());
     cb = new QComboBox(this);
-    cb->setMinimumSize(STD_CB_WIDTH, FIELDS_MIN_HEIGHT);
+    cb->setMinimumSize(LOGICAL_OP_CB_WIDTH, FIELDS_MIN_HEIGHT);
     cb->addItems(*(GuiExprElement::exprOpsList));
     internalframe->layout()->addWidget(cb);
 }
@@ -286,7 +290,7 @@ ExprConditionElement::ExprConditionElement(ExprSearchType type, QWidget * parent
     internalframe = new QFrame(this);
     internalframe->setLayout(createLayout());
     cb = new QComboBox(this);
-    cb->setMinimumSize(STD_CB_WIDTH, FIELDS_MIN_HEIGHT);
+    cb->setMinimumSize(CONDITION_CB_WIDTH, FIELDS_MIN_HEIGHT);
     connect (cb, SIGNAL(currentIndexChanged(int)),
              this, SIGNAL(currentIndexChanged(int)));
     cb->addItems(*(getConditionOptions(type)));
@@ -330,8 +334,7 @@ ExprParamElement::ExprParamElement(ExprSearchType type, QWidget * parent)
                 : GuiExprElement(parent)
 {
     internalframe = new QFrame(this);
-    internalframe->setMinimumSize(400, 30);
-    internalframe->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+    internalframe->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
     internalframe->setLayout(createLayout());
     inRangedConfig = false;
     searchType = type;
@@ -360,14 +363,16 @@ QString ExprParamElement::toString()
         } else if (searchType == SizeSearch) 
         {
             QLineEdit * lineEditSize =  qFindChild<QLineEdit*>(internalframe, "param1");
-            str = lineEditSize->text();
+            str = ("" == lineEditSize->text()) ? "0"
+                                               : lineEditSize->text();
             QComboBox * cb = qFindChild<QComboBox*> (internalframe, "unitsCb1");
             str += QString(" ") + cb->itemText(cb->currentIndex());
             if (inRangedConfig)
             {
                 str += QString(" ") + tr("to") + QString(" ");
                 lineEditSize =  qFindChild<QLineEdit*>(internalframe, "param2");
-                str += lineEditSize->text();
+                str += ("" == lineEditSize->text()) ? "0"
+                                                    : lineEditSize->text();
                 cb = qFindChild<QComboBox*> (internalframe, "unitsCb2");
                 str += QString(" ") + cb->itemText(cb->currentIndex());
             }
@@ -397,44 +402,52 @@ void ExprParamElement::adjustForSearchType(ExprSearchType type)
     }
     delete lay_out;
 
-    internalframe->setLayout(createLayout());
+    QHBoxLayout* hbox = createLayout();
+    internalframe->setLayout(hbox);
+    internalframe->setMinimumSize(320,30);
 
     if (isStringSearchExpression())
     {
         // set up for default of a simple input field
         QLineEdit* lineEdit = new QLineEdit(internalframe);
-        lineEdit->setMinimumSize(FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+        lineEdit->setMinimumSize(STR_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+        lineEdit->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
         lineEdit->setObjectName("param1");
-        internalframe->layout()->addWidget(lineEdit);
-        (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
+        hbox->addWidget(lineEdit);
+        hbox->addSpacing(9);
         QCheckBox* icCb = new QCheckBox(tr("ignore case"), internalframe);
         icCb->setObjectName("ignoreCaseCB");
-        internalframe->layout()->addWidget(icCb);
+        hbox->addWidget(icCb);
+        hbox->addStretch();
     } else if (searchType == DateSearch) 
     {
         QDateEdit * dateEdit = new QDateEdit(QDate::currentDate(), internalframe);
-        dateEdit->setMinimumSize(FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+        dateEdit->setMinimumSize(DATE_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+        dateEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         dateEdit->setDisplayFormat(tr("dd.MM.yyyy"));
         dateEdit->setObjectName("param1");
         dateEdit->setMinimumDate(QDate(1970, 1, 1));
         dateEdit->setMaximumDate(QDate(2099, 12,31));
-        internalframe->layout()->addWidget(dateEdit);
+        hbox->addWidget(dateEdit, Qt::AlignLeft);
+        hbox->addStretch();
     } else if (searchType == SizeSearch) 
     {
         QLineEdit * lineEdit = new QLineEdit(internalframe);
         lineEdit->setMinimumSize(SIZE_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+        lineEdit->setMaximumSize(SIZE_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+        lineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
         lineEdit->setObjectName("param1");
         lineEdit->setValidator(numValidator);
-        internalframe->layout()->addWidget(lineEdit);
+        hbox->addWidget(lineEdit, Qt::AlignLeft);
 
         QComboBox * cb = new QComboBox(internalframe);
         cb->setObjectName("unitsCb1");
         cb-> addItem(tr("KB"), QVariant(1024));
         cb->addItem(tr("MB"), QVariant(1048576));
         cb->addItem(tr("GB"), QVariant(1073741824));
-        (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
+        hbox->addSpacing(9);
         internalframe->layout()->addWidget(cb);
-
+        hbox->addStretch();
     } 
 
     /* POP Search not implemented
@@ -445,7 +458,7 @@ void ExprParamElement::adjustForSearchType(ExprSearchType type)
         lineEdit->setValidator(numValidator);
         elem->layout()->addWidget(lineEdit);
     }*/
-    internalframe->layout()->invalidate();
+    hbox->invalidate();
     internalframe->adjustSize();
     internalframe->show();
     this->adjustSize();
@@ -456,42 +469,53 @@ void ExprParamElement::setRangedSearch(bool ranged)
     
     if (inRangedConfig == ranged) return; // nothing to do here
     inRangedConfig = ranged;
-    
+    QHBoxLayout* hbox = (dynamic_cast<QHBoxLayout*>(internalframe->layout()));
+
     // add additional or remove extra input fields depending on whether
     // ranged search or not
     if (inRangedConfig)
     {
+        QLabel * toLbl = new QLabel(tr("to"));
+        toLbl->setMinimumSize(10, FIELDS_MIN_HEIGHT);
+        toLbl->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
         if (searchType ==  DateSearch) {
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addWidget(new QLabel(tr("to")), Qt::AlignCenter);
-            //internalframe->layout()->addWidget(new QLabel(tr("to")));
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
+           internalframe->setMinimumSize(250,30);            
             QDateEdit * dateEdit = new QDateEdit(QDate::currentDate(), internalframe);
-            dateEdit->setMinimumSize(FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+            dateEdit->setMinimumSize(DATE_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+            dateEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             dateEdit->setObjectName("param2");
             dateEdit->setDisplayFormat(tr("dd.MM.yyyy"));
             dateEdit->setMinimumDate(QDate(1970, 1, 1));
             dateEdit->setMaximumDate(QDate(2099, 12,31));
-            internalframe->layout()->addWidget(dateEdit);
+            
+            hbox->addSpacing(9);
+            hbox->addWidget(toLbl, Qt::AlignLeft);
+            hbox->addSpacing(9);
+            hbox->addWidget(dateEdit, Qt::AlignLeft);
+            hbox->addStretch();
         } else if (searchType == SizeSearch) {
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addWidget(new QLabel(tr("to")), Qt::AlignCenter);
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
-
+            internalframe->setMinimumSize(340,30);
             QLineEdit * lineEdit = new QLineEdit(internalframe);
             lineEdit->setMinimumSize(SIZE_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+            lineEdit->setMaximumSize(SIZE_FIELDS_MIN_WIDTH, FIELDS_MIN_HEIGHT);
+            lineEdit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
             lineEdit->setObjectName("param2");
             lineEdit->setValidator(numValidator);
-            internalframe->layout()->addWidget(lineEdit);
-    
+            
             QComboBox * cb = new QComboBox(internalframe);
             cb->setObjectName("unitsCb2");
             cb-> addItem(tr("KB"), QVariant(1024));
             cb->addItem(tr("MB"), QVariant(1048576));
             cb->addItem(tr("GB"), QVariant(1073741824));
-            (dynamic_cast<QHBoxLayout*>(internalframe->layout()))->addSpacing(9);
-            internalframe->layout()->addWidget(cb);
-    
+            
+            hbox->addSpacing(9);
+            hbox->addWidget(toLbl, Qt::AlignLeft);
+            hbox->addSpacing(9);
+            hbox->addWidget(lineEdit, Qt::AlignLeft);
+            hbox->addSpacing(9);
+            hbox->addWidget(cb);
+            hbox->addStretch();
         } 
 //         else if (searchType == PopSearch)
 //         {
@@ -501,7 +525,7 @@ void ExprParamElement::setRangedSearch(bool ranged)
 //             lineEdit->setValidator(numValidator);
 //             elem->layout()->addWidget(slineEdit);
 //         }
-        internalframe->layout()->invalidate();
+        hbox->invalidate();
         internalframe->adjustSize();
         internalframe->show();
         this->adjustSize();
