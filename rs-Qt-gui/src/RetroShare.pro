@@ -261,10 +261,11 @@ TRANSLATIONS +=  \
             lang/retroshare_ru.ts  \
             lang/retroshare_tr.ts \
             lang/retroshare_dk.ts \
-            lang/retroshare_sl.ts 
+            lang/retroshare_sl.ts \
+            lang/retroshare_sr.ts \
+            lang/retroshare_se.ts
 
-#LIBS += -L gui/lib/ -lskin
-#win32:LIBS += -lgdi32
+
 
 !macx {
     # On non-Mac, make the binary all lowercase
