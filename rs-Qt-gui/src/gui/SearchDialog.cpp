@@ -41,6 +41,19 @@
 
 /* Key for UI Preferences */
 #define UI_PREF_ADVANCED_SEARCH  "UIOptions/AdvancedSearch"
+
+/* indicies for search results item columns SR_ = Search Result */
+#define SR_NAME_COL         0
+#define SR_HASH_COL         1
+#define SR_ID_COL           2
+#define SR_SEARCH_ID_COL    3
+#define SR_SIZE_COL         4
+
+/* indicies for search summary item columns SS_ = Search Summary */
+#define SS_TEXT_COL         0
+#define SS_COUNT_COL        1
+#define SS_SEARCH_ID_COL    2
+
  
 /** Constructor */
 SearchDialog::SearchDialog(QWidget *parent)
@@ -105,45 +118,64 @@ SearchDialog::SearchDialog(QWidget *parent)
 
 void SearchDialog::searchtableWidgetCostumPopupMenu( QPoint point )
 {
+      // block the popup if no results available
+      if ((ui.searchResultWidget->selectedItems()).size() == 0) return; 
 
-      QMenu contextMnu( this );
-      QMouseEvent *mevent = new QMouseEvent( QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier );
+      // create the menu as required
+      if (contextMnu == 0)
+      {
+        contextMnu = new QMenu(this);
+        
+        downloadAct = new QAction(QIcon(IMAGE_START), tr( "Download" ), this );
+        connect( downloadAct , SIGNAL( triggered() ), this, SLOT( download() ) );
+        
+        broadcastonchannelAct = new QAction( tr( "Broadcast on Channel" ), this );
+        connect( broadcastonchannelAct , SIGNAL( triggered() ), this, SLOT( broadcastonchannel() ) );
+        
+        recommendtofriendsAct = new QAction( tr( "Recommend to Friends" ), this );
+        connect( recommendtofriendsAct , SIGNAL( triggered() ), this, SLOT( recommendtofriends() ) );
+    
+    
+        contextMnu->clear();
+        contextMnu->addAction( downloadAct);
+        contextMnu->addAction( broadcastonchannelAct);
+        contextMnu->addAction( recommendtofriendsAct);
+      }
 
-      downloadAct = new QAction(QIcon(IMAGE_START), tr( "Download" ), this );
-      connect( downloadAct , SIGNAL( triggered() ), this, SLOT( download() ) );
-      
-      broadcastonchannelAct = new QAction( tr( "Broadcast on Channel" ), this );
-      connect( broadcastonchannelAct , SIGNAL( triggered() ), this, SLOT( broadcastonchannel() ) );
-      
-      recommendtofriendsAct = new QAction( tr( "Recommend to Friends" ), this );
-      connect( recommendtofriendsAct , SIGNAL( triggered() ), this, SLOT( recommendtofriends() ) );
-
-
-      contextMnu.clear();
-      contextMnu.addAction( downloadAct);
-      contextMnu.addAction( broadcastonchannelAct);
-      contextMnu.addAction( recommendtofriendsAct);
-      contextMnu.exec( mevent->globalPos() );
+      QMouseEvent *mevent = new QMouseEvent( QEvent::MouseButtonPress, point, 
+                                             Qt::RightButton, Qt::RightButton, Qt::NoModifier );
+      contextMnu->exec( mevent->globalPos() );
 }
 
 
 void SearchDialog::download()
 {
-
-
+    /* should also be able to handle multi-selection */
+    QList<QTreeWidgetItem*> itemsForDownload = ui.searchResultWidget->selectedItems();
+    int numdls = itemsForDownload.size();
+    QTreeWidgetItem * item;
+    
+    for (int i = 0; i < numdls; ++i) {
+        item = itemsForDownload.at(i);
+        // call the download
+        rsicontrol -> FileRequest((item->text(SR_NAME_COL)).toStdString(), 
+                                  (item->text(SR_HASH_COL)).toStdString(), 
+                                  (item->text(SR_SIZE_COL)).toInt(), 
+                                  "");
+    }
 }
 
 
 void SearchDialog::broadcastonchannel()
 {
 
-
+    QMessageBox::warning(0, tr("Sorry"), tr("This function is not yet implemented."));
 }
 
 
 void SearchDialog::recommendtofriends()
 {
-   
+   QMessageBox::warning(0, tr("Sorry"), tr("This function is not yet implemented."));
    
 }
 
@@ -151,35 +183,40 @@ void SearchDialog::recommendtofriends()
 /** context menu searchTablewidget2 **/
 void SearchDialog::searchtableWidget2CostumPopupMenu( QPoint point )
 {
-
-      QMenu contextMnu2( this );
-      QMouseEvent *mevent2 = new QMouseEvent( QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier );
-
-      searchremoveAct = new QAction( tr( "Remove" ), this );
-      connect( searchremoveAct , SIGNAL( triggered() ), this, SLOT( searchremove() ) );
-      
-      searchremoveallAct = new QAction( tr( "Remove All" ), this );
-      connect( searchremoveallAct , SIGNAL( triggered() ), this, SLOT( searchremoveall() ) );
-      
-
-      contextMnu2.clear();
-      contextMnu2.addAction( searchremoveAct);
-      contextMnu2.addAction( searchremoveallAct);
-      contextMnu2.exec( mevent2->globalPos() );
+    
+    // block the popup if no results available
+    if ((ui.searchSummaryWidget->selectedItems()).size() == 0) return; 
+    
+    // create the menu as required
+    if (contextMnu2 == 0)
+    {
+        contextMnu2 = new QMenu( this );
+        
+        searchRemoveAct = new QAction( tr( "Remove" ), this );
+        connect( searchRemoveAct , SIGNAL( triggered() ), this, SLOT( searchRemove() ) );
+        
+        searchRemoveAllAct = new QAction( tr( "Remove All" ), this );
+        connect( searchRemoveAllAct , SIGNAL( triggered() ), this, SLOT( searchRemoveall() ) );
+        
+        contextMnu2->clear();
+        contextMnu2->addAction( searchRemoveAct);
+        contextMnu2->addAction( searchRemoveAllAct);
+    }  
+    
+    QMouseEvent *mevent2 = new QMouseEvent( QEvent::MouseButtonPress, point, Qt::RightButton, Qt::RightButton, Qt::NoModifier );
+    contextMnu2->exec( mevent2->globalPos() );
 }
 
 /** remove selected search result **/
-void SearchDialog::searchremove()
+void SearchDialog::searchRemove()
 {
-
-
+    
 }
 
 /** remove all search results **/
-void SearchDialog::searchremoveall()
+void SearchDialog::searchRemoveAll()
 {
-   
-   
+    
 }
 
 /* *****************************************************************
@@ -287,25 +324,28 @@ void SearchDialog::resultsToTree(std::string txt, std::list<FileDetail> results)
 	for(it = results.begin(); it != results.end(); it++)
 	{
 		QTreeWidgetItem *item = new QTreeWidgetItem();
-		item->setText(0, QString::fromStdString(it->name));
-		item->setText(1, QString::fromStdString(it->hash));
-		item->setText(2, QString::fromStdString(it->id));
-		item->setText(3, QString::fromStdString(out.str()));
+		item->setText(SR_NAME_COL, QString::fromStdString(it->name));
+		item->setText(SR_HASH_COL, QString::fromStdString(it->hash));
+		item->setText(SR_ID_COL, QString::fromStdString(it->id));
+		item->setText(SR_SEARCH_ID_COL, QString::fromStdString(out.str()));
 		/*
-		 *
+		 * to facilitate downlaods we need to save the file size too
 		 */
+                QVariant * variant = new QVariant(it->size);
+                item->setText(SR_SIZE_COL, QString(variant->toString()));
+
 		ui.searchResultWidget->addTopLevelItem(item);
 	}
 
 	/* add to the summary as well */
 
 	QTreeWidgetItem *item = new QTreeWidgetItem();
-	item->setText(0, QString::fromStdString(txt));
+	item->setText(SS_TEXT_COL, QString::fromStdString(txt));
 	std::ostringstream out2;
 	out2 << results.size();
 
-	item->setText(1, QString::fromStdString(out2.str()));
-	item->setText(2, QString::fromStdString(out.str()));
+	item->setText(SS_COUNT_COL, QString::fromStdString(out2.str()));
+	item->setText(SS_SEARCH_ID_COL, QString::fromStdString(out.str()));
 
 	ui.searchSummaryWidget->addTopLevelItem(item);
 	ui.searchSummaryWidget->setCurrentItem(item);
@@ -324,7 +364,7 @@ void SearchDialog::selectSearchResults()
 	QTreeWidgetItem *ci = ui.searchSummaryWidget->currentItem();
 
 	/* get the searchId text */
-	QString searchId = ci->text(2);
+	QString searchId = ci->text(SS_SEARCH_ID_COL);
 
 	std::cerr << "SearchDialog::selectSearchResults(): searchId: " << searchId.toStdString();
 	std::cerr << std::endl;
@@ -335,7 +375,7 @@ void SearchDialog::selectSearchResults()
 	{
 		/* get item */
 		QTreeWidgetItem *ti = ui.searchResultWidget->topLevelItem(i);
-		if (ti->text(3) == searchId)
+		if (ti->text(SR_SEARCH_ID_COL) == searchId)
 		{
 			ti->setHidden(false);
 		}

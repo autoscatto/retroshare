@@ -24,6 +24,9 @@
 
 #include <QFileDialog>
 
+#include <QMessageBox>
+#include <QModelIndex>
+
 //#include <config/rsharesettings.h>
 
 #include "mainpage.h"
@@ -59,9 +62,9 @@ private slots:
     
     
     
-    void searchremove();
+    void searchRemove();
     
-    void searchremoveall();
+    void searchRemoveAll();
     
     void searchKeywords();
 
@@ -94,8 +97,8 @@ private:
     QAction* broadcastonchannelAct;
     QAction* recommendtofriendsAct;
     
-    QAction* searchremoveAct;
-    QAction* searchremoveallAct;
+    QAction* searchRemoveAct;
+    QAction* searchRemoveAllAct;
     
 /****
 QTreeWidget *searchtableWidget;
