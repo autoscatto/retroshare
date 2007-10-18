@@ -151,15 +151,16 @@
         <file>images/toaster/toaster-backrs3.png</file>
         <file>images/toaster/toaster-backrs4.png</file>
         <file>images/up.png</file>
+        <file>images/download.png</file>
         <file>images/webcache_24x24.png</file>
-	<file>images/FileTypeArchive.png</file>
-	<file>images/FileTypeAudio.png</file>
-	<file>images/FileTypeCDImage.png</file>
-	<file>images/FileTypeDocument.png</file>
-	<file>images/FileTypePicture.png</file>
-	<file>images/FileTypeProgram.png</file>
-	<file>images/FileTypeVideo.png</file>
-	<file>images/FileTypeAny.png</file>
+	  <file>images/FileTypeArchive.png</file>
+	  <file>images/FileTypeAudio.png</file>
+	  <file>images/FileTypeCDImage.png</file>
+	  <file>images/FileTypeDocument.png</file>
+	  <file>images/FileTypePicture.png</file>
+	  <file>images/FileTypeProgram.png</file>
+	  <file>images/FileTypeVideo.png</file>
+	  <file>images/FileTypeAny.png</file>
         <file>layouts/default.ui</file>
         <file>qss/default.qss</file>
     </qresource>

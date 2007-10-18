@@ -37,7 +37,9 @@
 #include <QHeaderView>
 
 /* Images for context menu icons */
-#define IMAGE_START       ":/images/start.png"
+#define IMAGE_START  		    ":/images/download.png"
+#define IMAGE_REMOVE  		    ":/images/delete.png"
+#define IMAGE_REMOVEALL   		":/images/deleteall.png"
 
 /* Key for UI Preferences */
 #define UI_PREF_ADVANCED_SEARCH  "UIOptions/AdvancedSearch"
@@ -138,6 +140,7 @@ void SearchDialog::searchtableWidgetCostumPopupMenu( QPoint point )
     
         contextMnu->clear();
         contextMnu->addAction( downloadAct);
+        contextMnu->addSeparator();
         contextMnu->addAction( broadcastonchannelAct);
         contextMnu->addAction( recommendtofriendsAct);
       }
@@ -192,10 +195,10 @@ void SearchDialog::searchtableWidget2CostumPopupMenu( QPoint point )
     {
         contextMnu2 = new QMenu( this );
         
-        searchRemoveAct = new QAction( tr( "Remove" ), this );
+        searchRemoveAct = new QAction(QIcon(IMAGE_REMOVE), tr( "Remove" ), this );
         connect( searchRemoveAct , SIGNAL( triggered() ), this, SLOT( searchRemove() ) );
         
-        searchRemoveAllAct = new QAction( tr( "Remove All" ), this );
+        searchRemoveAllAct = new QAction(QIcon(IMAGE_REMOVEALL), tr( "Remove All" ), this );
         connect( searchRemoveAllAct , SIGNAL( triggered() ), this, SLOT( searchRemoveall() ) );
         
         contextMnu2->clear();
