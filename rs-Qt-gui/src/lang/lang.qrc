@@ -19,6 +19,7 @@
     <file alias="sl">retroshare_sl.qm</file>
     <file alias="da">retroshare_dk.qm</file>
     <file alias="bg">retroshare_bg.qm</file>
+    <file alias="sr">retroshare_sr.qm</file>
   </qresource>
 </RCC>
 
