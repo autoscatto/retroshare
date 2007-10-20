@@ -73,13 +73,13 @@ MessengerWindow::MessengerWindow(QWidget * parent)
    ui.messengertreeWidget->header()->hide(); 
  
     /* Set header resize modes and initial section sizes */
-	ui.messengertreeWidget->setColumnCount(4);
+	ui.messengertreeWidget->setColumnCount(1);
 
 	QHeaderView * _header = ui.messengertreeWidget->header () ;   
 	_header->setResizeMode (0, QHeaderView::Interactive);
-	_header->setResizeMode (1, QHeaderView::Interactive);
-	_header->setResizeMode (2, QHeaderView::Interactive);
-	_header->setResizeMode (3, QHeaderView::Interactive);
+	//_header->setResizeMode (1, QHeaderView::Interactive);
+	//_header->setResizeMode (2, QHeaderView::Interactive);
+	//_header->setResizeMode (3, QHeaderView::Interactive);
 
 	_header->resizeSection ( 0, 200 );   
  
@@ -160,7 +160,7 @@ void  MessengerWindow::insertPeers()
 
         /* remove old items ??? */
 	peerWidget->clear();
-	peerWidget->setColumnCount(4);
+	peerWidget->setColumnCount(1);
 
 
 	/* have two lists: online / offline */
@@ -177,11 +177,11 @@ void  MessengerWindow::insertPeers()
 		/* (0) Person */
 		item -> setText(0, QString::fromStdString(it->second.name));
 		/* (1) Org */
-		item -> setText(1, QString::fromStdString(it->second.org));
+		//item -> setText(1, QString::fromStdString(it->second.org));
 		/* (2) Location */
-		item -> setText(2, QString::fromStdString(it->second.loc));
+		//item -> setText(2, QString::fromStdString(it->second.loc));
 		/* (3) Country */
-		item -> setText(3, QString::fromStdString(it->second.country));
+		//item -> setText(3, QString::fromStdString(it->second.country));
 		
 
 		/* Hidden ones: */

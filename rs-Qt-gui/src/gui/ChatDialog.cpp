@@ -227,7 +227,7 @@ void  ChatDialog::insertSendList()
 
         /* remove old items ??? */
 	sendWidget->clear();
-	sendWidget->setColumnCount(6);
+	sendWidget->setColumnCount(1);
 
         QList<QTreeWidgetItem *> items;
 	for(it = friends.begin(); it != friends.end(); it++)
@@ -251,18 +251,18 @@ void  ChatDialog::insertSendList()
 		/* (0) Person */
 		item -> setText(0, QString::fromStdString(it->second.name));
 		/* () Org */
-		item -> setText(1, QString::fromStdString(it->second.org));
+		//item -> setText(1, QString::fromStdString(it->second.org));
 		/* () Location */
-		item -> setText(2, QString::fromStdString(it->second.loc));
+		//item -> setText(2, QString::fromStdString(it->second.loc));
 		/* () Country */
-		item -> setText(3, QString::fromStdString(it->second.country));
-		{
+		//item -> setText(3, QString::fromStdString(it->second.country));
+		/*{
 			std::ostringstream out;
 			out << it->second.id;
 			item -> setText(4, QString::fromStdString(out.str()));
-		}
+		}*/
 
-		item -> setText(5, "Friend");
+		//item -> setText(5, "Friend");
 
 		//item -> setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEnabled);
 		item -> setFlags(Qt::ItemIsUserCheckable);
