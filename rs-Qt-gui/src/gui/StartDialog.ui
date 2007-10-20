@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>253</width>
-    <height>379</height>
+    <width>235</width>
+    <height>389</height>
    </rect>
   </property>
   <property name="palette" >
@@ -444,12 +444,12 @@
   <widget class="QWidget" name="centralwidget" >
    <layout class="QGridLayout" >
     <property name="margin" >
-     <number>9</number>
+     <number>0</number>
     </property>
     <property name="spacing" >
-     <number>6</number>
+     <number>0</number>
     </property>
-    <item row="4" column="0" >
+    <item row="5" column="0" >
      <spacer>
       <property name="orientation" >
        <enum>Qt::Vertical</enum>
@@ -462,10 +462,79 @@
       </property>
      </spacer>
     </item>
-    <item row="3" column="0" >
+    <item row="1" column="0" >
      <layout class="QGridLayout" >
       <property name="margin" >
+       <number>6</number>
+      </property>
+      <property name="spacing" >
        <number>0</number>
+      </property>
+      <item row="2" column="0" >
+       <widget class="QLabel" name="label_4" >
+        <property name="text" >
+         <string>Password:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" >
+       <widget class="QLabel" name="label_3" >
+        <property name="text" >
+         <string>Name:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" >
+       <widget class="QLineEdit" name="loadName" >
+        <property name="minimumSize" >
+         <size>
+          <width>20</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="readOnly" >
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" >
+       <widget class="QLineEdit" name="loadPasswd" >
+        <property name="minimumSize" >
+         <size>
+          <width>20</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="echoMode" >
+         <enum>QLineEdit::Password</enum>
+        </property>
+        <property name="readOnly" >
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item row="6" column="0" >
+     <widget class="QFrame" name="callBarFrame" >
+      <property name="minimumSize" >
+       <size>
+        <width>16</width>
+        <height>65</height>
+       </size>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::NoFrame</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0" >
+     <layout class="QGridLayout" >
+      <property name="margin" >
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
@@ -505,7 +574,7 @@
       </item>
      </layout>
     </item>
-    <item row="1" column="0" >
+    <item row="3" column="0" >
      <layout class="QGridLayout" >
       <property name="margin" >
        <number>0</number>
@@ -513,56 +582,36 @@
       <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="1" column="0" >
-       <widget class="QLineEdit" name="loadName" >
-        <property name="minimumSize" >
+      <item row="0" column="2" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
          <size>
-          <width>200</width>
-          <height>0</height>
+          <width>71</width>
+          <height>20</height>
          </size>
         </property>
-        <property name="readOnly" >
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0" >
-       <widget class="QLineEdit" name="loadPasswd" >
-        <property name="minimumSize" >
-         <size>
-          <width>200</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="echoMode" >
-         <enum>QLineEdit::Password</enum>
-        </property>
-        <property name="readOnly" >
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0" >
-       <widget class="QCheckBox" name="autoBox" >
-        <property name="text" >
-         <string>Auto-login</string>
-        </property>
-        <property name="checked" >
-         <bool>true</bool>
-        </property>
-       </widget>
+       </spacer>
       </item>
       <item row="0" column="0" >
-       <widget class="QLabel" name="label_3" >
-        <property name="text" >
-         <string>Name:</string>
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
+        <property name="sizeHint" >
+         <size>
+          <width>61</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_4" >
+      <item row="0" column="1" >
+       <widget class="QPushButton" name="loadButton" >
         <property name="text" >
-         <string>Password:</string>
+         <string>Log In</string>
         </property>
        </widget>
       </item>
@@ -633,61 +682,35 @@ border-image: url(:/images/avatar_background.png);
     <item row="2" column="0" >
      <layout class="QGridLayout" >
       <property name="margin" >
-       <number>0</number>
-      </property>
-      <property name="spacing" >
        <number>6</number>
       </property>
-      <item row="0" column="2" >
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>71</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
+      <property name="spacing" >
+       <number>0</number>
+      </property>
       <item row="0" column="0" >
-       <spacer>
-        <property name="orientation" >
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" >
-         <size>
-          <width>61</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="0" column="1" >
-       <widget class="QPushButton" name="loadButton" >
+       <widget class="QCheckBox" name="autoBox" >
         <property name="text" >
-         <string>Log In</string>
+         <string>Auto-login</string>
+        </property>
+        <property name="checked" >
+         <bool>true</bool>
         </property>
        </widget>
       </item>
+      <item row="0" column="1" >
+       <spacer>
+        <property name="orientation" >
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" >
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
-    </item>
-    <item row="5" column="0" >
-     <widget class="QFrame" name="callBarFrame" >
-      <property name="minimumSize" >
-       <size>
-        <width>16</width>
-        <height>65</height>
-       </size>
-      </property>
-      <property name="frameShape" >
-       <enum>QFrame::NoFrame</enum>
-      </property>
-      <property name="frameShadow" >
-       <enum>QFrame::Raised</enum>
-      </property>
-     </widget>
     </item>
    </layout>
   </widget>

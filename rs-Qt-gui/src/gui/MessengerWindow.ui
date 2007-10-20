@@ -431,7 +431,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowIcon" >
-   <iconset resource="images.qrc" >:/images/RetroShare16.png</iconset>
+   <iconset resource="images.qrc" >:/images/rstray3.png</iconset>
   </property>
   <property name="styleSheet" >
    <string> QWidget#MessengerWindow {
@@ -487,6 +487,9 @@ p, li { white-space: pre-wrap; }
        </property>
        <item row="0" column="0" >
         <widget class="QComboBox" name="statuscomboBox" >
+         <property name="enabled" >
+          <bool>false</bool>
+         </property>
          <property name="toolTip" >
           <string>&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }

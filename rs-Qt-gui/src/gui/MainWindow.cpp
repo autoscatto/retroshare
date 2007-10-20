@@ -53,7 +53,7 @@
 #define IMAGE_CHANNELS       	":/images/konsole.png"
 #define IMAGE_PREFERENCES       ":/images/settings16.png"
 #define IMAGE_CHAT          	":/images/chats_24x24.png"
-#define IMAGE_RETROSHARE        ":/images/RetroShare16.png"
+#define IMAGE_RETROSHARE        ":/images/rstray3.png"
 #define IMAGE_ABOUT             ":/images/informations_24x24.png"
 #define IMAGE_STATISTIC         ":/images/utilities-system-monitor.png"
 #define IMAGE_MESSAGES          ":/images/evolution.png"
@@ -92,7 +92,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     showToolboxFrame(true);
 	
     // Setting icons
-    this->setWindowIcon(QIcon(QString::fromUtf8(":/images/RetroShare16.png")));
+    this->setWindowIcon(QIcon(QString::fromUtf8(":/images/rstray3.png")));
 	
     /* Create all the dialogs of which we only want one instance */
     _bandwidthGraph = new BandwidthGraph();
