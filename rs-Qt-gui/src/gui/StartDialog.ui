@@ -434,7 +434,7 @@
    <string>RetroShare</string>
   </property>
   <property name="windowIcon" >
-   <iconset resource="images.qrc" >:/images/RetroShare16.png</iconset>
+   <iconset resource="images.qrc" >:/images/rstray3.png</iconset>
   </property>
   <property name="styleSheet" >
    <string>QWidget {
