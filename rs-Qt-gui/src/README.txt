@@ -9,7 +9,7 @@ Libraries/Tools:
 	OpenSSL-0.9.7g-xpgp
 	KadC Dht library
 	Qt-4.2 development libraries.
-      qskinobject library
+      qskinobject library (Required when compile with QT 4.3.x)
 
 RetroShare Source Code: ( from sf.net/projects/retroshare)
 	Qt-GUI-XXX.tgz
@@ -87,18 +87,37 @@ here's how to compiled retroshare on ubuntu linux:
 Hope this helps.
 
 ---------------------------------------------
-Compiling the skinobject
+Compiling the skinobject (only Required when compile with QT 4.3.x)
 
-1. download skinobject from https://sourceforge.net/projects/qskinwindows/
+1. Download skinobject from https://sourceforge.net/projects/qskinwindows/
 
 http://downloads.sourceforge.net/qskinwindows/qskinobject-0.6.1.tar.bz2?
 
 2. untar the qskinobject-0.6.1.tar.bz2
 
-run qmake then make.
+3. run: 
+qmake
+make
 
-then add to LIBS= -lskin to the RetroShare.pro makefile
+4.Copy the libskin.a to your retroshare libs directory.
 
+5.then add to LIBS= -lskin to the RetroShare.pro file:
+
+example(linux):
+
+TARGET = RetroShare 
+RSLIBS = -L/path/to/your/retroshare/libs/directory/ -lretroshare -lKadC -lKadC -lminiupnpc -lskin -lssl -lcrypto 
+LIBS = $(RSLIBS) 
+
+example (Windows):
+
+win32 
+{
+    RC_FILE = gui/images/retroshare_win.rc
+
+    "LIBS += -L"../../winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lgdi32
+    CONFIG += qt release"
+}
 
 ---------------------------------------------
 Compiling the Qt GUI
@@ -154,7 +173,7 @@ UNDER Cygwin:
 	(5) Compile retroshare-v0.3.0
 
 UNDER Mingw:
-      (6) Compile qskinobject
+      (6) Compile qskinobject (only under QT 4.3.x)
 	(7) Compile the Qt-Gui.
 
 
