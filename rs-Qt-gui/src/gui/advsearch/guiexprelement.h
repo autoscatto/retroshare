@@ -45,6 +45,7 @@ enum ExprSearchType
     NameSearch,
     PathSearch,
     ExtSearch,
+    HashSearch,
     DateSearch,
     SizeSearch,
     PopSearch
@@ -70,6 +71,7 @@ public:
     static const QString NAME   ;
     static const QString PATH   ;
     static const QString EXT    ;
+    static const QString HASH   ;
     static const QString KEYWORDS;
     static const QString COMMENTS;
     static const QString META   ;
@@ -95,6 +97,7 @@ public:
     static const int NAME_INDEX;
     static const int PATH_INDEX;
     static const int EXT_INDEX;
+    static const int HASH_INDEX;
     static const int KEYWORDS_INDEX;
     static const int COMMENTS_INDEX;
     static const int META_INDEX;

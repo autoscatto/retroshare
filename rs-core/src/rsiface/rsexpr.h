@@ -183,6 +183,13 @@ public:
 	bool eval(FileEntry *file);
 };
 
+class HashExpression: public StringExpression {
+public:
+	HashExpression(enum StringOperator op, std::list<std::string> &t): 
+					StringExpression(op,t, true) {}
+	bool eval(FileEntry *file);
+};
+
 /******************************************************************************************
 Some implementations of Relational Expressions.
 

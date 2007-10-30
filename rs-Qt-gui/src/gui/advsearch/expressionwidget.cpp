@@ -93,7 +93,8 @@ QLayout * ExpressionWidget::createLayout(QWidget * parent)
 
 bool ExpressionWidget::isStringSearchExpression()
 {
-    return (searchType == NameSearch || searchType == PathSearch || searchType == ExtSearch);
+    return (searchType == NameSearch || searchType == PathSearch 
+		|| searchType == ExtSearch || searchType == HashSearch);
 }
 
 void ExpressionWidget::adjustExprForTermType(int index)
@@ -176,6 +177,10 @@ Expression* ExpressionWidget::getRsExpression()
             expr = new ExtExpression(exprCondElem->getStringOperator(), 
                                       wordList, 
                                       exprParamElem->ignoreCase());
+            break;
+        case HashSearch:
+            expr = new HashExpression(exprCondElem->getStringOperator(), 
+                                      wordList);
             break;
         case DateSearch:
             if (inRangedConfig) {    

@@ -83,6 +83,10 @@ bool ExtExpression::eval(FileEntry *file){
 	return false;
 }
 
+bool HashExpression::eval(FileEntry *file){
+	return evalStr(file->hash);
+}
+
 /*Binary predicate for case insensitive character comparison.*/
 /*TODOS:
  *Factor locales in the comparison

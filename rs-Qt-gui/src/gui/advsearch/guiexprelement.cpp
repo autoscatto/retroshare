@@ -36,6 +36,7 @@ const QString GuiExprElement::XOR     = QObject::tr("or"); // exclusive or
 const QString GuiExprElement::NAME    = QObject::tr("Name");
 const QString GuiExprElement::PATH    = QObject::tr("Path");
 const QString GuiExprElement::EXT     = QObject::tr("Extension");
+const QString GuiExprElement::HASH     = QObject::tr("Hash");
 //const QString GuiExprElement::KEYWORDS= QObject::tr("Keywords");
 //const QString GuiExprElement::COMMENTS= QObject::tr("Comments");
 //const QString GuiExprElement::META    = QObject::tr("Meta");
@@ -62,12 +63,13 @@ const int GuiExprElement::XOR_INDEX         = 2;
 const int GuiExprElement::NAME_INDEX        = 0;
 const int GuiExprElement::PATH_INDEX        = 1;
 const int GuiExprElement::EXT_INDEX         = 2;
-/*const int GuiExprElement::KEYWORDS_INDEX    = 3;
-const int GuiExprElement::COMMENTS_INDEX    = 4;
-const int GuiExprElement::META_INDEX        = 5;*/
-const int GuiExprElement::DATE_INDEX        = 3;
-const int GuiExprElement::SIZE_INDEX        = 4;
-const int GuiExprElement::POP_INDEX         = 5;
+const int GuiExprElement::HASH_INDEX         = 3;
+/*const int GuiExprElement::KEYWORDS_INDEX    = ???;
+const int GuiExprElement::COMMENTS_INDEX    = ???;
+const int GuiExprElement::META_INDEX        = ???;*/
+const int GuiExprElement::DATE_INDEX        = 4;
+const int GuiExprElement::SIZE_INDEX        = 5;
+const int GuiExprElement::POP_INDEX         = 6;
 
 const int GuiExprElement::CONTAINS_INDEX    = 0;
 const int GuiExprElement::CONTALL_INDEX     = 1;
@@ -120,6 +122,7 @@ void GuiExprElement::initialiseOptionsLists()
     GuiExprElement::searchTermsOptionsList->append(NAME); 
     GuiExprElement::searchTermsOptionsList->append(PATH); 
     GuiExprElement::searchTermsOptionsList->append(EXT); 
+    GuiExprElement::searchTermsOptionsList->append(HASH); 
     //GuiExprElement::searchTermsOptionsList->append(KEYWORDS); 
     //GuiExprElement::searchTermsOptionsList->append(COMMENTS); 
     //GuiExprElement::searchTermsOptionsList->append(META); 
@@ -146,6 +149,7 @@ void GuiExprElement::initialiseOptionsLists()
     (*GuiExprElement::TermsIndexMap)[GuiExprElement::NAME_INDEX] = NameSearch;
     (*GuiExprElement::TermsIndexMap)[GuiExprElement::PATH_INDEX] = PathSearch;
     (*GuiExprElement::TermsIndexMap)[GuiExprElement::EXT_INDEX] = ExtSearch;
+    (*GuiExprElement::TermsIndexMap)[GuiExprElement::HASH_INDEX] = HashSearch;
     (*GuiExprElement::TermsIndexMap)[GuiExprElement::DATE_INDEX] = DateSearch;
     (*GuiExprElement::TermsIndexMap)[GuiExprElement::SIZE_INDEX] = SizeSearch;
     (*GuiExprElement::TermsIndexMap)[GuiExprElement::POP_INDEX] = PopSearch;
@@ -174,6 +178,7 @@ void GuiExprElement::initialiseOptionsLists()
     (*GuiExprElement::termsStrMap)[GuiExprElement::NAME_INDEX] = GuiExprElement::NAME;
     (*GuiExprElement::termsStrMap)[GuiExprElement::PATH_INDEX] = GuiExprElement::PATH;
     (*GuiExprElement::termsStrMap)[GuiExprElement::EXT_INDEX]  = GuiExprElement::EXT;
+    (*GuiExprElement::termsStrMap)[GuiExprElement::HASH_INDEX]  = GuiExprElement::HASH;
     (*GuiExprElement::termsStrMap)[GuiExprElement::DATE_INDEX] = GuiExprElement::DATE;
     (*GuiExprElement::termsStrMap)[GuiExprElement::SIZE_INDEX] = GuiExprElement::SIZE;
     (*GuiExprElement::termsStrMap)[GuiExprElement::POP_INDEX]  = GuiExprElement::POP;
@@ -204,6 +209,7 @@ QStringList* GuiExprElement::getConditionOptions(ExprSearchType t)
         case NameSearch:
         case PathSearch:
         case ExtSearch:
+        case HashSearch:
             list = GuiExprElement::stringOptionsList;
             break;
         case DateSearch:
@@ -231,7 +237,8 @@ QHBoxLayout * GuiExprElement::createLayout(QWidget * parent)
 
 bool GuiExprElement::isStringSearchExpression()
 {
-    return (searchType == NameSearch || searchType == PathSearch || searchType == ExtSearch);
+    return (searchType == NameSearch || searchType == PathSearch 
+	   || searchType == ExtSearch || searchType == HashSearch);
 }
 
 
@@ -346,9 +353,12 @@ QString ExprParamElement::toString()
     QString str = "";
     if (isStringSearchExpression())
     {
-        str = QString("\"") + getStrSearchValue() + QString("\"") 
-            + (ignoreCase() ? QString(" (ignore case)") 
+        str = QString("\"") + getStrSearchValue() + QString("\""); 
+        // we don't bother with case if hash search
+	if (searchType != HashSearch) {
+	    str += (ignoreCase() ? QString(" (ignore case)") 
                             : QString(" (case sensitive)")); 
+	}
     } else 
     {
         if (searchType ==  DateSearch) {
@@ -417,8 +427,13 @@ void ExprParamElement::adjustForSearchType(ExprSearchType type)
         hbox->addSpacing(9);
         QCheckBox* icCb = new QCheckBox(tr("ignore case"), internalframe);
         icCb->setObjectName("ignoreCaseCB");
-        hbox->addWidget(icCb);
+	if (searchType == HashSearch) {
+		icCb->setCheckState(Qt::Checked);
+		icCb->hide();
+	}
+	hbox->addWidget(icCb);
         hbox->addStretch();
+	
     } else if (searchType == DateSearch) 
     {
         QDateEdit * dateEdit = new QDateEdit(QDate::currentDate(), internalframe);
@@ -591,6 +606,7 @@ int ExprParamElement::getIntValueFromField(QString fieldName, bool isToField)
         case NameSearch:
         case PathSearch:
         case ExtSearch:
+        case HashSearch:
         default:
             // shouldn't be here...val stays at -1
             val = -1;
