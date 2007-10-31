@@ -43,6 +43,8 @@
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
 #include "bwgraph/bwgraph.h"
+#include "games/qbackgammon/bgwindow.h"
+
 
 #include "Preferences/ConfirmQuitDialog.h"
 
@@ -100,7 +102,8 @@ public slots:
     /** Shows the config dialog with focus set to the given page. */
     void show(Page page);
   
-  
+     void startgammon();
+
 
 private slots:
 
@@ -119,6 +122,7 @@ private slots:
     void showApplWindow();
 
     void showSettings();
+    
     
     /** Called when console button is toggled */
     void showConsoleFrame(bool show);

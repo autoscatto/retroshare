@@ -32,6 +32,9 @@
 #include "MessengerWindow.h"
 #include "HelpDialog.h"
 
+#include "games/qbackgammon/bgwindow.h"
+
+
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
 #include "util/rsversion.h"
@@ -106,6 +109,8 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
 
     connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addSharedDirectory() ) );
     connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
+    
+	connect(ui.qbackgammonButton, SIGNAL(clicked( bool )), this, SLOT( startgammon()) );
 	
     ui.addfriendButton->setToolTip(tr("Add a Friend"));
     ui.invitefriendButton->setToolTip(tr("Invite a Friend"));
@@ -172,6 +177,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
  
     /* Create and bind the messenger button */
     addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
+
 
 #ifdef RS_RELEASE_VERSION    
 #else
@@ -538,4 +544,10 @@ void MainWindow::loadStyleSheet(const QString &sheetName)
     
 }
 
+void MainWindow::startgammon()
+{
+	BgWindow *bgWindow = new BgWindow(this); 
+	bgWindow->show(); 
 
+
+}

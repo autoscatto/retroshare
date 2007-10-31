@@ -164,6 +164,7 @@
 	  <file>images/FileTypeProgram.png</file>
 	  <file>images/FileTypeVideo.png</file>
 	  <file>images/FileTypeAny.png</file>
+        <file>images/kbackgammon.png</file>
         <file>layouts/default.ui</file>
         <file>qss/default.qss</file>
     </qresource>

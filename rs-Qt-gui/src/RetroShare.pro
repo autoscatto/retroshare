@@ -16,6 +16,7 @@ DEPENDPATH += . \
             gui \
             lang \
             util \
+            games\qbackgammon \
             gui\bwgraph \
             gui\chat \
             gui\connect \
@@ -118,7 +119,11 @@ HEADERS +=  rshare.h \
             gui/authdlg/AuthorizationDialog.h \
             gui/advsearch/advancedsearchdialog.h \
             gui/advsearch/expressionwidget.h \
-            gui/advsearch/guiexprelement.h
+            gui/advsearch/guiexprelement.h \
+            games/qbackgammon/bgwindow.h \
+            games/qbackgammon/bgwidget.h \
+            games/qbackgammon/bgboard.h \
+            games/qbackgammon/optionsdlg.h
 
 FORMS +=    gui/ChatDialog.ui \
             gui/StartDialog.ui \
@@ -239,7 +244,11 @@ SOURCES += main.cpp \
             gui/authdlg/AuthorizationDialog.cpp \
             gui/advsearch/advancedsearchdialog.cpp \
             gui/advsearch/expressionwidget.cpp \
-            gui/advsearch/guiexprelement.cpp
+            gui/advsearch/guiexprelement.cpp \
+            games/qbackgammon/bgwindow.cpp \
+            games/qbackgammon/bgwidget.cpp \
+            games/qbackgammon/bgboard.cpp \
+            games/qbackgammon/optionsdlg.cpp
             
 RESOURCES += gui/images.qrc lang/lang.qrc
 TRANSLATIONS +=  \
