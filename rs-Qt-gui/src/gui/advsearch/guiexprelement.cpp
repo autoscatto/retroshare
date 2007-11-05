@@ -398,6 +398,8 @@ void ExprParamElement::adjustForSearchType(ExprSearchType type)
     searchType = type;
     QRegExp regExp("0|[1-9][0-9]*");
     numValidator = new QRegExpValidator(regExp, this);
+    QRegExp hexRegExp("[A-Fa-f0-9]*");
+    hexValidator = new QRegExpValidator(hexRegExp, this);
     
     // remove all elements
     QList<QWidget*> children = qFindChildren<QWidget*>(internalframe);
@@ -427,9 +429,11 @@ void ExprParamElement::adjustForSearchType(ExprSearchType type)
         hbox->addSpacing(9);
         QCheckBox* icCb = new QCheckBox(tr("ignore case"), internalframe);
         icCb->setObjectName("ignoreCaseCB");
+	icCb->setCheckState(Qt::Checked);
+	// hex search specifics: hidden case sensitivity and hex validator
 	if (searchType == HashSearch) {
-		icCb->setCheckState(Qt::Checked);
 		icCb->hide();
+		lineEdit->setValidator(hexValidator);        
 	}
 	hbox->addWidget(icCb);
         hbox->addStretch();

@@ -225,6 +225,7 @@ public:
 
 private:
     QRegExpValidator * numValidator;
+    QRegExpValidator * hexValidator;
     QFrame * rangeParamsFrame;
     bool inRangedConfig;
     int getIntValueFromField(QString fieldName, bool isToField=false);
