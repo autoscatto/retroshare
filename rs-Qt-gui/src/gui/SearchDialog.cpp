@@ -56,6 +56,17 @@
 #define SS_COUNT_COL        1
 #define SS_SEARCH_ID_COL    2
 
+/* static members */
+/* These indices MUST be identical to their equivalent indices in the combobox */
+const int SearchDialog::FILETYPE_IDX_ANY = 0;
+const int SearchDialog::FILETYPE_IDX_AUDIO = 1;
+const int SearchDialog::FILETYPE_IDX_VIDEO = 2;
+const int SearchDialog::FILETYPE_IDX_PICTURE = 3;
+const int SearchDialog::FILETYPE_IDX_PROGRAM = 4;
+const int SearchDialog::FILETYPE_IDX_ARCHIVE = 5;
+const int SearchDialog::FILETYPE_IDX_DOCUMENT = 6;
+QMap<int, QString> * SearchDialog::FileTypeExtensionMap = new QMap<int, QString>();
+bool SearchDialog::initialised = false;
  
 /** Constructor */
 SearchDialog::SearchDialog(QWidget *parent)
@@ -64,6 +75,12 @@ SearchDialog::SearchDialog(QWidget *parent)
     /* Invoke the Qt Designer generated object setup routine */
     ui.setupUi(this);
 
+    /* initialise the filetypes mapping */
+    if (!SearchDialog::initialised)
+    {
+	initialiseFileTypeMappings();
+    }
+   
     /* Advanced search panel specifica */
     RshareSettings rsharesettings;
     QString key (UI_PREF_ADVANCED_SEARCH);
@@ -116,6 +133,25 @@ SearchDialog::SearchDialog(QWidget *parent)
 #ifdef Q_WS_WIN
 
 #endif
+}
+
+void SearchDialog::initialiseFileTypeMappings()
+{
+	/* edit these strings to change the range of extensions recognised by the search */
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_ANY, "");
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_AUDIO, 
+		"aac aif iff m3u mid midi mp3 mpa ogg ra ram wav wma");
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_VIDEO, 
+		"3gp asf asx avi mov mp4 mpeg mpg qt rm swf vob wmv");
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_PICTURE, 
+		"3dm 3dmf ai bmp drw dxf eps gif ico indd jpe jpeg jpg mng pcx pcc pct pgm pix png psd psp qxd qxprgb sgi svg tga tif tiff xbm xcf");
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_PROGRAM, 
+		"app bat cgi com bin exe js pif py pl sh vb ws ");
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_ARCHIVE, 
+		"7z bz2 gz pkg rar sea sit sitx tar zip");
+	SearchDialog::FileTypeExtensionMap->insert(FILETYPE_IDX_DOCUMENT, 
+		"doc odt ott rtf pdf ps txt log msg wpd wps" );	
+	SearchDialog::initialised = true;
 }
 
 void SearchDialog::searchtableWidgetCostumPopupMenu( QPoint point )
@@ -275,33 +311,21 @@ void SearchDialog::advancedSearch(Expression* expression)
 
 
 void SearchDialog::searchKeywords()
-{
+{	
+	QString qTxt = ui.lineEdit->text();
+	std::string txt = qTxt.toStdString();
 
-	std::string txt = (ui.lineEdit->text()).toStdString();
-
-	std::cerr << "SearchDialog::searchKeywords() : " << txt;
-	std::cerr << std::endl;
+	std::cerr << "SearchDialog::searchKeywords() : " << txt << std::endl;
 
 	/* extract keywords from lineEdit */
+	QStringList qWords = qTxt.split(" ", QString::SkipEmptyParts);
 	std::list<std::string> words;
-	uint i;
-	for(i = 0; i < txt.length(); i++)
+	QStringListIterator qWordsIter(qWords);
+     	while (qWordsIter.hasNext())
 	{
-		/* chew initial spaces */
-		for(; (i < txt.length()) && (isspace(txt[i])); i++);
-		std::string newword;
-		for(; (i < txt.length()) && (!isspace(txt[i])); i++)
-		{
-			newword += txt[i];
-		}
-
-		std::cerr << "Search KeyWord: " << newword;
-		std::cerr << std::endl;
-		if (newword.length() > 0)
-		{
-			words.push_back(newword);
-		}
+		words.push_back(qWordsIter.next().toStdString());
 	}
+	
 	if (words.size() < 1)
 	{
 		/* ignore */
@@ -309,11 +333,57 @@ void SearchDialog::searchKeywords()
 	}
 
 	/* call to core */
-	std::list<FileDetail> results;
-	rsicontrol -> SearchKeywords(words, results);
+	std::list<FileDetail> initialResults;
+	std::list<FileDetail> * finalResults = 0;
+	
+	rsicontrol -> SearchKeywords(words, initialResults);
+	/* which extensions do we use? */
+	QString qExt, qName;
+	int extIndex;
+	bool matched =false;
+	FileDetail fd;
+
+	if (ui.FileTypeComboBox->currentIndex() == FILETYPE_IDX_ANY) 
+	{
+		finalResults = &initialResults;
+	} else {
+		finalResults = new std::list<FileDetail>;
+		// amend the text description of the search
+		txt += " (" + ui.FileTypeComboBox->currentText().toStdString() + ")";
+		// collect the extensions to use
+		QString extStr = SearchDialog::FileTypeExtensionMap->value(ui.FileTypeComboBox->currentIndex());	
+		QStringList extList = extStr.split(" ");
+		
+		// now iterate through the results ignoring those with wrong extensions
+		std::list<FileDetail>::iterator resultsIter;
+		for (resultsIter = initialResults.begin(); resultsIter != initialResults.end(); resultsIter++)
+		{
+			fd = *resultsIter;
+			// get this file's extension
+			qName = QString::fromStdString(fd.name);
+			extIndex = qName.lastIndexOf(".");
+			if (extIndex >= 0) {
+				qExt = qName.mid(extIndex+1);
+				if (qExt != "" )
+				{
+					// does it match?
+					matched = false;
+					/* iterate through the requested extensions */
+					for (int i = 0; i < extList.size(); ++i)
+					{
+						if (qExt.toUpper() == extList.at(i).toUpper())
+						{					
+							finalResults->push_back(fd);	
+							matched = true;
+						}
+					}
+				}
+			}
+		}
+	}
 
         /* abstraction to allow reusee of tree rendering code */
-        resultsToTree(txt, results);
+        resultsToTree(txt, *finalResults);
 }
  
 void SearchDialog::resultsToTree(std::string txt, std::list<FileDetail> results)

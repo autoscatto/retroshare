@@ -734,7 +734,7 @@ p, li { white-space: pre-wrap; }
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="comboBox" >
+                <widget class="QComboBox" name="FileTypeComboBox" >
                  <item>
                   <property name="text" >
                    <string>Any</string>

@@ -46,7 +46,6 @@ class SearchDialog : public MainPage
 /** Default Destructor */
     
     
-    
 private slots:
     
 /** Create the context popup menu and it's submenus */
@@ -99,6 +98,19 @@ private:
     
     QAction* searchRemoveAct;
     QAction* searchRemoveAllAct;
+    
+/** Contains the mapping of filetype combobox to filetype extensions */
+    static const int FILETYPE_IDX_ANY;
+    static const int FILETYPE_IDX_AUDIO;
+    static const int FILETYPE_IDX_VIDEO;
+    static const int FILETYPE_IDX_PICTURE;
+    static const int FILETYPE_IDX_PROGRAM;
+    static const int FILETYPE_IDX_ARCHIVE;
+    static const int FILETYPE_IDX_DOCUMENT;
+    
+    static QMap<int, QString> * FileTypeExtensionMap;
+    static bool initialised;
+    void initialiseFileTypeMappings();
     
 /****
 QTreeWidget *searchtableWidget;
