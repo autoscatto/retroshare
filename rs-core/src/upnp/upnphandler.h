@@ -102,14 +102,19 @@ void    shutdownUPnPForwarding()
 	/* the address that the listening port is on */
 void    setInternalAddress(struct sockaddr_in iaddr_in)
 {
+//	std::cerr << "UPnPHandler::setInternalAddress() pre Lock!" << std::endl;
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
+//	std::cerr << "UPnPHandler::setInternalAddress() postLock!" << std::endl;
 
 	if ((iaddr.sin_addr.s_addr != iaddr_in.sin_addr.s_addr) ||
 	    (iaddr.sin_port != iaddr_in.sin_port))
 	{
-		toStop  = true;
-		toStart = true;
 		iaddr = iaddr_in;
+		if (toEnable)
+		{
+			toStop  = true;
+			toStart = true;
+		}
 	}
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
@@ -117,14 +122,19 @@ void    setInternalAddress(struct sockaddr_in iaddr_in)
 
 void    setExternalPort(unsigned short eport_in)
 {
+//	std::cerr << "UPnPHandler::getExternalPort() pre Lock!" << std::endl;
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
+//	std::cerr << "UPnPHandler::getExternalPort() postLock!" << std::endl;
 
 	/* flag both shutdown/start -> for restart */
 	if (eport != eport_in)
 	{
-		toStop  = true;
-		toStart = true;
 		eport = eport_in;
+		if (toEnable)
+		{
+			toStop  = true;
+			toStart = true;
+		}
 	}
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
@@ -133,35 +143,44 @@ void    setExternalPort(unsigned short eport_in)
 	/* as determined by uPnP */
 bool    getInternalAddress(struct sockaddr_in &addr)
 {
+//	std::cerr << "UPnPHandler::getInternalAddress() pre Lock!" << std::endl;
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
+//	std::cerr << "UPnPHandler::getInternalAddress() postLock!" << std::endl;
 
 	addr = upnp_iaddr;
+	bool valid = (upnpState >= RS_UPNP_S_READY);
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
 
-	return (upnpState >= RS_UPNP_S_READY);
+	return valid;
 }
 
 bool    getExternalAddress(struct sockaddr_in &addr)
 {
+//	std::cerr << "UPnPHandler::getExternalAddress() pre Lock!" << std::endl;
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
+//	std::cerr << "UPnPHandler::getExternalAddress() postLock!" << std::endl;
 
 	addr = upnp_eaddr;
+	bool valid = (upnpState >= RS_UPNP_S_READY);
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
 
-	return (upnpState >= RS_UPNP_S_READY);
+	return valid;
 }
 
 int    getUPnPStatus(upnpentry &ent)
 {
+//	std::cerr << "UPnPHandler::getUPnPStatus() pre Lock!" << std::endl;
 	dataMtx.lock();   /***  LOCK MUTEX  ***/
+//	std::cerr << "UPnPHandler::getUPnPStatus() postLock!" << std::endl;
 
 	/* TODO - define data structure first */
+	int state = upnpState;
 
 	dataMtx.unlock(); /*** UNLOCK MUTEX ***/
 
-	return upnpState;
+	return state;
 }
 
 

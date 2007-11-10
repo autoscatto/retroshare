@@ -128,6 +128,7 @@ int	RsServer::CheckNetworking()
 
 
 dhthandler *dhtp = NULL;
+upnphandler *upnpp = NULL;
 
 pqiAddrStore *getDHTServer()
 {
@@ -152,19 +153,36 @@ int	RsServer::InitDHT(std::string file)
 	dhtp -> start();
 	cert *c = sslr -> getOwnCert();
 
-	if (ntohs(c -> serveraddr.sin_port) < 100)
-	{
-		dhtp -> setOwnPort(ntohs(c -> localaddr.sin_port));
-	}
-	else
-	{
-		dhtp -> setOwnPort(ntohs(c -> serveraddr.sin_port));
-	}
+	SetExternalPorts();
 
 	/* give it our port, and hash */
 	dhtp -> setOwnHash(c->Signature());
 	return 1;
 }
+
+int	RsServer::SetExternalPorts()
+{
+	cert *c = sslr -> getOwnCert();
+
+	/* decide on the most sensible port */
+
+	unsigned short port = ntohs(c -> serveraddr.sin_port);
+	if (port < 100)
+	{
+		port = ntohs(c -> localaddr.sin_port);
+	}
+
+	/* set for both DHT and UPnP -> so they are the same! */
+	if (upnpp)
+		upnpp -> setExternalPort(port);
+	if (dhtp)
+		dhtp -> setOwnPort(port);
+
+	return 1;
+}
+
+
+
 
 int	RsServer::CheckDHT()
 {
@@ -232,7 +250,6 @@ int	RsServer::CheckDHT()
 
 
 
-upnphandler *upnpp = NULL;
 
 int	RsServer::InitUPnP()
 {
@@ -244,7 +261,8 @@ int	RsServer::InitUPnP()
 	/* set our internal address to it */
 	cert *c = sslr -> getOwnCert();
 	upnpp -> setInternalAddress(c -> localaddr);
-	upnpp -> setExternalPort(ntohs(c -> serveraddr.sin_port));
+
+	SetExternalPorts();
 
 	upnpp -> start();
 
@@ -400,8 +418,7 @@ int     RsServer::ConfigSetExtAddr( std::string ipAddr, int port )
 	sslr -> CertsChanged();
 
 	/* update the DHT/UPnP port (in_addr is auto found ) */
-	upnpp -> setExternalPort(ntohs(c -> serveraddr.sin_port));
-	dhtp  -> setOwnPort(ntohs(c -> serveraddr.sin_port));
+	SetExternalPorts();
 
 	/* unlock Mutexes */
 	iface.unlockData(); /* UNLOCK */

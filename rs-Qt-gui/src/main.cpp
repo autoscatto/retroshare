@@ -60,27 +60,49 @@ int main(int argc, char *argv[])
                 /* check for existing Certificate */
                 std::string userName;
    
-   		QWidget *sd = NULL;
+   		StartDialog *sd = NULL;
+		bool genCert = false;
                 if (ValidateCertificate(config, userName))
 		{
 		  sd = new StartDialog(config);
-		}
-		else
-		{
-		  sd = new GenCertDialog(config);
-		}
+		  sd->show();
 
-		sd->show();
-
-		while(sd -> isVisible())
-		{
+		  while(sd -> isVisible())
+		  {
 			rshare.processEvents();
 #ifdef WIN32
 			Sleep(10);
 #else // __LINUX__
 			usleep(10000);
 #endif
+		  }
+
+		  /* if we're logged in */
+		  genCert = sd->requestedNewCert();
 		}
+		else
+		{
+		  genCert = true;
+		}
+
+		if (genCert)
+		{
+		  GenCertDialog *gd = new GenCertDialog(config);
+
+		  gd->show();
+
+		  while(gd -> isVisible())
+		  {
+			rshare.processEvents();
+#ifdef WIN32
+			Sleep(10);
+#else // __LINUX__
+			usleep(10000);
+#endif
+		  }
+		}
+
+
 	}
 	else
 	{

@@ -267,6 +267,8 @@ int	InitUPnP();
 int	CheckUPnP();
 
 int     UpdateNetworkConfig(RsConfig &config);
+int     SetExternalPorts();
+
 
 	public:
 /****************************************/

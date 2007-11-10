@@ -202,7 +202,13 @@ bool upnphandler::initUPnPState()
 
 bool upnphandler::printUPnPState()
 {
+	std::cerr << "upnphandler::printUPnPState() ... locking";
+	std::cerr << std::endl;
+
 	dataMtx.lock(); /* LOCK MUTEX */
+
+	std::cerr << "upnphandler::printUPnPState() ... locked";
+	std::cerr << std::endl;
 
 	uPnPConfigData *config = upnpConfig;
 	if ((upnpState >= RS_UPNP_S_READY) && (config))

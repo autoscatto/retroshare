@@ -34,14 +34,16 @@
 
 /** Default constructor */
 StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
-  : QMainWindow(parent, flags), rsConfig(conf)
+  : QMainWindow(parent, flags), rsConfig(conf), reqNewCert(false)
 {
   /* Invoke Qt Designer generated QObject setup routine */
   ui.setupUi(this);
+  /************
 #if (QT_VERSION >= 040300)
   skinobject = new QSkinObject(this);
   skinobject->startSkinning();
 #endif
+  ***********/
   RshareSettings config;
   config.loadWidgetInformation(this);
  
@@ -61,7 +63,7 @@ StartDialog::StartDialog(RsInit *conf, QWidget *parent, Qt::WFlags flags)
   connect(ui.loadPasswd, SIGNAL(returnPressed()), this, SLOT(loadPerson()));
   //connect(ui.selectButton, SIGNAL(clicked()), this, SLOT(selectFriend()));
   //connect(ui.friendBox, SIGNAL(stateChanged(int)), this, SLOT(checkChanged(int)));
-  //connect(ui.createNewAccountLabel, SIGNAL(clicked()), this, SLOT(createnewaccount()));
+  connect(ui.createaccountButton, SIGNAL(clicked()), this, SLOT(createnewaccount()));
 
   /* load the Certificate File name */
   std::string userName;
@@ -146,6 +148,22 @@ void StartDialog::createnewaccount()
 {
     //static GenCertDialog *gencertdialog = new GenCertDialog();
     //gencertdialog->show();
+    
+    QMessageBox::StandardButton sb = QMessageBox::question ( NULL,
+                        "Create New Certificate", 
+			"This will delete your existing Certificate\n Are you sure you want to continue",
+			(QMessageBox::Ok | QMessageBox::No));
+
+    if (sb == QMessageBox::Ok)
+    {
+    	reqNewCert = true;
+    	close();
+    }
+}
+
+bool  StartDialog::requestedNewCert()
+{
+	return reqNewCert;
 }
 
 
