@@ -81,12 +81,14 @@ Section "File Association" section2
 
   ; Write the file association
   WriteRegStr HKCR .pqi "" retroshare
-  WriteRegStr HKCR .pqi "Content Type" application/x-bittorrent
-  WriteRegStr HKCR "MIME\Database\Content Type\application/x-bittorrent" Extension .pqi
   WriteRegStr HKCR retroshare "" "PQI File"
   WriteRegBin HKCR retroshare EditFlags 00000100
   WriteRegStr HKCR "retroshare\shell" "" open
   WriteRegStr HKCR "retroshare\shell\open\command" "" `"$INSTDIR\RetroShare.exe" "%1"`
+
+; REMOVED - What are they doing here??? can re create our own Content Type.
+;  WriteRegStr HKCR .pqi "Content Type" application/x-bittorrent
+;  WriteRegStr HKCR "MIME\Database\Content Type\application/x-bittorrent" Extension .pqi
 SectionEnd
 
 Section "Start Menu Shortcuts" section3
@@ -135,8 +137,8 @@ Section "Uninstall"
   
   ; Remove file association registry keys
   DeleteRegKey HKCR .pqi
-  DeleteRegKey HKCR "MIME\Database\Content Type\application/x-bittorrent"
   DeleteRegKey HKCR retroshare
+  ;;;;;;DeleteRegKey HKCR "MIME\Database\Content Type\application/x-bittorrent"
 	
   ; Remove program/uninstall regsitry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"

@@ -123,7 +123,7 @@ void ChatDialog::insertChat()
 static  std::string lastChatName("");
 static  int         lastChatTime = 0;
 
-	QString currenttxt = msgWidget->toPlainText();
+	QString currenttxt = msgWidget->toHtml();
 
 	/* determine how many spaces to add */
 	int n = msgWidget->width();
@@ -166,12 +166,17 @@ static  int         lastChatTime = 0;
 		}
 		else
 		{
+                	out << "<br>\n";
 			for(int i = 0; i < n; i++)
 			{
 				out << spaces; 
 			}
+            		QString timestamp = "(" + QDateTime::currentDateTime().toString("hh:mm:ss") + ") ";
+            		QString name = QString::fromStdString(it->name);
+            		QString line = "<span style=\"color:#1D84C9\"><strong>" + timestamp +
+                       		                  "   " + name + "</strong></span> \n<br>";
 
-			out << "<" <<  it -> name << " Said @" << ts << ">" << std::endl;
+                	out << line.toStdString();
 		}
 
 		out << it -> msg << std::endl;
@@ -185,7 +190,7 @@ static  int         lastChatTime = 0;
 	QString extra = QString::fromStdString(out.str());
 	currenttxt += extra;
 
-	msgWidget->setPlainText(currenttxt);
+	msgWidget->setHtml(currenttxt);
 
 	//std::cerr << " Added Text: " << std::endl;
 	//std::cerr << out.str() << std::endl;

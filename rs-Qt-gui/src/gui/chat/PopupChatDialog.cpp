@@ -177,7 +177,7 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 	/* now spaces = (width - txt width) / (pixel / space)
 	 */
 
-	std::cerr << "Width is : " << n << std::endl;
+	//std::cerr << "Width is : " << n << std::endl;
 	n -= 256; /* 220 pixels for name */
 	if (n > 0)
 	{
@@ -188,7 +188,7 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 		n = 1;
 	}
 
-	std::cerr << "Space count : " << n << std::endl;
+	//std::cerr << "Space count : " << n << std::endl;
 
 	std::string spaces(" ");
 
@@ -196,19 +196,55 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 	/* add in lines at the bottom */
 	std::ostringstream out;
 	int ts = time(NULL);
+
+
+	bool offline = true;
+
+	{
+          rsiface->lockData(); /* Lock Interface */
+          const NeighbourInfo *peer = rsiface->getFriend(dialogId);
+	  if (!peer)
+	  {
+		std::cerr << "WARNING CANNOT GET PEER INFO!!!!" << std::endl;
+	  }
+	  else if (peer->statusString == "Online")
+	  {
+	    offline = false;
+	  }
+
+          rsiface->unlockData(); /* Unlock Interface */
+	}
+
+	if (offline)
+	{
+	    	QString line = "<br>\n<span style=\"color:#1D84C9\"><strong> ----- PEER OFFLINE (Chat will be lost) -----</strong></span> \n<br>";
+
+		out << line.toStdString();
+	}
+
+	
 	if ((ci->name == lastChatName) && (ts - lastChatTime < 60))
 	{
 			/* no name */
 	}
 	else
 	{
+		out << "<br>\n";
 		for(int i = 0; i < n; i++)
 		{
-			out << spaces; 
+			out << spaces;
 		}
 
-		out << "[ " << ci->name << " +" << ts - lastChatTime << "s ]" << std::endl;
-		out << "<br>" << std::endl;
+		//out << "[ " << ci->name << " +" << ts - lastChatTime << "s ]" << std::endl;
+		//out << "<br>" << std::endl;
+
+            QString timestamp = "(" + QDateTime::currentDateTime().toString("hh:mm:ss") + ") ";
+            //QString pre = tr("Peer:" );
+	    QString name = QString::fromStdString(ci->name);
+	    QString line = "<span style=\"color:#1D84C9\"><strong>" + timestamp + 
+					 "   " + name + "</strong></span> \n<br>";
+
+		out << line.toStdString();
 
 	}
 	out << ci -> msg << std::endl;
@@ -220,8 +256,8 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 
 	msgWidget->setHtml(currenttxt);
 
-	std::cerr << " Added Text: " << std::endl;
-	std::cerr << out.str() << std::endl;
+//	std::cerr << " Added Text: " << std::endl;
+//	std::cerr << out.str() << std::endl;
 	QScrollBar *qsb =  msgWidget->verticalScrollBar();
 	qsb -> setValue(qsb->maximum());
 }

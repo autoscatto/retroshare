@@ -129,8 +129,8 @@ ServerDialog::load()
 			break;
 
 	}
-	ui.upnpStatus->setEnabled(false);
-	ui.dhtStatus ->setEnabled(false);
+	ui.upnpStatus->setReadOnly(true);
+	ui.dhtStatus ->setReadOnly(true);
       
 	if (rsiface->getConfig().uPnPActive)
 	{
