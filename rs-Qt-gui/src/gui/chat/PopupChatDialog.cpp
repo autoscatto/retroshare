@@ -62,6 +62,10 @@ PopupChatDialog::PopupChatDialog(std::string id, std::string name,
   statusBar()->showMessage(QString::fromStdString(statusstr.str()));
   ui.textBrowser->setOpenExternalLinks ( false );
 
+  QString title = "RS:" + tr("Chatting with") + " " + QString::fromStdString(name);
+  setWindowTitle(title);
+
+
 }
 
 

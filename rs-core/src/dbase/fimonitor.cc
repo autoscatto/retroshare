@@ -37,7 +37,9 @@
 #define FIM_DEBUG 1
 
 FileIndexMonitor::FileIndexMonitor(std::string cachedir, std::string pid)
-	:CacheSource(CACHE_TYPE_FILE_INDEX, false, cachedir), fi(pid)
+	:CacheSource(CACHE_TYPE_FILE_INDEX, false, cachedir), fi(pid), 
+		pendingDirs(false), pendingForceCacheWrite(false)
+
 {
 	updatePeriod = 60;
 }
@@ -249,7 +251,15 @@ void 	FileIndexMonitor::updateCycle()
 			std::cerr << "FileIndexMonitor::updateCycle()";
 			std::cerr << " Missing Dir: " << realpath << std::endl;
 			/* bad directory - delete */
-                	fi.removeOldDirectory(olddir->parent->path, olddir->name, stamp);
+                	if (!fi.removeOldDirectory(olddir->parent->path, olddir->name, stamp))
+			{
+				/* bad... drop out of updateCycle() - hopefully the initial cleanup
+				 * will deal with it next time! - otherwise we're in a continual loop
+				 */
+				std::cerr << "FileIndexMonitor::updateCycle()";
+                        	std::cerr << "ERROR Failed to Remove: " << olddir->path << std::endl;
+			}
+
 			fiMutex.unlock();
 			continue;
 		}
@@ -436,6 +446,8 @@ void 	FileIndexMonitor::updateCycle()
                 }
         }
 
+	fiMutex.lock(); { /* LOCKED DIRS */
+
 	/* finished update cycle - cleanup extra dirs/files that 
 	 * have not had their timestamps updated.
 	 */
@@ -452,6 +464,16 @@ void 	FileIndexMonitor::updateCycle()
 	/* now if we have changed things -> restore file/hash it/and 
 	 * tell the CacheSource
 	 */
+
+	if (pendingForceCacheWrite)
+	{
+		pendingForceCacheWrite = false;
+		fiMods = true;
+	}
+
+	} fiMutex.unlock(); /* UNLOCKED DIRS */
+
+
 	if (fiMods)
 	{
 		/* store to the cacheDirectory */
@@ -528,6 +550,7 @@ bool    FileIndexMonitor::internal_setSharedDirectories()
 	}
 		
 	pendingDirs = false;
+	pendingForceCacheWrite = true;
 	
 	/* clear old directories */
 	directoryMap.clear();

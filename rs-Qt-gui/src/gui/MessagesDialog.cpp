@@ -35,6 +35,7 @@
 #include <QPoint>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QDateTime>
 
 /* Images for context menu icons */
 #define IMAGE_MESSAGE        ":/images/folder-draft.png"
@@ -203,6 +204,15 @@ void MessagesDialog::insertMessages()
 	/* get a link to the table */
         QTreeWidget *msgWidget = ui.msgWidget;
 
+	/* get the MsgId of the current one ... */
+
+
+	std::string cid;
+	std::string mid;
+
+	bool oldSelected = getCurrentMsg(cid, mid);
+	QTreeWidgetItem *newSelected = NULL;
+
 	/* remove old items ??? */
 
 	int listrow = ui.listWidget -> currentRow();
@@ -287,25 +297,11 @@ void MessagesDialog::insertMessages()
 		item -> setText(2, QString::fromStdString(it->title));
 
 		// Date....
-		// XXX provide a universal (thread-safe version)...
 		{
-		        char buf[1024];
-		        time_t timeval = it -> ts;
-			std::ostringstream out;
-			//ctime_r(&(timeval), buf);
-
-			for(int i = 0; i < 1024; i++)
-			{
-				if ((buf[i] == '\n') ||
-				    (buf[i] == '\r'))
-				{
-					buf[i] = '\0';
-					break;
-				}
-			}
-
-			out << ctime(&(timeval));
-			item -> setText(3, QString::fromStdString(out.str()));
+			QDateTime qtime;
+			qtime.setTime_t(it->ts);
+			QString timestamp = qtime.toString("d MMM yyyy hh:mm:ss");
+			item -> setText(3, timestamp);
 		}
 
 		// No of Files.
@@ -352,6 +348,10 @@ void MessagesDialog::insertMessages()
 			std::ostringstream out;
 			out << it -> msgId;
 			item -> setText(9, QString::fromStdString(out.str()));
+			if ((oldSelected) && (mid == out.str()))
+			{
+				newSelected = item;
+			}
 		}
 
 		if (it -> msgflags & RS_MSG_NEW)
@@ -373,6 +373,11 @@ void MessagesDialog::insertMessages()
 	/* add the items in! */
 	msgWidget->clear();
 	msgWidget->insertTopLevelItems(0, items);
+
+	if (newSelected)
+	{
+		msgWidget->setCurrentItem(newSelected);
+	}
 
 	rsiface->unlockData(); /* UnLock Interface */
 }

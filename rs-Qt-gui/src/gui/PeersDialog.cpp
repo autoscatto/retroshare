@@ -27,6 +27,7 @@
 #include "PeersDialog.h"
 #include "rsiface/rsiface.h"
 #include "chat/PopupChatDialog.h"
+#include "msgs/ChanMsgDialog.h"
 #include "ChatDialog.h"
 #include "connect/ConfCertDialog.h"
 
@@ -47,6 +48,7 @@
 #define IMAGE_REMOVEFRIEND       ":/images/removefriend16.png"
 #define IMAGE_EXPIORTFRIEND      ":/images/exportpeers_16x16.png"
 #define IMAGE_CHAT               ":/images/chat.png"
+#define IMAGE_MSG                ":/images/message.png"
 /* Images for Status icons */
 #define IMAGE_ONLINE             ":/images/donline.png"
 #define IMAGE_OFFLINE            ":/images/dhidden.png"
@@ -112,6 +114,9 @@ void PeersDialog::peertreeWidgetCostumPopupMenu( QPoint point )
       chatAct = new QAction(QIcon(IMAGE_CHAT), tr( "Chat" ), this );
       connect( chatAct , SIGNAL( triggered() ), this, SLOT( chatfriend() ) );
 
+      msgAct = new QAction(QIcon(IMAGE_MSG), tr( "Message Friend" ), this );
+      connect( msgAct , SIGNAL( triggered() ), this, SLOT( msgfriend() ) );
+
       connectfriendAct = new QAction( tr( "Connect To Friend" ), this );
       connect( connectfriendAct , SIGNAL( triggered() ), this, SLOT( connectfriend() ) );
       
@@ -127,8 +132,10 @@ void PeersDialog::peertreeWidgetCostumPopupMenu( QPoint point )
 
       contextMnu.clear();
       contextMnu.addAction( chatAct);
+      contextMnu.addAction( msgAct);
       contextMnu.addSeparator(); 
       contextMnu.addAction( connectfriendAct);
+      contextMnu.addSeparator(); 
       contextMnu.addAction( configurefriendAct);
       contextMnu.addAction( exportfriendAct);
       contextMnu.addAction( removefriendAct);
@@ -148,6 +155,13 @@ void  PeersDialog::insertPeers()
 
         /* get a link to the table */
         QTreeWidget *peerWidget = ui.peertreeWidget;
+        QTreeWidgetItem *oldSelect = getCurrentPeer();
+        QTreeWidgetItem *newSelect = NULL;
+        std::string oldId;
+        if (oldSelect)
+        {
+                oldId = (oldSelect -> text(10)).toStdString();
+        }
 
         /* remove old items ??? */
 	peerWidget->clear();
@@ -200,6 +214,10 @@ void  PeersDialog::insertPeers()
 			std::ostringstream out;
 			out << it -> second.id;
 			item -> setText(10, QString::fromStdString(out.str()));
+                        if ((oldSelect) && (oldId == out.str()))
+                        {
+                                newSelect = item;
+                        }
 		}
 
 		/* ()  AuthCode */	
@@ -244,6 +262,11 @@ void  PeersDialog::insertPeers()
 
 	/* add the items in! */
 	peerWidget->insertTopLevelItems(0, items);
+        if (newSelect)
+        {
+                peerWidget->setCurrentItem(newSelect);
+        }
+
 
 	rsiface->unlockData(); /* UnLock Interface */
 
@@ -298,16 +321,11 @@ void PeersDialog::chatfriend()
     	/* info dialog */
         QMessageBox::StandardButton sb = QMessageBox::question ( NULL, 
 			"Friend Not Online", 
-	"Your Friend is offline \nWhy don't you send them a Message instead",
-	(QMessageBox::Ok | QMessageBox::Save |
-	QMessageBox::Discard | QMessageBox::Reset |
-	QMessageBox::RestoreDefaults));
-	if (sb == QMessageBox::RestoreDefaults)
+	"Your Friend is offline \nDo you want to send them a Message instead",
+			        (QMessageBox::Yes | QMessageBox::No));
+	if (sb == QMessageBox::Yes)
 	{
-		while(QMessageBox::Yes == QMessageBox::question ( NULL,         
-	                        "Rhetorical Question",
-			        "Are You Sure?",
-			        (QMessageBox::Yes | QMessageBox::No)));
+		msgfriend();
 	}
 	return;
     }
@@ -319,6 +337,28 @@ void PeersDialog::chatfriend()
     }
 }
 
+void PeersDialog::msgfriend()
+{
+    std::cerr << "SharedFilesDialog::msgfriend()" << std::endl;
+
+    QTreeWidgetItem *i = getCurrentPeer();
+
+    if (!i)
+	return;
+
+    std::string status = (i -> text(1)).toStdString();
+    std::string name = (i -> text(2)).toStdString();
+    std::string id = (i -> text(10)).toStdString();
+
+    rsicontrol -> ClearInMsg();
+    rsicontrol -> SetInMsg(id, true);
+
+    /* create a message */
+    ChanMsgDialog *nMsgDialog = new ChanMsgDialog(true);
+
+    nMsgDialog->newMsg();
+    nMsgDialog->show();
+}
 
 
 QTreeWidgetItem *PeersDialog::getCurrentPeer()

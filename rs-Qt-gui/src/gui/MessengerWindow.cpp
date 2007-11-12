@@ -27,6 +27,7 @@
 #include "MessengerWindow.h"
 #include "rsiface/rsiface.h"
 #include "chat/PopupChatDialog.h"
+#include "msgs/ChanMsgDialog.h"
 #include "ChatDialog.h"
 #include "connect/ConfCertDialog.h"
 #include "util/PixmapMerging.h"
@@ -348,14 +349,18 @@ void MessengerWindow::chatfriend2()
     	/* info dialog */
         QMessageBox::StandardButton sb = QMessageBox::question ( NULL, 
 			"Friend Not Online", 
-	"Your Friend is offline \nWhy don't you send them a Message instead",
-	(QMessageBox::Ok | QMessageBox::Reset ));
-	if (sb == QMessageBox::Reset)
+	"Your Friend is offline \nDo You want to send them a Message instead",
+	(QMessageBox::Yes | QMessageBox::No ));
+	if (sb == QMessageBox::Yes)
 	{
-		while(QMessageBox::Yes == QMessageBox::question ( NULL,         
-	                        "Rhetorical Question",
-			        "Are You Sure?",
-			        (QMessageBox::Yes | QMessageBox::No)));
+    		rsicontrol -> ClearInMsg();
+    		rsicontrol -> SetInMsg(id, true);
+
+    		/* create a message */
+    		ChanMsgDialog *nMsgDialog = new ChanMsgDialog(true);
+
+    		nMsgDialog->newMsg();
+    		nMsgDialog->show();
 	}
 	return;
     }

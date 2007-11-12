@@ -222,6 +222,13 @@ void NetworkDialog::insertConnect()
 
 	/* get a link to the table */
         QTreeWidget *connectWidget = ui.connecttreeWidget;
+	QTreeWidgetItem *oldSelect = getCurrentNeighbour();
+	QTreeWidgetItem *newSelect = NULL;
+	std::string oldId;
+	if (oldSelect)
+	{
+		oldId = (oldSelect -> text(9)).toStdString();
+	}
 
 	/* remove old items ??? */
 	connectWidget->clear();
@@ -260,6 +267,10 @@ void NetworkDialog::insertConnect()
 			std::ostringstream out;
 			out << it -> second.id;
 			item -> setText(9, QString::fromStdString(out.str()));
+			if ((oldSelect) && (oldId == out.str()))
+			{
+				newSelect = item;
+			}
 		}
 
 			item -> setText(10, QString::fromStdString(it->second.authCode));
@@ -322,11 +333,14 @@ void NetworkDialog::insertConnect()
 
 	/* add the items in! */
 	connectWidget->insertTopLevelItems(0, items);
+	if (newSelect)
+	{
+		connectWidget->setCurrentItem(newSelect);
+	}
 
 	rsiface->unlockData(); /* UnLock Interface */
 
 	connectWidget->update(); /* update display */
-
 }
 
 QTreeWidgetItem *NetworkDialog::getCurrentNeighbour()
@@ -343,6 +357,8 @@ QTreeWidgetItem *NetworkDialog::getCurrentNeighbour()
         }
     
         /* Display the columns of this item. */
+
+/**** NO NEED ANYMORE
         std::ostringstream out;
         out << "CurrentNeighbourItem: " << std::endl;
 
@@ -352,6 +368,8 @@ QTreeWidgetItem *NetworkDialog::getCurrentNeighbour()
                 out << "\t" << i << ":" << txt.toStdString() << std::endl;
         }
         std::cerr << out.str();
+*****************/
+
         return item;
 }   
 

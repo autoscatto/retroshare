@@ -107,6 +107,8 @@ bool 	hashFile(std::string path, FileEntry &fi); /* To Implement */
 
 	/* flags to kick - if we were busy or sleeping */
 	bool pendingDirs;
+	bool pendingForceCacheWrite;
+
 	std::list<std::string> pendingDirList;
 bool    internal_setSharedDirectories();
 

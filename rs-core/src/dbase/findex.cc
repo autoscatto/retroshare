@@ -427,6 +427,7 @@ FileEntry *DirEntry::updateFile(FileEntry fe, time_t utime)
 	nfile -> parent = this;
 	nfile -> name = fe.name;
 	nfile -> hash = fe.hash;
+	nfile -> size = fe.size;
 	nfile -> modtime = fe.modtime;
 	nfile -> updtime = utime;
 	//nfile -> pop  = 0; // not handled here.
@@ -508,7 +509,7 @@ int	FileIndex::setRootDirectories(std::list<std::string> inlist, time_t updtime)
 	}
 
 	/* remove all dirs with zero time (non recursive) */
-	root->removeOldEntries(0, false);
+	root->removeOldEntries(utime, false);
 
 	/* now flag remaining directories with correct update time */
 	for(it = root->subdirs.begin(); it != root->subdirs.end(); it++)

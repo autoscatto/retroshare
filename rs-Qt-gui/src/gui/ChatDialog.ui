@@ -625,7 +625,7 @@
                </font>
               </property>
               <property name="text" >
-               <string>Chat History:</string>
+               <string>Live Group Chat:</string>
               </property>
              </widget>
             </item>

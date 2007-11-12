@@ -59,6 +59,7 @@ private slots:
   void removefriend();
   /** start a chat with a friend **/
   void chatfriend();
+  void msgfriend();
 
   void configurefriend();
 
@@ -84,6 +85,7 @@ private:
   QMenu* contextMnu;
     /** Defines the actions for the context menu */
   QAction* chatAct;
+  QAction* msgAct;
   QAction* connectfriendAct;
   QAction* configurefriendAct;
   QAction* exportfriendAct;
