@@ -280,11 +280,12 @@ void MessagesDialog::insertMessages()
 		 * (7) File Total
 		 */
 
-		// TimeStamp..... (for sorting)
+		// Date First.... (for sorting)
 		{
-			std::ostringstream out;
-			out << "@" << it -> ts;
-			item -> setText(0, QString::fromStdString(out.str()));
+			QDateTime qtime;
+			qtime.setTime_t(it->ts);
+			QString timestamp = qtime.toString("yyyy-MM-dd hh:mm:ss");
+			item -> setText(0, timestamp);
 		}
 
 		//  From ....
@@ -300,7 +301,7 @@ void MessagesDialog::insertMessages()
 		{
 			QDateTime qtime;
 			qtime.setTime_t(it->ts);
-			QString timestamp = qtime.toString("d MMM yyyy hh:mm:ss");
+			QString timestamp = qtime.toString("yyyy-MM-dd hh:mm:ss");
 			item -> setText(3, timestamp);
 		}
 

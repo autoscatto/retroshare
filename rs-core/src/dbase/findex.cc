@@ -1001,11 +1001,25 @@ int FileIndex::searchTerms(std::list<std::string> terms, std::list<FileEntry *> 
 			/* cycle through terms */
 			for(iter = terms.begin(); iter != terms.end(); iter++)
 			{
+				/* always ignore case */
+        			std::string::const_iterator it2 ;
+				const std::string &str1 = fit->second->name;
+				const std::string &str2 = (*iter);
+
+                		it2 = std::search( str1.begin(), str1.end(),
+                                        str2.begin(), str2.end(), CompareCharIC() );
+				if (it2 != str1.end())
+				{
+					results.push_back(fit->second);
+					break;
+				}
+				/* original case specific term search ******
 				if (fit->second->name.find(*iter) != std::string::npos)
 				{
 					results.push_back(fit->second);
 					break;
 				}
+				************/
 			}
 		}
 	} //while

@@ -157,6 +157,25 @@ bool RelExpression<T>::evalRel(T val) {
 	}
 }
 
+
+/******************************************************************************************
+Binary Predicate for Case Insensitive search 
+
+******************************************************************************************/
+/*Binary predicate for case insensitive character comparison.*/
+/*TODOS:
+ *Factor locales in the comparison
+ */
+struct CompareCharIC :
+                public std::binary_function< char , char , bool> {
+
+        bool operator () ( char ch1 , char ch2 ) const {
+                return tolower( static_cast < unsigned char > (ch1) )
+                        == tolower( static_cast < unsigned char > (ch2) );
+        }
+
+};
+
 /******************************************************************************************
 Some implementations of StringExpressions. 
 

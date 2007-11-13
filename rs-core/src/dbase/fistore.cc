@@ -410,6 +410,27 @@ int FileIndexStore::SearchKeywords(std::list<std::string> keywords, std::list<Fi
 		}
 
 	}
+	if (localindex)
+	{
+		firesults.clear();
+
+		localindex->searchTerms(keywords, firesults);
+		/* translate results */
+		for(rit = firesults.begin(); rit != firesults.end(); rit++)
+		{
+			FileDetail fd;
+			fd.id = "Local"; //localId;
+			fd.name = (*rit)->name;
+			fd.hash = (*rit)->hash;
+			fd.path = ""; /* TODO */
+			fd.size = (*rit)->size;
+			fd.age  = now - (*rit)->modtime;
+			fd.rank = (*rit)->pop;
+
+			results.push_back(fd);
+		}
+
+	}
 
 	unlockData();
 	return results.size();
@@ -450,6 +471,31 @@ int FileIndexStore::searchBoolExp(Expression * exp, std::list<FileDetail> &resul
 		}
 
 	}
+
+	/* finally search local files */
+	if (localindex)
+	{
+		firesults.clear();
+
+		localindex->searchBoolExp(exp, firesults);
+
+		/* translate results */
+		for(rit = firesults.begin(); rit != firesults.end(); rit++)
+		{
+			FileDetail fd;
+			fd.id = "Local"; //localId;
+			fd.name = (*rit)->name;
+			fd.hash = (*rit)->hash;
+			fd.path = ""; /* TODO */
+			fd.size = (*rit)->size;
+			fd.age  = now - (*rit)->modtime;
+			fd.rank  = (*rit)->pop;
+
+			results.push_back(fd);
+		}
+
+	}
+
 
 	unlockData();
 	return results.size();

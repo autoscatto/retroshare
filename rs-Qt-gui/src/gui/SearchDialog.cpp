@@ -46,10 +46,10 @@
 
 /* indicies for search results item columns SR_ = Search Result */
 #define SR_NAME_COL         0
-#define SR_HASH_COL         1
-#define SR_ID_COL           2
-#define SR_SEARCH_ID_COL    3
-#define SR_SIZE_COL         4
+#define SR_SIZE_COL         1
+#define SR_HASH_COL         2
+#define SR_ID_COL           3
+#define SR_SEARCH_ID_COL    4
 
 /* indicies for search summary item columns SS_ = Search Summary */
 #define SS_TEXT_COL         0
@@ -105,15 +105,19 @@ SearchDialog::SearchDialog(QWidget *parent)
     
     connect( ui.lineEdit, SIGNAL( returnPressed ( void ) ), this, SLOT( searchKeywords( void ) ) );
     connect( ui.pushButtonsearch, SIGNAL( released ( void ) ), this, SLOT( searchKeywords( void ) ) );
+    connect( ui.pushButtonDownload, SIGNAL( released ( void ) ), this, SLOT( download( void ) ) );
     //connect( ui.searchSummaryWidget, SIGNAL( itemSelectionChanged ( void ) ), this, SLOT( selectSearchResults( void ) ) );
     
     connect ( ui.searchSummaryWidget, SIGNAL( currentItemChanged ( QTreeWidgetItem *, QTreeWidgetItem * ) ),
                     this, SLOT( selectSearchResults( void ) ) );
-    
+   
+
     /* hide the Tree +/- */
     ui.searchResultWidget -> setRootIsDecorated( false );
     ui.searchSummaryWidget -> setRootIsDecorated( false );
-    
+
+    /* make it extended selection */
+    ui.searchResultWidget -> setSelectionMode(QAbstractItemView::ExtendedSelection);
     
 
     /* Set header resize modes and initial section sizes */
@@ -127,6 +131,18 @@ SearchDialog::SearchDialog(QWidget *parent)
     _smheader->resizeSection ( 0, 80 );
     _smheader->resizeSection ( 1, 75 );
     _smheader->resizeSection ( 2, 75 );
+
+    ui.searchResultWidget->setColumnCount(4);
+    _smheader = ui.searchResultWidget->header () ;   
+    _smheader->setResizeMode (0, QHeaderView::Interactive);
+    _smheader->setResizeMode (1, QHeaderView::Interactive);
+    _smheader->setResizeMode (2, QHeaderView::Interactive);
+    _smheader->setResizeMode (3, QHeaderView::Interactive);
+    
+    _smheader->resizeSection ( 0, 200 );
+    _smheader->resizeSection ( 1, 75 );
+    _smheader->resizeSection ( 2, 75 );
+    _smheader->resizeSection ( 3, 75 );
 
 
 /* Hide platform specific features */
@@ -193,14 +209,26 @@ void SearchDialog::download()
     QList<QTreeWidgetItem*> itemsForDownload = ui.searchResultWidget->selectedItems();
     int numdls = itemsForDownload.size();
     QTreeWidgetItem * item;
+    bool attemptDownloadLocal = false;
     
     for (int i = 0; i < numdls; ++i) {
         item = itemsForDownload.at(i);
         // call the download
-        rsicontrol -> FileRequest((item->text(SR_NAME_COL)).toStdString(), 
+	if (item->text(SR_ID_COL) != "Local")
+	{
+        	rsicontrol -> FileRequest((item->text(SR_NAME_COL)).toStdString(), 
                                   (item->text(SR_HASH_COL)).toStdString(), 
                                   (item->text(SR_SIZE_COL)).toInt(), 
                                   "");
+	}
+	else
+	{
+		attemptDownloadLocal = true;
+	}
+    }
+    if (attemptDownloadLocal)
+    {
+    	QMessageBox::information(0, tr("Download Notice"), tr("Skipping Local Files"));
     }
 }
 
@@ -249,13 +277,54 @@ void SearchDialog::searchtableWidget2CostumPopupMenu( QPoint point )
 /** remove selected search result **/
 void SearchDialog::searchRemove()
 {
-    
+	/* get the current search id from the summary window */
+        QTreeWidgetItem *ci = ui.searchSummaryWidget->currentItem();
+	if (!ci)
+		return;
+
+        /* get the searchId text */
+        QString searchId = ci->text(SS_SEARCH_ID_COL);
+
+        std::cerr << "SearchDialog::searchRemove(): searchId: " << searchId.toStdString();
+        std::cerr << std::endl;
+
+        /* show only matching searchIds in main window */
+        int items = ui.searchResultWidget->topLevelItemCount();
+        for(int i = 0; i < items;)
+        {
+                /* get item */
+                QTreeWidgetItem *ti = ui.searchResultWidget->topLevelItem(i);
+                if (ti->text(SR_SEARCH_ID_COL) == searchId)
+                {
+			/* remove */
+                        delete (ui.searchResultWidget->takeTopLevelItem(i));
+			items--;
+                }
+                else
+                {
+			/* step to the next */
+			i++;
+                }
+        }
+	int sii = ui.searchSummaryWidget->indexOfTopLevelItem(ci);
+	if (sii != -1)
+	{
+        	delete (ui.searchSummaryWidget->takeTopLevelItem(sii));
+	}
+
+        ui.searchResultWidget->update();
+        ui.searchSummaryWidget->update();
 }
 
 /** remove all search results **/
 void SearchDialog::searchRemoveAll()
 {
-    
+	/* remove all summaries and results */
+        ui.searchSummaryWidget->clear();
+        ui.searchResultWidget->clear();
+
+        //ui.searchResultWidget->update();
+        //ui.searchSummaryWidget->update();
 }
 
 /* *****************************************************************
@@ -407,6 +476,16 @@ void SearchDialog::resultsToTree(std::string txt, std::list<FileDetail> results)
                 QVariant * variant = new QVariant(it->size);
                 item->setText(SR_SIZE_COL, QString(variant->toString()));
 
+		if (it->id == "Local")
+		{
+			/* colour green? */
+			item->setBackground(3, QBrush(Qt::green));
+		}
+		else
+		{
+			/* colour blue? */
+			item->setBackground(3, QBrush(Qt::blue));
+		}
 		ui.searchResultWidget->addTopLevelItem(item);
 	}
 
@@ -435,6 +514,8 @@ void SearchDialog::selectSearchResults()
 {
 	/* highlight this search in summary window */
 	QTreeWidgetItem *ci = ui.searchSummaryWidget->currentItem();
+	if (!ci)
+		return;
 
 	/* get the searchId text */
 	QString searchId = ci->text(SS_SEARCH_ID_COL);

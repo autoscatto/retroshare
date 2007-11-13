@@ -87,20 +87,6 @@ bool HashExpression::eval(FileEntry *file){
 	return evalStr(file->hash);
 }
 
-/*Binary predicate for case insensitive character comparison.*/
-/*TODOS:
- *Factor locales in the comparison
- */
-struct CompareCharIC : 
-		public std::binary_function< char , char , bool> {
-	
-	bool operator () ( char ch1 , char ch2 ) const {
-		return tolower( static_cast < unsigned char > (ch1) )
-			== tolower( static_cast < unsigned char > (ch2) );
-	}
-	
-};
-
 /*Check whether two strings are 'equal' to each other*/
 static bool StrEquals(const std::string & str1, const std::string & str2, 
 			   bool IgnoreCase ){
