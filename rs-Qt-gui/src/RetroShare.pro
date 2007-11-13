@@ -9,6 +9,8 @@ CONFIG += qt release
 QT     += network xml
 TEMPLATE = app
 TARGET += 
+INCLUDEPATH += games/qcheckers/ 
+
 DEPENDPATH += . \
             rsiface \
             config \
@@ -250,7 +252,7 @@ SOURCES += main.cpp \
             games/qbackgammon/bgboard.cpp \
             games/qbackgammon/optionsdlg.cpp
             
-RESOURCES += gui/images.qrc lang/lang.qrc
+RESOURCES += gui/images.qrc lang/lang.qrc games/qcheckers/qcheckers.qrc
 TRANSLATIONS +=  \
             lang/retroshare_en.ts \
             lang/retroshare_de.ts \
@@ -285,7 +287,7 @@ win32 {
 
     RC_FILE = gui/images/retroshare_win.rc
 
-    "LIBS += -L"../../winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lgdi32
+    "LIBS += -L"../../winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lqcheckers -lgdi32
     CONFIG += qt release"
 
 }

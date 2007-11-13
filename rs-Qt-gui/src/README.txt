@@ -120,6 +120,30 @@ win32
 }
 
 ---------------------------------------------
+Compiling QCheckers game
+_____________________________________________
+
+1.qmake
+2.make
+3.Copy the libqcheckers.a to your retroshare libs directory.
+5.then add to LIBS= -lqcheckers to the RetroShare.pro file:
+
+example(linux):
+
+RSLIBS = -L/path/to/your/retroshare/libs/directory/ -lretroshare -lKadC -lKadC -lminiupnpc -lskin -lqcheckers -lssl -lcrypto 
+LIBS = $(RSLIBS) 
+
+example (Windows):
+
+win32 
+{
+    RC_FILE = gui/images/retroshare_win.rc
+
+    "LIBS += -L"../../winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lqcheckers -lgdi32
+    CONFIG += qt release"
+}
+
+---------------------------------------------
 Compiling the Qt GUI
 _____________________________________________
 

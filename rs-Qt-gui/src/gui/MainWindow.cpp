@@ -33,7 +33,7 @@
 #include "HelpDialog.h"
 
 #include "games/qbackgammon/bgwindow.h"
-
+#include "toplevel.h"
 
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
@@ -104,13 +104,16 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     applicationWindow = new ApplicationWindow();
     applicationWindow->hide();
 	
+	/** General ToolBox**/
     connect(ui.addfriendButton, SIGNAL(clicked( bool ) ), this , SLOT( addFriend() ) );
     connect(ui.invitefriendButton, SIGNAL(clicked( bool ) ), this , SLOT( inviteFriend() ) );
-
     connect(ui.addshareButton, SIGNAL(clicked( bool ) ), this , SLOT( addSharedDirectory() ) );
     connect(ui.optionsButton, SIGNAL(clicked( bool )), this, SLOT( showPreferencesWindow()) );
     
+    /** Games ToolBox*/
 	connect(ui.qbackgammonButton, SIGNAL(clicked( bool )), this, SLOT( startgammon()) );
+	connect(ui.qcheckersButton, SIGNAL(clicked( bool )), this, SLOT( startqcheckers()) );
+	
 	
     ui.addfriendButton->setToolTip(tr("Add a Friend"));
     ui.invitefriendButton->setToolTip(tr("Invite a Friend"));
@@ -177,6 +180,7 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
  
     /* Create and bind the messenger button */
     addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
+    
 
 
 #ifdef RS_RELEASE_VERSION    
@@ -550,4 +554,11 @@ void MainWindow::startgammon()
 	bgWindow->show(); 
 
 
+}
+
+void MainWindow::startqcheckers()
+{
+    myTopLevel* top = new myTopLevel();
+    top->show();
+    
 }
