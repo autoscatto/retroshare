@@ -579,10 +579,19 @@
                </size>
               </property>
               <property name="font" >
-               <font>
-                <weight>75</weight>
-                <bold>true</bold>
-               </font>
+               <font/>
+              </property>
+              <property name="styleSheet" >
+               <string>QToolBox::tab {         
+background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,                                     stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,                                     stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+        
+border-radius: 5px;         
+color: darkgray;     
+}     
+QToolBox::tab:selected {       
+font: bold;         
+color: black;     
+}</string>
               </property>
               <property name="lineWidth" >
                <number>1</number>
@@ -596,7 +605,7 @@
                  <x>0</x>
                  <y>0</y>
                  <width>68</width>
-                 <height>219</height>
+                 <height>265</height>
                 </rect>
                </property>
                <attribute name="label" >
@@ -835,8 +844,8 @@
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>68</width>
-                 <height>211</height>
+                 <width>100</width>
+                 <height>30</height>
                 </rect>
                </property>
                <attribute name="label" >
