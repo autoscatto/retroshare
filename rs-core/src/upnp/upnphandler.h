@@ -50,7 +50,9 @@ class upnphandler: public RsThread
 	:toShutdown(false), toEnable(false), 
 	toStart(false), toStop(false),
 	eport(0), eport_curr(0),
-	upnpState(RS_UPNP_S_UNINITIALISED)
+	upnpState(RS_UPNP_S_UNINITIALISED), 
+	upnpConfig(NULL)
+
 	{
 		return;
 	}

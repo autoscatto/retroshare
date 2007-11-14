@@ -70,7 +70,10 @@ bool SearchDialog::initialised = false;
  
 /** Constructor */
 SearchDialog::SearchDialog(QWidget *parent)
-: MainPage(parent), nextSearchId(1)
+: MainPage(parent), 
+	advSearchDialog(NULL), 
+	contextMnu(NULL), contextMnu2(NULL),
+	nextSearchId(1)
 {
     /* Invoke the Qt Designer generated object setup routine */
     ui.setupUi(this);

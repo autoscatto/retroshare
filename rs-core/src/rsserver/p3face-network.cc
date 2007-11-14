@@ -286,6 +286,7 @@ int	RsServer::CheckUPnP()
 
 	if (server -> getUPnPEnabled()) 
 	{
+		std::cerr << "UPnP ENABLED: ";
 		switch(state)
 		{
 			case RS_UPNP_S_ACTIVE:
@@ -309,6 +310,7 @@ int	RsServer::CheckUPnP()
 	}
 	else
 	{
+		std::cerr << "UPnP DISABLED: ";
                 /* shutdown a forward */
 		switch(state)
 		{
@@ -328,6 +330,7 @@ int	RsServer::CheckUPnP()
 		}
 
 	}
+	std::cerr << std::endl;
 
 	unlockRsCore(); /* UNLOCK */
 	return ret;

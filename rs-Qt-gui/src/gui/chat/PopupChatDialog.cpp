@@ -233,7 +233,12 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 	}
 	else
 	{
-		out << "<br>\n";
+
+#if defined(Q_OS_WIN)
+		// Nothing.
+#else
+		out << "<br>" << std::endl;
+#endif
 		for(int i = 0; i < n; i++)
 		{
 			out << spaces;
@@ -251,7 +256,16 @@ void PopupChatDialog::addChatMsg(ChatInfo *ci)
 		out << line.toStdString();
 
 	}
-	out << ci -> msg << std::endl;
+	out << ci -> msg;
+
+	/* This might be WIN32 only - or maybe Qt4.2.2 only - but need it for windows at the mom */
+#if defined(Q_OS_WIN)
+		//out << "<br>"; // << std::endl;
+		out << std::endl;
+#else
+		out << std::endl;
+#endif
+
 	lastChatTime = ts;
 	lastChatName = ci->name;
 

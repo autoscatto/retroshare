@@ -539,7 +539,7 @@
           <widget class="QFrame" name="toolboxframe" >
            <property name="maximumSize" >
             <size>
-             <width>70</width>
+             <width>74</width>
              <height>16777215</height>
             </size>
            </property>
@@ -568,18 +568,21 @@
               </property>
               <property name="minimumSize" >
                <size>
-                <width>64</width>
+                <width>70</width>
                 <height>0</height>
                </size>
               </property>
               <property name="maximumSize" >
                <size>
-                <width>70</width>
+                <width>74</width>
                 <height>16777215</height>
                </size>
               </property>
               <property name="font" >
-               <font/>
+               <font>
+                <weight>30</weight>
+                <bold>true</bold>
+               </font>
               </property>
               <property name="styleSheet" >
                <string>QToolBox::tab {         
@@ -604,7 +607,7 @@ color: black;
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>68</width>
+                 <width>72</width>
                  <height>265</height>
                 </rect>
                </property>
@@ -844,7 +847,7 @@ color: black;
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>100</width>
+                 <width>72</width>
                  <height>30</height>
                 </rect>
                </property>

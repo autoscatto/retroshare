@@ -297,19 +297,11 @@ void MessagesDialog::insertMessages()
 
 		item -> setText(2, QString::fromStdString(it->title));
 
-		// Date....
-		{
-			QDateTime qtime;
-			qtime.setTime_t(it->ts);
-			QString timestamp = qtime.toString("yyyy-MM-dd hh:mm:ss");
-			item -> setText(3, timestamp);
-		}
-
 		// No of Files.
 		{
 			std::ostringstream out;
 			out << it -> count;
-			item -> setText(4, QString::fromStdString(out.str()));
+			item -> setText(3, QString::fromStdString(out.str()));
 		}
 
 		// Size.
@@ -318,7 +310,7 @@ void MessagesDialog::insertMessages()
 		{
 			std::ostringstream out;
 			out << it -> size;
-			item -> setText(5, QString::fromStdString(out.str()));
+			item -> setText(4, QString::fromStdString(out.str()));
 		}
 
 		/* strip out the \n and \r symbols */
@@ -331,24 +323,24 @@ void MessagesDialog::insertMessages()
 			   tmsg[i] = ' ';
 			}
 		}
-		item -> setText(6, QString::fromStdString(tmsg));
+		item -> setText(5, QString::fromStdString(tmsg));
 
 		{
 			std::ostringstream out;
 			out << "5"; // RANK 
-			item -> setText(7, QString::fromStdString(out.str()));
+			item -> setText(6, QString::fromStdString(out.str()));
 		}
 
 		{
 			std::ostringstream out;
 			out << it -> id;
-			item -> setText(8, QString::fromStdString(out.str()));
+			item -> setText(7, QString::fromStdString(out.str()));
 		}
 
 		{
 			std::ostringstream out;
 			out << it -> msgId;
-			item -> setText(9, QString::fromStdString(out.str()));
+			item -> setText(8, QString::fromStdString(out.str()));
 			if ((oldSelected) && (mid == out.str()))
 			{
 				newSelected = item;
@@ -399,9 +391,7 @@ void MessagesDialog::insertMsgTxtAndFiles()
 
 
 	/* get its Ids */
-	bool isMsg;
 	std::string cid;
-	std::string chid;
 	std::string mid;
 
 	QTreeWidgetItem *qtwi = msglist -> currentItem();
@@ -414,24 +404,9 @@ void MessagesDialog::insertMsgTxtAndFiles()
 	}
 	else
 	{
-		/* ALWAYS A MSG NOW qtwi -> text(7).toStdString() == "MSG") */
-		if (1) 
-		{
-			cid = qtwi -> text(8).toStdString();
-			mid = qtwi -> text(9).toStdString();
-			isMsg = true;
-		}
-		else
-		{
-			chid = qtwi -> text(8).toStdString();
-			mid = qtwi -> text(9).toStdString();
-			isMsg = false;
-		}
+		cid = qtwi -> text(7).toStdString();
+		mid = qtwi -> text(8).toStdString();
 	}
-	//std::cerr << "IsMsg " << ( (isMsg) ? "True" : "False" ) << std::endl;
-	//std::cerr << "chId: " << chid << std::endl;
-	//std::cerr << "cId: " << cid << std::endl;
-	//std::cerr << "mId: " << mid << std::endl;
 
 	/* Save the Data.... for later */
 
@@ -442,14 +417,7 @@ void MessagesDialog::insertMsgTxtAndFiles()
 	rsiface->lockData();   /* Lock Interface */
 
 	const MessageInfo *mi = NULL;
-	if (isMsg)
-	{
-		mi = rsiface->getMessage(cid, mid);
-	}
-	else
-	{
-		mi = rsiface->getChannelMsg(chid, mid);
-	}
+	mi = rsiface->getMessage(cid, mid);
 	if (!mi)
 	{
 		rsiface->unlockData();   /* Unlock Interface */
@@ -525,8 +493,8 @@ bool MessagesDialog::getCurrentMsg(std::string &cid, std::string &mid)
 	QTreeWidgetItem *qtwi = msglist -> currentItem();
 	if (qtwi)
 	{
-		cid = qtwi -> text(8).toStdString();
-		mid = qtwi -> text(9).toStdString();
+		cid = qtwi -> text(7).toStdString();
+		mid = qtwi -> text(8).toStdString();
 		return true;
 	}
 	return false;

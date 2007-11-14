@@ -138,7 +138,6 @@
 	  <file>images/replymail-pressed.png</file>
         <file>images/reset.png</file>
         <file>images/retro4.png</file>
-        <file>images/retrotoolbar.png</file>
         <file>images/rsmessenger16.png</file>
         <file>images/rsmessenger32.png</file>
         <file>images/send24.png</file>
@@ -166,6 +165,44 @@
 	  <file>images/FileTypeAny.png</file>
         <file>images/kbackgammon.png</file>
         <file>layouts/default.ui</file>
+######################### Internalised QStyleSheets
         <file>qss/default.qss</file>
+        <file>qss/default/retrotoolbar.png</file>
+######################### Arachnophobia StyleSheet.
+        <file>qss/arachnophobia.qss</file>
+        <file>qss/arachnophobia/background.png</file>
+######################### Black StyleSheet.
+        <file>qss/black.qss</file>
+        <file>qss/black/backgroundblack.png</file>
+        <file>qss/black/border.png</file>
+        <file>qss/black/button.png</file>
+        <file>qss/black/button_hover.png</file>
+        <file>qss/black/button_pressed.png</file>
+        <file>qss/black/checkBox.png</file>
+        <file>qss/black/checkBox_hover.png</file>
+        <file>qss/black/checkBox_selected.png</file>
+        <file>qss/black/checkBox_hoverAndSelected.png</file>
+######################### Blue StyleSheet.
+        <file>qss/blue.qss</file>
+        <file>qss/blue/blue.png</file>
+######################### ed2k StyleSheet.
+        <file>qss/ed2k.qss</file>
+        <file>qss/ed2k/backed2k.png</file>
+        <file>qss/ed2k/little-back.png</file>
+        <file>qss/ed2k/button-down.png</file>
+        <file>qss/ed2k/button-up.png</file>
+        <file>qss/ed2k/button-hover.png</file>
+######################### over StyleSheet.
+        <file>qss/over.qss</file>
+        <file>qss/over/backover.png</file>
+        <file>qss/over/greenbot.png</file>
+        <file>qss/over/greenhover.png</file>
+        <file>qss/over/greentop.png</file>
+######################### Silver StyleSheet.
+        <file>qss/silver.qss</file>
+        <file>qss/silver/silver.png</file>
+######################### Skin2 StyleSheet.
+        <file>qss/skin2.qss</file>
+        <file>qss/skin2/background.png</file>
     </qresource>
 </RCC>

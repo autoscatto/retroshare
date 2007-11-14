@@ -140,6 +140,7 @@ static  int         lastChatTime = 0;
 	{
 		n = 1;
 	}
+	n = 1 + n / 2; /* shrink it! */
 
 	//std::cerr << "Space count : " << n << std::endl;
 
@@ -166,20 +167,35 @@ static  int         lastChatTime = 0;
 		}
 		else
 		{
-                	out << "<br>\n";
+#if defined(Q_OS_WIN)
+			/* nothing */
+#else
+			out << "<br>" << std::endl;
+#endif
 			for(int i = 0; i < n; i++)
 			{
 				out << spaces; 
 			}
             		QString timestamp = "(" + QDateTime::currentDateTime().toString("hh:mm:ss") + ") ";
             		QString name = QString::fromStdString(it->name);
-            		QString line = "<span style=\"color:#1D84C9\"><strong>" + timestamp +
-                       		                  "   " + name + "</strong></span> \n<br>";
+            		QString line = "<span style=\"color:#1D84C9\">" + timestamp +
+                       		                  "   " + name + "</span> \n<br>";
+            		//QString line = "<span style=\"color:#1D84C9\"><strong>" + timestamp +
+                       	//	                  "   " + name + "</strong></span> \n<br>";
 
                 	out << line.toStdString();
 		}
 
-		out << it -> msg << std::endl;
+		out << it -> msg;
+
+	        /* This might be WIN32 only - or maybe Qt4.2.2 only - but need it for windows at the mom */
+#if defined(Q_OS_WIN)
+		//out << "<br>" << std::endl;
+		out << std::endl;
+#else
+		out << std::endl;
+#endif
+
 
 		/* 
 		 */
@@ -187,16 +203,18 @@ static  int         lastChatTime = 0;
 		lastChatTime = ts;
 	}
 
-	QString extra = QString::fromStdString(out.str());
-	currenttxt += extra;
+	if (out.str().length() > 1)
+	{
+		QString extra = QString::fromStdString(out.str());
+		currenttxt += extra;
 
-	msgWidget->setHtml(currenttxt);
+		msgWidget->setHtml(currenttxt);
 
-	//std::cerr << " Added Text: " << std::endl;
-	//std::cerr << out.str() << std::endl;
-	QScrollBar *qsb =  msgWidget->verticalScrollBar();
-	qsb -> setValue(qsb->maximum());
-
+		//std::cerr << " Added Text: " << std::endl;
+		//std::cerr << out.str() << std::endl;
+		QScrollBar *qsb =  msgWidget->verticalScrollBar();
+		qsb -> setValue(qsb->maximum());
+	}
 }
 
 

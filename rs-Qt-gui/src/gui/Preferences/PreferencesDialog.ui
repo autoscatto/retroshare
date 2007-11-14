@@ -704,6 +704,51 @@ p, li { white-space: pre-wrap; }
          <height>0</height>
         </size>
        </property>
+       <item>
+        <property name="text" >
+         <string>Default</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>blue</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>silver</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>ed2k</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>over</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>black</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>arachnophobia</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Skin2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text" >
+         <string>Pagefold</string>
+        </property>
+       </item>
       </widget>
      </item>
     </layout>

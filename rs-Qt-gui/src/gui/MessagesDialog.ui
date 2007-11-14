@@ -645,11 +645,11 @@ border-image: url(:/images/deletemail-pressed.png);
          <bool>true</bool>
         </property>
         <property name="columnCount" >
-         <number>7</number>
+         <number>6</number>
         </property>
         <column>
          <property name="text" >
-          <string>Timestamp</string>
+          <string>Date</string>
          </property>
         </column>
         <column>
@@ -660,11 +660,6 @@ border-image: url(:/images/deletemail-pressed.png);
         <column>
          <property name="text" >
           <string>Title</string>
-         </property>
-        </column>
-        <column>
-         <property name="text" >
-          <string>Date</string>
          </property>
         </column>
         <column>

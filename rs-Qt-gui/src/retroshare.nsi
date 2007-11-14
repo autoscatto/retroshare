@@ -2,7 +2,7 @@
 
 ; Define your application name
 !define APPNAME "RetroShare"
-!define VERSION "0.3.50b"
+!define VERSION "0.3.52a"
 !define APPNAMEANDVERSION "${APPNAME} ${VERSION}"
 
 ; Main Install settings
@@ -62,16 +62,17 @@ Section "RetroShare Data" Section1b
   SetOverwrite on
 
   ; Set Section Files and Shortcuts
-  ;SetOutPath "$APPDATA\RetroShare\"
-  ;File /r "data\*"
+  SetOutPath "$APPDATA\RetroShare\"
+  File /r "data\*"
   
+  ; We're not ready for external skins...
   ; Set Section qss
-  SetOutPath "$INSTDIR\qss\"
-  File /r release\qss\*.*   
+  ; SetOutPath "$INSTDIR\qss\"
+  ; File /r release\qss\*.*   
   
   ; Set Section skin
-  SetOutPath "$INSTDIR\skin\"
-  File /r release\skin\*.* 
+  ; SetOutPath "$INSTDIR\skin\"
+  ; File /r release\skin\*.* 
 	
 SectionEnd
 
@@ -86,9 +87,6 @@ Section "File Association" section2
   WriteRegStr HKCR "retroshare\shell" "" open
   WriteRegStr HKCR "retroshare\shell\open\command" "" `"$INSTDIR\RetroShare.exe" "%1"`
 
-; REMOVED - What are they doing here??? can re create our own Content Type.
-;  WriteRegStr HKCR .pqi "Content Type" application/x-bittorrent
-;  WriteRegStr HKCR "MIME\Database\Content Type\application/x-bittorrent" Extension .pqi
 SectionEnd
 
 Section "Start Menu Shortcuts" section3
@@ -138,7 +136,6 @@ Section "Uninstall"
   ; Remove file association registry keys
   DeleteRegKey HKCR .pqi
   DeleteRegKey HKCR retroshare
-  ;;;;;;DeleteRegKey HKCR "MIME\Database\Content Type\application/x-bittorrent"
 	
   ; Remove program/uninstall regsitry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APPNAME}"
