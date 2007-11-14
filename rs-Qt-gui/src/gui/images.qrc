@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/" >
-        <file>images/COPYING</file>
         <file>images/RetroShare16.png</file>
         <file>images/rs-2.png</file>
 	  <file>images/rstray3.png</file>		  
@@ -204,5 +203,9 @@
 ######################### Skin2 StyleSheet.
         <file>qss/skin2.qss</file>
         <file>qss/skin2/background.png</file>
+######################### Help Pages.
+        <file>help/authors.html</file>
+        <file>help/thanks.html</file>
+        <file>help/licence.html</file>
     </qresource>
 </RCC>

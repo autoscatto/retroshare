@@ -46,10 +46,21 @@ HelpDialog::HelpDialog(QWidget *parent)
   /* Invoke the Qt Designer generated object setup routine */
   ui.setupUi(this);
   
-  QFile licenseFile(QLatin1String(":/images/COPYING"));
+  //QFile licenseFile(QLatin1String(":/images/COPYING"));
+  QFile licenseFile(QLatin1String(":/help/licence.html"));
    if (licenseFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         QTextStream in(&licenseFile);
         ui.license->setText(in.readAll());
+   }
+  QFile authorsFile(QLatin1String(":/help/authors.html"));
+   if (authorsFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&authorsFile);
+        ui.authors->setText(in.readAll());
+   }
+  QFile thanksFile(QLatin1String(":/help/thanks.html"));
+   if (thanksFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QTextStream in(&thanksFile);
+        ui.thanks->setText(in.readAll());
    }
 
 

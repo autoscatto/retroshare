@@ -75,6 +75,8 @@ const float TRANSFER_MODE_FAST_RATE    = 500000; /* 500 kbyte limit */
 const int TRANSFER_START_MIN = 500;  /* 500 byte  min limit */
 const int TRANSFER_START_MAX = 10000; /* 10000 byte max limit */
 
+void printFtFileStatus(ftFileStatus *s, std::ostream &out);
+
 /************* Local File Interface ****************************
  *
  * virtual bool    getCacheFile(std::string id, std::string path, std::string hash) = 0;
@@ -1131,6 +1133,9 @@ int ftfiler::addFileData(ftFileStatus *s, long idx, void *data, int size)
         pqioutput(PQL_DEBUG_BASIC, ftfilerzone,
 	              "ftfiler::addFileData()");
 
+        //std::cerr << "ftfiler::addFileData() PreStatus" << std::endl;
+	//printFtFileStatus(s, std::cerr);
+
 	/* check the status */
 	if ((!s) || (!s->fd) || (s->status & PQIFILE_FAIL))
 	{
@@ -1329,6 +1334,63 @@ void    ftfiler::setSaveBasePath(std::string s)
 {
 	saveBasePath = s;
 	return;
+}
+
+
+
+/***********************
+ * Notes
+ *
+ * debugging functions.
+ *
+ */
+
+
+void printFtFileStatus(ftFileStatus *s, std::ostream &out)
+{
+	/* main details */
+	out << "FtFileStatus::Internals:" << std::endl;
+	out << "name: " << s->name << std::endl;
+	out << "hash: " << s->hash << std::endl;
+	out << "destpath " << s->destpath << std::endl;
+	// 
+
+	out << "Source: " << s->id << std::endl;
+	out << "Alt Srcs: ";
+	std::list<std::string>::iterator it;
+	for(it = s->sources.begin(); it != s->sources.end(); it++)
+	{
+		out << " " << (*it);
+	}
+
+	out << std::endl;
+	out << " mode: " << s->mode;
+	out << " ftMode: " << s->ftMode;
+	out << " status: " << s->status;
+	out << " resetCount: " << s->resetCount;
+	out << std::endl;
+
+	if (s->fd)
+	{
+		out << "FD Valid:   ";
+	}
+	else
+	{
+		out << "FD Invalid: ";
+	}
+	out << "file_name " << s->file_name << std::endl;
+
+	out << " size " << s->size;
+	out << " total_size " << s->total_size;
+	out << " recv_size " << s->recv_size;
+	out << " rate: " << s->rate;
+	out << std::endl;
+	out << " Req loc: " << s->req_loc;
+	out << " Req size: " << s->req_size;
+	out << std::endl;
+	out << " last Delta: " << s->lastDelta;
+	out << " last TS: " << s->lastTS;
+	out << std::endl;
 }
 
 
