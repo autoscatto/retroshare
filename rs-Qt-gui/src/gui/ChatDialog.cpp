@@ -97,12 +97,12 @@ int     ChatDialog::loadInitMsg()
 	//out << std::endl;
 	//out << std::endl;
 	//out << std::endl;
-	out << "Welcome to Retroshare's group chat.";
-	out << std::endl;
-	out << std::endl;
+	out << "      Welcome to:";
+	out << "<br>" << std::endl;
+	out << "      Retroshare's group chat. <br>";
 
 	QString txt = QString::fromStdString(out.str());
-	ui.msgText->setPlainText(txt);
+	ui.msgText->setHtml(txt);
 
 	return 1;
 }
@@ -123,7 +123,6 @@ void ChatDialog::insertChat()
 static  std::string lastChatName("");
 static  int         lastChatTime = 0;
 
-	QString currenttxt = msgWidget->toHtml();
 
 	/* determine how many spaces to add */
 	int n = msgWidget->width();
@@ -148,7 +147,6 @@ static  int         lastChatTime = 0;
 
 
 	/* add in lines at the bottom */
-	std::ostringstream out;
 	int ts = time(NULL);
 	for(it = newchat.begin(); it != newchat.end(); it++)
 	{
@@ -160,6 +158,8 @@ static  int         lastChatTime = 0;
 			continue;
 		}
 
+		std::ostringstream out;
+		QString currenttxt = msgWidget->toHtml();
 
 		if ((it->name == lastChatName) && (ts - lastChatTime < 60))
 		{
@@ -169,6 +169,7 @@ static  int         lastChatTime = 0;
 		{
 #if defined(Q_OS_WIN)
 			/* nothing */
+			//out << "<br>" << std::endl;
 #else
 			out << "<br>" << std::endl;
 #endif
@@ -178,10 +179,10 @@ static  int         lastChatTime = 0;
 			}
             		QString timestamp = "(" + QDateTime::currentDateTime().toString("hh:mm:ss") + ") ";
             		QString name = QString::fromStdString(it->name);
-            		QString line = "<span style=\"color:#1D84C9\">" + timestamp +
-                       		                  "   " + name + "</span> \n<br>";
-            		//QString line = "<span style=\"color:#1D84C9\"><strong>" + timestamp +
-                       	//	                  "   " + name + "</strong></span> \n<br>";
+            		//QString line = "<span style=\"color:#1D84C9\">" + timestamp +
+                       	//	                  "   " + name + "</span> \n<br>";
+            		QString line = "<span style=\"color:#1D84C9\"><strong>" + timestamp +
+                       		                  "   " + name + "</strong></span> \n<br>";
 
                 	out << line.toStdString();
 		}
@@ -190,21 +191,18 @@ static  int         lastChatTime = 0;
 
 	        /* This might be WIN32 only - or maybe Qt4.2.2 only - but need it for windows at the mom */
 #if defined(Q_OS_WIN)
+		//out << "<br>";
 		//out << "<br>" << std::endl;
+
 		out << std::endl;
 #else
 		out << std::endl;
 #endif
 
-
-		/* 
-		 */
 		lastChatName = it -> name;
 		lastChatTime = ts;
-	}
 
-	if (out.str().length() > 1)
-	{
+		/* add it everytime */
 		QString extra = QString::fromStdString(out.str());
 		currenttxt += extra;
 

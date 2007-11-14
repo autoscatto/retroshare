@@ -603,9 +603,6 @@
           <property name="readOnly" >
            <bool>true</bool>
           </property>
-          <property name="textInteractionFlags" >
-           <enum>Qt::TextBrowserInteraction</enum>
-          </property>
          </widget>
         </item>
        </layout>
