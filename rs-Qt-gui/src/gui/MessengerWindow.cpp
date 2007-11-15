@@ -42,6 +42,7 @@
 #include <QMenu>
 #include <QCursor>
 #include <QPoint>
+#include <QPixmap>
 #include <QMouseEvent>
 #include <QHeaderView>
 
@@ -50,6 +51,7 @@
 #define IMAGE_REMOVEFRIEND       ":/images/removefriend16.png"
 #define IMAGE_EXPIORTFRIEND      ":/images/exportpeers_16x16.png"
 #define IMAGE_CHAT               ":/images/chat.png"
+#define IMAGE_SENDMESSAGE		 ":/images/message-mail.png"
 /* Images for Status icons */
 #define IMAGE_ONLINE             ":/images/donline.png"
 #define IMAGE_OFFLINE            ":/images/dhidden.png"
@@ -109,6 +111,9 @@ void MessengerWindow::messengertreeWidgetCostumPopupMenu( QPoint point )
 
       chatAct = new QAction(QIcon(IMAGE_CHAT), tr( "Chat" ), this );
       connect( chatAct , SIGNAL( triggered() ), this, SLOT( chatfriend2() ) );
+      
+      sendMessageAct = new QAction(QIcon(IMAGE_SENDMESSAGE), tr( "Send Message" ), this );
+      connect( sendMessageAct , SIGNAL( triggered() ), this, SLOT( sendMessage() ) );
 
       connectfriendAct = new QAction( tr( "Connect To Friend" ), this );
       connect( connectfriendAct , SIGNAL( triggered() ), this, SLOT( connectfriend2() ) );
@@ -130,6 +135,8 @@ void MessengerWindow::messengertreeWidgetCostumPopupMenu( QPoint point )
 
       contextMnu.clear();
       contextMnu.addAction( chatAct);
+      contextMnu.addAction( sendMessageAct);
+      contextMnu.addSeparator(); 
       contextMnu.addAction( connectfriendAct);
 
       /**** Do we want these options here??? 
@@ -370,6 +377,30 @@ void MessengerWindow::chatfriend2()
     {
     	chatDialog->getPrivateChat(id, name, true);
     }
+}
+
+void MessengerWindow::sendMessage()
+{
+	bool isOnline;
+    std::cerr << "SharedFilesDialog::msgfriend()" << std::endl;
+
+    QTreeWidgetItem *i = getCurrentPeer(isOnline);
+
+    if (!i)
+	return;
+
+    //std::string status = (i -> text(0)).toStdString();
+    std::string name = (i -> text(0)).toStdString();
+    std::string id = (i -> text(4)).toStdString();
+
+    rsicontrol -> ClearInMsg();
+    rsicontrol -> SetInMsg(id, true);
+
+    /* create a message */
+    ChanMsgDialog *nMsgDialog = new ChanMsgDialog(true);
+
+    nMsgDialog->newMsg();
+    nMsgDialog->show();
 }
 
 
