@@ -144,6 +144,16 @@ win32
 }
 
 ---------------------------------------------
+Compiling SMPlayer
+_____________________________________________
+
+1.qmake
+2.make
+3.Copy the libsmplayer.a to your retroshare libs directory.
+5.then add to LIBS  -lsmplayer to the RetroShare.pro file:
+_____________________________________________
+
+---------------------------------------------
 Compiling the Qt GUI
 _____________________________________________
 
