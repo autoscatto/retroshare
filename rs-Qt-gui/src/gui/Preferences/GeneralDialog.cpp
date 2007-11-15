@@ -33,7 +33,7 @@ GeneralDialog::GeneralDialog(QWidget *parent)
  /* Create RshareSettings object */
   _settings = new RshareSettings();
   
-  //connect(ui.styleSheetCombo, SIGNAL(clicked()), this, SLOT(loadStyleSheet()));
+  connect(ui.styleSheetCombo, SIGNAL(clicked()), this, SLOT(loadStyleSheet()));
 
   /* Populate combo boxes */
   foreach (QString code, LanguageSupport::languageCodes()) {
@@ -46,8 +46,8 @@ GeneralDialog::GeneralDialog(QWidget *parent)
   }
   
   ui.styleSheetCombo->setCurrentIndex(ui.styleSheetCombo->findText("Default"));
-  //loadStyleSheet("Default");
-  //loadqss(); 
+  loadStyleSheet("Default");
+  loadqss(); 
 
 }
 
@@ -92,7 +92,6 @@ void GeneralDialog::on_styleSheetCombo_activated(const QString &sheetName)
 void GeneralDialog::loadStyleSheet(const QString &sheetName)
 {
     //QFile file(":/qss/" + sheetName.toLower() + ".qss");
-    //QFile file(QDir::currentPath() + "/qss/" + sheetName.toLower() + ".qss");
     QFile file(QApplication::applicationDirPath() + "/qss/" + sheetName.toLower() + ".qss");
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String(file.readAll());
