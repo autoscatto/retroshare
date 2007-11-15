@@ -19,8 +19,8 @@
  *  Boston, MA  02110-1301, USA.
  ****************************************************************/
 
-#ifndef _PREFERENCESDIALOG_H
-#define _PREFERENCESDIALOG_H
+#ifndef _GENERALDIALOG_H
+#define _GENERALDIALOG_H
 #include <QtGui>
 #include <QFileDialog>
 #include <QStyleFactory>
@@ -30,17 +30,17 @@
 #include <lang/languagesupport.h>
 
 #include "configpage.h"
-#include "ui_PreferencesDialog.h"
+#include "ui_GeneralDialog.h"
 
-class PreferencesDialog : public ConfigPage 
+class GeneralDialog : public ConfigPage 
 {
   Q_OBJECT
 
 public:
   /** Default Constructor */
-  PreferencesDialog(QWidget *parent = 0);
+  GeneralDialog(QWidget *parent = 0);
   /** Default Destructor */ 
-  ~PreferencesDialog();
+  ~GeneralDialog();
   /** Saves the changes on this page */
   bool save(QString &errmsg);
   /** Loads the settings for this page */
@@ -60,7 +60,7 @@ private:
   void loadqss();
   
   /** Qt Designer generated object */
-  Ui::PreferencesDialog ui;
+  Ui::GeneralDialog ui;
 };
 
 #endif

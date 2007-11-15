@@ -49,7 +49,7 @@ PreferencesWindow::PreferencesWindow(QWidget *parent, Qt::WFlags flags)
 
   /* Create the config pages and actions */
   QActionGroup *grp = new QActionGroup(this);
-  ui.stackPages->add(new PreferencesDialog(ui.stackPages),
+  ui.stackPages->add(new GeneralDialog(ui.stackPages),
                      createPageAction(QIcon(IMAGE_PREFERENCES), tr("General"), grp));
                      
   ui.stackPages->add(new ServerDialog(ui.stackPages),

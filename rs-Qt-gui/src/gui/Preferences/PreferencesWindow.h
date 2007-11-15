@@ -26,7 +26,7 @@
 #include <QFileDialog>
 
 
-#include "PreferencesDialog.h"
+#include "GeneralDialog.h"
 #include "DirectoriesDialog.h"
 #include "ServerDialog.h"
 #include "CryptographyDialog.h"
@@ -43,7 +43,7 @@ class PreferencesWindow : public QMainWindow
 public:
   /** Preferences dialog pages. */
   enum Page {
-    Preferences  	= 0,  /** Preferences page. */
+    General 	  	= 0,  /** Preferences page. */
     Directories  	= 1,  /** Directories page. */
     Server   	 	= 2,  /** Server page. */
     Cryptography  	= 3,  /** Cryptography  page. */

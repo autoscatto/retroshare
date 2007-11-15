@@ -9,7 +9,7 @@ CONFIG += qt release
 QT     += network xml
 TEMPLATE = app
 TARGET += 
-INCLUDEPATH += games/qcheckers/ 
+
 
 DEPENDPATH += . \
             rsiface \
@@ -31,7 +31,9 @@ DEPENDPATH += . \
             gui\toaster \
             gui\authdlg
             
-INCLUDEPATH += .
+INCLUDEPATH += . \
+			games/qcheckers \
+			apps/smplayer
 
 # Input
 HEADERS +=  rshare.h \
@@ -100,7 +102,7 @@ HEADERS +=  rshare.h \
             gui/Preferences/CryptographyDialog.h \
             gui/Preferences/DirectoriesDialog.h \
             gui/Preferences/LogDialog.h \
-            gui/Preferences/PreferencesDialog.h \
+            gui/Preferences/GeneralDialog.h \
             gui/Preferences/PreferencesWindow.h \
             gui/Preferences/ServerDialog.h \          
             gui/Preferences/ConfirmQuitDialog.h \
@@ -157,7 +159,7 @@ FORMS +=    gui/ChatDialog.ui \
             gui/Preferences/CryptographyDialog.ui \
             gui/Preferences/DirectoriesDialog.ui \
             gui/Preferences/LogDialog.ui \
-            gui/Preferences/PreferencesDialog.ui \
+            gui/Preferences/GeneralDialog.ui \
             gui/Preferences/PreferencesWindow.ui \
             gui/Preferences/ServerDialog.ui \
             gui/Preferences/ConfirmQuitDialog.ui \
@@ -228,7 +230,7 @@ SOURCES += main.cpp \
             gui/Preferences/CryptographyDialog.cpp \
             gui/Preferences/DirectoriesDialog.cpp \
             gui/Preferences/LogDialog.cpp \
-            gui/Preferences/PreferencesDialog.cpp \
+            gui/Preferences/GeneralDialog.cpp \
             gui/Preferences/PreferencesWindow.cpp \
             gui/Preferences/ServerDialog.cpp \
             gui/Preferences/ConfirmQuitDialog.cpp \
@@ -252,7 +254,7 @@ SOURCES += main.cpp \
             games/qbackgammon/bgboard.cpp \
             games/qbackgammon/optionsdlg.cpp
             
-RESOURCES += gui/images.qrc lang/lang.qrc games/qcheckers/qcheckers.qrc
+RESOURCES += gui/images.qrc lang/lang.qrc games/qcheckers/qcheckers.qrc apps/smplayer/icons.qrc
 TRANSLATIONS +=  \
             lang/retroshare_en.ts \
             lang/retroshare_de.ts \
@@ -287,7 +289,7 @@ win32 {
 
     RC_FILE = gui/images/retroshare_win.rc
 
-    "LIBS += -L"../../winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lqcheckers -lgdi32
+    "LIBS += -L"../../winlibs" -lretroshare -lssl -lcrypto -lpthreadGC2d -lKadC -lminiupnpc -lz -lws2_32 -luuid -lole32 -liphlpapi -lcrypt32-cygwin -lskin -lqcheckers -lsmplayer -lgdi32
     CONFIG += qt release"
 
 }

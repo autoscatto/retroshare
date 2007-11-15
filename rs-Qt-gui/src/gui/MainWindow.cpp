@@ -34,6 +34,11 @@
 
 #include "games/qbackgammon/bgwindow.h"
 #include "toplevel.h"
+#include "defaultgui.h"
+#include "global.h"
+#include "translator.h"
+
+
 
 #include "Preferences/PreferencesWindow.h"
 #include "Settings/gsettingswin.h"
@@ -64,6 +69,7 @@
 #define IMAGE_RSM32             ":/images/rsmessenger32.png"
 #define IMAGE_RSM16             ":/images/rsmessenger16.png"
 #define IMAGE_CLOSE             ":/images/close_normal.png"
+#define IMAGE_SMPLAYER			":/images/smplayer_icon32.png"
 
 /* Keys for UI Preferences */
 #define UI_PREF_PROMPT_ON_QUIT  "UIOptions/ConfirmOnQuit"
@@ -181,6 +187,9 @@ MainWindow::MainWindow(QWidget* parent, Qt::WFlags flags)
     /* Create and bind the messenger button */
     addAction(new QAction(QIcon(IMAGE_RSM32), tr("Messenger"), ui.toolBar), SLOT(showMessengerWindow()));
     
+    
+    addAction(new QAction(QIcon(IMAGE_SMPLAYER), tr("SMPlayer"), ui.toolBar), SLOT(showsmplayer()));
+
 
 
 #ifdef RS_RELEASE_VERSION    
@@ -561,4 +570,20 @@ void MainWindow::startqcheckers()
     myTopLevel* top = new myTopLevel();
     top->show();
     
+}
+
+
+/** Shows smplayer */
+void MainWindow::showsmplayer()
+{
+    static DefaultGui* smplayer = 0;
+
+    if (!smplayer) {
+        global_init( "smplayer" );
+        translator->load( pref->language );
+
+        smplayer = new DefaultGui(this);
+    }
+
+    smplayer->show();
 }

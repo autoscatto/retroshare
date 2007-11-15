@@ -20,11 +20,11 @@
  ****************************************************************/
 
 #include "rshare.h"
-#include "PreferencesDialog.h"
+#include "GeneralDialog.h"
 
 
 /** Constructor */
-PreferencesDialog::PreferencesDialog(QWidget *parent)
+GeneralDialog::GeneralDialog(QWidget *parent)
 : ConfigPage(parent)
 {
   /* Invoke the Qt Designer generated object setup routine */
@@ -52,14 +52,14 @@ PreferencesDialog::PreferencesDialog(QWidget *parent)
 }
 
 /** Destructor */
-PreferencesDialog::~PreferencesDialog()
+GeneralDialog::~GeneralDialog()
 {
   delete _settings;
 }
 
 /** Saves the changes on this page */
 bool
-PreferencesDialog::save(QString &errmsg)
+GeneralDialog::save(QString &errmsg)
 {
   Q_UNUSED(errmsg);
   QString languageCode =
@@ -75,7 +75,7 @@ PreferencesDialog::save(QString &errmsg)
   
 /** Loads the settings for this page */
 void
-PreferencesDialog::load()
+GeneralDialog::load()
 {
   int index = ui.cmboLanguage->findData(_settings->getLanguageCode());
   ui.cmboLanguage->setCurrentIndex(index);
@@ -84,17 +84,16 @@ PreferencesDialog::load()
   ui.cmboStyle->setCurrentIndex(index);
 }
 
-void PreferencesDialog::on_styleSheetCombo_activated(const QString &sheetName)
+void GeneralDialog::on_styleSheetCombo_activated(const QString &sheetName)
 {
     loadStyleSheet(sheetName);
 }
 
-void PreferencesDialog::loadStyleSheet(const QString &sheetName)
+void GeneralDialog::loadStyleSheet(const QString &sheetName)
 {
-    QFile file(":/qss/" + sheetName.toLower() + ".qss");
     //QFile file(":/qss/" + sheetName.toLower() + ".qss");
     //QFile file(QDir::currentPath() + "/qss/" + sheetName.toLower() + ".qss");
-    //QFile file(QApplication::applicationDirPath() + "/qss/" + sheetName.toLower() + ".qss");
+    QFile file(QApplication::applicationDirPath() + "/qss/" + sheetName.toLower() + ".qss");
     file.open(QFile::ReadOnly);
     QString styleSheet = QLatin1String(file.readAll());
 
@@ -103,7 +102,7 @@ void PreferencesDialog::loadStyleSheet(const QString &sheetName)
     
 }
 
-void PreferencesDialog::loadqss()
+void GeneralDialog::loadqss()
 {
 
  QFileInfoList slist = QDir(QApplication::applicationDirPath() + "/qss/").entryInfoList();

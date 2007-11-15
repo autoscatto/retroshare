@@ -521,6 +521,10 @@
        <property name="enabled" >
         <bool>true</bool>
        </property>
+       <property name="styleSheet" >
+        <string>
+</string>
+       </property>
        <property name="currentIndex" >
         <number>0</number>
        </property>

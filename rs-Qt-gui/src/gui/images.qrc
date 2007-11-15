@@ -2,7 +2,8 @@
     <qresource prefix="/" >
         <file>images/RetroShare16.png</file>
         <file>images/rs-2.png</file>
-	  <file>images/rstray3.png</file>		  
+	  <file>images/rstray3.png</file>
+	  <file>images/smplayer_icon32.png</file>			  
         <file>images/retrosharelogo1.png</file>
         <file>images/retrosharelogo2.png</file>
         <file>images/logobar/rslogo2.png</file>
