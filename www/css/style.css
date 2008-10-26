@@ -109,6 +109,20 @@ blockquote blockquote {
 	color: #8A8A8A;
 }
 
+/* Title */
+
+#menu h3 a {
+   color: #4F84AD;
+   display: block;
+   font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
+   font-size: 2em;
+   margin: 0;
+}
+
+#menu h2 a:hover {
+	color: #8A8A8A;
+}
+
 /* Content Wrap */
 
 #content_wrap {
@@ -136,7 +150,7 @@ blockquote blockquote {
     border-bottom: 1px solid #D9DEE1;
 	font-size: 1.4em;
     display: block;
-    color: #1D1D1D; 
+    color: #2D7BC6; 
     font-family: Trebuchet MS, Arial, Helvetica, sans-serif;
     border-bottom: 1px solid #D9DEE1;
     clear: both;
