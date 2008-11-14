@@ -120,7 +120,7 @@ h1,h2,h3 {
 /* main left */
 .sidenav {
 	float: left;
-	width: 24%;
+	width: 34%;
 }
 .sidenav h1 {
 	border-bottom: 1px dashed #DDD;
@@ -139,7 +139,7 @@ h1,h2,h3 {
 	margin: 0;
 }
 .sidenav li a {
-	color: #777;
+	color: #;
 	display: block;
 	font-size: 0.9em;
 	padding: 3px 6px 3px 18px;
@@ -154,7 +154,7 @@ h1,h2,h3 {
 .content {
 	float: left;
 	margin-right: 4%;
-	width: 69%;
+	width: 59%;
 }
 .content .descr {
 	color: #C60;
@@ -192,3 +192,156 @@ h1,h2,h3 {
 	color: #FFF;
 	text-decoration: underline;
 }
+
+/* Colored panels */
+
+.panel-orange {
+	width: 100%; margin: 25px auto 0;
+	min-width: 200px;max-width: 792px;
+	color:#E73;
+}
+.panel-orange .hd .c,
+.panel-orange .ft .c { height: 8px; font-size: 1px; }
+
+.panel-orange .hd {
+	background: transparent url(panel-orange/tl.gif) no-repeat 0 0;
+	margin-right: 8px; /* space for right corner */
+}
+.panel-orange .hd .c {
+	background: transparent url(panel-orange/tr.gif) no-repeat right;
+	margin-right: -8px; /* space for right corner */
+}
+
+.panel-orange .bd {
+	background: transparent url(panel-orange/ml.gif) repeat-y 0 0;
+	margin-right: 8px;
+}
+.panel-orange .bd .c {
+	margin-right: -8px;
+	padding: 10px;
+	background: transparent url(panel-orange/mr.gif) repeat-y right;
+}
+ 
+.panel-orange .ft {
+	background: transparent url(panel-orange/bl.gif) no-repeat 0 0;
+	margin-right: 8px;
+}
+.panel-orange .ft .c {
+	background: transparent url(panel-orange/br.gif) no-repeat right;
+	margin-right: -8px;
+}
+
+.panel-orange-bullet { 	padding: 0;line-height: 19px; }
+.panel-orange-bullet li {
+	background: url(/bullet-orange.png) left top no-repeat;
+	padding: 0 0 4px 25px;
+}
+
+.panel-orange h1 { margin: -8px 0 0;padding: 0 0 4px;
+		   color: #E73;	font-size: 17px;font-weight: bold; 
+}
+.panel-orange p { margin: 0; padding: 0; }
+.panel-orange a, .panel-orange a:visited { color: #E73; }
+.panel-orange a:hover, .panel-orange a:active { color: #000; }
+
+
+.panel-blue {
+	width: 100%;margin: 25px auto 0;
+	min-width: 200px;max-width: 792px;
+	color: #06C;
+}
+
+.panel-blue .hd .c,
+.panel-blue .ft .c { height: 8px; font-size: 1px; }
+
+.panel-blue .hd {
+	background: transparent url(panel-blue/tl.gif) no-repeat 0 0;
+	margin-right: 8px; /* space for right corner */
+}
+.panel-blue .hd .c {
+	background: transparent url(panel-blue/tr.gif) no-repeat right;
+	margin-right: -8px; /* space for right corner */
+}
+
+.panel-blue .bd {
+	background: transparent url(panel-blue/ml.gif) repeat-y 0 0;
+	margin-right: 8px;
+}
+.panel-blue .bd .c {
+	margin-right: -8px;
+	padding: 10px;
+	background: transparent url(panel-blue/mr.gif) repeat-y right;
+}
+
+.panel-blue .ft {
+	background: transparent url(panel-blue/bl.gif) no-repeat 0 0;
+	margin-right: 8px;
+}
+.panel-blue .ft .c {
+	background: transparent url(panel-blue/br.gif) no-repeat right;
+	margin-right: -8px;
+}
+
+.panel-blue-bullet { padding: 0 0 20px 0;line-height: 19px;}
+.panel-blue-bullet li {
+	background: url(panel-blue/bullet-blue.png) left top no-repeat;
+	padding: 0 0 4px 25px;
+}
+
+.panel-blue h1 { margin: -8px 0 0; padding: 0 0 4px; 
+		 color: #06C; font-size: 17px; font-weight: bold;
+}
+.panel-blue p { margin: 0;padding: 0; }
+.panel-blue hr { border: 1px solid #D4E0F7; }
+.panel-blue a, .panel-blue a:visited { color: #06C; }
+.panel-blue a:hover, .panel-blue a:active { color: #000; }
+
+.panel-gray {
+	 width: 100%; margin: 25px auto 0;
+	min-width: 200px; max-width: 792px;
+	color:#333;
+}
+
+.panel-gray .hd .c,
+.panel-gray .ft .c { height: 8px; font-size: 1px;}
+
+.panel-gray .hd {
+	background: transparent url(/panel-gray/tl.gif) no-repeat 0 0;
+	margin-right: 8px; /* space for right corner */
+}
+.panel-gray .hd .c {
+	background: transparent url(/panel-gray/tr.gif) no-repeat right;
+	margin-right: -8px; /* space for right corner */
+}
+
+.panel-gray .bd {
+	background: transparent url(panel-gray/ml.gif) repeat-y 0 0;
+	margin-right: 8px;
+}
+.panel-gray .bd .c {
+	margin-right: -8px;
+	padding: 10px;
+	background: transparent url(panel-gray/mr.gif) repeat-y right;
+}
+ 
+.panel-gray .ft {
+	background: transparent url(panel-gray/bl.gif) no-repeat 0 0;
+	margin-right: 8px;
+}
+.panel-gray .ft .c {
+	background: transparent url(panel-gray/br.gif) no-repeat right;
+	margin-right: -8px;
+}
+
+.panel-gray-bullet { padding: 0; line-height: 19px; }
+.panel-gray-bullet li {
+	background: url(bullet-black.png) left top no-repeat;
+	padding: 0 0 4px 25px;
+}
+
+.panel-gray h1 { margin: -8px 0 0; padding: 0 0 4px; 
+		 color: #75818A; font-size: 17px;font-weight: bold;
+}
+.panel-gray p {	margin: 0; padding: 0; }
+.panel-gray a, .panel-gray a:visited { color: #2D58AE; }
+.panel-gray a:hover, .panel-gray a:active { color: #000; }
