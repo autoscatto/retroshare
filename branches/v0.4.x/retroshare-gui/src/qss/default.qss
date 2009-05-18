@@ -1,0 +1,54 @@
+.QWidget {
+   background-color: #ECF3F6;
+   
+}
+
+/* Customize the toolbar. */
+QToolBar {
+    border-image: url(qss/default/retrotoolbar.png);
+
+}
+
+
+QFrame#messengerframetop{
+         
+       border-image: url(qss/default/rsdefault.png);
+
+}
+
+QFrame#Chatbuttonframe{
+         
+       border-image: url(qss/default/rsdefault.png);
+
+}
+
+QLabel#subjectText{
+	font: bold 12px;
+
+}
+
+QLabel#subjectlabel{
+	font: bold 12px;
+
+}
+
+QLabel#fromlabel{
+	font: bold 12px;
+
+}
+
+QLabel#datelabel{
+	font: bold 12px;
+
+}
+
+QLabel#tolabel{
+	font: bold 12px;
+
+}
+
+QLabel#fromText{
+	font: bold ;
+	color: blue;
+
+}
