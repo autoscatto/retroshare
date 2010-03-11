@@ -162,20 +162,7 @@
                 <h3>Developed XProgressBar</h3>
                 <ul>
                 <li>&nbsp;<a href="mailto:xesk@users.sourceforge.net">xEsk (Xesc & Technology 2008)</a></li>
-                </ul>
-                
-                <!-- Piwik -->
-                <script type="text/javascript">
-                var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/retroshare/" : "http://sourceforge.net/apps/piwik/retroshare/");
-                document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-                </script><script type="text/javascript">
-                piwik_action_name = '';
-                piwik_idsite = 1;
-                piwik_url = pkBaseURL + "piwik.php";
-                piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-                </script>
-                <object><noscript><p><img src="http://sourceforge.net/apps/piwik/retroshare/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
-                <!-- End Piwik Tag -->
+                </ul>                
 
             </div> <!-- /article -->
 
@@ -236,5 +223,16 @@
 
 </div> <!-- /main -->
 
-</body>
+<!-- Piwik -->
+<script type="text/javascript">
+var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/retroshare/" : "http://sourceforge.net/apps/piwik/retroshare/");
+document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+</script><script type="text/javascript">
+try {
+var piwikTracker = Piwik.getTracker(pkBaseURL + "piwik.php", 1);
+piwikTracker.trackPageView();
+piwikTracker.enableLinkTracking();
+} catch( err ) {}
+</script><noscript><p><img src="http://sourceforge.net/apps/piwik/retroshare/piwik.php?idsite=1" style="border:0" alt=""/></p></noscript>
+<!-- End Piwik Tag --></body>
 </html>
