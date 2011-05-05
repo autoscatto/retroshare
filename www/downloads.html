@@ -122,24 +122,26 @@
 
                 <p><img src="img/ubuntulogo2.png" alt="Ubuntu" style="float: left; margin-right: 5px;"/>				
 				
-				RetroShare is currently available on Ubuntu Jaunty, Karmic, Lucid and Maverick.<br><br> </p>
+				RetroShare is currently available on Ubuntu Jaunty, Karmic, Lucid, Maverick, and Natty.<br></p>
 
 				To install RetroShare on ubuntu, please use one of the following two PPA repositories:<br>
-				
+				<p>	
 				# for releases only <br>
-				<b>sudo add-apt-repository ppa:csoler-users/retroshare </b><br>
+				&nbsp;&nbsp;&nbsp;<b>sudo add-apt-repository ppa:csoler-users/retroshare </b><br>
 				# for development snapshots<br>
-				<b>sudo add-apt-repository ppa:csoler-users/retroshare-snapshots</b>  <br>
-
+				&nbsp;&nbsp;&nbsp;<b>sudo add-apt-repository ppa:csoler-users/retroshare-snapshots</b>  <br>
 				then<br>
-
-				<b>sudo apt-get update</b><br>
-				<b>sudo apt-get install retroshare</b><br><br>
-
-				RetroShare will be available in Applications->Internet 
+				&nbsp;&nbsp;&nbsp;<b>sudo apt-get update</b><br>
+				&nbsp;&nbsp;&nbsp;<b>sudo apt-get install retroshare</b><br>
+				RetroShare will be available in <code>Applications->Internet</code><br/>
+				</p>
                 
-               
-                <br>
+				<b>Important note for users of Ubuntu Natty+Unity:</b>
+				<p>Unity will hide RetroShare's systray icon by default, which makes it impossible to bring back once you have closed its main window. To prevent this behavior, you need to: <ul>
+					<li>Install the <code>dconf-tools</code> package </li>
+					<li>Launch <code>dconf-editor</code>, go to <code>Desktop -> Unity -> Panel</code>, and add 'RetroShare' to the <code>systray-whitelist</code> variable</li>
+				</ul></p>
+                
                 <h3>Debian</h3>
                 
                 <p><img src="img/debianlogo.png" alt="Debian" style="float: left; margin-right: 5px;"/>				
