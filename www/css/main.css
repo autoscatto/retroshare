@@ -80,7 +80,7 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     #header #logo a {color:#FFF;}
     #header #logo a:hover {color:#B5C4E3; text-decoration:underline;}
     
-    #header #search {position:absolute; top:35px; right:20px;}
+    #header #search {position:absolute; top:20px; right:20px;}
     #header #search form {position:relative;}
     #header #search #search-input-out {position:absolute; top:0; right:45px; width:205px; height:28px; margin:0; padding:0; border:0; background:url("../images/search_input.gif") 0 0 no-repeat; font:bold 90%/100% "verdana",sans-serif; color:#192666;}
     #header #search #search-input {width:190; margin:5px 8px; padding:3px 0; border:0; background:#FFF; font:bold 100%/100% "verdana",sans-serif; color:#192666;}
