@@ -138,6 +138,10 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
     #content .btn-more {margin:0 0 15px 0; padding:0; border:0; position:relative;}
     #content .btn-more a {display:block; position:absolute; top:0; right:0; width:67px; _width:95px; height:21px; margin:0; padding:0 0 0 28px; background:url("../images/btn_more.gif") 0 0 no-repeat; color:#FFF; text-decoration:none;}
     #content .btn-more a:hover {background:url("../images/btn_more.gif") -95px 0 no-repeat;}
+	
+	#content .btn-download {margin:0 0 15px 0; padding:0; border:0; position:relative;}
+    #content .btn-download a {display:block; position:absolute; top:0; right:0; width:288px; _width:95px; height:54px; margin:0; padding:0 0 0 28px; background:url("../images/download-btn-04.png") 0 0 no-repeat; color:#FFF; text-decoration:none;}
+    #content .btn-download a:hover {background:url("../images/download-btn-05.png") 0 0 no-repeat;}
 
 #col {float:left; width:250px; margin:0; padding:0; background:#B4C6F5 url("../images/col_bg.gif") 0 0 repeat-y;}
 #col-in {padding:20px 10px; background:url("../images/col_top.gif") 0 0 no-repeat;}
@@ -177,3 +181,5 @@ code, kbd, samp {font-family:monospace; font-size:110%;}
 
     #createdby {position:absolute; top:10px; left:20px; margin:50px 0; color:#8CA3D8;}
     #createdby a {color:#8CA3D8;}
+    
+
