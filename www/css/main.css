@@ -19,12 +19,14 @@ p {border:0; margin:15px 0; padding:0;}
 
 div {display:block; border:0; margin:0; padding:0;}
 
-h1, h2, h3, h4, h5 {border:0; margin:15px 0 10px 0; padding:0; font-weight:bold;}
+h1, h2, h3, h4, h5, h6 {border:0; margin:15px 0 10px 0; padding:0; font-weight:bold;}
 h1 {font-size:260%; line-height:100%; font-family:"georgia",serif; font-weight:normal;}
 h2 {font-size:175%; line-height:100%; font-family:"georgia",serif; font-weight:normal;}
 h3 {font-size:120%; line-height:100%; font-weight:bold;}
 h4 {font-size:120%;}
 h5 {font-size:100%;}
+h6 {font-size:260%; line-height:100%; font-family:"georgia",serif; font-weight:normal;}
+h6 {border-bottom: 2px solid #B4C6F5;}
 
 table {display:table; border-collapse:collapse; margin:15px 0; padding:0; border:1px solid #B7CAF6; font-size:100%;}
 tr {display:table-row;}
