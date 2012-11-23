@@ -21,6 +21,47 @@
     <link rel="stylesheet" media="print" type="text/css" href="css/print.css" />
 
     <title>RetroShare</title>
+	<script type="text/javascript">
+	window.onload = function(){
+		function showIt(elID) {
+		var elementToScrollTo = document.getElementById(elID);
+		elementToScrollTo.scrollIntoView(true);
+		}
+		if(navigator.platform.toUpperCase().indexOf('MAC')!==-1) {
+		showIt('mac');
+		}
+		if(navigator.platform.toUpperCase().indexOf("LINUX") !==-1) {
+		if(navigator.userAgent.toUpperCase().indexOf("UBUNTU") !==-1) {
+		showIt('ubuntu');
+		}
+		else if(navigator.userAgent.toUpperCase().indexOf("DEBIAN") !==-1) {
+		showIt('debian');
+		}
+		else if(navigator.userAgent.toUpperCase().indexOf("ARCH") !==-1) {
+		showIt('arch');
+		}
+		else if(navigator.userAgent.toUpperCase().indexOf("SUSE") !==-1) {
+		showIt('opensuse');
+		}
+		else if(navigator.userAgent.toUpperCase().indexOf("FEDORA") !==-1) {
+		showIt('fedora');
+		}
+		else if(navigator.userAgent.toUpperCase().indexOf("MANDRIVA") !==-1) {
+		showIt('mandriva');
+		}
+		else if(navigator.userAgent.toUpperCase().indexOf("XUBUNTU") !==-1){
+		showIt('xubuntu');
+		}	
+		else if(navigator.userAgent.toUpperCase().indexOf("GENTOO") !==-1) {
+		showIt('gentoo');
+		}
+		else {showIt('ubuntu')}
+		}
+		if (navigator.platform.toUpperCase().indexOf("FREEBSD") !==-1) {
+		showIt('freebsd')
+		}
+	};
+	</script>
 </head>
 
 <body>
@@ -113,7 +154,7 @@
 
                 <br>
 
-                <h6>Mac OSX</h6>
+                <h6 id="mac">Mac OSX</h6>
 
                 <p><img src="img/apple_logo128.png" alt="macosx" style="float: left; margin-right: 5px;"/>
                 
@@ -127,7 +168,7 @@
                 <br>
                 <br>
                 
-                <h6>Ubuntu</h6>
+                <h6 id="ubuntu">Ubuntu</h6>
 
                 <p><img src="img/ubuntu_logo128.png" alt="Ubuntu" style="float: left; margin-right: 5px;"/>				
 				
@@ -157,7 +198,7 @@
                 </ul></p>
 
 
-                <h6>Debian</h6>
+                <h6 id="debian">Debian</h6>
                 
                 <p><img src="img/debian_logo128.png" alt="Debian" style="float: left; margin-right: 5px;"/>				
                 <p>RetroShare is currently available on Debian Squeeze. </p>
@@ -169,7 +210,7 @@
 				<br>
 
 
-                <h6>FreeBSD</h6>
+                <h6 id="freebsd">FreeBSD</h6>
                 
                 <p><img src="img/freebsd_logo.png" alt="FreeBSD" style="float: left; margin-right: 5px;"/>
                 <p>Retroshare is currently available on FreeBSD via the ports system. </p>
@@ -179,7 +220,7 @@
                 <br>
                 <br>
                 
-                <h6>Archlinux</h6>
+                <h6 id="arch">Archlinux</h6>
                 
                 <p><img src="img/Archlinux-logo.png" alt="Archlinux" style="float: left; margin-right: 5px;"/>
                 <p>RetroShare is currently available on Archlinux.</p>
@@ -191,7 +232,7 @@
                 <br>
                 
                 
-                <h6>openSUSE</h6>
+                <h6 id="opensuse">openSUSE</h6>
                 
                 <p><img src="img/200px-OpenSUSE_official-logo-color.svg.png" alt="Debian" style="float: left; margin-right: 5px;"/>				
                 
@@ -205,7 +246,7 @@
 
 
 
-                <h6>Fedora</h6>
+                <h6 id="fedora">Fedora</h6>
                 
                 <p><img src="img/128px-Fedora-logo.png" alt="Fedora" style="float: left; margin-right: 5px;"/>				
                 
@@ -218,7 +259,7 @@
                 <br>                
                 <br>
                 
-                <h6>Mandriva</h6>
+                <h6 id="mandriva">Mandriva</h6>
                 
                 <p><img src="img/mandriva-logo-128.png" alt="Madriva" style="float: left; margin-right: 5px;"/>				
                 
@@ -231,7 +272,7 @@
                 <br>                
                 <br>                
                 
-                <h6>xubuntu</h6>
+                <h6 id="xubuntu">xubuntu</h6>
                 
                 <p><img src="img/xubuntu-logo-128.png" alt="Fedora" style="float: left; margin-right: 5px;"/>				
                 
@@ -244,7 +285,7 @@
                 
                 <br>                                 
                 
-                <h6>Gentoo</h6>
+                <h6 id="gentoo">Gentoo</h6>
                 <p><img src="img/gentoologo128.png" alt="Gentoo" style="float: left; margin-right: 5px;"/>
                 The ebuilds are available on the <a href="https://gitorious.org/eigennet/eigenlay" target="_blank"><b>				  eigenlay</b></a> overlay.<br/><br/>
                 Please refer to <a href="http://www.gentoo.org/proj/en/overlays/userguide.xml/"> layman documentation</a>
@@ -255,7 +296,7 @@
                 <br> 
 
                 
-                <h6>Source Tarballs</h6>
+                <h6 id="tarballs">Source Tarballs</h6>
 
                 <img src="img/archive128.png" alt="Sources" style="float: left; margin-right: 5px;"/>
                 <p style="padding-left: 120px">Link: <a href="http://sourceforge.net/projects/retroshare/files/RetroShare/0.5.4c/RetroShare-v0.5.4c.tar.gz/download">			RetroShare-v0.5.4c.tar.gz</a>
